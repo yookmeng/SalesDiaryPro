@@ -13,7 +13,8 @@ public class CompanyMapper implements RowMapper<Company> {
         int companyid = rs.getInt("companyid");
         String companyname = rs.getString("companyname");
         String regno = rs.getString("regno");
-        String pic = rs.getString("pic");
+        int mdid = rs.getInt("mdid");
+        String mdname = rs.getString("mdname");
         String address = rs.getString("address");
         String zipcode = rs.getString("zipCode");
         String city = rs.getString("city");
@@ -23,7 +24,11 @@ public class CompanyMapper implements RowMapper<Company> {
         String fax = rs.getString("fax");
         String email = rs.getString("email");
         String website = rs.getString("website");
+        int said = rs.getInt("said");
+        String saname = rs.getString("saname");
         
-        return new Company(companyid, companyname, regno, pic, address, zipcode, city, state, country, telephone, fax, email, website);
+        return new Company(companyid, companyname, regno, mdid, mdname, 
+        		address, zipcode, city, state, country, 
+        		telephone, fax, email, website, said, saname);
     }
 }

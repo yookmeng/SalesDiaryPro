@@ -9,9 +9,11 @@
         <title>Request List</title>
     </head>
     <body>
+        <input type="hidden" value="userid" name="userid" /> 
         <input type="hidden" value="prospectid" name="prospectid" /> 
         <div align="center">
             <h1>Request List</h1>
+            <h2><a href="listProspect?userid=${userid}">Back To Prospect List</a></h2>
             <h3><a href="addRequest?prospectid=${prospectid}">New Request</a></h3>
             <table border="1">
             <tr>
@@ -25,14 +27,14 @@
                 <c:forEach var="Request" items="${listRequest}" varStatus="status">
                 <tr>
                     <td>${Request.requestdate}</td>
-                    <td>${Request.brandid}</td>
-                    <td>${Request.modelid}</td>
+                    <td>${Request.brandname}</td>
+                    <td>${Request.modelname}</td>
                     <td>${Request.remark}</td>
                     <td>${Request.status}</td>
                     <td>
                         <a href="editRequest?requestid=${Request.requestid}">Edit</a>
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="deleteRequest?prospectid=${Request.requestid}&requestid=${Request.requestid}">Delete</a>
+                        <a href="deleteRequest?prospectid=${Request.prospectid}&requestid=${Request.requestid}">Delete</a>
                     </td>
                 </tr>
                 </c:forEach>             

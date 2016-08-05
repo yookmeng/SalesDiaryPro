@@ -13,7 +13,7 @@
         <input type="hidden" value="brandid" name="brandid" /> 
         <div align="center">
             <h1>Model List</h1>
-            <h3><a href="addModel?companyid=${companyid}&brandid=${brandid}">New Model</a></h3>
+            <h3><a href="addModel?brandid=${brandid}">New Model</a></h3>
             <table border="1">
             <tr>
                 <th>Model Name</th>
@@ -25,7 +25,7 @@
                     <td>
                         <a href="editModel?modelid=${Model.modelid}">Edit</a>
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="deleteModel?companyid=${Model.companyid}&brandid=${Model.brandid}&modelid=${Model.modelid}">Delete</a>
+                        <a href="deleteModel?companyid=$brandid=${Model.brandid}&modelid=${Model.modelid}">Delete</a>
                     </td>
                 </tr>
                 </c:forEach>             

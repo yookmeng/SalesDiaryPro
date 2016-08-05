@@ -3,16 +3,14 @@ package com.SpringMVC.model;
 public class Model {
     private int modelid;
     private String modelname;
-    private int companyid;
     private int brandid;
 
     public Model() {
     }
  
-    public Model(int modelid, String modelname, int companyid, int brandid) {
+    public Model(int modelid, String modelname, int brandid) {
         this.modelid = modelid;
         this.modelname = modelname;
-        this.companyid = companyid;
         this.brandid = brandid;
     }
  
@@ -28,13 +26,6 @@ public class Model {
     }  
     public void setmodelname(String modelname) {
         this.modelname = modelname;
-    }
-
-    public int getcompanyid() {
-        return companyid;
-    }  
-    public void setcompanyid(int companyid) {
-        this.companyid = companyid;
     }
 
     public int getbrandid() {

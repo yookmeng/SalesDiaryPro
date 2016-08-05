@@ -15,8 +15,9 @@ public class UserLoginMapper implements RowMapper<UserLogin> {
         String username = rs.getString("username");
         String password = rs.getString("password");
         String role = rs.getString("role");
+        int companyid = rs.getInt("companyid");
         
-        return new UserLogin(userid, username, password, role);
+        return new UserLogin(userid, username, password, role, companyid);
     }
  
 }

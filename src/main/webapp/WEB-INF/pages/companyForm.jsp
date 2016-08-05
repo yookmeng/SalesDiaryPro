@@ -24,7 +24,7 @@
             </tr>
             <tr>
                 <td>Person In Charge:</td>
-                <td><form:input path="pic" /></td>
+                <td><form:select path="mdname" items="${mdlist}"/></td>
             </tr>
             <tr>
                 <td>Address:</td>
@@ -61,6 +61,10 @@
             <tr>
                 <td>Web Site:</td>
                 <td><form:input path="website" /></td>
+            </tr>
+            <tr>
+                <td>System Admin:</td>
+                <td><form:select path="saname" items="${salist}"/></td>
             </tr>
             <tr>
                 <td colspan="2" align="center"><input type="submit" value="Save"></td>

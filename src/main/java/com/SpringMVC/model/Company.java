@@ -4,7 +4,8 @@ public class Company {
     private int companyid;
     private String companyname;
     private String regno;
-    private String pic;
+    private int mdid;
+    private String mdname;
     private String address;
     private String zipcode;
     private String city;
@@ -14,19 +15,23 @@ public class Company {
     private String fax;
     private String email;
     private String website;
+    private int said;
+    private String saname;
 
     public Company() {
     }
  
     public Company(int companyid, 
-    		String companyname, String regno, String pic, 
+    		String companyname, String regno, int mdid, String mdname, 
     		String address, String zipcode, String city, 
     		String state, String country, String telephone, 
-    		String fax, String email, String website) {
+    		String fax, String email, String website, 
+    		int said, String saname) {
         this.companyid = companyid;
         this.companyname = companyname;
         this.regno = regno;
-        this.pic = pic;
+        this.mdid = mdid;
+        this.mdname = mdname;
         this.address = address;
         this.zipcode = zipcode;
         this.city = city;
@@ -36,6 +41,8 @@ public class Company {
         this.fax = fax;
         this.email = email;
         this.website = website;
+        this.said = said;
+        this.saname = saname;
     }
  
     public int getcompanyid() {
@@ -59,11 +66,18 @@ public class Company {
         this.regno = regno;
     }
     
-    public String getpic() {
-        return pic;
+    public int getmdid() {
+        return mdid;
     }  
-    public void setpic(String pic) {
-        this.pic = pic;
+    public void setmdid(int mdid) {
+        this.mdid = mdid;
+    }
+    
+    public String getmdname() {
+        return mdname;
+    }  
+    public void setmdname(String mdname) {
+        this.mdname = mdname;
     }
     
     public String getaddress() {
@@ -127,5 +141,19 @@ public class Company {
     } 
     public void setwebsite(String website) {
         this.website = website;
+    }
+
+    public int getsaid() {
+        return said;
+    } 
+    public void setsaid(int said) {
+        this.said = said;
+    }
+
+    public String getsaname() {
+        return saname;
+    } 
+    public void setsaname(String saname) {
+        this.saname = saname;
     }
 }

@@ -201,35 +201,16 @@ public class Prospect {
     public void setemail(String email) {
         this.email = email;
     }
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (int) (prospectid ^ (prospectid >>> 32));
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Prospect other = (Prospect) obj;
-		if (prospectid != other.prospectid)
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Prospect [prospectid=" + prospectid + ", prospectname=" + prospectname 
-				+ ", address=" + haddress + ", zipcode=" + hzipcode
-				+ ", city=" + hcity + ", state=" + hstate + ", country=" + hcountry 
-				+ ", mobile=" + mobile + ", age=" + age + ", income=" + income 
-				+ ", email=" + email+ "]";
-	}
+    
+    @Override
+    public String toString() {
+        return "Prospect [prospectid=" + prospectid + ", prospectname=" + prospectname
+                + ", userid=" + userid + ", source=" + source 
+                + ", haddress=" + haddress + ", hzipcode=" + hzipcode + ", hcity=" + hcity
+                + ", hstate=" + hstate + ", hcountry=" + hcountry + ", mobile=" + mobile + ", htelno=" + htelno 
+                + ", waddress=" + waddress + ", wzipcode=" + wzipcode + ", wcity=" + wcity
+                + ", wstate=" + wstate + ", wcountry=" + wcountry + ", wtelno=" + wtelno 
+                + ", occupation=" + occupation + ", age=" + age + ", income=" + income + ", email=" + email
+                + "]";
+    }
 }

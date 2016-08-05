@@ -1,11 +1,14 @@
 package com.SpringMVC.controller;
 
 import java.io.IOException;
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,11 +21,12 @@ import com.SpringMVC.dao.BrandDAO;
 import com.SpringMVC.dao.ModelDAO;
 import com.SpringMVC.dao.BranchDAO;
 import com.SpringMVC.dao.TeamDAO;
+import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.dao.UserProfileDAO;
+import com.SpringMVC.exceptions.ServiceException;
 import com.SpringMVC.dao.ProspectDAO;
-import com.SpringMVC.dao.SurveyDAO;
 import com.SpringMVC.dao.RequestDAO;
-import com.SpringMVC.dao.ScheduleDAO;
+import com.SpringMVC.dao.ActivityDAO;
 
 import com.SpringMVC.model.Company;
 import com.SpringMVC.model.Brand;
@@ -31,12 +35,15 @@ import com.SpringMVC.model.Branch;
 import com.SpringMVC.model.Team;
 import com.SpringMVC.model.UserProfile;
 import com.SpringMVC.model.Prospect;
-import com.SpringMVC.model.Survey;
 import com.SpringMVC.model.Request;
-import com.SpringMVC.model.Schedule;
+import com.SpringMVC.model.Activity;
+import com.SpringMVC.model.UserLogin;
 
 @Controller
 public class MasterController {
+    @Autowired
+    private UserLoginDAO userLoginDAO;
+
     @Autowired
     private CodeMasterDAO codeMasterDAO;
 
@@ -62,14 +69,11 @@ public class MasterController {
     private ProspectDAO prospectDAO;
 
     @Autowired
-    private SurveyDAO surveyDAO;
-
-    @Autowired
     private RequestDAO requestDAO;
 
     @Autowired
-    private ScheduleDAO scheduleDAO;
-
+    private ActivityDAO activityDAO;
+    
     @RequestMapping(value="/listCompany")
     public ModelAndView listCompany(ModelAndView mav) throws IOException{
  	    List<Company> listCompany = companyDAO.list();
@@ -80,22 +84,45 @@ public class MasterController {
  	   
     @RequestMapping(value = "/addCompany", method = RequestMethod.GET)
     public ModelAndView addCompany(ModelAndView mav) {
-        Company newCompany = new Company();
+        Company newCompany = new Company();        
         mav.addObject("company", newCompany);
+        List<String> mdlist = userLoginDAO.mdlist();	
+        mav.addObject("mdlist", mdlist);        
+        List<String> salist = userLoginDAO.salist();	
+        mav.addObject("salist", salist);        
         mav.setViewName("companyForm");
         return mav;
     }
     
     @RequestMapping(value = "/saveCompany", method = RequestMethod.POST)
-    public ModelAndView saveCompany(@ModelAttribute Company company) {
+    public ModelAndView saveCompany(@ModelAttribute Company company, Principal principal) {
+    	UserLogin mdid = userLoginDAO.get(company.getmdname());
+    	company.setmdid(mdid.getuserid());
+    	UserLogin said = userLoginDAO.get(company.getsaname());
+    	company.setsaid(said.getuserid());
         companyDAO.saveOrUpdate(company);
-        return new ModelAndView("redirect:/listCompany");
+    	UserLogin userLogin = userLoginDAO.get(principal.getName());
+        if (userLogin.getrole().equals("DEV")){
+            return new ModelAndView("redirect:/listCompany");
+        }
+        else {
+     	   return new ModelAndView("redirect:/home");
+        }        
     }
     
     @RequestMapping(value = "/deleteCompany", method = RequestMethod.GET)
     public ModelAndView deleteCompany(HttpServletRequest request) {
         int companyid = Integer.parseInt(request.getParameter("companyid"));
-        companyDAO.delete(companyid);
+        List<Branch> ListBranch = branchDAO.list(companyid);
+        List<Brand> ListBrand = brandDAO.list(companyid);
+        if (ListBranch.isEmpty() && ListBrand.isEmpty())
+        {
+            companyDAO.delete(companyid);        	
+        }
+        else
+        {
+        	throw new ServiceException(HttpStatus.NOT_FOUND, "Unable to delete company that being used.");
+        }
         return new ModelAndView("redirect:/listCompany");
     }
     
@@ -103,7 +130,22 @@ public class MasterController {
     public ModelAndView editCompany(HttpServletRequest request) {
         int companyid = Integer.parseInt(request.getParameter("companyid"));
         Company editCompany= companyDAO.get(companyid);
+        UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
         ModelAndView mav = new ModelAndView("companyForm");
+        if (userLogin.getrole().equals("DEV")){
+            List<String> mdlist = userLoginDAO.mdlist();	
+            mav.addObject("mdlist", mdlist); 
+            List<String> salist = userLoginDAO.salist();	        	
+            mav.addObject("salist", salist);        
+        }
+        else {
+        	List<String> mdlist = new ArrayList<String>();
+        	mdlist.add(editCompany.getmdname());
+            mav.addObject("mdlist", mdlist); 
+        	List<String> salist = new ArrayList<String>();
+        	salist.add(editCompany.getsaname());
+            mav.addObject("salist", salist);        
+        }
         mav.addObject("company", editCompany);
         return mav;
     }
@@ -138,7 +180,15 @@ public class MasterController {
     public ModelAndView deleteBrand(HttpServletRequest request) {
         int companyid = Integer.parseInt(request.getParameter("companyid"));
         int brandid = Integer.parseInt(request.getParameter("brandid"));        
-        brandDAO.delete(brandid);
+        List<Model> ListModel = modelDAO.list(brandid);        
+        if (ListModel.isEmpty())
+        {
+        	brandDAO.delete(brandid);       	
+        }
+        else
+        {
+        	throw new ServiceException(HttpStatus.NOT_FOUND, "Unable to delete brand that being used.");
+        }
         return new ModelAndView("redirect:/listBrand?companyid="+companyid);
     }
 
@@ -153,11 +203,9 @@ public class MasterController {
     
     @RequestMapping(value="/listModel", method = RequestMethod.GET)
     public ModelAndView listModel(HttpServletRequest request) {
-        int companyid = Integer.parseInt(request.getParameter("companyid"));
         int brandid = Integer.parseInt(request.getParameter("brandid"));
- 	    List<Model> listModel = modelDAO.list(companyid, brandid);
+ 	    List<Model> listModel = modelDAO.list(brandid);
         ModelAndView mav = new ModelAndView("modelList");
-        mav.addObject("companyid", companyid);
         mav.addObject("brandid", brandid);
  	    mav.addObject("listModel", listModel);
  	    return mav;
@@ -165,10 +213,8 @@ public class MasterController {
 
     @RequestMapping(value = "/addModel", method = RequestMethod.GET)
     public ModelAndView addModel(HttpServletRequest request) {
-        int companyid = Integer.parseInt(request.getParameter("companyid"));
         int brandid = Integer.parseInt(request.getParameter("brandid"));
         Model newModel = new Model();
-        newModel.setcompanyid(companyid);
         newModel.setbrandid(brandid);
         ModelAndView mav = new ModelAndView("modelForm");
         mav.addObject("model", newModel);
@@ -178,7 +224,7 @@ public class MasterController {
     @RequestMapping(value = "/saveModel", method = RequestMethod.POST)
     public ModelAndView saveModel(@ModelAttribute Model model) {
         modelDAO.saveOrUpdate(model);
-        return new ModelAndView("redirect:/listModel?companyid="+model.getcompanyid()+"&brandid="+model.getbrandid());
+        return new ModelAndView("redirect:/listModel?brandid="+model.getbrandid());
     }
 
     @RequestMapping(value = "/deleteModel", method = RequestMethod.GET)
@@ -228,8 +274,16 @@ public class MasterController {
     @RequestMapping(value = "/deleteBranch", method = RequestMethod.GET)
     public ModelAndView deleteBranch(HttpServletRequest request) {
         int companyid = Integer.parseInt(request.getParameter("companyid"));
-        int branchid = Integer.parseInt(request.getParameter("branchid"));        
-        branchDAO.delete(branchid);
+        int branchid = Integer.parseInt(request.getParameter("branchid"));                
+        List<Team> ListTeam = teamDAO.list(branchid);        
+        if (ListTeam.isEmpty())
+        {
+        	branchDAO.delete(branchid);       	
+        }
+        else
+        {
+        	throw new ServiceException(HttpStatus.NOT_FOUND, "Unable to delete branch that being used.");
+        }
         return new ModelAndView("redirect:/listBranch?companyid="+companyid);
     }
 
@@ -271,8 +325,16 @@ public class MasterController {
     @RequestMapping(value = "/deleteTeam", method = RequestMethod.GET)
     public ModelAndView deleteTeam(HttpServletRequest request) {
         int branchid = Integer.parseInt(request.getParameter("branchid"));
-        int teamid = Integer.parseInt(request.getParameter("teamid"));        
-        teamDAO.delete(teamid);
+        int teamid = Integer.parseInt(request.getParameter("teamid"));                
+        List<UserProfile> userProfile = userProfileDAO.list(teamid);        
+        if (userProfile.isEmpty())
+        {
+        	teamDAO.delete(teamid);
+        }
+        else
+        {
+        	throw new ServiceException(HttpStatus.NOT_FOUND, "Unable to delete team that being used.");
+        }
         return new ModelAndView("redirect:/listTeam?branchid="+branchid);
     }
 
@@ -315,15 +377,23 @@ public class MasterController {
     @RequestMapping(value = "/deleteMember", method = RequestMethod.GET)
     public ModelAndView deleteMember(HttpServletRequest request) {
         int teamid = Integer.parseInt(request.getParameter("teamid"));
-        String username = request.getParameter("username");
-        userProfileDAO.delete(username);
+        int userid = Integer.parseInt(request.getParameter("userid"));
+        List<Prospect> ListProspect = prospectDAO.list(teamid);        
+        if (ListProspect.isEmpty())
+        {
+            userProfileDAO.delete(userid);
+        }
+        else
+        {
+        	throw new ServiceException(HttpStatus.NOT_FOUND, "Unable to delete team member that being used.");
+        }
         return new ModelAndView("redirect:/listMember?teamid="+teamid);
     }
 
     @RequestMapping(value = "/editMember", method = RequestMethod.GET)
     public ModelAndView editMember(HttpServletRequest request) {
-        String username = request.getParameter("username"); 
-        UserProfile userProfile = userProfileDAO.get(username);
+        int userid = Integer.parseInt(request.getParameter("userid"));
+        UserProfile userProfile = userProfileDAO.findUser(userid);
         ModelAndView mav = new ModelAndView("userProfileForm");
         mav.addObject("userProfile", userProfile);
         return mav;
@@ -362,7 +432,16 @@ public class MasterController {
     public ModelAndView deleteProspect(HttpServletRequest request) {
         int userid = Integer.parseInt(request.getParameter("userid"));
         int prospectid = Integer.parseInt(request.getParameter("prospectid"));        
-        prospectDAO.delete(prospectid);
+        List<Request> ListRequest = requestDAO.list(prospectid);        
+        List<Activity> ListActivity = activityDAO.list(prospectid);        
+        if (ListRequest.isEmpty() && ListActivity.isEmpty())
+        {
+            prospectDAO.delete(prospectid);
+        }
+        else
+        {
+        	throw new ServiceException(HttpStatus.NOT_FOUND, "Unable to delete prospect that being used.");
+        }
         return new ModelAndView("redirect:/listProspect?userid="+userid);
     }
 
@@ -372,60 +451,19 @@ public class MasterController {
         int prospectid = Integer.parseInt(request.getParameter("prospectid")); 
         Prospect editProspect = prospectDAO.get(prospectid);
         ModelAndView mav = new ModelAndView("prospectForm");
-        List<String> codes= codeMasterDAO.getCode(codetype);
+        List<String> codes = codeMasterDAO.getCode(codetype);
         mav.addObject("sourcelist", codes);
         mav.addObject("prospect", editProspect);
         return mav;
     } 
 
-    @RequestMapping(value="/listSurvey", method = RequestMethod.GET)
-    public ModelAndView listSurvey(HttpServletRequest request) {
-        int prospectid = Integer.parseInt(request.getParameter("prospectid"));
- 	    List<Survey> listSurvey = surveyDAO.list(prospectid);
-        ModelAndView mav = new ModelAndView("surveyList");
-        mav.addObject("prospectid", prospectid);
-        mav.addObject("listSurvey", listSurvey);
- 	    return mav;
- 	}
-
-    @RequestMapping(value = "/addSurvey", method = RequestMethod.GET)
-    public ModelAndView addSurvey(HttpServletRequest request) {
-        int prospectid = Integer.parseInt(request.getParameter("prospectid"));
-        Survey newSurvey = new Survey();
-        newSurvey.setprospectid(prospectid);
-        ModelAndView mav = new ModelAndView("surveyForm");
-        mav.addObject("survey", newSurvey);
-        return mav;
-    }
-
-    @RequestMapping(value = "/saveSurvey", method = RequestMethod.POST)
-    public ModelAndView saveSurvey(@ModelAttribute Survey survey) {
-        surveyDAO.saveOrUpdate(survey);
-        return new ModelAndView("redirect:/listSurvey?prospectid="+survey.getprospectid());
-    }
-
-    @RequestMapping(value = "/deleteSurvey", method = RequestMethod.GET)
-    public ModelAndView deleteSurvey(HttpServletRequest request) {
-        int prospectid = Integer.parseInt(request.getParameter("prospectid"));
-        int surveyid = Integer.parseInt(request.getParameter("surveyid"));        
-        surveyDAO.delete(surveyid);
-        return new ModelAndView("redirect:/listSurvey?prospectid="+prospectid);
-    }
-
-    @RequestMapping(value = "/editSurvey", method = RequestMethod.GET)
-    public ModelAndView editSurvey(HttpServletRequest request) {
-        int surveyid = Integer.parseInt(request.getParameter("surveyid")); 
-        Survey editSurvey = surveyDAO.get(surveyid);
-        ModelAndView mav = new ModelAndView("surveyForm");
-        mav.addObject("survey", editSurvey);
-        return mav;
-    } 
-
     @RequestMapping(value="/listRequest", method = RequestMethod.GET)
     public ModelAndView listRequest(HttpServletRequest request) {
+        int userid = Integer.parseInt(request.getParameter("userid"));
         int prospectid = Integer.parseInt(request.getParameter("prospectid"));
  	    List<Request> listRequest = requestDAO.list(prospectid);
         ModelAndView mav = new ModelAndView("requestList");
+        mav.addObject("userid", userid);
         mav.addObject("prospectid", prospectid);
         mav.addObject("listRequest", listRequest);
  	    return mav;
@@ -434,14 +472,20 @@ public class MasterController {
     @RequestMapping(value = "/addRequest", method = RequestMethod.GET)
     public ModelAndView addRequest(HttpServletRequest request) {
         int prospectid = Integer.parseInt(request.getParameter("prospectid"));
-        String status = "Hot";
         Request newRequest = new Request();
         newRequest.setprospectid(prospectid);
-        newRequest.setstatus(status);
+        newRequest.setstatus("Hot");
+        Prospect prospect = prospectDAO.get(prospectid);
+        UserProfile userProfile = userProfileDAO.findUser(prospect.getuserid());
+        int userid = prospect.getuserid();
+        Team team = teamDAO.get(userProfile.getteamid());
+        Branch branch = branchDAO.get(team.getbranchid());        
         ModelAndView mav = new ModelAndView("requestForm");
-        List<String> brands = brandDAO.getBrands(1);	
+        List<String> brands = brandDAO.getBrands(branch.getcompanyid());	
         mav.addObject("brandlist", brands);
-        List<String> models = modelDAO.getModels(1, 1);	
+        Brand brand = brandDAO.getByName(brands.get(0));
+        List<String> models = modelDAO.getModels(brand.getbrandid());	
+        mav.addObject("userid", userid);
         mav.addObject("modellist", models);
         mav.addObject("request", newRequest);
         return mav;
@@ -449,67 +493,113 @@ public class MasterController {
 
     @RequestMapping(value = "/saveRequest", method = RequestMethod.POST)
     public ModelAndView saveRequest(@ModelAttribute Request request) {
+    	Brand brand = brandDAO.getByName(request.getbrandname());
+    	request.setbrandid(brand.getbrandid());
+    	Model model = modelDAO.getByName(request.getmodelname());
+    	request.setmodelid(model.getmodelid());
+        Prospect prospect = prospectDAO.get(request.getprospectid());	
     	requestDAO.saveOrUpdate(request);
-        return new ModelAndView("redirect:/listRequest?prospectid="+request.getprospectid());
+        return new ModelAndView("redirect:/listRequest?userid="+prospect.getuserid()+"&prospectid="+request.getprospectid());
     }
 
     @RequestMapping(value = "/deleteRequest", method = RequestMethod.GET)
     public ModelAndView deleteRequest(HttpServletRequest request) {
         int prospectid = Integer.parseInt(request.getParameter("prospectid"));
-        int requestid = Integer.parseInt(request.getParameter("requestid"));        
+        int requestid = Integer.parseInt(request.getParameter("requestid")); 
+        Prospect prospect = prospectDAO.get(prospectid);        
         requestDAO.delete(requestid);
-        return new ModelAndView("redirect:/listRequest?prospectid="+prospectid);
+        return new ModelAndView("redirect:/listRequest?userid="+prospect.getuserid()+"&prospectid="+prospectid);
     }
 
     @RequestMapping(value = "/editRequest", method = RequestMethod.GET)
     public ModelAndView editRequest(HttpServletRequest request) {
         int requestid = Integer.parseInt(request.getParameter("requestid")); 
         Request editRequest = requestDAO.get(requestid);
+        Prospect prospect = prospectDAO.get(editRequest.getprospectid());
+        int userid = prospect.getuserid();
+        UserProfile userProfile = userProfileDAO.findUser(prospect.getuserid());
+        Team team = teamDAO.get(userProfile.getteamid());
+        Branch branch = branchDAO.get(team.getbranchid());
         ModelAndView mav = new ModelAndView("requestForm");
+        List<String> brands = brandDAO.getBrands(branch.getcompanyid());	
+        mav.addObject("brandlist", brands);
+        List<String> models = modelDAO.getModels(editRequest.getbrandid());	
+        mav.addObject("userid", userid);
+        mav.addObject("modellist", models);
         mav.addObject("request", editRequest);
         return mav;
     } 
 
-    @RequestMapping(value="/listSchedule", method = RequestMethod.GET)
-    public ModelAndView listSchedule(HttpServletRequest request) {
+    @RequestMapping(value="/listActivity", method = RequestMethod.GET)
+    public ModelAndView listActivity(HttpServletRequest request) {
         int prospectid = Integer.parseInt(request.getParameter("prospectid"));
- 	    List<Schedule> listSchedule = scheduleDAO.list(prospectid);
-        ModelAndView mav = new ModelAndView("scheduleList");
+        Prospect prospect = prospectDAO.get(prospectid);
+ 	    List<Activity> listActivity= activityDAO.list(prospectid);
+        ModelAndView mav = new ModelAndView("activityList");
+        mav.addObject("userid", prospect.getuserid());
         mav.addObject("prospectid", prospectid);
-        mav.addObject("listSchedule", listSchedule);
+        mav.addObject("listActivity", listActivity);
  	    return mav;
  	}
 
-    @RequestMapping(value = "/addSchedule", method = RequestMethod.GET)
+    @RequestMapping(value = "/addActivity", method = RequestMethod.GET)
     public ModelAndView addSchedule(HttpServletRequest request) {
         int prospectid = Integer.parseInt(request.getParameter("prospectid"));
-        Schedule newSchedule = new Schedule();
-        newSchedule.setprospectid(prospectid);
-        ModelAndView mav = new ModelAndView("scheduleForm");
-        mav.addObject("schedule", newSchedule);
+        Activity newActivity = new Activity();
+        newActivity.setprospectid(prospectid);
+        Prospect prospect = prospectDAO.get(prospectid);
+        int userid = prospect.getuserid();
+        UserProfile userProfile = userProfileDAO.findUser(prospect.getuserid());
+        Team team = teamDAO.get(userProfile.getteamid());
+        Branch branch = branchDAO.get(team.getbranchid());                
+        ModelAndView mav = new ModelAndView("activityForm");
+        List<String> brands = brandDAO.getBrands(branch.getcompanyid());	
+        mav.addObject("brandlist", brands);
+        Brand brand = brandDAO.getByName(brands.get(0));
+        List<String> models = modelDAO.getModels(brand.getbrandid());	
+        mav.addObject("userid", userid);
+        mav.addObject("modellist", models);
+        mav.addObject("activity", newActivity);
         return mav;
     }
 
-    @RequestMapping(value = "/saveSchedule", method = RequestMethod.POST)
-    public ModelAndView saveSchedule(@ModelAttribute Schedule schedule) {
-        scheduleDAO.saveOrUpdate(schedule);
-        return new ModelAndView("redirect:/listSchedule?prospectid="+schedule.getprospectid());
+    @RequestMapping(value = "/saveActivity", method = RequestMethod.POST)
+    public ModelAndView saveActivity(@ModelAttribute Activity activity) {
+    	Brand brand = brandDAO.getByName(activity.getbrandname());
+    	activity.setbrandid(brand.getbrandid());
+    	Model model = modelDAO.getByName(activity.getmodelname());
+    	activity.setmodelid(model.getmodelid());
+        Prospect prospect = prospectDAO.get(activity.getprospectid());
+    	activityDAO.saveOrUpdate(activity);
+        return new ModelAndView("redirect:/listActivity?userid="+prospect.getuserid()+"&prospectid="+activity.getprospectid());
     }
 
-    @RequestMapping(value = "/deleteSchedule", method = RequestMethod.GET)
-    public ModelAndView deleteSchedule(HttpServletRequest request) {
+    @RequestMapping(value = "/deleteActivity", method = RequestMethod.GET)
+    public ModelAndView deleteActivity(HttpServletRequest request) {
         int prospectid = Integer.parseInt(request.getParameter("prospectid"));
-        int scheduleid = Integer.parseInt(request.getParameter("scheduleid"));        
-        scheduleDAO.delete(scheduleid);
-        return new ModelAndView("redirect:/listSchedule?prospectid="+prospectid);
+        int activityid = Integer.parseInt(request.getParameter("activityid"));        
+        Prospect prospect = prospectDAO.get(prospectid);
+        activityDAO.delete(activityid);
+        return new ModelAndView("redirect:/listActivity?userid="+prospect.getuserid()+"&prospectid="+prospectid);
     }
 
-    @RequestMapping(value = "/editSchedule", method = RequestMethod.GET)
-    public ModelAndView editSchedule(HttpServletRequest request) {
-        int scheduleid = Integer.parseInt(request.getParameter("scheduleid")); 
-        Schedule editSchedule = scheduleDAO.get(scheduleid);
-        ModelAndView mav = new ModelAndView("scheduleForm");
-        mav.addObject("schedule", editSchedule);
+    @RequestMapping(value = "/editActivity", method = RequestMethod.GET)
+    public ModelAndView editActivity(HttpServletRequest request) {
+        int activityid = Integer.parseInt(request.getParameter("activityid")); 
+        Activity editActivity = activityDAO.get(activityid);
+        Prospect prospect = prospectDAO.get(editActivity.getprospectid());
+        int userid = prospect.getuserid();        
+        UserProfile userProfile = userProfileDAO.findUser(prospect.getuserid());
+        Team team = teamDAO.get(userProfile.getteamid());
+        Branch branch = branchDAO.get(team.getbranchid());                
+        ModelAndView mav = new ModelAndView("activityForm");
+        List<String> brands = brandDAO.getBrands(branch.getcompanyid());	
+        mav.addObject("brandlist", brands);
+        Brand brand = brandDAO.getByName(brands.get(0));
+        List<String> models = modelDAO.getModels(brand.getbrandid());	
+        mav.addObject("userid", userid);
+        mav.addObject("modellist", models);
+        mav.addObject("activity", editActivity);
         return mav;
     } 
 }

@@ -12,9 +12,11 @@ public interface ModelDAO {
      
     public void delete(int modelid);
 
-    public List<String> getModels(int companyid, int brandid);
+    public List<String> getModels(int brandid);
     
     public Model get(int modelid);
      
-    public List<Model> list(int companyid, int brandid);
+    public Model getByName(String modelname);
+
+    public List<Model> list(int brandid);
 }

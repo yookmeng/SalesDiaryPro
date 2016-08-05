@@ -12,9 +12,8 @@ public class ModelMapper implements RowMapper<Model> {
     public Model mapRow(ResultSet rs, int rowNum) throws SQLException { 
         int modelid = rs.getInt("modelid");
         String modelname = rs.getString("modelname");
-        int companyid = rs.getInt("companyid");
         int brandid = rs.getInt("brandid");
         
-        return new Model(modelid, modelname, companyid, brandid);
+        return new Model(modelid, modelname, brandid);
     }
 }

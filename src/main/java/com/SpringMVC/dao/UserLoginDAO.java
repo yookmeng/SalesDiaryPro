@@ -16,6 +16,12 @@ public interface UserLoginDAO {
 
     public List<UserLogin> list();
 
+    public List<String> salist();
+
+    public List<String> mdlist();
+
+    public List<String> malist();
+
     public void saveOrUpdate(UserLogin userLogin);
     
     public void delete(String username);

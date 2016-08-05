@@ -11,7 +11,7 @@
     <body>
         <div align="center">
             <h1>Company List</h1>
-            <h3><a href="newCompany">New Company</a></h3>
+            <h3><a href="addCompany">New Company</a></h3>
             <table border="1">
             <tr>
                 <th>Company Name</th>
@@ -24,7 +24,7 @@
                 <tr>
                     <td>${Company.companyname}</td>
                     <td>${Company.regno}</td>
-                    <td>${Company.pic}</td>
+                    <td>${Company.mdname}</td>
                     <td>${Company.telephone}</td>
                     <td>
                         <a href="editCompany?companyid=${Company.companyid}">Edit</a>

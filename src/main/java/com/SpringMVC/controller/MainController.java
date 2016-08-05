@@ -2,6 +2,7 @@ package com.SpringMVC.controller;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,12 +37,9 @@ public class MainController {
    @RequestMapping(value = "/home", method = RequestMethod.GET)
    public String home(Model model, Principal principal) {
 	   model.addAttribute("username", principal.getName());
-	   List<String> roles = userLoginDAO.getUserRoles(principal.getName());
-       if(roles!= null)  {
-           for(String role: roles)  {
-        	   model.addAttribute("role", role);
-           }
-       }        
+	   UserLogin userLogin = userLoginDAO.findUserLogin(principal.getName());
+	   model.addAttribute("role", userLogin.getrole());
+	   model.addAttribute("companyid", userLogin.getcompanyid());
        return "home";
    }
  
@@ -66,7 +64,12 @@ public class MainController {
    @RequestMapping(value = "/saveUser", method = RequestMethod.POST)
    public ModelAndView saveUser(@ModelAttribute UserLogin userLogin) {
        userLoginDAO.saveOrUpdate(userLogin);
-       return new ModelAndView("redirect:/listUser");
+       if (userLogin.getrole().equals("DEV")){
+           return new ModelAndView("redirect:/listUser");    	   
+       }
+       else {
+    	   return new ModelAndView("redirect:/home");
+       }
    }
    
    @RequestMapping(value = "/deleteUser", method = RequestMethod.GET)
@@ -80,9 +83,17 @@ public class MainController {
    public ModelAndView editUser(HttpServletRequest request) {
        String username = request.getParameter("username");
        UserLogin userLogin = userLoginDAO.get(username);
-       List<String> roles= userLoginDAO.getAllRoles();	
        ModelAndView model = new ModelAndView("userForm");
-       model.addObject("rolelist", roles);
+       if (userLogin.getrole().equals("SA") || userLogin.getrole().equals("ADMIN") || 
+        	   userLogin.getrole().equals("DEV")){
+        	   List<String> roles= userLoginDAO.getAllRoles();	
+               model.addObject("rolelist", roles);
+           }
+    	   else {
+        	   List<String> roles= new ArrayList<String>();	
+        	   roles.add(userLogin.getrole());
+               model.addObject("rolelist", roles);
+    	   }
        model.addObject("user", userLogin);       
        return model;
    }

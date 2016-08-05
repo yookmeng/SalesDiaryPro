@@ -26,11 +26,13 @@
                     <td>${member.mobile}</td>
                     <td>${member.email}</td>                    
                     <td>
-                        <a href="editMember?username=${member.username}">Edit</a>
+                        <a href="editMember?userid=${member.userid}">Edit</a>
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="deleteMember?username=${member.username}">Delete</a>
+                        <a href="deleteMember?userid=${member.userid}">Delete</a>
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <a href="listProspect?userid=${member.userid}">Prospect</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="listAllProspectJSON/${member.userid}.json">Prospect_Json</a>
                     </td>                             
                 </tr>
                 </c:forEach>             

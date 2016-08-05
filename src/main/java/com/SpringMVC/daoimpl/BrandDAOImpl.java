@@ -76,4 +76,24 @@ public class BrandDAOImpl extends JdbcDaoSupport implements BrandDAO {
 	        }
         });
     }
+
+    @Override
+    public Brand getByName(String brandname) {
+	    String sql = "SELECT * FROM tblBrand WHERE brandname='" + brandname + "'";
+	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<Brand>() {
+	 
+	        @Override
+	        public Brand extractData(ResultSet rs) throws SQLException,
+	                DataAccessException {
+	            if (rs.next()) {
+	                Brand brand = new Brand();
+	                brand.setbrandid(rs.getInt("brandid"));
+	                brand.setbrandname(rs.getString("brandname"));
+	                brand.setcompanyid(rs.getInt("companyid"));
+	                return brand;
+	            }	 
+	            return null;
+	        }
+        });
+    }
 }

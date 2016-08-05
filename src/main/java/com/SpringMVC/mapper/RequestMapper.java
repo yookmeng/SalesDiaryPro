@@ -2,7 +2,7 @@ package com.SpringMVC.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
+import java.sql.Date;
 
 import com.SpringMVC.model.Request;
 

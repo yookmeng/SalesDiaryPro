@@ -24,14 +24,14 @@ public class UserProfileDAOImpl extends JdbcDaoSupport implements UserProfileDAO
     }
 	
     @Override
-    public UserProfile findUser(String username) {
+    public UserProfile findUser(int userid) {
         String sql = "SELECT u.userid userid, u.username username, u.password password, r.role role, up.teamid teamid, up.mobile mobile, up.email email "
         		+ "FROM	tblUser u "
 				+ "LEFT JOIN tblRole r ON u.username = r.username "
 				+ "LEFT JOIN tblUserProfile up ON u.userid = up.userid "
-                + "where username = ? ";
+                + "where u.userid = ? ";
  
-        Object[] params = new Object[] { username };
+        Object[] params = new Object[] { userid };
         UserProfileMapper mapper = new UserProfileMapper();
         try {
             UserProfile userProfile = this.getJdbcTemplate().queryForObject(sql, params, mapper);
@@ -67,9 +67,9 @@ public class UserProfileDAOImpl extends JdbcDaoSupport implements UserProfileDAO
         }
     }
     
-    public void delete(String username) {
-        String sql = "DELETE FROM tblUserProfile WHERE username=?";
-        this.getJdbcTemplate().update(sql, username);
+    public void delete(int userid) {
+        String sql = "DELETE FROM tblUserProfile WHERE userid=?";
+        this.getJdbcTemplate().update(sql, userid);
     }
     
     @Override

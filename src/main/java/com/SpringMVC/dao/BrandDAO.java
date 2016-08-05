@@ -16,5 +16,7 @@ public interface BrandDAO {
 
     public Brand get(int brandid);
      
+    public Brand getByName(String brandname);
+
     public List<Brand> list(int companyid);    
 }

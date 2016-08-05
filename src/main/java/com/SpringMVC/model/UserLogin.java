@@ -5,15 +5,17 @@ public class UserLogin {
     private String username;
     private String password;
     private String role;
+    private int companyid;
      
     public UserLogin()  {         
     }
  
-    public UserLogin(int userid, String username, String password, String role) {
+    public UserLogin(int userid, String username, String password, String role, int companyid) {
         this.userid = userid;
         this.username = username;
         this.password = password;
         this.role = role;
+        this.companyid = companyid;
     }
  
     public int getuserid() {
@@ -42,5 +44,12 @@ public class UserLogin {
     }
     public void setrole(String role) {
         this.role = role;
+    }
+ 
+    public int getcompanyid() {
+        return companyid;
+    }
+    public void setcompanyid(int companyid) {
+        this.companyid = companyid;
     }
 }

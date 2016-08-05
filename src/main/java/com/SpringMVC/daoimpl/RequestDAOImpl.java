@@ -26,7 +26,7 @@ public class RequestDAOImpl extends JdbcDaoSupport implements RequestDAO {
     public void saveOrUpdate(Request request) {
         if (request.getrequestid() > 0)  {
             // update
-            String sql = "UPDATE tblRequest SET requestdate=?, brandid = ?, modelid = ?, remark=?, status = ?  "
+            String sql = "UPDATE tblRequest SET requestdate=?, brandid=?, modelid=?, remark=?, status=?  "
             		+ "WHERE requestid=?";
             this.getJdbcTemplate().update(sql, request.getrequestdate(), 
             		request.getbrandid(), request.getmodelid(), request.getremark(), request.getstatus(), 
@@ -42,20 +42,32 @@ public class RequestDAOImpl extends JdbcDaoSupport implements RequestDAO {
             }
     }
     
-    public void delete(int orderid) {
+    public void delete(int requestid) {
         String sql = "DELETE FROM tblRequest WHERE requestid=?";
-        this.getJdbcTemplate().update(sql, orderid);
+        this.getJdbcTemplate().update(sql, requestid);
     }
     
     public List<Request> list(int prospectid) {
-        String sql = "SELECT * FROM tblRequest WHERE prospectid = " + prospectid;
+        String sql = "SELECT r.requestid requestid, r.prospectid prospectid, r.requestdate requestdate, "
+        		+ "r.brandid brandid, r.modelid modelid, r.remark remark, r.status status, "
+        		+ "b.brandname brandname, m.modelname modelname "
+        		+ "FROM tblRequest r "
+        		+ "LEFT JOIN tblBrand b ON b.brandid = r.brandid "
+        		+ "LEFT JOIN tblModel m ON m.modelid = r.modelid "
+        		+ "WHERE prospectid = " + prospectid;
         RequestMapper mapper = new RequestMapper();
         List<Request> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
     }
 
     public Request get(int requestid) {
-	    String sql = "SELECT * FROM tblRequest WHERE requestid=" + requestid;
+	    String sql = "SELECT r.requestid requestid, r.prospectid prospectid, r.requestdate requestdate, "
+        		+ "r.brandid brandid, r.modelid modelid, r.remark remark, r.status status, "
+        		+ "b.brandname brandname, m.modelname modelname "
+	    		+ "FROM tblRequest r "
+        		+ "LEFT JOIN tblBrand b ON b.brandid = r.brandid "
+        		+ "LEFT JOIN tblModel m ON m.modelid = r.modelid "
+	    		+ "WHERE requestid=" + requestid;
 	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<Request>() {
 	 
 	        @Override
@@ -65,9 +77,11 @@ public class RequestDAOImpl extends JdbcDaoSupport implements RequestDAO {
 	                Request request = new Request();
 	                request.setrequestid(rs.getInt("requestid"));
 	                request.setprospectid(rs.getInt("prospectid"));
-	                request.setrequestdate(rs.getString("requestdate"));
+	                request.setrequestdate(rs.getDate("requestdate"));
 	                request.setbrandid(rs.getInt("brandid"));
+	                request.setbrandname(rs.getString("brandname"));	                
 	                request.setmodelid(rs.getInt("modelid"));
+	                request.setmodelname(rs.getString("modelname"));
 	                request.setremark(rs.getString("remark"));
 	                request.setstatus(rs.getString("status"));
 	                return request;

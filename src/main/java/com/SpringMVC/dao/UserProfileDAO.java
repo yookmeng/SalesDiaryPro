@@ -7,11 +7,11 @@ import com.SpringMVC.model.UserProfile;
 @Repository 
 public interface UserProfileDAO {
 
-	public UserProfile findUser(String username);
+	public UserProfile findUser(int userid);
 
     public void saveOrUpdate(UserProfile userProfile);
      
-    public void delete(String username);
+    public void delete(int userid);
      
     public UserProfile get(String username);
      

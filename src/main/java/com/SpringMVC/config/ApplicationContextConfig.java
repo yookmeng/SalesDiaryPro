@@ -1,8 +1,13 @@
 package com.SpringMVC.config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.sql.DataSource;
 
 import com.SpringMVC.dao.UserLoginDAO;
+import com.SpringMVC.viewresolver.JsonViewResolver;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,8 +18,12 @@ import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.accept.ContentNegotiationManager;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
- 
+import org.springframework.web.servlet.view.JstlView;
+
 @Configuration
 @ComponentScan("com.SpringMVC.*")
 @EnableTransactionManagement
@@ -39,14 +48,37 @@ public class ApplicationContextConfig {
       return rb;
   }
  
-  @Bean(name = "viewResolver")
-  public InternalResourceViewResolver getViewResolver() {
+  @Bean
+  public ViewResolver contentNegotiatingViewResolver(ContentNegotiationManager manager) {
+      ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
+      resolver.setContentNegotiationManager(manager);
+
+      // Define all possible view resolvers
+      List<ViewResolver> resolvers = new ArrayList<ViewResolver>();
+      resolvers.add(jsonViewResolver());
+      resolvers.add(jspViewResolver());       
+      resolver.setViewResolvers(resolvers);
+      return resolver;
+  }
+  
+  /*
+   * Configure View resolver to provide JSON output using JACKSON library to
+   * convert object in JSON format.
+   */
+  @Bean
+  public ViewResolver jsonViewResolver() {
+      return new JsonViewResolver();
+  }
+  
+  @Bean
+  public ViewResolver jspViewResolver() {
       InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+      viewResolver.setViewClass(JstlView.class);
       viewResolver.setPrefix("/WEB-INF/pages/");
       viewResolver.setSuffix(".jsp");
       return viewResolver;
   }
- 
+
   @Bean(name = "dataSource")
   public DataSource getDataSource() {
       DriverManagerDataSource dataSource = new DriverManagerDataSource();

@@ -27,26 +27,28 @@ public class CompanyDAOImpl extends JdbcDaoSupport implements CompanyDAO {
         if (company.getcompanyid() > 0)  {
             // update
             String sql = "UPDATE tblCompany SET "
-            		+ "companyName=?, regno=?, pic=?, "
+            		+ "companyName=?, regno=?, mdid=?, "
             		+ "address=?, zipcode=?, city=?, "
             		+ "state=?, country=?, telephone=?, "
-            		+ "fax=?, email=?, website=? "
+            		+ "fax=?, email=?, website=?, said=? "
             		+ "WHERE companyid=?";
             this.getJdbcTemplate().update(sql, 
-            		company.getcompanyname(), company.getregno(), company.getpic(),
+            		company.getcompanyname(), company.getregno(), company.getmdid(),
             		company.getaddress(), company.getzipcode(), company.getcity(),
             		company.getstate(), company.getcountry(), company.gettelephone(),
-            		company.getfax(), company.getemail(), company.getwebsite(), company.getcompanyid());
+            		company.getfax(), company.getemail(), company.getwebsite(), 
+            		company.getsaid(), company.getcompanyid());
         } else {
             // insert
             String sql = "INSERT INTO tblCompany "
-            		+ "(companyname, regno, pic, address, zipcode, city, state, country, telephone, fax, email, website) "
-            		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            		+ "(companyname, regno, mdid, address, zipcode, city, state, country, "
+            		+ "telephone, fax, email, website, said) "
+            		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             this.getJdbcTemplate().update(sql, 
-            		company.getcompanyname(), company.getregno(), company.getpic(),
+            		company.getcompanyname(), company.getregno(), company.getmdid(),
             		company.getaddress(), company.getzipcode(), company.getcity(),
             		company.getstate(), company.getcountry(), company.gettelephone(),
-            		company.getfax(), company.getemail(), company.getwebsite());
+            		company.getfax(), company.getemail(), company.getwebsite(), company.getsaid());
             }
     }
     
@@ -56,7 +58,13 @@ public class CompanyDAOImpl extends JdbcDaoSupport implements CompanyDAO {
     }
     
     public List<Company> list() {
-        String sql = "SELECT * FROM tblCompany ";
+	    String sql = "SELECT c.companyid companyid, c.companyname companyname, c.regno regno, "
+	    		+ "c.mdid mdid, c.address address, c.zipcode zipcode, c.city city, c.state state, "
+	    		+ "c.country country, c.telephone telephone, c.fax fax, c.email email, "
+	    		+ "c.website website, c.said said, md.username mdname, sa.username saname "
+	    		+ "FROM tblCompany c "
+	    		+ "LEFT JOIN tblUser md on c.mdid = md.userid "
+	    		+ "LEFT JOIN tblUser sa on c.said = sa.userid ";
         CompanyMapper mapper = new CompanyMapper();
         List<Company> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
@@ -69,7 +77,14 @@ public class CompanyDAOImpl extends JdbcDaoSupport implements CompanyDAO {
     }
 
     public Company get(int companyid) {
-	    String sql = "SELECT * FROM tblCompany WHERE companyid=" + companyid;
+	    String sql = "SELECT c.companyid companyid, c.companyname companyname, c.regno regno, "
+	    		+ "c.mdid mdid, c.address address, c.zipcode zipcode, c.city city, c.state state, "
+	    		+ "c.country country, c.telephone telephone, c.fax fax, c.email email, "
+	    		+ "c.website website, c.said said, md.username mdname, sa.username saname "
+	    		+ "FROM tblCompany c "
+	    		+ "LEFT JOIN tblUser md on c.mdid = md.userid "
+	    		+ "LEFT JOIN tblUser sa on c.said = sa.userid "
+	    		+ "WHERE c.companyid=" + companyid;
 	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<Company>() {
 	 
 	        @Override
@@ -80,7 +95,8 @@ public class CompanyDAOImpl extends JdbcDaoSupport implements CompanyDAO {
 	                company.setcompanyid(rs.getInt("companyid"));
 	                company.setcompanyname(rs.getString("companyname"));
 	                company.setregno(rs.getString("regno"));
-	                company.setpic(rs.getString("pic"));
+	                company.setmdid(rs.getInt("mdid"));
+	                company.setmdname(rs.getString("mdname"));
 	                company.setaddress(rs.getString("address"));
 	                company.setzipcode(rs.getString("zipcode"));
 	                company.setcity(rs.getString("city"));
@@ -90,10 +106,12 @@ public class CompanyDAOImpl extends JdbcDaoSupport implements CompanyDAO {
 	                company.setfax(rs.getString("fax"));
 	                company.setemail(rs.getString("email"));
 	                company.setwebsite(rs.getString("website"));
+	                company.setsaid(rs.getInt("said"));
+	                company.setsaname(rs.getString("saname"));
 	                return company;
 	            }	 
 	            return null;
 	        }
         });
-    }
+    }    
 }

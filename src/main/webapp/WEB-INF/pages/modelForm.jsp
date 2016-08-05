@@ -13,7 +13,6 @@
         <h1>New/Edit Model</h1>
         <form:form action="saveModel" method="post" modelAttribute="model">
         <table>
-            <form:hidden path="companyid"/>        
             <form:hidden path="brandid"/>        
             <form:hidden path="modelid"/>
             <tr>
@@ -24,7 +23,7 @@
             	<td>
      	        </td>
             	<td>
-	            <input type="button"  onclick="location.href='listModel?companyid=${model.companyid}&brandid=${model.brandid}'" value="Back" >
+	            <input type="button"  onclick="location.href='listModel?brandid=${model.brandid}'" value="Back" >
                 </td>
                 <td><input type="submit" value="Save"></td>
             </tr>

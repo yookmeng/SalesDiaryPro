@@ -23,8 +23,8 @@ public class ModelDAOImpl extends JdbcDaoSupport implements ModelDAO {
     }
 	
     @Override
-    public List<String> getModels(int companyid, int brandid) {
-        String sql = "Select modelname FROM tblModel WHERE companyid = " + companyid + " AND brandid = " + brandid;         
+    public List<String> getModels(int brandid) {
+        String sql = "Select modelname FROM tblModel WHERE brandid = " + brandid;         
         List<String> brands = this.getJdbcTemplate().queryForList(sql, String.class);         
         return brands;
     }
@@ -36,8 +36,8 @@ public class ModelDAOImpl extends JdbcDaoSupport implements ModelDAO {
             this.getJdbcTemplate().update(sql, model.getmodelname(), model.getmodelid());
         } else {
             // insert
-            String sql = "INSERT INTO tblModel (companyid, brandid, modelname) VALUES (?, ?, ?)";
-            this.getJdbcTemplate().update(sql, model.getcompanyid(), model.getbrandid(), model.getmodelname());
+            String sql = "INSERT INTO tblModel (brandid, modelname) VALUES (?, ?)";
+            this.getJdbcTemplate().update(sql, model.getbrandid(), model.getmodelname());
             }
     }
     
@@ -46,8 +46,8 @@ public class ModelDAOImpl extends JdbcDaoSupport implements ModelDAO {
         this.getJdbcTemplate().update(sql, modelid);
     }
     
-    public List<Model> list(int companyid, int brandid) {
-        String sql = "SELECT * FROM tblModel WHERE companyid = " + companyid + " AND brandid = " + brandid;
+    public List<Model> list(int brandid) {
+        String sql = "SELECT * FROM tblModel WHERE brandid = " + brandid;
         ModelMapper mapper = new ModelMapper();
         List<Model> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
@@ -64,7 +64,25 @@ public class ModelDAOImpl extends JdbcDaoSupport implements ModelDAO {
 	                Model model = new Model();
 	                model.setmodelid(rs.getInt("modelid"));
 	                model.setmodelname(rs.getString("modelname"));
-	                model.setcompanyid(rs.getInt("companyid"));
+	                model.setbrandid(rs.getInt("brandid"));
+	                return model;
+	            }	 
+	            return null;
+	        }
+        });
+    }
+
+    public Model getByName(String modelname) {
+	    String sql = "SELECT * FROM tblModel WHERE modelname='" + modelname + "'";
+	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<Model>() {
+	 
+	        @Override
+	        public Model extractData(ResultSet rs) throws SQLException,
+	                DataAccessException {
+	            if (rs.next()) {
+	                Model model = new Model();
+	                model.setmodelid(rs.getInt("modelid"));
+	                model.setmodelname(rs.getString("modelname"));
 	                model.setbrandid(rs.getInt("brandid"));
 	                return model;
 	            }	 

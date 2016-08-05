@@ -3,11 +3,7 @@
 <html>
 <head><title>Login</title></head>
 <body>
-   <jsp:include page="_menu.jsp" />
-    
-    
-   <h1>Login</h1>
-     
+   <h1>Login</h1>     
      <!-- /login?error=true -->
      <c:if test="${param.error == 'true'}">
          <div style="color:red;margin:10px 0px;">

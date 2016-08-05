@@ -30,9 +30,9 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <a href="deleteProspect?prospectid=${Prospect.prospectid}">Delete</a>
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="listRequest?prospectid=${Prospect.prospectid}">Request</a>
+                        <a href="listRequest?userid=${Prospect.userid}&prospectid=${Prospect.prospectid}">Request</a>
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="listSchedule?prospectid=${Prospect.prospectid}">Activity</a>
+                        <a href="listActivity?userid=${Prospect.userid}&prospectid=${Prospect.prospectid}">Activity</a>
                     </td>                             
                 </tr>
                 </c:forEach>             

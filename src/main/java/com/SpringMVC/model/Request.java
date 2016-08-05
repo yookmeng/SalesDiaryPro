@@ -1,6 +1,6 @@
 package com.SpringMVC.model;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Request {
     private int requestid;
