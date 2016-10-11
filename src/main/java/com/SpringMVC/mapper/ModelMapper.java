@@ -13,7 +13,8 @@ public class ModelMapper implements RowMapper<Model> {
         int modelid = rs.getInt("modelid");
         String modelname = rs.getString("modelname");
         int brandid = rs.getInt("brandid");
+        float price = rs.getFloat("price");
         
-        return new Model(modelid, modelname, brandid);
+        return new Model(modelid, modelname, brandid, price);
     }
 }

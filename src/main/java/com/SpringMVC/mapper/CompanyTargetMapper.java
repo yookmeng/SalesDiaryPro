@@ -13,11 +13,14 @@ public class CompanyTargetMapper implements RowMapper<CompanyTarget> {
     public CompanyTarget mapRow(ResultSet rs, int rowNum) throws SQLException { 
         int targetid = rs.getInt("targetid");
         int companyid = rs.getInt("companyid");
+        String companyname = rs.getString("companyname");
         Date period = rs.getDate("period");
+        String displayperiod = rs.getString("displayperiod");
         int prospect = rs.getInt("prospect");
-        int sales = rs.getInt("sales");
-        float totalsales = rs.getFloat("totalsales");
+        int testdrive = rs.getInt("testdrive");
+        int closed = rs.getInt("closed");
         
-        return new CompanyTarget(targetid, companyid, period, prospect, sales, totalsales);
+        return new CompanyTarget(targetid, companyid, companyname, period, 
+        		displayperiod, prospect, testdrive, closed);
     }
 }

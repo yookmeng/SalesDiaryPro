@@ -4,58 +4,79 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>New/Edit Activity</title>
-</head>
+<jsp:include page="_menu.jsp" />
 <body>
-    <input type="hidden" value="userid" name="userid" /> 
-    <div align="center">
-        <h1>New/Edit Activity</h1>
-        <form:form action="saveActivity" method="post" modelAttribute="activity">
-        <table>
-            <form:hidden path="prospectid"/>        
-            <form:hidden path="activityid"/>
-            <tr>
-                <td>Activity Date:</td>
-                <td colspan="3"><form:input type="date" path="activitydate" /></td>
-            </tr>
-            <tr>
-                <td>Brand:</td>
-                <td colspan="3"><form:select path="brandname" items="${brandlist}" /></td>
-            </tr>
-            <tr>
-                <td>Model:</td>
-                <td colspan="3"><form:select path="modelname" items="${modellist}" /></td>
-            </tr>
-            <tr>
-                <td>Type:</td>
-                <td><form:checkbox path="demo" />Demo</td>
-                <td><form:checkbox path="testdrive" />Test Drive</td>
-                <td><form:checkbox path="quotation" />Quotation</td>
-            </tr>
-            <tr>
-                <td>Remark1:</td>
-                <td colspan="3"><form:input path="remark1" /></td>
-            </tr>
-            <tr>
-                <td>Remark2:</td>
-                <td colspan="3"><form:input path="remark2" /></td>
-            </tr>
-            <tr>
-                <td>Remark3:</td>
-                <td colspan="3"><form:input path="remark3" /></td>
-            </tr>
-            <tr>
-            	<td></td>
-            	<td>
-	            <input type="button"  onclick="location.href='listActivity?userid=${userid}&prospectid=${activity.prospectid}'" value="Back" >
-                </td>            
-                <td><input type="submit" value="Save"></td>
-            	<td></td>
-            </tr>
-        </table>
-        </form:form>
-    </div>
+<div id="main">
+	<div class="container-fluid">
+		<div class="page-header">
+			<div class="pull-left">
+				<h1>Activity</h1>
+			</div>
+		</div>
+		<div>
+			<div class="row">
+				<div class="span12">
+					<div class="box">
+						<div class="box-content">
+					        <form:form action="saveActivity" method="post" modelAttribute="activity" class='form-horizontal form-wizard'>
+				            <form:hidden path="prospectid"/>        
+				            <form:hidden path="activityid"/>
+						    <input type="hidden" value="userid" name="userid" /> 
+							<div class="form-group">
+								<label for="requestdate" class="control-label col-sm-2">Activity Date</label>
+								<div class="col-sm-2">
+									<form:input type="date" path="activitydate" name="activitydate" id="activitydate" data-rule-required="true" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="text" class="control-label col-sm-2">Brand</label>
+								<div class="col-sm-5">
+									<form:select name="brandname" path="brandname" id="brandname" items="${brandlist}" data-rule-required="true" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="text" class="control-label col-sm-2">Model</label>
+								<div class="col-sm-5">
+									<form:select name="modelname" path="modelname" id="modelname" items="${modellist}" data-rule-required="true" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="text" class="control-label col-sm-2">Activity Type</label>
+								<div class="col-sm-5">
+									<form:checkbox name="demo" path="demo" id="demo" />Demo
+									<form:checkbox name="testdrive" path="testdrive" id="testdrive" />Test Drive
+									<form:checkbox name="quotation" path="quotation" id="quotation" />Quotation
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="haddress" class="control-label col-sm-2">Remark 1</label>
+								<div class="col-sm-10">
+									<form:input type="text" path="remark1" name="remark1" id="remark1" class="form-control" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="haddress" class="control-label col-sm-2">Remark 2</label>
+								<div class="col-sm-10">
+									<form:input type="text" path="remark2" name="remark2" id="remark2" class="form-control" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="haddress" class="control-label col-sm-2">Remark 3</label>
+								<div class="col-sm-10">
+									<form:input type="text" path="remark3" name="remark3" id="remark3" class="form-control" />
+								</div>
+							</div>
+							<div class="form-actions">
+								<input type="reset" class="btn" onclick="location.href='listActivity?userid=${userid}&prospectid=${activity.prospectid}'" value="Back" id="back">
+								<input type="submit" class="btn btn-primary" value="Save">
+							</div>
+							</form:form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 </body>
 </html>

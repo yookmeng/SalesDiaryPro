@@ -5,21 +5,28 @@ import java.sql.Date;
 public class TeamTarget {
     private int targetid;
     private int teamid;
+    private String teamname;
+    private int branchtargetid;
     private Date period;
+    private String displayperiod;    
     private int prospect;
-    private int sales;
-    private float totalsales;
+    private int testdrive;
+    private int closed;
 
     public TeamTarget() {
     }
  
-    public TeamTarget(int targetid, int teamid, Date period, int prospect, int sales, float totalsales) {
+    public TeamTarget(int targetid, int teamid, String teamname, Date period, 
+    		String displayperiod, int branchtargetid, int prospect, int testdrive, int closed) {
         this.targetid = targetid;
         this.teamid = teamid;
+        this.teamname = teamname;
+        this.branchtargetid = branchtargetid;
         this.period = period;
+        this.displayperiod = displayperiod;
         this.prospect = prospect;
-        this.sales = sales;
-        this.totalsales = totalsales;
+        this.testdrive = testdrive;
+        this.closed = closed;
     }
  
     public int gettargetid() {
@@ -36,11 +43,32 @@ public class TeamTarget {
         this.teamid = teamid;
     }
 
+    public String getteamname() {
+        return teamname;
+    }  
+    public void setteamname(String teamname) {
+        this.teamname = teamname;
+    }
+
     public Date getperiod() {
         return period;
     }  
     public void setperiod(Date period) {
         this.period = period;
+    }
+
+    public String getdisplayperiod() {
+        return displayperiod;
+    }  
+    public void setdisplayperiod(String displayperiod) {
+        this.displayperiod = displayperiod;
+    }
+
+    public int getbranchtargetid() {
+        return branchtargetid;
+    }  
+    public void setbranchtargetid(int branchtargetid) {
+        this.branchtargetid = branchtargetid;
     }
 
     public int getprospect() {
@@ -50,17 +78,17 @@ public class TeamTarget {
         this.prospect = prospect;
     }
 
-    public int getsales() {
-        return sales;
+    public int gettestdrive() {
+        return testdrive;
     }  
-    public void setsales(int sales) {
-        this.sales = sales;
+    public void settestdrive(int testdrive) {
+        this.testdrive = testdrive;
     }
 
-    public float gettotalsales() {
-        return totalsales;
+    public int getclosed() {
+        return closed;
     }  
-    public void settotalsales(float totalsales) {
-        this.totalsales = totalsales;
+    public void setclosed(int closed) {
+        this.closed = closed;
     }
 }

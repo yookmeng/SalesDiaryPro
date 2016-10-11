@@ -15,7 +15,7 @@ public interface ModelDAO {
     public List<String> getModels(int brandid);
     
     public Model get(int modelid);
-     
+
     public Model getByName(String modelname);
 
     public List<Model> list(int brandid);

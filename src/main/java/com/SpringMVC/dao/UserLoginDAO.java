@@ -22,6 +22,8 @@ public interface UserLoginDAO {
 
     public List<String> malist();
 
+    public List<String> leaderlist();
+
     public void saveOrUpdate(UserLogin userLogin);
     
     public void delete(String username);

@@ -1,37 +1,45 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
- 
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Team List</title>
-    </head>
-    <body>
-        <input type="hidden" value="companyid" name="companyid" /> 
+<jsp:include page="_menu.jsp" />
+<body>
+	<jsp:include page="_saNavigation.jsp" />
+ 	<div id="main" class="container-fluid">
+        <input type="hidden" value="company" name="company" /> 
+		<div class="breadcrumbs">
+			<ul>
+				<li>
+					<a href="home">Home</a>
+					<i class="fa fa-angle-right"></i>
+				</li>
+				<li>
+					<a href="listBrand?companyid=${company.companyid}">Brand</a>
+				</li>
+			</ul>
+		</div>
         <div align="center">
-            <h1>Brand List</h1>
-            <h3><a href="addBrand?companyid=${companyid}">New Brand</a></h3>
-            <table border="1">
-            <tr>
-                <th>Brand Name</th>
-                <th>Action</th>
-            </tr>
-                <c:forEach var="Brand" items="${listBrand}" varStatus="status">
-                <tr>
-                    <td>${Brand.brandname}</td>
-                    <td>
-                        <a href="editBrand?brandid=${Brand.brandid}">Edit</a>
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="deleteBrand?companyid=${Brand.companyid}&brandid=${Brand.brandid}">Delete</a>
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="listModel?companyid=${Brand.companyid}&brandid=${Brand.brandid}">Model</a>
-                    </td>
-                </tr>
-                </c:forEach>             
-            </table>
-        </div>
-    <jsp:include page="_footer.jsp" />                
-    </body>
+			<h5><a href="addBrand?companyid=${company.companyid}">Add New</a></h5>
+			<div class="box-content nopadding">
+				<table class="table table-hover table-nomargin table-colored-header">
+				<tr>
+				    <th>Brand Name</th>
+				    <th>Action</th>
+				</tr>
+				<c:forEach var="brand" items="${listBrand}" varStatus="status">
+					<tr>
+					    <td>${brand.brandname}</td>
+						<td>
+						    <a href="editBrand?brandid=${brand.brandid}">Edit</a>
+							&nbsp;&nbsp;&nbsp;&nbsp;					    
+							<a href="deleteBrand?brandid=${brand.brandid}">Delete</a>
+							&nbsp;&nbsp;&nbsp;&nbsp;					    
+							<a href="listModel?brandid=${brand.brandid}">Model</a>				
+					    </td>		                 
+					</tr>
+				</c:forEach>             
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
 </html>

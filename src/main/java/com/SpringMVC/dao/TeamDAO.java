@@ -14,7 +14,11 @@ public interface TeamDAO {
      
     public Team get(int teamid);
      
+    public Team getByName(String teamname);
+
+    public Team getByUser(int userid);
+
     public List<Team> list(int branchid);
     
-    public List<String> teamList();
+    public List<String> teamList(int branchid);
 }

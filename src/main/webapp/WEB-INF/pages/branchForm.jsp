@@ -1,78 +1,116 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<!DOCTYPE HTML>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-    "http://www.w3.org/TR/html4/loose.dtd">
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>New/Edit Branch</title>
-<script src="~/Scripts/jquery-1.8.2.min.js"></script>
-<script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
-</head>
+<jsp:include page="_menu.jsp" />
 <body>
-    <div align="center">
-        <h1>New/Edit Branch</h1>
-        <form:form action="saveBranch" method="post" modelAttribute="branch">
-        <table>
-            <form:hidden path="companyid"/>
-            <form:hidden path="branchid"/>
-            <tr>
-                <td>Branch Name:</td>
-                <td><form:input path="branchname" /></td>
-            </tr>
-            <tr>
-                <td>Registration No:</td>
-                <td><form:input path="regno" /></td>
-            </tr>
-            <tr>
-                <td>Person In Charge:</td>
-                <td><form:input path="pic" /></td>
-            </tr>
-            <tr>
-                <td>Address:</td>
-                <td><form:input path="address" /></td>
-            </tr>
-            <tr>
-                <td>Zip Code:</td>
-                <td><form:input path="zipcode" /></td>
-            </tr>
-            <tr>
-                <td>City:</td>
-                <td><form:input path="city" /></td>
-            </tr>
-            <tr>
-                <td>State:</td>
-                <td><form:input path="state" /></td>
-            </tr>
-            <tr>
-                <td>Country:</td>
-                <td><form:input path="country" /></td>
-            </tr>
-            <tr>
-                <td>Telephone:</td>
-                <td><form:input path="telephone" /></td>
-            </tr>
-            <tr>
-                <td>Fax:</td>
-                <td><form:input path="fax" /></td>
-            </tr>
-            <tr>
-                <td>Email:</td>
-                <td><form:input path="email" /></td>
-            </tr>
-            <tr>
-                <td>Web Site:</td>
-                <td><form:input path="website" /></td>
-            </tr>
-            <tr>
-            	<td>
-	            <input type="button"  onclick="location.href='listBranch?companyid=${branch.companyid}'" value="Back" >
-                </td>
-                <td colspan="2" align="center"><input type="submit" value="Save"></td>
-            </tr>
-        </table>
-        </form:form>
-    </div>
+	<c:if test="${role == 'SA'}">
+		<jsp:include page="_saNavigation.jsp" />
+	</c:if>
+	<c:if test="${role == 'MA'}">
+		<jsp:include page="_maNavigation.jsp" />
+	</c:if>   
+	<div id="main" class="container-fluid">
+	   	<input type="hidden" value="company" name="company" />
+		<div class="breadcrumbs">
+			<ul>
+				<li>
+					<a href="home">Home</a>
+					<i class="fa fa-angle-right"></i>
+				</li>
+				<li>
+					<a href="listBranch?companyid=${company.companyid}">Branch</a>
+				</li>
+			</ul>
+		</div>
+		<div class="row">
+			<div class="span12">
+				<div class="box">
+					<div class="box-content">
+			        <form:form action="saveBranch" method="post" modelAttribute="branch" class='form-horizontal form-wizard'>
+		            <form:hidden path="companyid"/>
+		            <form:hidden path="branchid"/>
+					<div class="form-group">
+						<label for="branchname" class="control-label col-sm-2">Branch Name</label>
+						<div class="col-sm-5">
+							<form:input type="text" path="branchname" name="branchname" id="branchname" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="regno" class="control-label col-sm-2">Registration No</label>
+						<div class="col-sm-2">
+							<form:input type="text" path="regno" name="regno" id="regno" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="text" class="control-label col-sm-2">Manager</label>
+						<div class="col-sm-2">
+							<form:select name="maname" path="maname" id="maname" items="${malist}" data-rule-required="true" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="address" class="control-label col-sm-2">Address</label>
+						<div class="col-sm-10">
+							<form:input type="address" path="address" name="address" id="regno" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="zipcode" class="control-label col-sm-2">Zip Code</label>
+						<div class="col-sm-3">
+							<form:input type="text" name="zipcode" path="zipcode" id="zipcode" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="city" class="control-label col-sm-2">City</label>
+						<div class="col-sm-3">
+							<form:input type="text" path="city" name="city" id="city" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="state" class="control-label col-sm-2">State</label>
+						<div class="col-sm-3">
+							<form:input type="text" path="state" name="state" id="state" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="country" class="control-label col-sm-2">Country</label>
+						<div class="col-sm-3">
+							<form:input type="text" path="country" name="country" id="country" class="form-control" />
+						</div>
+					</div>								
+					<div class="form-group">
+						<label for="telephone" class="control-label col-sm-2">Tel. No</label>
+						<div class="col-sm-3">
+							<form:input type="text" path="telephone" name="telephone" id="telephone" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="fax" class="control-label col-sm-2">Fax. No</label>
+						<div class="col-sm-3">
+							<form:input type="text" path="fax" name="fax" id="fax" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="email" class="control-label col-sm-2">Email</label>
+						<div class="col-sm-10">
+							<form:input type="text" path="email" name="email" id="email" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="website" class="control-label col-sm-2">Web Site</label>
+						<div class="col-sm-10">
+							<form:input type="text" path="website" name="website" id="website" class="form-control" />
+						</div>
+					</div>
+					<div class="form-actions">
+						<input type="reset" class="btn" onclick="location.href='listBranch?companyid=${branch.companyid}'" value="Back" id="back">						
+						<input type="submit" class="btn btn-primary" value="Save">
+					</div>
+					</form:form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

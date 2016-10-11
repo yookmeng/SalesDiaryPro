@@ -30,10 +30,11 @@ public class UserLoginDAOImpl extends JdbcDaoSupport implements UserLoginDAO {
     @Override
     public UserLogin findUserLogin(String username) {
         String sql = "SELECT u.userid AS userid, u.username AS username, u.password AS password, "
-        		+ "r.role AS role, ISNULL(c.companyid, 0) AS companyid "
+        		+ "r.role AS role, ISNULL(sa.companyid, ISNULL(md.companyid, 0)) AS companyid "
         		+ "FROM	tblUser u "        		
 				+ "LEFT JOIN tblRole r ON u.username = r.username "
-				+ "LEFT JOIN tblCompany c ON c.said = u.userid "
+				+ "LEFT JOIN tblCompany sa ON sa.said = u.userid "
+				+ "LEFT JOIN tblCompany md ON md.mdid = u.userid "
                 + "WHERE u.username = ? ";
  
         Object[] params = new Object[] { username };
@@ -98,10 +99,11 @@ public class UserLoginDAOImpl extends JdbcDaoSupport implements UserLoginDAO {
     @Override
     public List<UserLogin> list() {
         String sql = "SELECT u.userid AS userid, u.username AS username, u.password AS password, "
-        		+ "r.role AS role, ISNULL(c.companyid, 0) AS companyid "
+        		+ "r.role AS role, ISNULL(sa.companyid, ISNULL(md.companyid, 0)) AS companyid "
         		+ "FROM	tblUser u "        		
 				+ "LEFT JOIN tblRole r ON u.username = r.username "
-				+ "LEFT JOIN tblCompany c ON c.said = u.userid "
+				+ "LEFT JOIN tblCompany sa ON sa.said = u.userid "
+				+ "LEFT JOIN tblCompany md ON md.mdid = u.userid "
         		+ "WHERE r.role <> 'USER'";
         UserLoginMapper mapper = new UserLoginMapper();
         List<UserLogin> list = this.getJdbcTemplate().query(sql, mapper);
@@ -136,12 +138,22 @@ public class UserLoginDAOImpl extends JdbcDaoSupport implements UserLoginDAO {
     }
 
     @Override
+    public List<String> leaderlist() {
+        String sql = "SELECT u.username AS username FROM tblUser u "        		
+				+ "LEFT JOIN tblRole r ON u.username = r.username "
+        		+ "WHERE r.role = 'USER'";
+        List<String> leaderlist = this.getJdbcTemplate().queryForList(sql, String.class);         
+        return leaderlist;
+    }
+
+    @Override
     public UserLogin get(String username) {
 	    String sql = "SELECT u.userid userid, u.username username, u.password password, "
-	    		+ "r.role role, ISNULL(c.companyid, 0) AS companyid "
+	    		+ "r.role role, ISNULL(sa.companyid, ISNULL(md.companyid, 0)) AS companyid "
         		+ "FROM	tblUser u "
 				+ "LEFT JOIN tblRole r ON u.username = r.username "
-				+ "LEFT JOIN tblCompany c ON c.said = u.userid "
+				+ "LEFT JOIN tblCompany sa ON sa.said = u.userid "
+				+ "LEFT JOIN tblCompany md ON md.mdid = u.userid "
 				+ "WHERE u.username='" + username + "'";
 	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<UserLogin>() {
 	 

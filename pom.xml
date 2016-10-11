@@ -5,10 +5,10 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
  
 <modelVersion>4.0.0</modelVersion>
 <groupId>com.SpringMVC</groupId>
-<artifactId>PersonalAssistant</artifactId>
+<artifactId>SalesDiaryPro</artifactId>
 <packaging>war</packaging>
 <version>0.0.1-SNAPSHOT</version>
-<name>PersonalAssistant Maven Webapp</name>
+<name>SalesDiaryPro Maven Webapp</name>
 <url>http://maven.apache.org</url>
 
   <properties>
@@ -31,11 +31,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
  
   <dependencies>
   	<!-- Jackson JSON Mapper -->
-    <dependency>
-        <groupId>org.codehaus.jackson</groupId>
-        <artifactId>jackson-mapper-asl</artifactId>
-        <version>${jackson.version}</version>
-    </dependency>	
 	<dependency>
 	    <groupId>com.fasterxml.jackson.core</groupId>
 	    <artifactId>jackson-core</artifactId>
@@ -136,7 +131,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
   </dependencies>
   
   <build>
-      <finalName>PersonalAssistant</finalName>
+      <finalName>SalesDiaryPro</finalName>
       <plugins>
      
           <!-- Config: Maven Tomcat Plugin -->

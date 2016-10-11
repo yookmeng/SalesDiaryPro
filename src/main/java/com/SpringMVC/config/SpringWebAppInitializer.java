@@ -1,5 +1,6 @@
 package com.SpringMVC.config;
 
+import javax.servlet.Filter;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
@@ -21,4 +22,8 @@ public class SpringWebAppInitializer implements WebApplicationInitializer {
         dispatcher.addMapping("/");
     }
  
+   protected Filter[] getServletFilters() {
+        Filter [] singleton = { new CORSFilter()};
+        return singleton;
+    }
 }

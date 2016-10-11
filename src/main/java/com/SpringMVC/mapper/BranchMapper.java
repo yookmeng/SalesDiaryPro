@@ -15,7 +15,8 @@ public class BranchMapper implements RowMapper<Branch> {
         String branchname = rs.getString("branchname");
         int companyid = rs.getInt("companyid");
         String regno = rs.getString("regno");
-        String pic = rs.getString("pic");
+        int maid = rs.getInt("maid");
+        String maname = rs.getString("maname");
         String address = rs.getString("address");
         String zipcode = rs.getString("zipcode");
         String city = rs.getString("city");
@@ -26,7 +27,8 @@ public class BranchMapper implements RowMapper<Branch> {
         String email = rs.getString("email");
         String website = rs.getString("website");
         
-        return new Branch(branchid, branchname, companyid, regno, pic, address, zipcode, city, state, country, telephone, fax, email, website);
+        return new Branch(branchid, branchname, companyid, regno, maid, maname, 
+        		address, zipcode, city, state, country, telephone, fax, email, website);
     }
  
 }

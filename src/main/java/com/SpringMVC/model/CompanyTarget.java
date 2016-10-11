@@ -5,21 +5,26 @@ import java.sql.Date;
 public class CompanyTarget {
     private int targetid;
     private int companyid;
+    private String companyname;
     private Date period;
+    private String displayperiod;    
     private int prospect;
-    private int sales;
-    private float totalsales;
+    private int testdrive;
+    private int closed;
 
     public CompanyTarget() {
     }
  
-    public CompanyTarget(int targetid, int companyid, Date period, int prospect, int sales, float totalsales) {
+    public CompanyTarget(int targetid, int companyid, String companyname, 
+    			Date period, String displayperiod, int prospect, int testdrive, int closed) {
         this.targetid = targetid;
         this.companyid = companyid;
+        this.companyname = companyname;
         this.period = period;
+        this.displayperiod = displayperiod;        
         this.prospect = prospect;
-        this.sales = sales;
-        this.totalsales = totalsales;
+        this.testdrive = testdrive;
+        this.closed = closed;
     }
  
     public int gettargetid() {
@@ -36,11 +41,25 @@ public class CompanyTarget {
         this.companyid = companyid;
     }
 
+    public String getcompanyname() {
+        return companyname;
+    }  
+    public void setcompanyname(String companyname) {
+        this.companyname = companyname;
+    }
+
     public Date getperiod() {
         return period;
     }  
     public void setperiod(Date period) {
         this.period = period;
+    }
+
+    public String getdisplayperiod() {
+        return displayperiod;
+    }  
+    public void setdisplayperiod(String displayperiod) {
+        this.displayperiod = displayperiod;
     }
 
     public int getprospect() {
@@ -50,17 +69,17 @@ public class CompanyTarget {
         this.prospect = prospect;
     }
 
-    public int getsales() {
-        return sales;
+    public int gettestdrive() {
+        return testdrive;
     }  
-    public void setsales(int sales) {
-        this.sales = sales;
+    public void settestdrive(int testdrive) {
+        this.testdrive = testdrive;
     }
 
-    public float gettotalsales() {
-        return totalsales;
+    public int getclosed() {
+        return closed;
     }  
-    public void settotalsales(float totalsales) {
-        this.totalsales = totalsales;
+    public void setclosed(int closed) {
+        this.closed = closed;
     }
 }

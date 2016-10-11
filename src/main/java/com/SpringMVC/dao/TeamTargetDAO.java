@@ -1,5 +1,6 @@
 package com.SpringMVC.dao;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -14,5 +15,11 @@ public interface TeamTargetDAO {
      
     public TeamTarget get(int targetid);
 
-    public List<TeamTarget> list(int teamid);
+    public TeamTarget getByPeriod(String period, int teamid);
+
+    public TeamTarget getByTeam(int teamid);
+
+    public List<TeamTarget> list(Date period, int branchid);
+
+    public List<TeamTarget> listByTeam(int teamid);
 }

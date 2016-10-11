@@ -1,34 +1,44 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<!DOCTYPE HTML>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-    "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>New/Edit Brand</title>
-</head>
+<jsp:include page="_menu.jsp" />
 <body>
-    <div align="center">
-        <h1>New/Edit Brand</h1>
-        <form:form action="saveBrand" method="post" modelAttribute="brand">
-        <table>
-            <form:hidden path="companyid"/>        
-            <form:hidden path="brandid"/>
-            <tr>
-                <td>Brand Name:</td>
-                <td colspan="2"><form:input path="brandname" /></td>
-            </tr>
-            <tr>            
-            	<td>
-     	        </td>
-            	<td>
-	            <input type="button"  onclick="location.href='listBrand?companyid=${brand.companyid}'" value="Back" >
-                </td>
-                <td><input type="submit" value="Save"></td>
-            </tr>
-        </table>
-        </form:form>
-    </div>
+	<jsp:include page="_saNavigation.jsp" />
+	<div id="main" class="container-fluid">
+	   	<input type="hidden" value="company" name="company" />
+		<div class="breadcrumbs">
+			<ul>
+				<li>
+					<a href="home">Home</a>
+					<i class="fa fa-angle-right"></i>
+				</li>
+				<li>
+					<a href="listBrand?companyid=${company.companyid}">Brand</a>
+				</li>
+			</ul>
+		</div>
+		<div class="row">
+			<div class="span12">
+				<div class="box">
+					<div class="box-content">
+			        <form:form action="saveBrand" method="post" modelAttribute="brand" class='form-horizontal form-wizard'>
+		            <form:hidden path="companyid"/>        
+		            <form:hidden path="brandid"/>
+					<div class="form-group">
+						<label for="brandname" class="control-label col-sm-2">Brand Name</label>
+						<div class="col-sm-5">
+							<form:input type="text" path="brandname" name="brandname" id="brandname" class="form-control" />
+						</div>
+					</div>
+					<div class="form-actions">
+						<input type="reset" class="btn" onclick="location.href='listBrand?companyid=${brand.companyid}'" value="Back" id="back">						
+						<input type="submit" class="btn btn-primary" value="Save">
+					</div>
+					</form:form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

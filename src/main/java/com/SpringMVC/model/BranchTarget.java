@@ -5,21 +5,28 @@ import java.sql.Date;
 public class BranchTarget {
 	private int targetid;
 	private int branchid;
+	private String branchname;
     private Date period;
+    private String displayperiod;        
+	private int companytargetid;
     private int prospect;
-    private int sales;
-    private float totalsales;
+    private int testdrive;
+    private int closed;
 
     public BranchTarget() {
     }
  
-    public BranchTarget(int targetid, int branchid, Date period, int prospect, int sales, float totalsales) {
+    public BranchTarget(int targetid, int branchid, String branchname, Date period, 
+    		String displayperiod, int companytargetid, int prospect, int testdrive, int closed) {
         this.targetid = targetid;
         this.branchid = branchid;
+        this.branchname = branchname;
         this.period = period;
+        this.displayperiod = displayperiod;
+        this.companytargetid = companytargetid;        
         this.prospect = prospect;
-        this.sales = sales;
-        this.totalsales = totalsales;
+        this.testdrive = testdrive;
+        this.closed = closed;
     }
  
     public int gettargetid() {
@@ -36,11 +43,32 @@ public class BranchTarget {
         this.branchid = branchid;
     }
 
+    public String getbranchname() {
+        return branchname;
+    }  
+    public void setbranchname(String branchname) {
+        this.branchname = branchname;
+    }
+
     public Date getperiod() {
         return period;
     }  
     public void setperiod(Date period) {
         this.period = period;
+    }
+
+    public String getdisplayperiod() {
+        return displayperiod;
+    }  
+    public void setdisplayperiod(String displayperiod) {
+        this.displayperiod = displayperiod;
+    }
+
+    public int getcompanytargetid() {
+        return companytargetid;
+    }  
+    public void setcompanytargetid(int companytargetid) {
+        this.companytargetid = companytargetid;
     }
 
     public int getprospect() {
@@ -50,17 +78,17 @@ public class BranchTarget {
         this.prospect = prospect;
     }
 
-    public int getsales() {
-        return sales;
+    public int gettestdrive() {
+        return testdrive;
     }  
-    public void setsales(int sales) {
-        this.sales = sales;
+    public void settestdrive(int testdrive) {
+        this.testdrive = testdrive;
     }
 
-    public float gettotalsales() {
-        return totalsales;
+    public int getclosed() {
+        return closed;
     }  
-    public void settotalsales(float totalsales) {
-        this.totalsales = totalsales;
+    public void setclosed(int closed) {
+        this.closed = closed;
     }
 }

@@ -27,17 +27,17 @@ public class TeamDAOImpl extends JdbcDaoSupport implements TeamDAO {
         if (team.getteamid() > 0)  {
             // update
             String sql = "UPDATE tblTeam SET "
-            		+ "teamname=?, pic=? "
+            		+ "teamname=?, leaderid=? "
             		+ "WHERE teamid=?";
             this.getJdbcTemplate().update(sql, 
-            		team.getteamname(), team.getpic(), team.getteamid());
+            		team.getteamname(), team.getleaderid(), team.getteamid());
         } else {
             // insert
             String sql = "INSERT INTO tblTeam "
-            		+ "(teamname, branchid, pic) "
+            		+ "(teamname, branchid, leaderid) "
             		+ "VALUES (?, ?, ?)";
             this.getJdbcTemplate().update(sql, 
-            		team.getteamname(), team.getbranchid(), team.getpic());
+            		team.getteamname(), team.getbranchid(), team.getleaderid());
             }
     }
     
@@ -47,20 +47,28 @@ public class TeamDAOImpl extends JdbcDaoSupport implements TeamDAO {
     }
     
     public List<Team> list(int branchid) {
-        String sql = "SELECT * FROM tblTeam WHERE branchid = " + branchid;
+        String sql = "SELECT t.teamid teamid, t.teamname teamname, t.branchid branchid, "
+        		+ "t.leaderid leaderid, l.username leadername "
+        		+ "FROM tblTeam t "
+	    		+ "LEFT JOIN tblUser l on t.leaderid = l.userid "
+        		+ "WHERE t.branchid = " + branchid;
         TeamMapper mapper = new TeamMapper();
         List<Team> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
     }
     
-    public List<String> teamList() {
-        String sql = "SELECT name FROM tblTeam";
+    public List<String> teamList(int branchid) {
+        String sql = "SELECT teamname FROM tblTeam WHERE branchid =" + branchid;
         List<String> list = this.getJdbcTemplate().queryForList(sql, String.class);
         return list;
     }
 
     public Team get(int teamid) {
-	    String sql = "SELECT * FROM tblTeam WHERE teamid=" + teamid;
+        String sql = "SELECT t.teamid teamid, t.teamname teamname, t.branchid branchid, "
+        		+ "t.leaderid leaderid, l.username leadername "
+        		+ "FROM tblTeam t "
+	    		+ "LEFT JOIN tblUser l on t.leaderid = l.userid "
+	    		+ "WHERE t.teamid=" + teamid;
 	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<Team>() {
 	 
 	        @Override
@@ -71,11 +79,62 @@ public class TeamDAOImpl extends JdbcDaoSupport implements TeamDAO {
 	                team.setteamid(rs.getInt("teamid"));
 	                team.setteamname(rs.getString("teamname"));
 	                team.setbranchid(rs.getInt("branchid"));
-	                team.setpic(rs.getString("pic"));
+	                team.setleaderid(rs.getInt("leaderid"));
+	                team.setleadername(rs.getString("leadername"));
 	                return team;
 	            }	 
 	            return null;
 	        }
         });
     }
-}
+
+    public Team getByName(String teamname) {
+        String sql = "SELECT t.teamid teamid, t.teamname teamname, t.branchid branchid, "
+        		+ "t.leaderid leaderid, l.username leadername "
+        		+ "FROM tblTeam t "
+	    		+ "LEFT JOIN tblUser l on t.leaderid = l.userid "
+	    		+ "WHERE t.teamname='" + teamname +"'";
+	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<Team>() {
+	 
+	        @Override
+	        public Team extractData(ResultSet rs) throws SQLException,
+	                DataAccessException {
+	            if (rs.next()) {
+	                Team team = new Team();
+	                team.setteamid(rs.getInt("teamid"));
+	                team.setteamname(rs.getString("teamname"));
+	                team.setbranchid(rs.getInt("branchid"));
+	                team.setleaderid(rs.getInt("leaderid"));
+	                team.setleadername(rs.getString("leadername"));
+	                return team;
+	            }	 
+	            return null;
+	        }
+        });
+    }
+
+    public Team getByUser(int userid) {
+        String sql = "SELECT t.teamid teamid, t.teamname teamname, t.branchid branchid, "
+        		+ "t.leaderid leaderid, l.username leadername "
+        		+ "FROM tblTeam t "
+	    		+ "LEFT JOIN tblUser l on t.leaderid = l.userid "
+	    		+ "WHERE t.leaderid=" + userid;
+	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<Team>() {
+	 
+	        @Override
+	        public Team extractData(ResultSet rs) throws SQLException,
+	                DataAccessException {
+	            if (rs.next()) {
+	                Team team = new Team();
+	                team.setteamid(rs.getInt("teamid"));
+	                team.setteamname(rs.getString("teamname"));
+	                team.setbranchid(rs.getInt("branchid"));
+	                team.setleaderid(rs.getInt("leaderid"));
+	                team.setleadername(rs.getString("leadername"));
+	                return team;
+	            }	 
+	            return null;
+	        }
+        });
+    }
+ }

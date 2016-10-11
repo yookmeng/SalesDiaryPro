@@ -4,14 +4,16 @@ public class Model {
     private int modelid;
     private String modelname;
     private int brandid;
-
+    private float price;
+    
     public Model() {
     }
  
-    public Model(int modelid, String modelname, int brandid) {
+    public Model(int modelid, String modelname, int brandid, float price) {
         this.modelid = modelid;
         this.modelname = modelname;
         this.brandid = brandid;
+        this.price = price;
     }
  
     public int getmodelid() {
@@ -33,5 +35,12 @@ public class Model {
     }  
     public void setbrandid(int brandid) {
         this.brandid = brandid;
+    }
+
+    public float getprice() {
+        return price;
+    }  
+    public void setprice(float price) {
+        this.price = price;
     }
 }

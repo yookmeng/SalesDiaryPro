@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.DefaultServletHandlerCo
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
- 
+
 @Configuration
 @EnableWebMvc
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
@@ -28,7 +28,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
  
        // Add other converters ...
    }
- 
+
    // Static Resource Config
    // equivalents for <mvc:resources/> tags
    @Override

@@ -5,7 +5,8 @@ public class Branch {
     private String branchname;
     private int companyid;
     private String regno;
-    private String pic;
+    private int maid;    
+    private String maname;
     private String address;
     private String zipcode;
     private String city;
@@ -20,7 +21,7 @@ public class Branch {
     }
  
     public Branch(int branchid, String branchname, 
-    		int companyid, String regno, String pic, 
+    		int companyid, String regno, int maid, String maname, 
     		String address, String zipcode, String city, 
     		String state, String country, String telephone, 
     		String fax,String email, String website) {
@@ -28,7 +29,8 @@ public class Branch {
         this.branchname = branchname;
         this.companyid = companyid;
         this.regno = regno;
-        this.pic = pic;
+        this.maid = maid;
+        this.maname = maname;
         this.address = address;
         this.zipcode = zipcode;
         this.city = city;
@@ -68,11 +70,18 @@ public class Branch {
         this.regno = regno;
     }
 
-    public String getpic() {
-        return pic;
+    public int getmaid() {
+        return maid;
     }
-    public void setpic(String pic) {
-        this.pic = pic;
+    public void setmaid(int maid) {
+        this.maid = maid;
+    }
+
+    public String getmaname() {
+        return maname;
+    }
+    public void setmaname(String maname) {
+        this.maname = maname;
     }
 
     public String getaddress() {

@@ -26,19 +26,19 @@ public class CompanyTargetDAOImpl extends JdbcDaoSupport implements CompanyTarge
     public void saveOrUpdate(CompanyTarget companyTarget) {
         if (companyTarget.gettargetid() > 0)  {
             // update
-            String sql = "UPDATE tblCompanyTarget SET prospect=?, sales=?, totalsales=? "
+            String sql = "UPDATE tblCompanyTarget SET prospect=?, testdrive=?, closed=? "
             		+ "WHERE targetid=?";
             this.getJdbcTemplate().update(sql, 
-            		companyTarget.getprospect(), companyTarget.getsales(), companyTarget.gettotalsales(), 
+            		companyTarget.getprospect(), companyTarget.gettestdrive(), companyTarget.getclosed(), 
             		companyTarget.gettargetid());
         } else {
             // insert
             String sql = "INSERT INTO tblCompanyTarget "
-            		+ "(companyid, period, prospect, sales, totalsales) "
+            		+ "(companyid, period, prospect, testdrive, closed) "
             		+ "VALUES (?, ?, ?, ?, ?)";
             this.getJdbcTemplate().update(sql, 
-            		companyTarget.getcompanyid(), companyTarget.getperiod(), companyTarget.getprospect(),
-            		companyTarget.getsales(), companyTarget.gettotalsales());
+            		companyTarget.getcompanyid(), companyTarget.getperiod(), companyTarget.getdisplayperiod(), 
+            		companyTarget.getprospect(), companyTarget.gettestdrive(), companyTarget.getclosed());
             }
     }
     
@@ -48,7 +48,12 @@ public class CompanyTargetDAOImpl extends JdbcDaoSupport implements CompanyTarge
     }
     
     public CompanyTarget get(int targetid) {
-	    String sql = "SELECT * FROM tblCompanyTarget WHERE targetid="+targetid;
+	    String sql = "SELECT ct.targetid targetid, ct.companyid companyid, c.companyname companyname, "
+	    		+ "ct.period period, CONVERT(varchar(7), ct.period, 111) displayperiod, "
+	    		+ "ct.prospect prospect, ct.testdrive testdrive, ct.closed closed "
+	    		+ "FROM tblCompanyTarget ct "
+	    		+ "LEFT JOIN tblCompany c ON c.companyid = ct.companyid "
+	    		+ "WHERE ct.targetid="+targetid;
 	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<CompanyTarget>() {
 	 
 	        @Override
@@ -58,10 +63,12 @@ public class CompanyTargetDAOImpl extends JdbcDaoSupport implements CompanyTarge
 	                CompanyTarget companyTarget = new CompanyTarget();
 	                companyTarget.settargetid(rs.getInt("targetid"));
 	                companyTarget.setcompanyid(rs.getInt("companyid"));
+	                companyTarget.setcompanyname(rs.getString("companyname"));
 	                companyTarget.setperiod(rs.getDate("period"));
+	                companyTarget.setdisplayperiod(rs.getString("displayperiod"));	                
 	                companyTarget.setprospect(rs.getInt("prospect"));
-	                companyTarget.setsales(rs.getInt("sales"));
-	                companyTarget.settotalsales(rs.getFloat("totalsales"));
+	                companyTarget.settestdrive(rs.getInt("testdrive"));
+	                companyTarget.setclosed(rs.getInt("closed"));
 	                return companyTarget;
 	            }	 
 	            return null;
@@ -70,7 +77,12 @@ public class CompanyTargetDAOImpl extends JdbcDaoSupport implements CompanyTarge
     }
 
     public List<CompanyTarget> list(int companyid) {
-        String sql = "SELECT * FROM tblCompanyTarget WHERE companyid = " + companyid;
+	    String sql = "SELECT ct.targetid targetid, ct.companyid companyid, c.companyname companyname, "
+	    		+ "ct.period period, CONVERT(varchar(7), ct.period, 111) displayperiod, "
+	    		+ "ct.prospect prospect, ct.testdrive testdrive, ct.closed closed "
+	    		+ "FROM tblCompanyTarget ct "
+	    		+ "LEFT JOIN tblCompany c ON c.companyid = ct.companyid "
+        		+ "WHERE ct.companyid=" + companyid;
         CompanyTargetMapper mapper = new CompanyTargetMapper();
         List<CompanyTarget> list = this.getJdbcTemplate().query(sql, mapper);
         return list;

@@ -3,17 +3,19 @@ package com.SpringMVC.model;
 public class Team {
     private int teamid;
     private String teamname;
-    private int branchid;
-    private String pic;
+    private int branchid;    
+    private int leaderid;
+    private String leadername;
 
     public Team() {
     }
  
-    public Team(int teamid, String teamname, int branchid, String pic) {
+    public Team(int teamid, String teamname, int branchid, int leaderid, String leadername) {
         this.teamid = teamid;
         this.teamname = teamname;
         this.branchid = branchid;
-        this.pic = pic;
+        this.leaderid = leaderid;
+        this.leadername = leadername;
     }
  
     public int getteamid() {
@@ -37,10 +39,17 @@ public class Team {
         this.branchid = branchid;
     }
 
-    public String getpic() {
-        return pic;
+    public int getleaderid() {
+        return leaderid;
     }  
-    public void setpic(String pic) {
-        this.pic = pic;
+    public void setleaderid(int leaderid) {
+        this.leaderid = leaderid;
+    }
+
+    public String getleadername() {
+        return leadername;
+    }  
+    public void setleadername(String leadername) {
+        this.leadername = leadername;
     }
 }

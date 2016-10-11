@@ -17,5 +17,7 @@ public interface UserProfileDAO {
      
     public List<UserProfile> list(int teamid);
     
-    public List<String> userList();
+    public List<String> userList(int teamid);
+
+    public int getCompanyID(String username);
 }

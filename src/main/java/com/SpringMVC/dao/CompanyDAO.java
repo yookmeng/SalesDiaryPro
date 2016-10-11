@@ -13,7 +13,7 @@ public interface CompanyDAO {
     public void delete(int companyid);
      
     public Company get(int companyid);
-     
+
     public List<Company> list();
 
     public List<String> companyList();

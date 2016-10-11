@@ -2,7 +2,8 @@ package com.SpringMVC.model;
 
 public class Prospect {
     private int prospectid;
-    private String prospectname;
+    private String firstname;
+    private String lastname;
     private int userid;
     private String source;
     private String haddress;
@@ -20,20 +21,22 @@ public class Prospect {
     private String wtelno;
     private String occupation;
     private int age;
+    private String gender;    
     private String income;
     private String email;
 
     public Prospect() {
     }
  
-    public Prospect(int prospectid, String prospectname, int userid, String source,  
+    public Prospect(int prospectid, String firstname, String lastname, int userid, String source,  
     		String haddress, String hzipcode, String hcity, 
     		String hstate, String hcountry, String mobile, String htelno, 
     		String waddress, String wzipcode, String wcity, 
     		String wstate, String wcountry, String wtelno, 
-    		String occupation, int age, String income, String email) {
+    		String occupation, int age, String gender, String income, String email) {
         this.prospectid = prospectid;
-        this.prospectname = prospectname;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.userid = userid;
         this.source = source;
         this.haddress = haddress;
@@ -51,6 +54,7 @@ public class Prospect {
         this.wtelno = wtelno;
         this.occupation = occupation;
         this.age = age;
+        this.gender = gender;
         this.income = income;
         this.email = email;
     }
@@ -62,11 +66,18 @@ public class Prospect {
         this.prospectid = prospectid;
     }
 
-    public String getprospectname() {
-        return prospectname;
+    public String getfirstname() {
+        return firstname;
     }  
-    public void setprospectname(String prospectname) {
-        this.prospectname = prospectname;
+    public void setfirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getlastname() {
+        return lastname;
+    }  
+    public void setlastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public int getuserid() {
@@ -195,6 +206,13 @@ public class Prospect {
         this.income = income;
     }
 
+    public String getgender() {
+        return gender;
+    }
+    public void setgender(String gender) {
+        this.gender = gender;
+    }
+
     public String getemail() {
         return email;
     }
@@ -204,13 +222,14 @@ public class Prospect {
     
     @Override
     public String toString() {
-        return "Prospect [prospectid=" + prospectid + ", prospectname=" + prospectname
+        return "Prospect [prospectid=" + prospectid + ", firstname=" + firstname + ", lastname=" + lastname
                 + ", userid=" + userid + ", source=" + source 
                 + ", haddress=" + haddress + ", hzipcode=" + hzipcode + ", hcity=" + hcity
                 + ", hstate=" + hstate + ", hcountry=" + hcountry + ", mobile=" + mobile + ", htelno=" + htelno 
                 + ", waddress=" + waddress + ", wzipcode=" + wzipcode + ", wcity=" + wcity
                 + ", wstate=" + wstate + ", wcountry=" + wcountry + ", wtelno=" + wtelno 
-                + ", occupation=" + occupation + ", age=" + age + ", income=" + income + ", email=" + email
+                + ", occupation=" + occupation + ", age=" + age + ", gender=" + gender 
+                + ", income=" + income + ", email=" + email
                 + "]";
     }
 }

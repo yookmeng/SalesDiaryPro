@@ -26,33 +26,34 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
     public void saveOrUpdate(Prospect prospect) {
         if (prospect.getprospectid() > 0)  {
             // update
-            String sql = "UPDATE tblProspect SET prospectname=?, source=?, "
+            String sql = "UPDATE tblProspect SET firstname=?, lastname=?, source=?, "
             		+ "haddress=?, hzipcode=?, hcity=?, hstate=?, hcountry=?, mobile=?, htelno=?, "
             		+ "waddress=?, wzipcode=?, wcity=?, wstate=?, wcountry=?, wtelno=?, "
-            		+ "occupation=?, age=?, income=?, email=? WHERE prospectid=?";
+            		+ "occupation=?, age=?, gender=?, income=?, email=? WHERE prospectid=?";
             this.getJdbcTemplate().update(sql, 
-            		prospect.getprospectname(), prospect.getsource(), 
+            		prospect.getfirstname(), prospect.getlastname(), prospect.getsource(), 
             		prospect.gethaddress(), prospect.gethzipcode(), prospect.gethcity(), 
             		prospect.gethstate(), prospect.gethcountry(), prospect.getmobile(), prospect.gethtelno(), 
             		prospect.getwaddress(), prospect.getwzipcode(), prospect.getwcity(), 
             		prospect.getwstate(), prospect.getwcountry(), prospect.getwtelno(), 
-            		prospect.getoccupation(), prospect.getage(), prospect.getincome(), prospect.getemail(),
-            		prospect.getprospectid());
+            		prospect.getoccupation(), prospect.getage(), prospect.getgender(), 
+            		prospect.getincome(), prospect.getemail(), prospect.getprospectid());
         } else {
             // insert
             String sql = "INSERT INTO tblProspect "
-            		+ "(prospectname, userid, source, "
+            		+ "(firstname, lastname, userid, source, "
             		+ "haddress, hzipcode, hcity, hstate, hcountry, mobile, htelno, "
             		+ "waddress, wzipcode, wcity, wstate, wcountry, wtelno, "
-            		+ "occupation, age, income, email) "
-            		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            		+ "occupation, age, gender, income, email) "
+            		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             this.getJdbcTemplate().update(sql, 
-            		prospect.getprospectname(), prospect.getuserid(), prospect.getsource(), 
+            		prospect.getfirstname(), prospect.getlastname(), prospect.getuserid(), prospect.getsource(), 
             		prospect.gethaddress(), prospect.gethzipcode(), prospect.gethcity(), 
             		prospect.gethstate(), prospect.gethcountry(), prospect.getmobile(), prospect.gethtelno(), 
             		prospect.getwaddress(), prospect.getwzipcode(), prospect.getwcity(), 
             		prospect.getwstate(), prospect.getwcountry(), prospect.getwtelno(), 
-            		prospect.getoccupation(), prospect.getage(), prospect.getincome(), prospect.getemail());
+            		prospect.getoccupation(), prospect.getage(), prospect.getgender(), 
+            		prospect.getincome(), prospect.getemail());
             }
     }
     
@@ -69,7 +70,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
     }
     
     public List<String> prospectList() {
-        String sql = "SELECT prospectname FROM tblProspect";
+        String sql = "SELECT lastname+', '+firstname FROM tblProspect";
         List<String> list = this.getJdbcTemplate().queryForList(sql, String.class);
         return list;
     }
@@ -84,7 +85,8 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
 	            if (rs.next()) {
 	            	Prospect prospect = new Prospect();
 	            	prospect.setprospectid(rs.getInt("prospectid"));
-	            	prospect.setprospectname(rs.getString("prospectname"));
+	            	prospect.setfirstname(rs.getString("firstname"));
+	            	prospect.setlastname(rs.getString("lastname"));
 	            	prospect.setuserid(rs.getInt("userid"));
 	            	prospect.setsource(rs.getString("source"));
 	            	prospect.sethaddress(rs.getString("haddress"));
@@ -102,6 +104,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
 	            	prospect.setwtelno(rs.getString("wtelno"));
 	            	prospect.setoccupation(rs.getString("occupation"));
 	            	prospect.setage(rs.getInt("age"));
+	            	prospect.setgender(rs.getString("gender"));
 	            	prospect.setincome(rs.getString("income"));
 	            	prospect.setemail(rs.getString("email"));
 	                return prospect;
@@ -110,4 +113,5 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
 	        }
         });
     }
+
 }

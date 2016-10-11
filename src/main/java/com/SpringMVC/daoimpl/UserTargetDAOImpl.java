@@ -1,5 +1,6 @@
 package com.SpringMVC.daoimpl;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -26,19 +27,19 @@ public class UserTargetDAOImpl extends JdbcDaoSupport implements UserTargetDAO {
     public void saveOrUpdate(UserTarget userTarget) {
         if (userTarget.gettargetid() > 0)  {
             // update
-            String sql = "UPDATE tblUserTarget SET prospect=?, sales=?, totalsales=? "
+            String sql = "UPDATE tblUserTarget SET prospect=?, testdrive=?, closed=? "
             		+ "WHERE targetid=?";
             this.getJdbcTemplate().update(sql, 
-            		userTarget.getprospect(), userTarget.getsales(), userTarget.gettotalsales(), 
+            		userTarget.getprospect(), userTarget.gettestdrive(), userTarget.getclosed(), 
             		userTarget.gettargetid());
         } else {
             // insert
             String sql = "INSERT INTO tblUserTarget "
-            		+ "(userid, period, prospect, sales, totalsales) "
-            		+ "VALUES (?, ?, ?, ?, ?)";
+            		+ "(userid, period, teamtargetid, prospect, testdrive, closed) "
+            		+ "VALUES (?, ?, ?, ?, ?, ?)";
             this.getJdbcTemplate().update(sql, 
-            		userTarget.getuserid(), userTarget.getperiod(), userTarget.getprospect(),
-            		userTarget.getsales(), userTarget.gettotalsales());
+            		userTarget.getuserid(), userTarget.getperiod(), userTarget.getteamtargetid(),
+            		userTarget.getprospect(), userTarget.gettestdrive(), userTarget.getclosed());
             }
     }
     
@@ -48,7 +49,13 @@ public class UserTargetDAOImpl extends JdbcDaoSupport implements UserTargetDAO {
     }
     
     public UserTarget get(int targetid) {
-	    String sql = "SELECT * FROM tblUserTarget WHERE targetid="+targetid;
+	    String sql = "SELECT ut.targetid targetid, ut.userid userid, u.username username, "
+	    		+ "ut.period period, CONVERT(varchar(7), ut.period, 111) displayperiod, "
+	    		+ "ut.teamtargetid teamtargetid, ut.prospect prospect, "
+	    		+ "ut.testdrive testdrive, ut.closed closed "
+	    		+ "FROM tblUserTarget ut "
+	    		+ "LEFT JOIN tblUser u ON u.userid = ut.userid "	    		
+	    		+ "WHERE ut.targetid="+targetid;
 	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<UserTarget>() {
 	 
 	        @Override
@@ -58,10 +65,12 @@ public class UserTargetDAOImpl extends JdbcDaoSupport implements UserTargetDAO {
 	                UserTarget userTarget = new UserTarget();
 	                userTarget.settargetid(rs.getInt("targetid"));
 	                userTarget.setuserid(rs.getInt("userid"));
+	                userTarget.setusername(rs.getString("username"));	                
 	                userTarget.setperiod(rs.getDate("period"));
+	                userTarget.setteamtargetid(rs.getInt("teamtargetid"));
 	                userTarget.setprospect(rs.getInt("prospect"));
-	                userTarget.setsales(rs.getInt("sales"));
-	                userTarget.settotalsales(rs.getFloat("totalsales"));
+	                userTarget.settestdrive(rs.getInt("testdrive"));
+	                userTarget.setclosed(rs.getInt("closed"));
 	                return userTarget;
 	            }	 
 	            return null;
@@ -69,8 +78,61 @@ public class UserTargetDAOImpl extends JdbcDaoSupport implements UserTargetDAO {
         });
     }
 
-    public List<UserTarget> list(int teamid) {
-        String sql = "SELECT * FROM tblUserTarget WHERE teamid = " + teamid;
+    public UserTarget getByPeriod(String period, int userid) {
+	    String sql = "SELECT ut.targetid targetid, ut.userid userid, u.username username, "
+	    		+ "ut.period period, CONVERT(varchar(7), ut.period, 111) displayperiod, "
+	    		+ "ut.teamtargetid teamtargetid, ut.prospect prospect, "
+	    		+ "ut.testdrive testdrive, ut.closed closed "
+	    		+ "FROM tblUserTarget ut "
+	    		+ "LEFT JOIN tblUser u ON u.userid = ut.userid "	    		
+	    		+ "WHERE ut.period='"+period+"' "
+	    		+ "AND ut.userid="+userid;
+	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<UserTarget>() {
+	 
+	        @Override
+	        public UserTarget extractData(ResultSet rs) throws SQLException,
+	                DataAccessException {
+	            if (rs.next()) {
+	                UserTarget userTarget = new UserTarget();
+	                userTarget.settargetid(rs.getInt("targetid"));
+	                userTarget.setuserid(rs.getInt("userid"));
+	                userTarget.setusername(rs.getString("username"));	                
+	                userTarget.setperiod(rs.getDate("period"));
+	                userTarget.setdisplayperiod(rs.getString("displayperiod"));
+	                userTarget.setteamtargetid(rs.getInt("teamtargetid"));
+	                userTarget.setprospect(rs.getInt("prospect"));
+	                userTarget.settestdrive(rs.getInt("testdrive"));
+	                userTarget.setclosed(rs.getInt("closed"));
+	                return userTarget;
+	            }	 
+	            return null;
+	        }
+        });
+    }
+
+    public List<UserTarget> list(Date period, int teamid) {
+	    String sql = "SELECT ut.targetid targetid, ut.userid userid, up.username username, "
+	    		+ "ut.period period, CONVERT(varchar(7), ut.period, 111) displayperiod, "
+	    		+ "ut.teamtargetid teamtargetid, ut.prospect prospect, "
+	    		+ "ut.testdrive testdrive, ut.closed closed "
+	    		+ "FROM tblUserTarget ut "
+	    		+ "LEFT JOIN tblUserProfile up ON up.userid = ut.userid "	    		
+        		+ "WHERE ut.period = '"+period+"' "
+        		+ "AND up.teamid ="+teamid;
+        UserTargetMapper mapper = new UserTargetMapper();
+        List<UserTarget> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }
+
+    public List<UserTarget> listByUser(int userid) {
+	    String sql = "SELECT ut.targetid targetid, ut.userid userid, up.username username, "
+	    		+ "ut.period period, CONVERT(varchar(7), ut.period, 111) displayperiod, "
+	    		+ "ut.teamtargetid teamtargetid, ut.prospect prospect, "
+	    		+ "ut.testdrive testdrive, ut.closed closed "
+	    		+ "FROM tblUserTarget ut "
+	    		+ "LEFT JOIN tblUserProfile up ON up.userid = ut.userid "	    		
+        		+ "WHERE ut.userid ="+userid+" "
+        		+ "AND ut.period > dateadd(m,-2,getdate()) ";
         UserTargetMapper mapper = new UserTargetMapper();
         List<UserTarget> list = this.getJdbcTemplate().query(sql, mapper);
         return list;

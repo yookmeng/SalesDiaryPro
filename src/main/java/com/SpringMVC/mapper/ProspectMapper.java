@@ -11,7 +11,8 @@ public class ProspectMapper implements RowMapper<Prospect> {
     @Override
     public Prospect mapRow(ResultSet rs, int rowNum) throws SQLException { 
         int prospectid = rs.getInt("prospectid");
-        String prospectname = rs.getString("prospectname");
+        String firstname = rs.getString("firstname");
+        String lastname = rs.getString("lastname");
         int userid = rs.getInt("userid");
         String source = rs.getString("source");
         String haddress = rs.getString("haddress");
@@ -29,12 +30,13 @@ public class ProspectMapper implements RowMapper<Prospect> {
         String wtelno = rs.getString("wtelno");
         String occupation = rs.getString("occupation");
         int age = rs.getInt("age");
+        String gender = rs.getString("gender");
         String income = rs.getString("income");
         String email = rs.getString("email");
         
-        return new Prospect(prospectid, prospectname, userid, source, 
+        return new Prospect(prospectid, firstname, lastname, userid, source, 
         		haddress, hzipcode, hcity, hstate, hcountry, mobile, htelno, 
         		waddress, wzipcode, wcity, wstate, wcountry, wtelno, 
-        		occupation, age, income, email);
+        		occupation, age, gender, income, email);
     } 
 }

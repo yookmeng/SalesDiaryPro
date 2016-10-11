@@ -13,11 +13,15 @@ public class TeamTargetMapper implements RowMapper<TeamTarget> {
     public TeamTarget mapRow(ResultSet rs, int rowNum) throws SQLException { 
         int targetid = rs.getInt("targetid");
         int teamid = rs.getInt("teamid");
+        String teamname = rs.getString("teamname");
         Date period = rs.getDate("period");
+        String displayperiod = rs.getString("displayperiod");
+        int branchtargetid = rs.getInt("branchtargetid");
         int prospect = rs.getInt("prospect");
-        int sales = rs.getInt("sales");
-        float totalsales = rs.getFloat("totalsales");
+        int testdrive = rs.getInt("testdrive");
+        int closed = rs.getInt("closed");
         
-        return new TeamTarget(targetid, teamid, period, prospect, sales, totalsales);
+        return new TeamTarget(targetid, teamid, teamname, period, 
+        		displayperiod, branchtargetid, prospect, testdrive, closed);
     }
 }

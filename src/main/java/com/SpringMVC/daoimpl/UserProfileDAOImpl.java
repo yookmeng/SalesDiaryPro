@@ -85,8 +85,8 @@ public class UserProfileDAOImpl extends JdbcDaoSupport implements UserProfileDAO
     }
     
     @Override
-    public List<String> userList() {
-        String sql = "SELECT username FROM tblUserProfile";
+    public List<String> userList(int teamid) {
+        String sql = "SELECT username FROM tblUserProfile WHERE teamid="+teamid;
         List<String> list = this.getJdbcTemplate().queryForList(sql, String.class);
         return list;
     }
@@ -118,4 +118,12 @@ public class UserProfileDAOImpl extends JdbcDaoSupport implements UserProfileDAO
 	        }
         });
     }
+
+    @Override
+    public int getCompanyID(String username) {
+        String sql = "EXEC spGetCompanyID ? ";
+        int companyid = (int)getJdbcTemplate().queryForObject(sql, new Object[] {username}, int.class);
+        return companyid;
+    }
+
 }

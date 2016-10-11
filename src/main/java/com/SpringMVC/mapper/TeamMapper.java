@@ -13,8 +13,9 @@ public class TeamMapper implements RowMapper<Team> {
         int teamid = rs.getInt("teamid");
         String teamname = rs.getString("teamname");
         int branchid = rs.getInt("branchid");
-        String pic = rs.getString("pic");
+        int leaderid = rs.getInt("leaderid");
+        String leadername = rs.getString("leadername");
         
-        return new Team(teamid, teamname, branchid, pic);
+        return new Team(teamid, teamname, branchid, leaderid, leadername);
     }
 }

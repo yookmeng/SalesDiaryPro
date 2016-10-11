@@ -14,7 +14,11 @@ public interface BranchDAO {
      
     public Branch get(int branchid);
      
+    public Branch getByName(String branchname);
+
+    public Branch getByMA(int maid);
+
     public List<Branch> list(int companyid);
     
-    public List<String> branchList();
+    public List<String> branchList(int companyid);
 }

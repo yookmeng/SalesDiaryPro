@@ -52,4 +52,24 @@ public class UserLogin {
     public void setcompanyid(int companyid) {
         this.companyid = companyid;
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        UserLogin other = (UserLogin) obj;
+        if (userid != other.userid)
+            return false;
+        return true;
+    }
+ 
+    @Override
+    public String toString() {
+        return "UserLogin [userid=" + userid + ", username=" + username + ", password=" + password
+                + ", role=" + role + ", companyid=" + companyid + "]";
+    }    
 }

@@ -25,31 +25,37 @@ public class TeamTargetDAOImpl extends JdbcDaoSupport implements TeamTargetDAO {
     }
 	
     public void saveOrUpdate(TeamTarget teamTarget) {
-        if (teamTarget.getteamid() > 0)  {
+        if (teamTarget.gettargetid() > 0)  {
             // update
-            String sql = "UPDATE tblTeamTarget SET prospect=?, sales=?, totalsales=? "
+            String sql = "UPDATE tblTeamTarget SET prospect=?, testdrive=?, closed=? "
             		+ "WHERE teamid=? AND period=?";
             this.getJdbcTemplate().update(sql, 
-            		teamTarget.getprospect(), teamTarget.getsales(), teamTarget.gettotalsales(), 
+            		teamTarget.getprospect(), teamTarget.gettestdrive(), teamTarget.getclosed(), 
             		teamTarget.getteamid(), teamTarget.getperiod());
         } else {
             // insert
             String sql = "INSERT INTO tblTeamTarget "
-            		+ "(teamid, period, prospect, sales, totalsales) "
-            		+ "VALUES (?, ?, ?, ?, ?)";
+            		+ "(teamid, period, branchtargetid, prospect, testdrive, closed) "
+            		+ "VALUES (?, ?, ?, ?, ?, ?)";
             this.getJdbcTemplate().update(sql, 
-            		teamTarget.getteamid(), teamTarget.getperiod(), teamTarget.getprospect(),
-            		teamTarget.getsales(), teamTarget.gettotalsales());
+            		teamTarget.getteamid(), teamTarget.getperiod(), teamTarget.getbranchtargetid(), 
+            		teamTarget.getprospect(), teamTarget.gettestdrive(), teamTarget.getclosed());
             }
     }
     
-    public void delete(int teamid, Date period) {
-        String sql = "DELETE FROM tblTeamTarget WHERE teamid=? AND period=?";
-        this.getJdbcTemplate().update(sql, teamid, period);
+    public void delete(int targetid) {
+        String sql = "DELETE FROM tblTeamTarget WHERE targetid=?";
+        this.getJdbcTemplate().update(sql, targetid);
     }
     
-    public TeamTarget get(int teamid, Date period) {
-	    String sql = "SELECT * FROM tblTeamTarget WHERE teamid="+teamid+" AND period='"+period+"'";
+    public TeamTarget get(int targetid) {
+	    String sql = "SELECT tt.targetid targetid, tt.teamid teamid, t.teamname teamname, "
+	    		+ "tt.period period, CONVERT(varchar(7), tt.period, 111) displayperiod, "
+	    		+ "tt.branchtargetid branchtargetid, "
+	    		+ "tt.prospect prospect, tt.testdrive testdrive, tt.closed closed "
+	    		+ "FROM tblTeamTarget tt "
+        		+ "LEFT JOIN tblTeam t ON t.teamid = tt.teamid "	    		
+	    		+ "WHERE tt.targetid="+targetid;
 	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<TeamTarget>() {
 	 
 	        @Override
@@ -57,11 +63,15 @@ public class TeamTargetDAOImpl extends JdbcDaoSupport implements TeamTargetDAO {
 	                DataAccessException {
 	            if (rs.next()) {
 	                TeamTarget teamTarget = new TeamTarget();
+	                teamTarget.settargetid(rs.getInt("targetid"));
 	                teamTarget.setteamid(rs.getInt("teamid"));
+	                teamTarget.setteamname(rs.getString("teamname"));
 	                teamTarget.setperiod(rs.getDate("period"));
+	                teamTarget.setdisplayperiod(rs.getString("displayperiod"));
+	                teamTarget.setbranchtargetid(rs.getInt("branchtargetid"));
 	                teamTarget.setprospect(rs.getInt("prospect"));
-	                teamTarget.setsales(rs.getInt("sales"));
-	                teamTarget.settotalsales(rs.getFloat("totalsales"));
+	                teamTarget.settestdrive(rs.getInt("testdrive"));
+	                teamTarget.setclosed(rs.getInt("closed"));
 	                return teamTarget;
 	            }	 
 	            return null;
@@ -69,8 +79,93 @@ public class TeamTargetDAOImpl extends JdbcDaoSupport implements TeamTargetDAO {
         });
     }
 
-    public List<TeamTarget> list(int teamid) {
-        String sql = "SELECT * FROM tblTeamTarget WHERE teamid = " + teamid;
+    public TeamTarget getByPeriod(String period, int teamid) {
+	    String sql = "SELECT tt.targetid targetid, tt.teamid teamid, t.teamname teamname, "
+	    		+ "tt.period period, CONVERT(varchar(7), tt.period, 111) displayperiod, "
+	    		+ "tt.branchtargetid branchtargetid, "
+	    		+ "tt.prospect prospect, tt.testdrive testdrive, tt.closed closed "
+	    		+ "FROM tblTeamTarget tt "
+        		+ "LEFT JOIN tblTeam t ON t.teamid = tt.teamid "	    		
+	    		+ "WHERE tt.period='"+period + "' "
+	    		+ "AND tt.teamid="+teamid;
+	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<TeamTarget>() {
+	 
+	        @Override
+	        public TeamTarget extractData(ResultSet rs) throws SQLException,
+	                DataAccessException {
+	            if (rs.next()) {
+	                TeamTarget teamTarget = new TeamTarget();
+	                teamTarget.settargetid(rs.getInt("targetid"));
+	                teamTarget.setteamid(rs.getInt("teamid"));
+	                teamTarget.setteamname(rs.getString("teamname"));
+	                teamTarget.setperiod(rs.getDate("period"));
+	                teamTarget.setdisplayperiod(rs.getString("displayperiod"));
+	                teamTarget.setbranchtargetid(rs.getInt("branchtargetid"));
+	                teamTarget.setprospect(rs.getInt("prospect"));
+	                teamTarget.settestdrive(rs.getInt("testdrive"));
+	                teamTarget.setclosed(rs.getInt("closed"));
+	                return teamTarget;
+	            }	 
+	            return null;
+	        }
+        });
+    }
+
+    public TeamTarget getByTeam(int teamid) {
+	    String sql = "SELECT tt.targetid targetid, tt.teamid teamid, t.teamname teamname, "
+	    		+ "tt.period period, CONVERT(varchar(7), tt.period, 111) displayperiod, "
+	    		+ "tt.branchtargetid branchtargetid, "
+	    		+ "tt.prospect prospect, tt.testdrive testdrive, tt.closed closed "
+	    		+ "FROM tblTeamTarget tt "
+        		+ "LEFT JOIN tblTeam t ON t.teamid = tt.teamid "	    		
+	    		+ "WHERE tt.teamid="+teamid;
+	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<TeamTarget>() {
+	 
+	        @Override
+	        public TeamTarget extractData(ResultSet rs) throws SQLException,
+	                DataAccessException {
+	            if (rs.next()) {
+	                TeamTarget teamTarget = new TeamTarget();
+	                teamTarget.settargetid(rs.getInt("targetid"));
+	                teamTarget.setteamid(rs.getInt("teamid"));
+	                teamTarget.setteamname(rs.getString("teamname"));
+	                teamTarget.setperiod(rs.getDate("period"));
+	                teamTarget.setdisplayperiod(rs.getString("displayperiod"));
+	                teamTarget.setbranchtargetid(rs.getInt("branchtargetid"));
+	                teamTarget.setprospect(rs.getInt("prospect"));
+	                teamTarget.settestdrive(rs.getInt("testdrive"));
+	                teamTarget.setclosed(rs.getInt("closed"));
+	                return teamTarget;
+	            }	 
+	            return null;
+	        }
+        });
+    }
+
+    public List<TeamTarget> list(Date period, int branchid) {
+	    String sql = "SELECT tt.targetid targetid, tt.teamid teamid, t.teamname teamname, "
+	    		+ "tt.period period, CONVERT(varchar(7), tt.period, 111) displayperiod, "
+	    		+ "tt.branchtargetid branchtargetid, "
+	    		+ "tt.prospect prospect, tt.testdrive testdrive, tt.closed closed "
+	    		+ "FROM tblTeamTarget tt "
+        		+ "LEFT JOIN tblTeam t ON t.teamid = tt.teamid "	    		
+        		+ "WHERE tt.period = '" + period + "' "
+        		+ "AND t.branchid = " + branchid;
+        TeamTargetMapper mapper = new TeamTargetMapper();
+        List<TeamTarget> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }
+
+    public List<TeamTarget> listByTeam(int teamid) {
+	    String sql = "SELECT tt.targetid targetid, tt.teamid teamid, t.teamname teamname, "
+	    		+ "tt.period period, CONVERT(varchar(7), tt.period, 111) displayperiod, "
+	    		+ "tt.branchtargetid branchtargetid, "
+	    		+ "tt.prospect prospect, tt.testdrive testdrive, tt.closed closed "
+	    		+ "FROM tblTeamTarget tt "
+        		+ "LEFT JOIN tblTeam t ON t.teamid = tt.teamid "	    		
+        		+ "WHERE t.teamid = " + teamid + " "
+        		+ "ORDER BY period";
+
         TeamTargetMapper mapper = new TeamTargetMapper();
         List<TeamTarget> list = this.getJdbcTemplate().query(sql, mapper);
         return list;

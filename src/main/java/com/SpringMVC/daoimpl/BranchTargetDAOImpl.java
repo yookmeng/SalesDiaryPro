@@ -1,5 +1,6 @@
 package com.SpringMVC.daoimpl;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -26,19 +27,19 @@ public class BranchTargetDAOImpl extends JdbcDaoSupport implements BranchTargetD
     public void saveOrUpdate(BranchTarget branchTarget) {
         if (branchTarget.gettargetid() > 0)  {
             // update
-            String sql = "UPDATE tblBranchTarget SET prospect=?, sales=?, totalsales=? "
+            String sql = "UPDATE tblBranchTarget SET prospect=?, testdrive=?, closed=? "
             		+ "WHERE targetid=?";
             this.getJdbcTemplate().update(sql, 
-            		branchTarget.getprospect(), branchTarget.getsales(), branchTarget.gettotalsales(), 
+            		branchTarget.getprospect(), branchTarget.gettestdrive(), branchTarget.getclosed(), 
             		branchTarget.gettargetid());
         } else {
             // insert
             String sql = "INSERT INTO tblBranchTarget "
-            		+ "(branchid, period, prospect, sales, totalsales) "
-            		+ "VALUES (?, ?, ?, ?, ?)";
+            		+ "(branchid, period, companytargetid, prospect, testdrive, closed) "
+            		+ "VALUES (?, ?, ?, ?, ?, ?)";
             this.getJdbcTemplate().update(sql, 
-            		branchTarget.getbranchid(), branchTarget.getperiod(), branchTarget.getprospect(),
-            		branchTarget.getsales(), branchTarget.gettotalsales());
+            		branchTarget.getbranchid(), branchTarget.getperiod(), branchTarget.getcompanytargetid(), 
+            		branchTarget.getprospect(), branchTarget.gettestdrive(), branchTarget.getclosed());
             }
     }
     
@@ -48,7 +49,13 @@ public class BranchTargetDAOImpl extends JdbcDaoSupport implements BranchTargetD
     }
     
     public BranchTarget get(int targetid) {
-	    String sql = "SELECT * FROM tblBranchTarget WHERE targetid="+targetid;
+	    String sql = "SELECT bt.targetid targetid, bt.branchid branchid, b.branchname branchname, "
+        		+ "bt.period period, CONVERT(varchar(7), bt.period, 111) displayperiod, "
+        		+ "bt.companytargetid companytargetid, bt.prospect prospect, "
+        		+ "bt.testdrive testdrive, bt.closed closed "
+	    		+ "FROM tblBranchTarget bt "
+        		+ "LEFT JOIN tblBranch b ON b.branchid = bt.branchid "
+	    		+ "WHERE targetid="+targetid;
 	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<BranchTarget>() {
 	 
 	        @Override
@@ -58,10 +65,13 @@ public class BranchTargetDAOImpl extends JdbcDaoSupport implements BranchTargetD
 	                BranchTarget branchTarget = new BranchTarget();
 	                branchTarget.settargetid(rs.getInt("targetid"));
 	                branchTarget.setbranchid(rs.getInt("branchid"));
+	                branchTarget.setbranchname(rs.getString("branchname"));
+	                branchTarget.setcompanytargetid(rs.getInt("companytargetid"));
 	                branchTarget.setperiod(rs.getDate("period"));
+	                branchTarget.setdisplayperiod(rs.getString("displayperiod"));
 	                branchTarget.setprospect(rs.getInt("prospect"));
-	                branchTarget.setsales(rs.getInt("sales"));
-	                branchTarget.settotalsales(rs.getFloat("totalsales"));
+	                branchTarget.settestdrive(rs.getInt("testdrive"));
+	                branchTarget.setclosed(rs.getInt("closed"));
 	                return branchTarget;
 	            }	 
 	            return null;
@@ -69,8 +79,30 @@ public class BranchTargetDAOImpl extends JdbcDaoSupport implements BranchTargetD
         });
     }
 
-    public List<BranchTarget> list(int branchid) {
-        String sql = "SELECT * FROM tblBranchTarget WHERE branchid = " + branchid;
+    public List<BranchTarget> list(Date period, int companyid) {
+        String sql = "SELECT bt.targetid targetid, bt.branchid branchid, b.branchname branchname, "
+        		+ "bt.period period, CONVERT(varchar(7), bt.period, 111) displayperiod, "
+        		+ "bt.companytargetid companytargetid, bt.prospect prospect, "
+        		+ "bt.testdrive testdrive, bt.closed closed "
+        		+ "FROM tblBranchTarget bt "
+        		+ "LEFT JOIN tblBranch b ON b.branchid = bt.branchid "
+        		+ "WHERE bt.period = '" + period + "' "
+				+ "AND b.companyid = " + companyid + " "
+				+ "ORDER BY branchid";
+        BranchTargetMapper mapper = new BranchTargetMapper();
+        List<BranchTarget> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }
+
+    public List<BranchTarget> listByBranch(int branchid) {
+        String sql = "SELECT bt.targetid targetid, bt.branchid branchid, b.branchname branchname, "
+        		+ "bt.period period, CONVERT(varchar(7), bt.period, 111) displayperiod, "
+        		+ "bt.companytargetid companytargetid, bt.prospect prospect, "
+        		+ "bt.testdrive testdrive, bt.closed closed "
+        		+ "FROM tblBranchTarget bt "
+        		+ "LEFT JOIN tblBranch b ON b.branchid = bt.branchid "
+        		+ "WHERE bt.branchid = " + branchid + " "
+        		+ "ORDER BY period";
         BranchTargetMapper mapper = new BranchTargetMapper();
         List<BranchTarget> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
