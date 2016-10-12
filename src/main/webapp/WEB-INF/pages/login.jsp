@@ -1,20 +1,9 @@
+<!DOCTYPE HTML>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
-	<link rel="stylesheet" href="resources/css/bootstrap.min.css">
-	<link rel="stylesheet" href="resources/css/plugins/icheck/all.css">
-	<link rel="stylesheet" href="resources/css/style.css">
-	<link rel="stylesheet" href="resources/css/themes.css">
-
-	<script src="resources/js/jquery.min.js"></script>
-	<script src="resources/js/plugins/nicescroll/jquery.nicescroll.min.js"></script>
-	<script src="resources/js/plugins/validation/jquery.validate.min.js"></script>
-	<script src="resources/js/plugins/validation/additional-methods.min.js"></script>
-	<script src="resources/js/plugins/icheck/jquery.icheck.min.js"></script>
-	<script src="resources/js/bootstrap.min.js"></script>
-	<script src="resources/js/eakroko.js"></script>		
+<jsp:include page="_menu.jsp" />
 </head>
-
 <body class='login'>
 <div class="wrapper">
 	<div class="login-body">

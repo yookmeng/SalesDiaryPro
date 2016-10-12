@@ -54,7 +54,8 @@ public class RequestDAOImpl extends JdbcDaoSupport implements RequestDAO {
         		+ "FROM tblRequest r "
         		+ "LEFT JOIN tblBrand b ON b.brandid = r.brandid "
         		+ "LEFT JOIN tblModel m ON m.modelid = r.modelid "
-        		+ "WHERE prospectid = " + prospectid;
+        		+ "WHERE prospectid = " + prospectid + " "
+        		+ "ORDER BY r.requestdate ";
         RequestMapper mapper = new RequestMapper();
         List<Request> list = this.getJdbcTemplate().query(sql, mapper);
         return list;

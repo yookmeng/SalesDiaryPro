@@ -1,9 +1,36 @@
 <div id="navigation">
 	<div class="container-fluid">
-		<a onclick="toggle_visibility()" class="toggle-nav" rel="tooltip" data-placement="bottom" title="Toggle navigation">
+		<a href="#" id="brand">Sales Diary Pro</a>
+		<a class="toggle-nav" rel="tooltip" data-placement="bottom" title="Toggle navigation">
 			<i class="fa fa-bars"></i>
 		</a>
-		<a href="#" id="brand">Sales Diary Pro</a>
+		<ul class='main-nav'>
+			<li>
+				<a href="home">
+					<span>Home</span>
+				</a>
+			</li>
+			<li>
+				<a href="listTeamTargetUser">
+					<span>Target</span>
+				</a>
+			</li>
+			<li>
+				<a href="calendar">
+					<span>Calendar</span>
+				</a>
+			</li>
+			<li>
+				<a href="listProspect">
+					<span>Prospect</span>
+				</a>
+			</li>
+			<li>
+				<a href="listContact">
+					<span>Contact</span>
+				</a>
+			</li>
+		</ul>
 		<div class="user">
 			<div class="dropdown">
 				<a href="#" class='dropdown-toggle' data-toggle="dropdown">${pageContext.request.userPrincipal.name}
@@ -21,17 +48,3 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript">
-	function toggle_visibility() {
-		var c = document.getElementById("content");
-		var m = document.getElementById("main");
-		if(c.style.display == 'block'){
-			c.style.display = 'none';
- 			m.style.display = 'inline';    	   
-		}
-		else {
-			c.style.display = 'block';
-			m.style.display = 'inline';    	   
-       }
-   }
-</script>

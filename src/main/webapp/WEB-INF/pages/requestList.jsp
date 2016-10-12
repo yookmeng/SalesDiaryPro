@@ -1,30 +1,13 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
- 
+<!DOCTYPE HTML>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 <html>
 <jsp:include page="_menu.jsp" />
 <body>
 	<jsp:include page="_userNavigation.jsp" />
-	<div class="container-fluid" id="content">
-		<jsp:include page="_userSideBar.jsp" />	
-		<div id="main">
+	<div id="main">
 		<div class="container-fluid">
-		    <input type="hidden" value="userid" name="userid" /> 
+		    <input type="hidden" value="userProfile" name="userProfile" /> 
 		    <input type="hidden" value="prospect" name="prospect" /> 
-			<div class="page-header">
-				<div>
-					<ul>
-						<li  class="pull-left">
-							<div>
-								<h3>${prospect.firstname} ${prospect.lastname}</h3>
-								<a href="editProspect?prospectid=${prospect.prospectid}">Edit</a>
-							</div>
-						</li>
-					</ul>			
-				</div>
-			</div>    
 			<div class="breadcrumbs">
 				<ul>
 					<li>
@@ -36,47 +19,39 @@
 						<i class="fa fa-angle-right"></i>
 					</li>
 					<li>
-						<a href="listRequest?userid=${userid}&prospectid=${prospect.prospectid}">Request</a>
+						<a href="listRequest?prospectid=${prospect.prospectid}">Request</a>
 					</li>
 				</ul>
-				<div class="close-bread">
-					<a href="#">
-						<i class="fa fa-times"></i>
-					</a>
-				</div>
+			</div>
+			<div>
+				<h4>${prospect.firstname} ${prospect.lastname}</h4>
 			</div>
 		    <div align="center">
-	        	<h5><a href="addRequest?prospectid=${prospect.prospectid}">New Request</a></h5>
-	            <div class="row">
-	                <c:forEach var="Request" items="${listRequest}" varStatus="status">            		
-					<div class="col-sm-4">
-						<div class="box box-color box-bordered blue">
-							<div class="box-title">
-								<h3>
-									<i class="fa fa-file"></i>
-									${Request.requestdate}
-								</h3>
-								<div class="actions">
-									<a href="editRequest?requestid=${Request.requestid}" class="btn btn-mini content-edit">
-										<i class="fa fa-edit"></i>
-									</a>
-									<a href="#" class="btn btn-mini content-slideUp">
-										<i class="fa fa-angle-down"></i>
-									</a>
-								</div>
-							</div>
-							<div class="box-content">
-								<div>Brand  : ${Request.brandname} ${Request.modelname}</div>
-								<div>Remark : ${Request.remark}</div>
-								<div>${Request.status}</div>
-							</div>
-						</div>
-					</div>
-	                </c:forEach>             
-	            </div>
+	        	<h5><a href="addRequest?prospectid=${prospect.prospectid}">Add New</a></h5>
+				<div class="box-content nopadding">
+					<table class="table table-hover table-nomargin table-colored-header">
+					<tr>
+					    <th>Request Date</th>
+					    <th>Model</th>
+					    <th>Status</th>
+					    <th>Action</th>
+					</tr>
+					<c:forEach var="request" items="${listRequest}" varStatus="status">
+						<tr>
+						    <td>${request.requestdate}</td>
+							<td>${request.modelname}</td>
+							<td>${request.status}</td>
+							<td>
+							    <a href="editRequest?requestid=${request.requestid}">Edit</a>
+								&nbsp;&nbsp;&nbsp;&nbsp;					    
+								<a href="deleteRequest?requestid=${request.requestid}">Delete</a>
+						    </td>		                 
+						</tr>
+					</c:forEach>             
+					</table>
+				</div>
 			</div>
 		</div>
-	</div>
 	</div>
 </body>
 </html>

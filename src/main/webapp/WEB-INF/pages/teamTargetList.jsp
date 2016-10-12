@@ -50,7 +50,7 @@
 	                    <td>
 	                        <a href="editTeamTarget?targetid=${teamTarget.targetid}">Edit</a>
 	                        &nbsp;&nbsp;&nbsp;&nbsp;
-	                        <a href="deleteTeamTarget?targetid=${TeamTarget.targetid}">Delete</a>
+	                        <a href="deleteTeamTarget?targetid=${teamTarget.targetid}">Delete</a>
 	                    </td>
 	                </tr>
                 </c:forEach>             

@@ -13,6 +13,7 @@ public class Activity {
     private boolean demo;
     private boolean testdrive;
     private boolean quotation;
+    private boolean linkevent;
     private String remark1;
     private String remark2;
     private String remark3;
@@ -22,7 +23,8 @@ public class Activity {
  
     public Activity(int activityid, int prospectid, Date activitydate, 
     		int brandid, String brandname, int modelid, String modelname, 
-    		boolean demo, boolean testdrive, boolean quotation, String remark1, String remark2, String remark3) {
+    		boolean demo, boolean testdrive, boolean quotation, boolean linkevent, 
+    		String remark1, String remark2, String remark3) {
         this.activityid = activityid;
         this.prospectid = prospectid;
         this.activitydate = activitydate;
@@ -33,6 +35,7 @@ public class Activity {
         this.demo = demo;
         this.testdrive = testdrive;
         this.quotation = quotation;
+        this.linkevent = linkevent;
         this.remark1 = remark1;
         this.remark2 = remark2;
         this.remark3 = remark3;
@@ -106,6 +109,13 @@ public class Activity {
     }  
     public void setquotation(boolean quotation) {
         this.quotation = quotation;
+    }
+
+    public boolean getlinkevent() {
+        return linkevent;
+    }  
+    public void setlinkevent(boolean linkevent) {
+        this.linkevent = linkevent;
     }
 
     public String getremark1() {

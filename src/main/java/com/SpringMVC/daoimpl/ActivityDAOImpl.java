@@ -24,44 +24,39 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
     }
 	
     public void saveOrUpdate(Activity activity) {
-        if (activity.getactivityid() > 0)  {
-            // update
-            String sql = "UPDATE tblActivity SET activitydate=?, brandid=?, modelid=?, "
-            		+ "demo=?, testdrive=?, quotation=?, remark1=?, remark2=?, remark3=? "
-            		+ "WHERE activityid=?";
-            this.getJdbcTemplate().update(sql, activity.getactivitydate(), 
+    	String option = "";
+    	if (activity.getactivityid() > 0) {
+    		option = "1";
+    	}
+    	else {
+    		option = "0";
+    	}
+    			
+    	String sql = "EXEC spActivityInsUpdDel ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?";
+        this.getJdbcTemplate().update(sql, option,
+        			activity.getactivityid(), activity.getprospectid(), activity.getactivitydate(), 
             		activity.getbrandid(), activity.getmodelid(), 
             		activity.getdemo(), activity.gettestdrive(), activity.getquotation(), 
-            		activity.getremark1(), activity.getremark2(), activity.getremark3(), 
-            		activity.getactivityid());
-        } else {
-            // insert
-            String sql = "INSERT INTO tblActivity "
-            		+ "(prospectid, activitydate, brandid, modelid, "
-            		+ "demo, testdrive, quotation, remark1, remark2, remark3) "
-            		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            this.getJdbcTemplate().update(sql, 
-            		activity.getprospectid(), activity.getactivitydate(), 
-            		activity.getbrandid(), activity.getmodelid(), 
-            		activity.getdemo(), activity.gettestdrive(), activity.getquotation(), 
+            		activity.getlinkevent(), 
             		activity.getremark1(), activity.getremark2(), activity.getremark3());
-            }
     }
     
     public void delete(int activityid) {
-        String sql = "DELETE FROM tblActivity WHERE activityid=?";
-        this.getJdbcTemplate().update(sql, activityid);
+    	String sql = "EXEC spActivityInsUpdDel ?, ?";
+        this.getJdbcTemplate().update(sql, "2", activityid);
     }
     
     public List<Activity> list(int prospectid) {
         String sql = "SELECT a.activityid activityid, a.prospectid prospectid, a.activitydate activitydate, "
-        		+ "a.brandid brandid, a.modelid modelid, a.demo demo, a.testdrive testdrive, a.quotation quotation, "
+        		+ "a.brandid brandid, a.modelid modelid, a.demo demo, a.testdrive testdrive, "
+        		+ "a.quotation quotation, a.linkevent linkevent, "
         		+ "b.brandname brandname, m.modelname modelname, "
         		+ "a.remark1 remark1, a.remark2 remark2, a.remark3 remark3 "
         		+ "FROM tblActivity a "
         		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
         		+ "LEFT JOIN tblModel m ON m.modelid = a.modelid "
-        		+ "WHERE a.prospectid = " + prospectid;
+        		+ "WHERE a.prospectid = " + prospectid + " "
+        		+ "ORDER BY a.activitydate ";
         ActivityMapper mapper = new ActivityMapper();
         List<Activity> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
@@ -69,7 +64,8 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 
     public Activity get(int activityid) {
 	    String sql = "SELECT a.activityid activityid, a.prospectid prospectid, a.activitydate activitydate, "
-        		+ "a.brandid brandid, a.modelid modelid, a.demo demo, a.testdrive testdrive, a.quotation quotation, "
+        		+ "a.brandid brandid, a.modelid modelid, a.demo demo, a.testdrive testdrive, "
+        		+ "a.quotation quotation, a.linkevent linkevent, "
         		+ "b.brandname brandname, m.modelname modelname, "
         		+ "a.remark1 remark1, a.remark2 remark2, a.remark3 remark3 "
         		+ "FROM tblActivity a "
@@ -93,6 +89,7 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 	                activity.setdemo(rs.getBoolean("demo"));
 	                activity.settestdrive(rs.getBoolean("testdrive"));
 	                activity.setquotation(rs.getBoolean("quotation"));
+	                activity.setlinkevent(rs.getBoolean("linkevent"));
 	                activity.setremark1(rs.getString("remark1"));
 	                activity.setremark2(rs.getString("remark2"));
 	                activity.setremark3(rs.getString("remark3"));

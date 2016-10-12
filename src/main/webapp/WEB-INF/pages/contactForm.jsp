@@ -1,13 +1,21 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<!DOCTYPE HTML>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-    "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <jsp:include page="_menu.jsp" />
 <body>
-<div id="main">
-	<div class="container-fluid">
+	<jsp:include page="_userNavigation.jsp" />
+	<div id="main">
+		<div class="breadcrumbs">
+			<ul>
+				<li>
+					<a href="home">Home</a>
+					<i class="fa fa-angle-right"></i>
+				</li>
+				<li>
+					<a href="listContact">Contact</a>
+				</li>
+			</ul>
+		</div>		
 		<div class="row">
 			<div class="span12">
 				<div class="box">
@@ -118,9 +126,8 @@
 								</div>
 							</div>
 							<div align="center" class="form-actions">
-					            <input type="reset" class="btn" onclick="self.close()" value="Close" >
-					            <input type="button" class="btn" onclick="deleteContact(${contact.contactid})" value="Delete" >
-								<input type="submit" class="btn btn-primary" value="Update">
+								<input type="reset" class="btn" onclick="location.href='listContact'" value="Back" id="back">
+								<input type="submit" class="btn btn-primary" value="Save">
 							</div>
 						</form:form>
 					</div>
@@ -128,26 +135,5 @@
 			</div>
 		</div>
 	</div>
-</div>
-<script>
-$(document).ready(function() {
-    function deleteContact(contactid) {
-    	jQuery.ajax({
-            type: "DELETE",
-            url: "http://localhost:8080/SalesDiaryPro/contact/delete/"+contactid,
-            contentType: "application/json; charset=utf-8",
-            data: "",
-            dataType: "",
-            success: function (data, status, jqXHR) {
-            	window.close();
-            },
-        
-            error: function (jqXHR, status) {
-                alert("delete failed!");
-            }
-        });	
-    }
-})
-</script>
 </body>
 </html>
