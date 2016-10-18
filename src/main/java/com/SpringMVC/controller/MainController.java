@@ -31,36 +31,40 @@ public class MainController {
     @Autowired
     private UserMonthlySummaryDAO userMonthlySummaryDAO;
 
+    private enum Roles {
+        USER, SA, MD, MA;
+    }
+    
     @RequestMapping(value = { "/", "/login" }, method = RequestMethod.GET)
-   public String loginPage(Model model) {
+	public String loginPage(Model model) {
        return "login";
-   }
+	}
    
-   @RequestMapping(value = "/logoutSuccessful", method = RequestMethod.GET)
-   public String logoutSuccessfulPage(Model model) {
+	@RequestMapping(value = "/logoutSuccessful", method = RequestMethod.GET)
+	public String logoutSuccessfulPage(Model model) {
        model.addAttribute("title", "Logout");
        return "logoutSuccessful";
-   }
+	}
  
-   @RequestMapping(value = "/home", method = RequestMethod.GET)
-   public String home(Model model, Principal principal) {
+	@RequestMapping(value = "/home", method = RequestMethod.GET)
+	public String home(Model model, Principal principal) {
 	   model.addAttribute("username", principal.getName());
 	   UserLogin userLogin = userLoginDAO.findUserLogin(principal.getName());
 	   model.addAttribute("role", userLogin.getrole());
-	   model.addAttribute("companyid", userLogin.getcompanyid());
-       switch (userLogin.getrole()){
-       case "USER":
+	   Roles role = Roles.valueOf(userLogin.getrole()); 
+       switch (role){
+       case USER:
     	   DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     	   Calendar c = Calendar.getInstance(); 
     	   String period = dateFormat.format(c.getTime());
     	   UserMonthlySummary userMonthlySummary = userMonthlySummaryDAO.get(period, userLogin.getuserid());
     	   model.addAttribute("userMonthlySummary", userMonthlySummary);    	   
-           return "userDashBoard";    	   
-       case "MA":
+    	   return "userDashBoard";    	   
+       case MA:
            return "maDashBoard";    	   
-       case "MD":
+       case MD:
            return "mdDashBoard";    	   
-       case "SA":
+       case SA:
            return "saDashBoard";    	   
        default:
            return "home";

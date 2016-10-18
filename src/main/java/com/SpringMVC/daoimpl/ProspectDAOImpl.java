@@ -23,40 +23,38 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         this.setDataSource(dataSource);
     }
 	
-    public void saveOrUpdate(Prospect prospect) {
-        if (prospect.getprospectid() > 0)  {
-            // update
-            String sql = "UPDATE tblProspect SET firstname=?, lastname=?, source=?, "
-            		+ "haddress=?, hzipcode=?, hcity=?, hstate=?, hcountry=?, mobile=?, htelno=?, "
-            		+ "waddress=?, wzipcode=?, wcity=?, wstate=?, wcountry=?, wtelno=?, "
-            		+ "occupation=?, age=?, gender=?, income=?, email=? WHERE prospectid=?";
-            this.getJdbcTemplate().update(sql, 
-            		prospect.getfirstname(), prospect.getlastname(), prospect.getsource(), 
-            		prospect.gethaddress(), prospect.gethzipcode(), prospect.gethcity(), 
-            		prospect.gethstate(), prospect.gethcountry(), prospect.getmobile(), prospect.gethtelno(), 
-            		prospect.getwaddress(), prospect.getwzipcode(), prospect.getwcity(), 
-            		prospect.getwstate(), prospect.getwcountry(), prospect.getwtelno(), 
-            		prospect.getoccupation(), prospect.getage(), prospect.getgender(), 
-            		prospect.getincome(), prospect.getemail(), prospect.getprospectid());
-        } else {
-            // insert
-            String sql = "INSERT INTO tblProspect "
-            		+ "(firstname, lastname, userid, source, "
-            		+ "haddress, hzipcode, hcity, hstate, hcountry, mobile, htelno, "
-            		+ "waddress, wzipcode, wcity, wstate, wcountry, wtelno, "
-            		+ "occupation, age, gender, income, email) "
-            		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            this.getJdbcTemplate().update(sql, 
-            		prospect.getfirstname(), prospect.getlastname(), prospect.getuserid(), prospect.getsource(), 
-            		prospect.gethaddress(), prospect.gethzipcode(), prospect.gethcity(), 
-            		prospect.gethstate(), prospect.gethcountry(), prospect.getmobile(), prospect.gethtelno(), 
-            		prospect.getwaddress(), prospect.getwzipcode(), prospect.getwcity(), 
-            		prospect.getwstate(), prospect.getwcountry(), prospect.getwtelno(), 
-            		prospect.getoccupation(), prospect.getage(), prospect.getgender(), 
-            		prospect.getincome(), prospect.getemail());
-            }
+    public void save(Prospect prospect) {
+        String sql = "INSERT INTO tblProspect "
+        		+ "(firstname, lastname, userid, source, "
+        		+ "haddress, hzipcode, hcity, hstate, hcountry, mobile, htelno, "
+        		+ "waddress, wzipcode, wcity, wstate, wcountry, wtelno, "
+        		+ "occupation, age, gender, income, email) "
+        		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        this.getJdbcTemplate().update(sql, 
+        		prospect.getfirstname(), prospect.getlastname(), prospect.getuserid(), prospect.getsource(), 
+        		prospect.gethaddress(), prospect.gethzipcode(), prospect.gethcity(), 
+        		prospect.gethstate(), prospect.gethcountry(), prospect.getmobile(), prospect.gethtelno(), 
+        		prospect.getwaddress(), prospect.getwzipcode(), prospect.getwcity(), 
+        		prospect.getwstate(), prospect.getwcountry(), prospect.getwtelno(), 
+        		prospect.getoccupation(), prospect.getage(), prospect.getgender(), 
+        		prospect.getincome(), prospect.getemail());
     }
     
+    public void update(Prospect prospect) {
+        String sql = "UPDATE tblProspect SET firstname=?, lastname=?, source=?, "
+        		+ "haddress=?, hzipcode=?, hcity=?, hstate=?, hcountry=?, mobile=?, htelno=?, "
+        		+ "waddress=?, wzipcode=?, wcity=?, wstate=?, wcountry=?, wtelno=?, "
+        		+ "occupation=?, age=?, gender=?, income=?, email=? WHERE prospectid=?";
+        this.getJdbcTemplate().update(sql, 
+        		prospect.getfirstname(), prospect.getlastname(), prospect.getsource(), 
+        		prospect.gethaddress(), prospect.gethzipcode(), prospect.gethcity(), 
+        		prospect.gethstate(), prospect.gethcountry(), prospect.getmobile(), prospect.gethtelno(), 
+        		prospect.getwaddress(), prospect.getwzipcode(), prospect.getwcity(), 
+        		prospect.getwstate(), prospect.getwcountry(), prospect.getwtelno(), 
+        		prospect.getoccupation(), prospect.getage(), prospect.getgender(), 
+        		prospect.getincome(), prospect.getemail(), prospect.getprospectid());
+    }
+
     public void delete(int prospectid) {
         String sql = "DELETE FROM tblProspect WHERE prospectid=?";
         this.getJdbcTemplate().update(sql, prospectid);

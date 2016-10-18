@@ -31,7 +31,7 @@
     		<h5>Closed : ${teamTarget.closed}</h5>    		
         </div>
         <div align="center">
-            <h5><a href="addUserTarget?targetid=${teamTarget.targetid}">New Target</a></h5>
+            <h5><a href="addUserTarget?targetid=${teamTarget.targetid}">Add New</a></h5>
 			<div class="box-content nopadding">
 				<table class="table table-hover table-nomargin table-colored-header">
 	            <tr>
@@ -43,7 +43,7 @@
 	            </tr>
 	                <c:forEach var="userTarget" items="${listTarget}" varStatus="status">
 	                <tr>
-	                    <td>${userTarget.firstname} ${userTarget.lastname}</td>
+	                    <td>${userTarget.username}</td>
 	                    <td><fmt:formatNumber value="${userTarget.prospect}"/></td>
 	                    <td><fmt:formatNumber value="${userTarget.testdrive}"/></td>
 	                    <td><fmt:formatNumber value="${userTarget.closed}"/></td>

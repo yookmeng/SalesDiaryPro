@@ -17,6 +17,7 @@
 				</li>
 			</ul>
 		</div>
+		<br><br>
 		<div align="center">
 			<div class="box-content nopadding">
 				<table class="table table-hover table-nomargin table-colored-header">

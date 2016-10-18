@@ -23,25 +23,23 @@ public class RequestDAOImpl extends JdbcDaoSupport implements RequestDAO {
         this.setDataSource(dataSource);
     }
 	
-    public void saveOrUpdate(Request request) {
-        if (request.getrequestid() > 0)  {
-            // update
-            String sql = "UPDATE tblRequest SET requestdate=?, brandid=?, modelid=?, remark=?, status=?  "
-            		+ "WHERE requestid=?";
-            this.getJdbcTemplate().update(sql, request.getrequestdate(), 
-            		request.getbrandid(), request.getmodelid(), request.getremark(), request.getstatus(), 
-            		request.getrequestid());
-        } else {
-            // insert
-            String sql = "INSERT INTO tblRequest "
-            		+ "(prospectid, requestdate, brandid, modelid, remark, status) "
-            		+ "VALUES (?, ?, ?, ?, ?, ?)";
-            this.getJdbcTemplate().update(sql, 
-            		request.getprospectid(), request.getrequestdate(), request.getbrandid(), 
-            		request.getmodelid(), request.getremark(), request.getstatus());
-            }
+    public void save(Request request) {
+        String sql = "INSERT INTO tblRequest "
+        		+ "(prospectid, requestdate, brandid, modelid, remark, status) "
+        		+ "VALUES (?, ?, ?, ?, ?, ?)";
+        this.getJdbcTemplate().update(sql, 
+        		request.getprospectid(), request.getrequestdate(), request.getbrandid(), 
+        		request.getmodelid(), request.getremark(), request.getstatus());
     }
     
+    public void update(Request request) {
+        String sql = "UPDATE tblRequest SET requestdate=?, brandid=?, modelid=?, remark=?, status=?  "
+        		+ "WHERE requestid=?";
+        this.getJdbcTemplate().update(sql, request.getrequestdate(), 
+        		request.getbrandid(), request.getmodelid(), request.getremark(), request.getstatus(), 
+        		request.getrequestid());
+    }
+
     public void delete(int requestid) {
         String sql = "DELETE FROM tblRequest WHERE requestid=?";
         this.getJdbcTemplate().update(sql, requestid);

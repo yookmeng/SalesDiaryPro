@@ -29,18 +29,18 @@ public class ModelDAOImpl extends JdbcDaoSupport implements ModelDAO {
         return brands;
     }
 
-    public void saveOrUpdate(Model model) {
-        if (model.getmodelid() > 0)  {
-            // update
-            String sql = "UPDATE tblModel SET modelname=?, price=? WHERE modelid=?";
-            this.getJdbcTemplate().update(sql, model.getmodelname(), model.getprice(), model.getmodelid());
-        } else {
-            // insert
-            String sql = "INSERT INTO tblModel (brandid, modelname, price) VALUES (?, ?, ?)";
-            this.getJdbcTemplate().update(sql, model.getbrandid(), model.getmodelname(), model.getprice());
-            }
+    public void saveModel(Model model) {
+        // insert
+        String sql = "INSERT INTO tblModel (brandid, modelname, price) VALUES (?, ?, ?)";
+        this.getJdbcTemplate().update(sql, model.getbrandid(), model.getmodelname(), model.getprice());
     }
     
+    public void updateModel(Model model) {
+        // update
+        String sql = "UPDATE tblModel SET modelname=?, price=? WHERE modelid=?";
+        this.getJdbcTemplate().update(sql, model.getmodelname(), model.getprice(), model.getmodelid());
+    }
+
     public void delete(int modelid) {
         String sql = "DELETE FROM tblModel WHERE modelid=?";
         this.getJdbcTemplate().update(sql, modelid);
@@ -92,4 +92,7 @@ public class ModelDAOImpl extends JdbcDaoSupport implements ModelDAO {
 	        }
         });
     }
-}
+
+    public boolean isExist(Model model) {
+        return getByName(model.getmodelname())!=null;
+    }}

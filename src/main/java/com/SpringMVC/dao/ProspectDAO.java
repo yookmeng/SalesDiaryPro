@@ -8,8 +8,10 @@ import com.SpringMVC.model.Prospect;
 @Repository 
 public interface ProspectDAO {
      
-    public void saveOrUpdate(Prospect prospect);
+    public void save(Prospect prospect);
      
+    public void update(Prospect prospect);
+
     public void delete(int prospectid);
      
     public Prospect get(int prospectid);

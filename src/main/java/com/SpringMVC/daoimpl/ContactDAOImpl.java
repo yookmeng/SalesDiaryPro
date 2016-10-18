@@ -98,7 +98,7 @@ public class ContactDAOImpl extends JdbcDaoSupport implements ContactDAO {
 	}
     
     public Contact findByMobile(String mobile) {
-        String sql = "SELECT * FROM tblContact WHERE mobile=" + mobile;
+        String sql = "SELECT * FROM tblContact WHERE mobile='" + mobile + "'";
 	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<Contact>() {
 	 
 	        @Override

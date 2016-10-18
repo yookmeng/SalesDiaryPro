@@ -60,6 +60,9 @@
 	<script src="resources/js/plugins/flot/jquery.flot.min.js"></script>
 	<script src="resources/js/plugins/flot/jquery.flot.resize.min.js"></script>
 
+	<script src="resources/js/jquery.serializejson.min.js"></script>
+
+
 	<script src="resources/js/eakroko.min.js"></script>
 	<script src="resources/js/application.min.js"></script>
 	

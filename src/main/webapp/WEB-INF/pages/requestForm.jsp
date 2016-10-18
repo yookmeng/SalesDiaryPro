@@ -26,7 +26,7 @@
 			<div class="span12">
 				<div class="box">
 					<div class="box-content">
-				        <form:form action="saveRequest" method="post" modelAttribute="request" class='form-horizontal form-wizard'>
+				        <form:form action="" method="post" modelAttribute="request" class='form-horizontal form-wizard'>
 			            <form:hidden path="prospectid"/>        
 			            <form:hidden path="requestid"/>
 						<div class="form-group">
@@ -63,13 +63,73 @@
 						</div>
 						<div class="form-actions">
 							<input type="reset" class="btn" onclick="location.href='listRequest?userid=${userid}&prospectid=${request.prospectid}'" value="Back" id="back">
-							<input type="submit" class="btn btn-primary" value="Save">
+							<input id="btnSave" type="submit" class="btn btn-primary" name="Save" value="Save">
 						</div>
-					</form:form>
+						</form:form>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
+	<script>
+	$('#btnSave').click(function (e) {
+		e.preventDefault(); // <------------------ stop default behaviour of button
+		
+		var requestid = $('#requestid').val(); 
+	    var prospectid = $('#prospectid').val(); 
+	    var requestdate = $('#requestdate').val(); 
+	    var brandid = ""; 
+	    var brandname = $('#brandname').val(); 
+	    var modelid = ""; 
+	    var modelname = $('#modelname').val(); 
+	    var remark = $('#remark').val(); 
+	    var status = $('#status').val(); 
+	
+	    var json = {
+	    		"requestid" : requestid,
+	    		"prospectid" : prospectid,
+	    		"requestdate" : requestdate,
+	    		"brandid" : brandid,
+	    		"brandname" : brandname,
+	    		"modelid" : modelid,
+	    		"modelname" : modelname,
+	    		"remark" : remark,
+	    		"status" : status
+		};
+	    if (json.requestid=="0"){
+	        $.ajax({
+	            url: "http://localhost:8080/SalesDiaryPro/request/create",
+	            type: 'POST',
+	            contentType: "application/json",
+	            dataType: "json",
+	            data: JSON.stringify(json), 
+	            success:function(data, Textstatus, jqXHR){
+	                alert("Record created!");
+	                window.location.href = "/SalesDiaryPro/listRequest?prospectid="+prospectid;
+	            },
+	            error:function(jqXhr, Textstatus){
+	                alert("Create failed!"+status);
+	            }
+	        });    	
+	    }
+	    else {
+	        $.ajax({
+	            url: "http://localhost:8080/SalesDiaryPro/request/update/"+requestid,
+	            type: 'POST',
+	            contentType: "application/json",
+	            dataType: "json",
+	            data: JSON.stringify(json),
+	            success:function(data, Textstatus, jqXHR){
+	                alert("Record updated!");
+	                window.location.href = "/SalesDiaryPro/listRequest?prospectid="+prospectid;
+	            },
+	            error:function(jqXhr, Textstatus){
+	                alert("Update failed!");
+	            }
+	        });
+	    }
+	    return true;
+	})
+	</script>	
 </body>
 </html>

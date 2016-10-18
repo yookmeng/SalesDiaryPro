@@ -42,9 +42,11 @@
 							<td>${activity.modelname}</td>
 							<td>${activity.remark1}</td>
 							<td>
-							    <a href="editActivity?activityid=${activity.activityid}">Edit</a>
-								&nbsp;&nbsp;&nbsp;&nbsp;					    
-								<a href="deleteActivity?activityid=${activity.activityid}">Delete</a>
+								<button class="btn btn-small" onclick="window.location='editActivity?activityid=${activity.activityid}';" >
+							    	<i class="fa fa-edit"></i></button>
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								<button class="btn btn-small" onclick="deleteActivity(${activity.activityid})">
+									<i class="fa fa-trash-o"></i></button>
 						    </td>		                 
 						</tr>
 					</c:forEach>             
@@ -53,5 +55,23 @@
 			</div>
 		</div>
 	</div>		
+	<script>
+	    function deleteActivity(activityid) {
+	    	jQuery.ajax({
+	            type: "DELETE",
+	            url: "http://localhost:8080/SalesDiaryPro/activity/delete/"+activityid,
+	            contentType: "application/json",
+	            data: "",
+	            dataType: "",
+	            success: function (data, status, jqXHR) {
+	                alert("record deleted!");	                
+					location.replace(location);
+	            },	        
+	            error: function (jqXHR, status) {
+	                alert("delete failed!");
+	            }
+	        });	
+	    }
+	</script>	
 </body>
 </html>

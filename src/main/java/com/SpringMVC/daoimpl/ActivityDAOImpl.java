@@ -23,14 +23,8 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
         this.setDataSource(dataSource);
     }
 	
-    public void saveOrUpdate(Activity activity) {
-    	String option = "";
-    	if (activity.getactivityid() > 0) {
-    		option = "1";
-    	}
-    	else {
-    		option = "0";
-    	}
+    public void save(Activity activity) {
+    	String option = "0";
     			
     	String sql = "EXEC spActivityInsUpdDel ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?";
         this.getJdbcTemplate().update(sql, option,
@@ -41,6 +35,18 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
             		activity.getremark1(), activity.getremark2(), activity.getremark3());
     }
     
+    public void update(Activity activity) {
+    	String option = "1";
+    			
+    	String sql = "EXEC spActivityInsUpdDel ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?";
+        this.getJdbcTemplate().update(sql, option,
+        			activity.getactivityid(), activity.getprospectid(), activity.getactivitydate(), 
+            		activity.getbrandid(), activity.getmodelid(), 
+            		activity.getdemo(), activity.gettestdrive(), activity.getquotation(), 
+            		activity.getlinkevent(), 
+            		activity.getremark1(), activity.getremark2(), activity.getremark3());
+    }
+
     public void delete(int activityid) {
     	String sql = "EXEC spActivityInsUpdDel ?, ?";
         this.getJdbcTemplate().update(sql, "2", activityid);

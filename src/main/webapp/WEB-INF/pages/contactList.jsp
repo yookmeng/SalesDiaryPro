@@ -31,8 +31,9 @@
 					    <td>${contact.firstname} ${contact.lastname}</td>
 						<td>${contact.mobile}</td>
 						<td>
-						    <a href="editContact?contactid=${contact.contactid}">Edit</a>
-							&nbsp;&nbsp;&nbsp;&nbsp;					    
+							<button class="btn btn-small" onclick="window.location='editContact?contactid=${contact.contactid}';" >
+								<i class="fa fa-edit"></i></button>
+							&nbsp;&nbsp;&nbsp;&nbsp;
 							<button class="btn btn-small" onclick="deleteContact(${contact.contactid})">
 								<i class="fa fa-trash-o"></i></button>
 					    </td>		                 
@@ -43,22 +44,22 @@
 		</div>
 	</div>
 	<script>
-	    function deleteContact(contactid) {
-	    	jQuery.ajax({
-	            type: "DELETE",
-	            url: "http://localhost:8080/SalesDiaryPro/contact/delete/"+contactid,
-	            contentType: "application/json",
-	            data: "",
-	            dataType: "",
-	            success: function (data, status, jqXHR) {
-	                alert("record deleted!");	                
-					location.replace(location);
-	            },	        
-	            error: function (jqXHR, status) {
-	                alert("delete failed!");
-	            }
-	        });	
-	    }
+    function deleteContact(contactid) {
+    	jQuery.ajax({
+            type: "DELETE",
+            url: "http://localhost:8080/SalesDiaryPro/contact/delete/"+contactid,
+            contentType: "application/json",
+            data: "",
+            dataType: "",
+            success: function (data, status, jqXHR) {
+                alert("record deleted!");	                
+				location.replace(location);
+            },	        
+            error: function (jqXHR, status) {
+                alert("delete failed!");
+            }
+        });	
+    }
 	</script>
 </body>
 </html>

@@ -26,7 +26,7 @@
 			<div class="span12">
 				<div class="box">
 					<div class="box-content">
-				        <form:form action="saveActivity" method="post" modelAttribute="activity" class='form-horizontal form-wizard'>
+				        <form:form action="" method="post" modelAttribute="activity" class='form-horizontal form-wizard'>
 			            <form:hidden path="prospectid"/>        
 			            <form:hidden path="activityid"/>
 					    <input type="hidden" value="userid" name="userid" /> 
@@ -82,7 +82,7 @@
 						</div>
 						<div class="form-actions">
 							<input type="reset" class="btn" onclick="location.href='listActivity?prospectid=${activity.prospectid}'" value="Back" id="back">
-							<input type="submit" class="btn btn-primary" value="Save">
+							<input id="btnSave" type="submit" class="btn btn-primary" name="Save" value="Save">
 						</div>
 						</form:form>
 					</div>
@@ -90,5 +90,75 @@
 			</div>
 		</div>
 	</div>
+	<script>
+	$('#btnSave').click(function (e) {
+		e.preventDefault(); // <------------------ stop default behaviour of button
+		
+		var activityid = $('#activityid').val(); 
+	    var prospectid = $('#prospectid').val(); 
+	    var activitydate = $('#activitydate').val(); 
+	    var brandid = ""; 
+	    var brandname = $('#brandname').val(); 
+	    var modelid = ""; 
+	    var modelname = $('#modelname').val(); 
+	    var demo = $('#demo').val(); 
+	    var testdrive = $('#testdrive').val(); 
+	    var quotation = $('#quotation').val(); 
+	    var linkevent = $('#linkevent').val(); 
+	    var remark1 = $('#remark1').val(); 
+	    var remark2 = $('#remark2').val(); 
+	    var remark3 = $('#remark3').val(); 
+	
+	    var json = {
+	    		"activityid" : activityid,
+	    		"prospectid" : prospectid,
+	    		"activitydate" : activitydate,
+	    		"brandid" : brandid,
+	    		"brandname" : brandname,
+	    		"modelid" : modelid,
+	    		"modelname" : modelname,
+	    		"demo" : demo,
+	    		"testdrive" : testdrive,
+	    		"quotation" : quotation,
+	    		"linkevent" : linkevent,
+	    		"remark1" : remark1,
+	    		"remark2" : remark2,
+	    		"remark3" : remark3
+		};
+	    if (json.activityid=="0"){
+	        $.ajax({
+	            url: "http://localhost:8080/SalesDiaryPro/activity/create",
+	            type: 'POST',
+	            contentType: "application/json",
+	            dataType: "json",
+	            data: JSON.stringify(json), 
+	            success:function(data, Textstatus, jqXHR){
+	                alert("Record created!");
+	                window.location.href = "/SalesDiaryPro/listActivity?prospectid="+prospectid;
+	            },
+	            error:function(jqXhr, Textstatus){
+	                alert("Create failed!"+status);
+	            }
+	        });    	
+	    }
+	    else {
+	        $.ajax({
+	            url: "http://localhost:8080/SalesDiaryPro/activity/update/"+activityid,
+	            type: 'POST',
+	            contentType: "application/json",
+	            dataType: "json",
+	            data: JSON.stringify(json),
+	            success:function(data, Textstatus, jqXHR){
+	                alert("Record updated!");
+	                window.location.href = "/SalesDiaryPro/listActivity?prospectid="+prospectid;
+	            },
+	            error:function(jqXhr, Textstatus){
+	                alert("Update failed!");
+	            }
+	        });
+	    }
+	    return true;
+	})
+	</script>	
 </body>
 </html>

@@ -37,7 +37,7 @@ public class ApplicationContextConfig {
   private Environment env;
  
   @SuppressWarnings("unused")
-@Autowired
+  @Autowired
   private UserLoginDAO userLoginDAO;
  
   @Bean
@@ -78,7 +78,7 @@ public class ApplicationContextConfig {
       viewResolver.setSuffix(".jsp");
       return viewResolver;
   }
-
+  
   @Bean(name = "dataSource")
   public DataSource getDataSource() {
       DriverManagerDataSource dataSource = new DriverManagerDataSource();

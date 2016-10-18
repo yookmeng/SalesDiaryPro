@@ -31,9 +31,11 @@
 					    <td>${prospect.firstname} ${prospect.lastname}</td>
 						<td>${prospect.mobile}</td>
 						<td>
-						    <a href="editProspect?prospectid=${prospect.prospectid}">Edit</a>
-							&nbsp;&nbsp;&nbsp;&nbsp;					    
-							<a href="deleteProspect?prospectid=${prospect.prospectid}">Delete</a>
+							<button class="btn btn-small" onclick="window.location='editProspect?prospectid=${prospect.prospectid}';" >
+						    	<i class="fa fa-edit"></i></button>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<button class="btn btn-small" onclick="deleteProspect(${prospect.prospectid})">
+								<i class="fa fa-trash-o"></i></button>
 							&nbsp;&nbsp;&nbsp;&nbsp;					    
 							<a href="listRequest?prospectid=${prospect.prospectid}">Request</a>				
 							&nbsp;&nbsp;&nbsp;&nbsp;					    
@@ -45,5 +47,23 @@
 			</div>
         </div>
 	</div>
+	<script>
+	    function deleteProspect(prospectid) {
+	    	jQuery.ajax({
+	            type: "DELETE",
+	            url: "http://localhost:8080/SalesDiaryPro/prospect/delete/"+prospectid,
+	            contentType: "application/json",
+	            data: "",
+	            dataType: "",
+	            success: function (data, status, jqXHR) {
+	                alert("record deleted!");	                
+					location.replace(location);
+	            },	        
+	            error: function (jqXHR, status) {
+	                alert("delete failed!");
+	            }
+	        });	
+	    }
+	</script>	
 </body>
 </html>

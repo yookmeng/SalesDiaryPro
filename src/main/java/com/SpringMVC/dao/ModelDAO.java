@@ -8,7 +8,9 @@ import com.SpringMVC.model.Model;
 @Repository 
 public interface ModelDAO {
      
-    public void saveOrUpdate(Model model);
+    public void saveModel(Model model);
+
+    public void updateModel(Model model);
      
     public void delete(int modelid);
 
@@ -19,4 +21,6 @@ public interface ModelDAO {
     public Model getByName(String modelname);
 
     public List<Model> list(int brandid);
+
+    public boolean isExist(Model model);
 }

@@ -42,9 +42,11 @@
 							<td>${request.modelname}</td>
 							<td>${request.status}</td>
 							<td>
-							    <a href="editRequest?requestid=${request.requestid}">Edit</a>
-								&nbsp;&nbsp;&nbsp;&nbsp;					    
-								<a href="deleteRequest?requestid=${request.requestid}">Delete</a>
+							<button class="btn btn-small" onclick="window.location='editRequest?requestid=${request.requestid}';" >
+						    	<i class="fa fa-edit"></i></button>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<button class="btn btn-small" onclick="deleteRequest(${prospect.prospectid})">
+								<i class="fa fa-trash-o"></i></button>
 						    </td>		                 
 						</tr>
 					</c:forEach>             
@@ -53,5 +55,23 @@
 			</div>
 		</div>
 	</div>
+	<script>
+	    function deleteRequest(requestid) {
+	    	jQuery.ajax({
+	            type: "DELETE",
+	            url: "http://localhost:8080/SalesDiaryPro/request/delete/"+requestid,
+	            contentType: "application/json",
+	            data: "",
+	            dataType: "",
+	            success: function (data, status, jqXHR) {
+	                alert("record deleted!");	                
+					location.replace(location);
+	            },	        
+	            error: function (jqXHR, status) {
+	                alert("delete failed!");
+	            }
+	        });	
+	    }
+	</script>	
 </body>
 </html>

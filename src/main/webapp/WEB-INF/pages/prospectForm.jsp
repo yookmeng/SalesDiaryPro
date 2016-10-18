@@ -20,7 +20,7 @@
 			<div class="span12">
 				<div class="box">
 					<div class="box-content">
-						<form:form action="saveProspect" method="post" modelAttribute="prospect" class='form-horizontal form-wizard'>
+						<form:form action="" method="post" modelAttribute="prospect" class='form-horizontal form-wizard'>
 			            <form:hidden path="prospectid"/>
 			            <form:hidden path="userid"/>
 						<div class="form-group">
@@ -146,7 +146,7 @@
 						</div>
 						<div class="form-actions">
 							<input type="reset" class="btn" onclick="location.href='listProspect'" value="Back" id="back">
-							<input type="submit" class="btn btn-primary" value="Save">
+							<input id="btnSave" type="submit" class="btn btn-primary" name="Save" value="Save">
 						</div>
 						</form:form>
 					</div>
@@ -154,5 +154,93 @@
 			</div>
 		</div>
 	</div>
+	<script>
+	$('#btnSave').click(function (e) {
+		e.preventDefault(); // <------------------ stop default behaviour of button
+		
+		var prospectid = $('#prospectid').val(); 
+	    var firstname = $('#firstname').val(); 
+	    var lastname = $('#lastname').val(); 
+	    var userid = $('#userid').val(); 
+	    var source = $('#source').val(); 
+	    var haddress = $('#haddress').val(); 
+	    var hzipcode = $('#hzipcode').val(); 
+	    var hcity = $('#hcity').val(); 
+	    var hstate = $('#hstate').val(); 
+	    var hcountry = $('#hcountry').val(); 
+	    var mobile = $('#mobile').val(); 
+	    var htelno = $('#htelno').val(); 
+	    var waddress = $('#waddress').val(); 
+	    var wzipcode = $('#wzipcode').val(); 
+	    var wcity = $('#wcity').val(); 
+	    var wstate = $('#wstate').val(); 
+	    var wcountry = $('#wcountry').val(); 
+	    var wtelno = $('#wtelno').val(); 
+	    var occupation = $('#occupation').val(); 
+	    var age = $('#age').val(); 
+	    var gender = $('#gender').val(); 
+	    var income = $('#income').val(); 
+	    var email = $('#email').val(); 
+	
+	    var json = {
+	    		"prospectid" : prospectid,
+	    		"firstname" : firstname,
+	    		"lastname" : lastname,
+	    		"userid" : userid,
+	    		"source" : source,
+	    		"haddress" : haddress,
+	    		"hzipcode" : hzipcode,
+	    		"hcity" : hcity,
+	    		"hstate" : hstate,
+	    		"hcountry" : hcountry,
+	    		"mobile" : mobile,
+	    		"htelno" : htelno,
+	    		"waddress" : waddress,
+	    		"wzipcode" : wzipcode,
+	    		"wcity" : wcity,
+	    		"wstate" : wstate,
+	    		"wcountry" : wcountry,
+	    		"wtelno" : wtelno,
+	    		"occupation" : occupation,
+	    		"age" : age,
+	    		"gender" : gender,
+	    		"income" : income,
+	    		"email" : email
+		};
+	    if (json.prospectid=="0"){
+	        $.ajax({
+	            url: "http://localhost:8080/SalesDiaryPro/prospect/create",
+	            type: 'POST',
+	            contentType: "application/json",
+	            dataType: "json",
+	            data: JSON.stringify(json), 
+	            success:function(data, Textstatus, jqXHR){
+	                alert("Record created!");
+	                window.location.href = "/SalesDiaryPro/listProspect";
+	            },
+	            error:function(jqXhr, Textstatus){
+	                alert("Create failed!"+status);
+	            }
+	        });    	
+	    }
+	    else {
+	        $.ajax({
+	            url: "http://localhost:8080/SalesDiaryPro/prospect/update/"+prospectid,
+	            type: 'POST',
+	            contentType: "application/json",
+	            dataType: "json",
+	            data: JSON.stringify(json),
+	            success:function(data, Textstatus, jqXHR){
+	                alert("Record updated!");
+	                window.location.href = "/SalesDiaryPro/listProspect";
+	            },
+	            error:function(jqXhr, Textstatus){
+	                alert("Update failed!");
+	            }
+	        });
+	    }
+	    return true;
+	})
+	</script>	
 </body>
 </html>
