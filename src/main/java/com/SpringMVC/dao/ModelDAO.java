@@ -8,9 +8,9 @@ import com.SpringMVC.model.Model;
 @Repository 
 public interface ModelDAO {
      
-    public void saveModel(Model model);
+    public void save(Model model);
 
-    public void updateModel(Model model);
+    public void update(Model model);
      
     public void delete(int modelid);
 

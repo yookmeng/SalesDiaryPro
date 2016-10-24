@@ -22,31 +22,29 @@ public class BranchDAOImpl extends JdbcDaoSupport implements BranchDAO {
         this.setDataSource(dataSource);
     }
 	
-    public void saveOrUpdate(Branch branch) {
-        if (branch.getbranchid() > 0)  {
-            // update
-            String sql = "UPDATE tblBranch SET "
-            		+ "branchname=?, regno=?, maid=?, "
-            		+ "address=?, zipcode=?, city=?, "
-            		+ "state=?, country=?, telephone=?, "
-            		+ "fax=?, email=?, website=? "
-            		+ "WHERE branchid=?";
-            this.getJdbcTemplate().update(sql, 
-            		branch.getbranchname(), branch.getregno(), branch.getmaid(),
-            		branch.getaddress(), branch.getzipcode(), branch.getcity(),
-            		branch.getstate(), branch.getcountry(), branch.gettelephone(),
-            		branch.getfax(), branch.getemail(), branch.getwebsite(), branch.getbranchid());
-        } else {
-            // insert
-            String sql = "INSERT INTO tblBranch "
-            		+ "(companyid, branchname, regno, maid, address, zipcode, city, state, country, telephone, fax, email, website) "
-            		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            this.getJdbcTemplate().update(sql, 
-            		branch.getcompanyid(), branch.getbranchname(), branch.getregno(), branch.getmaid(),
-            		branch.getaddress(), branch.getzipcode(), branch.getcity(),
-            		branch.getstate(), branch.getcountry(), branch.gettelephone(),
-            		branch.getfax(), branch.getemail(), branch.getwebsite());
-            }
+    public void save(Branch branch) {
+        String sql = "INSERT INTO tblBranch "
+        		+ "(companyid, branchname, regno, maid, address, zipcode, city, state, country, telephone, fax, email, website) "
+        		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        this.getJdbcTemplate().update(sql, 
+        		branch.getcompanyid(), branch.getbranchname(), branch.getregno(), branch.getmaid(),
+        		branch.getaddress(), branch.getzipcode(), branch.getcity(),
+        		branch.getstate(), branch.getcountry(), branch.gettelephone(),
+        		branch.getfax(), branch.getemail(), branch.getwebsite());
+	}
+    
+    public void update(Branch branch) {
+        String sql = "UPDATE tblBranch SET "
+        		+ "branchname=?, regno=?, maid=?, "
+        		+ "address=?, zipcode=?, city=?, "
+        		+ "state=?, country=?, telephone=?, "
+        		+ "fax=?, email=?, website=? "
+        		+ "WHERE branchid=?";
+        this.getJdbcTemplate().update(sql, 
+        		branch.getbranchname(), branch.getregno(), branch.getmaid(),
+        		branch.getaddress(), branch.getzipcode(), branch.getcity(),
+        		branch.getstate(), branch.getcountry(), branch.gettelephone(),
+        		branch.getfax(), branch.getemail(), branch.getwebsite(), branch.getbranchid());
     }
     
     public void delete(int branchid) {

@@ -11,23 +11,30 @@
 		<jsp:include page="_maNavigation.jsp" />
 	</c:if>   
 	<div id="main" class="container-fluid">
-	   	<input type="hidden" value="company" name="company" />
+	   	<input type="hidden" value="${role}" name="role" id="role"/>	
 		<div class="breadcrumbs">
 			<ul>
 				<li>
 					<a href="home">Home</a>
 					<i class="fa fa-angle-right"></i>
 				</li>
-				<li>
-					<a href="listBranch?companyid=${company.companyid}">Branch</a>
-				</li>
+				<c:if test="${role == 'SA'}">
+					<li>
+						<a href="listBranch">Branch</a>
+					</li>
+				</c:if>
+				<c:if test="${role == 'MA'}">
+					<li>
+						<a href="editBranch?branchid=${branch.branchid}">Branch</a>
+					</li>
+				</c:if>   
 			</ul>
 		</div>
 		<div class="row">
 			<div class="span12">
 				<div class="box">
 					<div class="box-content">
-			        <form:form action="saveBranch" method="post" modelAttribute="branch" class='form-horizontal form-wizard'>
+			        <form:form action="" method="post" modelAttribute="branch" class='form-horizontal form-wizard'>
 		            <form:hidden path="companyid"/>
 		            <form:hidden path="branchid"/>
 					<div class="form-group">
@@ -103,8 +110,13 @@
 						</div>
 					</div>
 					<div class="form-actions">
-						<input type="reset" class="btn" onclick="location.href='listBranch?companyid=${branch.companyid}'" value="Back" id="back">						
-						<input type="submit" class="btn btn-primary" value="Save">
+						<c:if test="${role == 'MA'}">
+							<input type="reset" class="btn" onclick="location.href='home'" value="Back" id="back">						
+						</c:if>
+						<c:if test="${role == 'SA'}">
+							<input type="reset" class="btn" onclick="location.href='listBranch?companyid=${branch.companyid}'" value="Back" id="back">						
+						</c:if>   				
+						<input id="btnSave" type="submit" class="btn btn-primary" name="Save" value="Save">
 					</div>
 					</form:form>
 					</div>
@@ -112,5 +124,88 @@
 			</div>
 		</div>
 	</div>
+	<script>
+	$('#btnSave').click(function (e) {
+		e.preventDefault(); // <------------------ stop default behaviour of button
+		
+		var branchid = $('#branchid').val(); 
+	    var branchname = $('#branchname').val(); 
+	    var companyid = $('#companyid').val(); 
+	    var regno = $('#regno').val(); 
+	    var maid = ""; 
+	    var maname = $('#maname').val(); 
+	    var address = $('#address').val(); 
+	    var zipcode = $('#zipcode').val(); 
+	    var city = $('#city').val(); 
+	    var state = $('#state').val(); 
+	    var country = $('#country').val(); 
+	    var telephone = $('#telephone').val(); 
+	    var fax = $('#fax').val(); 
+	    var email = $('#email').val(); 
+	    var website = $('#website').val(); 
+
+	    var json = {
+	    		"branchid" : branchid,
+	    		"branchname" : branchname,
+	    		"companyid" : companyid,
+	    		"regno" : regno,
+	    		"maid" : maid,
+	    		"maname" : maname,		
+	    		"address" : address,
+	    		"zipcode" : zipcode,
+	    		"city" : city,
+	    		"state" : state,
+	    		"country" : country,
+	    		"telephone" : telephone,
+	    		"fax" : fax,
+	    		"email" : email,
+	    		"website" : website
+	    		
+		};
+	    if (json.branchid=="0"){
+	        $.ajax({
+	            url: "http://localhost:8080/SalesDiaryPro/branch/create",
+	            type: 'POST',
+	            contentType: "application/json",
+	            dataType: "json",
+	            data: JSON.stringify(json), 
+	            success:function(data, Textstatus, jqXHR){
+	                alert("Record created!");
+	                if ($('#role').val()=="SA"){
+		                window.location.href = "/SalesDiaryPro/listBranch";
+	                }
+	                else{
+		                window.location.href = "/SalesDiaryPro/home";	                	
+	                }	                
+	            },
+	            error:function(jqXhr, Textstatus){
+	                alert("Create failed!"+status);
+	            }
+	        });    	
+	    }
+	    else {
+	        $.ajax({
+	            url: "http://localhost:8080/SalesDiaryPro/branch/update/"+branchid,
+	            type: 'POST',
+	            contentType: "application/json",
+	            dataType: "json",
+	            data: JSON.stringify(json),
+	            success:function(data, Textstatus, jqXHR){
+	                alert("Record updated!");
+	                if ($('#role').val()=="SA"){
+		                window.location.href = "/SalesDiaryPro/listBranch";
+	                }
+	                else{
+		                window.location.href = "/SalesDiaryPro/home";	                	
+	                }	                
+	            },
+	            error:function(jqXhr, Textstatus){
+	                alert("Update failed!");
+	            }
+	        });
+	    }
+	    return true;
+	})
+	</script>	
 </body>
 </html>

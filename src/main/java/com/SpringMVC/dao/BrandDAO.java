@@ -8,7 +8,9 @@ import com.SpringMVC.model.Brand;
 @Repository 
 public interface BrandDAO {
      
-    public void saveOrUpdate(Brand brand);
+    public void save(Brand brand);
+
+    public void update(Brand brand);
      
     public void delete(int brandid);
      

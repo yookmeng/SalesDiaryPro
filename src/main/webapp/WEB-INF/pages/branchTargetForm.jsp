@@ -26,7 +26,7 @@
 			<div class="span12">
 				<div class="box">
 					<div class="box-content">
-				        <form:form action="saveBranchTarget" method="post" modelAttribute="branchTarget"  class='form-horizontal form-wizard'>
+				        <form:form action="" method="post" modelAttribute="branchTarget"  class='form-horizontal form-wizard'>
 			            <form:hidden path="period"/>        
 			            <form:hidden path="targetid"/>        
 			            <form:hidden path="companytargetid"/>        
@@ -62,7 +62,7 @@
 						</div>
 						<div class="form-actions">
 							<input type="reset" class="btn" onclick="location.href='listBranchTarget?companytargetid=${companyTarget.targetid}&targetid=${companyTarget.targetid}'" value="Back" id="back">
-							<input type="submit" class="btn btn-primary" value="Save">
+							<input id="btnSave" type="submit" class="btn btn-primary" name="Save" value="Save">
 						</div>
 						</form:form>
 					</div>
@@ -70,5 +70,65 @@
 			</div>
 		</div>
 	</div>
+	<script>
+	$('#btnSave').click(function (e) {
+		e.preventDefault(); // <------------------ stop default behaviour of button
+		
+		var targetid = $('#targetid').val(); 
+	    var branchid = ""; 
+	    var branchname = $('#branchname').val();
+	    var period = $('#period').val(); 
+	    var displayperiod = ""; 
+		var companytargetid = $('#companytargetid').val(); 	    
+	    var prospect = $('#prospect').val(); 
+	    var testdrive = $('#testdrive').val(); 
+	    var closed = $('#closed').val(); 
+	
+	    var json = {
+	    		"targetid" : targetid,
+	    		"branchid" : branchid,
+	    		"branchname" : branchname,
+	    		"period" : period,
+	    		"displayperiod" : displayperiod,
+	    		"companytargetid" : companytargetid,
+	    		"prospect" : prospect,
+	    		"testdrive" : testdrive,
+	    		"closed" : closed
+		};
+	    if (json.targetid=="0"){
+	        $.ajax({
+	            url: "http://localhost:8080/SalesDiaryPro/branchtarget/create",
+	            type: 'POST',
+	            contentType: "application/json",
+	            dataType: "json",
+	            data: JSON.stringify(json), 
+	            success:function(data, Textstatus, jqXHR){
+	                alert("Record created!");
+	                window.location.href = "/SalesDiaryPro/listBranchTarget?targetid="+companytargetid;
+	            },
+	            error:function(jqXhr, Textstatus){
+	                alert("Create failed!");
+	            }
+	        });    	
+	    }
+	    else {
+	        $.ajax({
+	            url: "http://localhost:8080/SalesDiaryPro/branchtarget/update/"+targetid,
+	            type: 'POST',
+	            contentType: "application/json",
+	            dataType: "json",
+	            data: JSON.stringify(json),
+	            success:function(data, Textstatus, jqXHR){
+	                alert("Record updated!");
+	                window.location.href = "/SalesDiaryPro/listBranchTarget?targetid="+companytargetid;
+	            },
+	            error:function(jqXhr, Textstatus){
+	                alert("Update failed!");
+	            }
+	        });
+	    }
+	    return true;
+	})
+	</script>	
 </body>
 </html>

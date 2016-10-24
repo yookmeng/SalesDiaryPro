@@ -8,8 +8,10 @@ import com.SpringMVC.model.Team;
 @Repository 
 public interface TeamDAO {
      
-    public void saveOrUpdate(Team team);
+    public void save(Team team);
      
+    public void update(Team team);
+
     public void delete(int teamid);
      
     public Team get(int teamid);

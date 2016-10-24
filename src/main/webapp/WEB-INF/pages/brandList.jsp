@@ -5,7 +5,6 @@
 <body>
 	<jsp:include page="_saNavigation.jsp" />
  	<div id="main" class="container-fluid">
-        <input type="hidden" value="company" name="company" /> 
 		<div class="breadcrumbs">
 			<ul>
 				<li>
@@ -13,12 +12,12 @@
 					<i class="fa fa-angle-right"></i>
 				</li>
 				<li>
-					<a href="listBrand?companyid=${company.companyid}">Brand</a>
+					<a href="listBrand">Brand</a>
 				</li>
 			</ul>
 		</div>
         <div align="center">
-			<h5><a href="addBrand?companyid=${company.companyid}">Add New</a></h5>
+			<h5><a href="addBrand">Add New</a></h5>
 			<div class="box-content nopadding">
 				<table class="table table-hover table-nomargin table-colored-header">
 				<tr>
@@ -29,9 +28,11 @@
 					<tr>
 					    <td>${brand.brandname}</td>
 						<td>
-						    <a href="editBrand?brandid=${brand.brandid}">Edit</a>
-							&nbsp;&nbsp;&nbsp;&nbsp;					    
-							<a href="deleteBrand?brandid=${brand.brandid}">Delete</a>
+							<button class="btn btn-small" onclick="window.location='editBrand?brandid=${brand.brandid}';" >
+						    	<i class="fa fa-edit"></i></button>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<button class="btn btn-small" onclick="deleteBrand(${brand.brandid})">
+								<i class="fa fa-trash-o"></i></button>
 							&nbsp;&nbsp;&nbsp;&nbsp;					    
 							<a href="listModel?brandid=${brand.brandid}">Model</a>				
 					    </td>		                 
@@ -41,5 +42,23 @@
 			</div>
 		</div>
 	</div>
+	<script>
+	    function deleteBrand(brandid) {
+	    	jQuery.ajax({
+	            type: "DELETE",
+	            url: "http://localhost:8080/SalesDiaryPro/brand/delete/"+brandid,
+	            contentType: "application/json",
+	            data: "",
+	            dataType: "",
+	            success: function (data, status, jqXHR) {
+	                alert("record deleted!");	                
+					location.replace(location);
+	            },	        
+	            error: function (jqXHR, status) {
+	                alert("delete failed!");
+	            }
+	        });	
+	    }
+	</script>		
 </body>
 </html>

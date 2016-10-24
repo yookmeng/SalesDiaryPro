@@ -6,7 +6,6 @@
 <body>
 	<jsp:include page="_saNavigation.jsp" />
 	<div id="main" class="container-fluid">
-	   	<input type="hidden" value="company" name="company" />
 	   	<input type="hidden" value="brand" name="brand" />
 		<div class="breadcrumbs">
 			<ul>
@@ -15,7 +14,7 @@
 					<i class="fa fa-angle-right"></i>
 				</li>
 				<li>
-					<a href="listBrand?companyid=${company.companyid}">Brand</a>
+					<a href="listBrand">Brand</a>
 					<i class="fa fa-angle-right"></i>
 				</li>
 				<li>
@@ -27,7 +26,7 @@
 			<div class="span12">
 				<div class="box">
 					<div class="box-content">
-			        <form:form action="saveModel" method="post" modelAttribute="model" class='form-horizontal form-wizard'>
+			        <form:form action="" method="post" modelAttribute="model" class='form-horizontal form-wizard'>
 		            <form:hidden path="brandid"/>        
 		            <form:hidden path="modelid"/>
 					<div class="form-group">
@@ -44,7 +43,7 @@
 					</div>
 					<div class="form-actions">
 						<input type="reset" class="btn" onclick="location.href='listModel?brandid=${model.brandid}'" value="Back" id="back">						
-						<input type="submit" class="btn btn-primary" value="Save">
+						<input id="btnSave" type="submit" class="btn btn-primary" name="Save" value="Save">
 					</div>
 					</form:form>
 					</div>
@@ -53,17 +52,54 @@
 		</div>
 	</div>
 	<script>
-	   var dataJSON = {model : { modelid : "100",
-			   			modelname : "test model",
-			   			brandid : "1",
-			   			price : "100000"}};
-
-	   $.ajax({
-           type: 'POST',
-           url: 'model/create',
-           data: JSON.stringify(dataJSON),
-           contentType: 'application/x-www-form-urlencoded',
-       });
-	</script>
+	$('#btnSave').click(function (e) {
+		e.preventDefault(); // <------------------ stop default behaviour of button
+		
+		var brandid = $('#brandid').val(); 
+	    var modelid = $('#modelid').val(); 
+	    var modelname = $('#modelname').val(); 	    
+	    var price = $('#price').val(); 
+	
+	    var json = {
+	    		"modelid" : modelid,
+	    		"modelname" : modelname,	    		
+	    		"brandid" : brandid,
+	    		"price" : price
+		};
+	    if (json.modelid=="0"){
+	        $.ajax({
+	            url: "http://localhost:8080/SalesDiaryPro/model/create",
+	            type: 'POST',
+	            contentType: "application/json",
+	            dataType: "json",
+	            data: JSON.stringify(json), 
+	            success:function(data, Textstatus, jqXHR){
+	                alert("Record created!");
+	                window.location.href = "/SalesDiaryPro/listModel?brandid="+brandid;
+	            },
+	            error:function(jqXhr, Textstatus){
+	                alert("Create failed!"+status);
+	            }
+	        });    	
+	    }
+	    else {
+	        $.ajax({
+	            url: "http://localhost:8080/SalesDiaryPro/model/update/"+modelid,
+	            type: 'POST',
+	            contentType: "application/json",
+	            dataType: "json",
+	            data: JSON.stringify(json),
+	            success:function(data, Textstatus, jqXHR){
+	                alert("Record updated!");
+	                window.location.href = "/SalesDiaryPro/listModel?brandid="+brandid;
+	            },
+	            error:function(jqXhr, Textstatus){
+	                alert("Update failed!");
+	            }
+	        });
+	    }
+	    return true;
+	})
+	</script>	
 </body>
 </html>

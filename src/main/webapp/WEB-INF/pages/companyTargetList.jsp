@@ -36,9 +36,11 @@
 	                    <td><fmt:formatNumber value="${companyTarget.testdrive}"/></td>
 	                    <td><fmt:formatNumber value="${companyTarget.closed}"/></td>
 						<td>
-	                        <a href="editCompanyTarget?targetid=${companyTarget.targetid}">Edit</a>
-	                        &nbsp;&nbsp;&nbsp;&nbsp;
-	                        <a href="deleteCompanyTarget?targetid=${companyTarget.targetid}">Delete</a>
+							<button class="btn btn-small" onclick="window.location='editCompanyTarget?targetid=${companyTarget.targetid}';" >
+						    	<i class="fa fa-edit"></i></button>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<button class="btn btn-small" onclick="deleteCompanyTarget(${companyTarget.targetid})">
+								<i class="fa fa-trash-o"></i></button>
 	                        &nbsp;&nbsp;&nbsp;&nbsp;
 	                        <a href="listBranchTarget?targetid=${companyTarget.targetid}">Branch Target</a>
 					    </td>		                 
@@ -48,5 +50,23 @@
 			</div>
 		</div>
 	</div>
+	<script>
+	    function deleteCompanyTarget(targetid) {
+	    	jQuery.ajax({
+	            type: "DELETE",
+	            url: "http://localhost:8080/SalesDiaryPro/companytarget/delete/"+targetid,
+	            contentType: "application/json",
+	            data: "",
+	            dataType: "",
+	            success: function (data, status, jqXHR) {
+	                alert("record deleted!");	                
+					location.replace(location);
+	            },	        
+	            error: function (jqXHR, status) {
+	                alert("delete failed!");
+	            }
+	        });	
+	    }
+	</script>		
 </body>
 </html>

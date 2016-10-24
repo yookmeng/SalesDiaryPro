@@ -9,23 +9,23 @@ public class Review {
     private int teamtargetid;
     private Date reviewdate;
     private int prospect;
-    private int sales;
-    private float totalsales;
+    private int testdrive;
+    private int closed;
     private String minute;
     private int reviewby;
     public Review() {
     }
  
     public Review(int reviewid, int userid, int targetid, int teamtargetid, Date reviewdate, 
-    		int prospect, int sales, float totalsales, String minute, int reviewby) {
+    		int prospect, int testdrive, int closed, String minute, int reviewby) {
         this.reviewid = reviewid;
         this.userid = userid;
         this.targetid = targetid;
         this.teamtargetid = teamtargetid;
         this.reviewdate = reviewdate;
         this.prospect = prospect;
-        this.sales = sales;
-        this.totalsales = totalsales;
+        this.testdrive = testdrive;
+        this.closed = closed;
         this.minute = minute;
         this.reviewby = reviewby;
     }
@@ -72,18 +72,18 @@ public class Review {
         this.prospect = prospect;
     }
 
-    public int getsales() {
-        return sales;
+    public int gettestdrive() {
+        return testdrive;
     }  
-    public void setsales(int sales) {
-        this.sales = sales;
+    public void settestdrive(int testdrive) {
+        this.testdrive = testdrive;
     }
 
-    public float gettotalsales() {
-        return totalsales;
+    public int getclosed() {
+        return closed;
     }  
-    public void settotalsales(float totalsales) {
-        this.totalsales = totalsales;
+    public void setclosed(int closed) {
+        this.closed = closed;
     }
 
     public String getminute() {

@@ -9,8 +9,10 @@ public interface UserProfileDAO {
 
 	public UserProfile findUser(int userid);
 
-    public void saveOrUpdate(UserProfile userProfile);
+    public void save(UserProfile userProfile);
      
+    public void update(UserProfile userProfile);
+
     public void delete(int userid);
      
     public UserProfile get(String username);
@@ -18,6 +20,4 @@ public interface UserProfileDAO {
     public List<UserProfile> list(int teamid);
     
     public List<String> userList(int teamid);
-
-    public int getCompanyID(String username);
 }

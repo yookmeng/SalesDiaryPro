@@ -47,16 +47,36 @@
 	                    <td><fmt:formatNumber value="${userTarget.prospect}"/></td>
 	                    <td><fmt:formatNumber value="${userTarget.testdrive}"/></td>
 	                    <td><fmt:formatNumber value="${userTarget.closed}"/></td>
-	                    <td>
-	                        <a href="editUserTarget?targetid=${userTarget.targetid}">Edit</a>
-	                        &nbsp;&nbsp;&nbsp;&nbsp;
-	                        <a href="deleteUserTarget?targetid=${userTarget.targetid}">Delete</a>
-	                    </td>
+						<td>
+						<button class="btn btn-small" onclick="window.location='editUserTarget?targetid=${userTarget.targetid}';" >
+					    	<i class="fa fa-edit"></i></button>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<button class="btn btn-small" onclick="deleteUserTarget(${userTarget.targetid})">
+							<i class="fa fa-trash-o"></i></button>
+					    </td>		                 
 	                </tr>
 	                </c:forEach>             
 	            </table>
         	</div>
 		</div>
 	</div>
+	<script>
+	    function deleteUserTarget(targetid) {
+	    	jQuery.ajax({
+	            type: "DELETE",
+	            url: "http://localhost:8080/SalesDiaryPro/usertarget/delete/"+targetid,
+	            contentType: "application/json",
+	            data: "",
+	            dataType: "",
+	            success: function (data, status, jqXHR) {
+	                alert("record deleted!");	                
+					location.replace(location);
+	            },	        
+	            error: function (jqXHR, status) {
+	                alert("delete failed!");
+	            }
+	        });	
+	    }
+	</script>
 </body>
 </html>

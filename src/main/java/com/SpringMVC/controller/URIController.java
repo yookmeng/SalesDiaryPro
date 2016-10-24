@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import com.SpringMVC.dao.ModelDAO;
 import com.SpringMVC.model.UserLogin;
-import com.SpringMVC.uriconstant.ModelRestURIConstant;
 
 import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.dao.UserMonthlySummaryDAO;
@@ -26,22 +24,7 @@ public class URIController {
     private UserLoginDAO userLoginDAO;
 
     @Autowired
-    private ModelDAO modelDAO;
-
-    @Autowired
     private UserMonthlySummaryDAO userMonthlySummaryDAO;
-
-    @RequestMapping(value = ModelRestURIConstant.GET_MODEL, method = RequestMethod.GET)
-	public String getModel(@PathVariable int modelid) {
-    	ObjectMapper mapper = new ObjectMapper();
-    	String jsonInString="";
-		try {
-			jsonInString = mapper.writeValueAsString(modelDAO.get(modelid));
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		return jsonInString;
-	}
 
     // UserMonthlySummary
     @RequestMapping(value = UserMonthlySummaryRestURIConstant.GET, method = RequestMethod.GET)

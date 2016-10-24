@@ -45,7 +45,7 @@
 							<button class="btn btn-small" onclick="window.location='editRequest?requestid=${request.requestid}';" >
 						    	<i class="fa fa-edit"></i></button>
 							&nbsp;&nbsp;&nbsp;&nbsp;
-							<button class="btn btn-small" onclick="deleteRequest(${prospect.prospectid})">
+							<button class="btn btn-small" onclick="deleteRequest(${request.requestid})">
 								<i class="fa fa-trash-o"></i></button>
 						    </td>		                 
 						</tr>

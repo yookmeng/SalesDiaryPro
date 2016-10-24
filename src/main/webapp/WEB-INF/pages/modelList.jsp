@@ -37,9 +37,11 @@
 					    <td>${model.modelname}</td>
 					    <td><fmt:formatNumber value="${model.price}"/></td>
 						<td>
-						    <a href="editModel?modelid=${model.modelid}">Edit</a>
-							&nbsp;&nbsp;&nbsp;&nbsp;					    
-							<a href="deleteModel?modelid=${model.modelid}">Delete</a>
+							<button class="btn btn-small" onclick="window.location='editModel?modelid=${model.modelid}';" >
+						    	<i class="fa fa-edit"></i></button>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<button class="btn btn-small" onclick="deleteModel(${model.modelid})">
+								<i class="fa fa-trash-o"></i></button>
 					    </td>		                 
 					</tr>
 				</c:forEach>             
@@ -47,5 +49,23 @@
 			</div>
         </div>
 	</div>
+	<script>
+	    function deleteModel(modelid) {
+	    	jQuery.ajax({
+	            type: "DELETE",
+	            url: "http://localhost:8080/SalesDiaryPro/model/delete/"+modelid,
+	            contentType: "application/json",
+	            data: "",
+	            dataType: "",
+	            success: function (data, status, jqXHR) {
+	                alert("record deleted!");	                
+					location.replace(location);
+	            },	        
+	            error: function (jqXHR, status) {
+	                alert("delete failed!");
+	            }
+	        });	
+	    }
+	</script>			
 </body>
 </html>

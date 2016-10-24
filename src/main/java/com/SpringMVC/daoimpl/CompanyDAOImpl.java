@@ -23,33 +23,31 @@ public class CompanyDAOImpl extends JdbcDaoSupport implements CompanyDAO {
         this.setDataSource(dataSource);
     }
 	
-    public void saveOrUpdate(Company company) {
-        if (company.getcompanyid() > 0)  {
-            // update
-            String sql = "UPDATE tblCompany SET "
-            		+ "companyName=?, regno=?, mdid=?, "
-            		+ "address=?, zipcode=?, city=?, "
-            		+ "state=?, country=?, telephone=?, "
-            		+ "fax=?, email=?, website=?, said=? "
-            		+ "WHERE companyid=?";
-            this.getJdbcTemplate().update(sql, 
-            		company.getcompanyname(), company.getregno(), company.getmdid(),
-            		company.getaddress(), company.getzipcode(), company.getcity(),
-            		company.getstate(), company.getcountry(), company.gettelephone(),
-            		company.getfax(), company.getemail(), company.getwebsite(), 
-            		company.getsaid(), company.getcompanyid());
-        } else {
-            // insert
-            String sql = "INSERT INTO tblCompany "
-            		+ "(companyname, regno, mdid, address, zipcode, city, state, country, "
-            		+ "telephone, fax, email, website, said) "
-            		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            this.getJdbcTemplate().update(sql, 
-            		company.getcompanyname(), company.getregno(), company.getmdid(),
-            		company.getaddress(), company.getzipcode(), company.getcity(),
-            		company.getstate(), company.getcountry(), company.gettelephone(),
-            		company.getfax(), company.getemail(), company.getwebsite(), company.getsaid());
-            }
+    public void save(Company company) {
+        String sql = "INSERT INTO tblCompany "
+        		+ "(companyname, regno, mdid, address, zipcode, city, state, country, "
+        		+ "telephone, fax, email, website, said) "
+        		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        this.getJdbcTemplate().update(sql, 
+        		company.getcompanyname(), company.getregno(), company.getmdid(),
+        		company.getaddress(), company.getzipcode(), company.getcity(),
+        		company.getstate(), company.getcountry(), company.gettelephone(),
+        		company.getfax(), company.getemail(), company.getwebsite(), company.getsaid());
+    }
+    
+    public void update(Company company) {
+        String sql = "UPDATE tblCompany SET "
+        		+ "companyName=?, regno=?, mdid=?, "
+        		+ "address=?, zipcode=?, city=?, "
+        		+ "state=?, country=?, telephone=?, "
+        		+ "fax=?, email=?, website=?, said=? "
+        		+ "WHERE companyid=?";
+        this.getJdbcTemplate().update(sql, 
+        		company.getcompanyname(), company.getregno(), company.getmdid(),
+        		company.getaddress(), company.getzipcode(), company.getcity(),
+        		company.getstate(), company.getcountry(), company.gettelephone(),
+        		company.getfax(), company.getemail(), company.getwebsite(), 
+        		company.getsaid(), company.getcompanyid());
     }
     
     public void delete(int companyid) {

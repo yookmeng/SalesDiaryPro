@@ -23,25 +23,23 @@ public class CompanyTargetDAOImpl extends JdbcDaoSupport implements CompanyTarge
         this.setDataSource(dataSource);
     }
 	
-    public void saveOrUpdate(CompanyTarget companyTarget) {
-        if (companyTarget.gettargetid() > 0)  {
-            // update
-            String sql = "UPDATE tblCompanyTarget SET prospect=?, testdrive=?, closed=? "
-            		+ "WHERE targetid=?";
-            this.getJdbcTemplate().update(sql, 
-            		companyTarget.getprospect(), companyTarget.gettestdrive(), companyTarget.getclosed(), 
-            		companyTarget.gettargetid());
-        } else {
-            // insert
-            String sql = "INSERT INTO tblCompanyTarget "
-            		+ "(companyid, period, prospect, testdrive, closed) "
-            		+ "VALUES (?, ?, ?, ?, ?)";
-            this.getJdbcTemplate().update(sql, 
-            		companyTarget.getcompanyid(), companyTarget.getperiod(), companyTarget.getdisplayperiod(), 
-            		companyTarget.getprospect(), companyTarget.gettestdrive(), companyTarget.getclosed());
-            }
+    public void save(CompanyTarget companyTarget) {
+        String sql = "INSERT INTO tblCompanyTarget "
+        		+ "(companyid, period, prospect, testdrive, closed) "
+        		+ "VALUES (?, ?, ?, ?, ?)";
+        this.getJdbcTemplate().update(sql, 
+        		companyTarget.getcompanyid(), companyTarget.getperiod(), 
+        		companyTarget.getprospect(), companyTarget.gettestdrive(), companyTarget.getclosed());
     }
     
+    public void update(CompanyTarget companyTarget) {
+        String sql = "UPDATE tblCompanyTarget SET prospect=?, testdrive=?, closed=? "
+        		+ "WHERE targetid=?";
+        this.getJdbcTemplate().update(sql, 
+        		companyTarget.getprospect(), companyTarget.gettestdrive(), companyTarget.getclosed(), 
+        		companyTarget.gettargetid());
+    }
+
     public void delete(int targetid) {
         String sql = "DELETE FROM tblCompanyTarget WHERE targetid=?";
         this.getJdbcTemplate().update(sql, targetid);

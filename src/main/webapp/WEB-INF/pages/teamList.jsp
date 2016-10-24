@@ -15,7 +15,6 @@
 		<jsp:include page="_maNavigation.jsp" />
 	</c:if>   
 	<div id="main" class="container-fluid">
-		<input type="hidden" value="company" name="company" /> 
         <input type="hidden" value="branch" name="branch" /> 
 		<div class="breadcrumbs">
 			<ul>
@@ -24,7 +23,7 @@
 					<i class="fa fa-angle-right"></i>
 				</li>
 				<li>
-					<a href="listBranch?companyid=${companyid}">Branch</a>
+					<a href="listBranch">Branch</a>
 					<i class="fa fa-angle-right"></i>
 				</li>
 				<li>
@@ -32,8 +31,11 @@
 				</li>
 			</ul>
 		</div>
+		<br>
 		<div align="center">
-            <h5><a href="addTeam?branchid=${branch.branchid}">Add New</a></h5>
+			<c:if test="${role == 'SA'}">
+	            <h5><a href="addTeam?branchid=${branch.branchid}">Add New</a></h5>
+			</c:if>
 			<div class="box-content nopadding">
 				<table class="table table-hover table-nomargin table-colored-header">
 				<tr>
@@ -46,10 +48,14 @@
 					    <td>${team.teamname}</td>
 						<td>${team.leadername}</td>
 						<td>
-						    <a href="editTeam?teamid=${team.teamid}">Edit</a>
-	                        &nbsp;&nbsp;&nbsp;&nbsp;
-							<a href="deleteTeam?teamid=${team.teamid}">Delete</a>
-	                        &nbsp;&nbsp;&nbsp;&nbsp;
+							<c:if test="${role == 'SA'}">		
+								<button class="btn btn-small" onclick="window.location='editTeam?teamid=${team.teamid}';" >
+							    	<i class="fa fa-edit"></i></button>
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								<button class="btn btn-small" onclick="deleteTeam(${team.teamid})">
+									<i class="fa fa-trash-o"></i></button>
+		                        &nbsp;&nbsp;&nbsp;&nbsp;
+							</c:if>
 							<a href="listMember?teamid=${team.teamid}">Member</a>				
 					    </td>		                 
 					</tr>
@@ -58,5 +64,23 @@
 			</div>
 		</div>
 	</div>
+	<script>
+	    function deleteTeam(branchid) {
+	    	jQuery.ajax({
+	            type: "DELETE",
+	            url: "http://localhost:8080/SalesDiaryPro/team/delete/"+teamid,
+	            contentType: "application/json",
+	            data: "",
+	            dataType: "",
+	            success: function (data, status, jqXHR) {
+	                alert("record deleted!");	                
+					location.replace(location);
+	            },	        
+	            error: function (jqXHR, status) {
+	                alert("delete failed!");
+	            }
+	        });	
+	    }
+	</script>		
 </body>
 </html>

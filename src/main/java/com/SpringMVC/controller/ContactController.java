@@ -39,7 +39,7 @@ public class ContactController {
     @Autowired
     private ContactDAO contactDAO;
 
-    @RequestMapping(value = ContactRestURIConstant.GET, method = RequestMethod.GET)
+    @RequestMapping(value = ContactRestURIConstant.Get, method = RequestMethod.GET)
 	public String getContact(@PathVariable int contactid) {
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
@@ -51,7 +51,7 @@ public class ContactController {
 		return jsonInString;
 	}
 
-    @RequestMapping(value = ContactRestURIConstant.GET_ALL, method = RequestMethod.GET)
+    @RequestMapping(value = ContactRestURIConstant.GetAll, method = RequestMethod.GET)
 	public String getAllContact(Principal principal) {
     	UserLogin userLogin = userLoginDAO.findUserLogin(principal.getName());
     	ObjectMapper mapper = new ObjectMapper();
@@ -64,7 +64,7 @@ public class ContactController {
 		return jsonInString;
 	}
 
-    @RequestMapping(value = ContactRestURIConstant.CREATE, method = RequestMethod.POST)
+    @RequestMapping(value = ContactRestURIConstant.Create, method = RequestMethod.POST)
     public ResponseEntity<Contact> createContact(@RequestBody Contact contact) throws IOException {
         if (contactDAO.isExist(contact)) {
             return new ResponseEntity<Contact>(HttpStatus.CONFLICT);
@@ -73,7 +73,7 @@ public class ContactController {
         return new ResponseEntity<Contact>(contact, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = ContactRestURIConstant.UPDATE, method = RequestMethod.POST)
+    @RequestMapping(value = ContactRestURIConstant.Update, method = RequestMethod.POST)
     public ResponseEntity<Contact> updateContact(@PathVariable("contactid") int contactid, @RequestBody Contact contact) {
     	Contact currentContact = contactDAO.get(contactid);
          
@@ -102,7 +102,7 @@ public class ContactController {
         return new ResponseEntity<Contact>(contact, HttpStatus.OK);
     }
 
-    @RequestMapping(value = ContactRestURIConstant.DELETE, method = RequestMethod.DELETE)
+    @RequestMapping(value = ContactRestURIConstant.Delete, method = RequestMethod.DELETE)
     public ResponseEntity<Contact> deleteContact(@PathVariable("contactid") int contactid) {
         Contact contact = contactDAO.get(contactid);
         if (contact == null) {

@@ -18,6 +18,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import com.SpringMVC.dao.BrandDAO;
 import com.SpringMVC.dao.ModelDAO;
 import com.SpringMVC.dao.QuestionaireDAO;
+import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.dao.UserProfileDAO;
 import com.SpringMVC.model.Brand;
 import com.SpringMVC.model.Model;
@@ -28,6 +29,9 @@ import com.SpringMVC.uriconstant.QuestionaireRestURIConstant;
 @EnableWebMvc
 @RestController
 public class QuestionaireController {
+
+    @Autowired
+    private UserLoginDAO userLoginDAO;
 
     @Autowired
     private UserProfileDAO userProfileDAO;
@@ -44,7 +48,7 @@ public class QuestionaireController {
     @RequestMapping(value = "/addQuestionaire", method = RequestMethod.GET)
     public ModelAndView addQuestionaire(HttpServletRequest request) {
     	UserProfile userProfile = userProfileDAO.get(request.getUserPrincipal().getName());
-    	int companyid = userProfileDAO.getCompanyID(request.getUserPrincipal().getName());
+    	int companyid = userLoginDAO.getCompanyID(request.getUserPrincipal().getName());
     	Questionaire newQuestionaire = new Questionaire();
     	newQuestionaire.setuserid(userProfile.getuserid());
         ModelAndView mav = new ModelAndView("questionaireForm");

@@ -41,32 +41,29 @@ public class UserProfileDAOImpl extends JdbcDaoSupport implements UserProfileDAO
         }
     }
     
-    public void saveOrUpdate(UserProfile userProfile) {
-        if (userProfile.getuserid() > 0)  {
-        	String sqlUser = "UPDATE tblUser SET password=? WHERE userid=?";
-            this.getJdbcTemplate().update(sqlUser, 
-            		userProfile.getpassword(), userProfile.getuserid());
-        	
-    		String sqlRole = "UPDATE tblRole SET role=? WHERE username=?";
-            this.getJdbcTemplate().update(sqlRole, 
-            		userProfile.getrole(), userProfile.getusername());
-            
-            // update if role = USER then update tblUserProfile else no need        	
-            String sql = "UPDATE tblUserProfile SET "
-            		+ "username=?, teamid=?, mobile=?, email=? "
-            		+ "WHERE userid=? ";
-            this.getJdbcTemplate().update(sql, 
-            		userProfile.getusername(), userProfile.getteamid(),
-            		userProfile.getmobile(), userProfile.getemail(), userProfile.getuserid());            	
-        } else {
-            // insert
-        	String sql = "EXEC spCreateMember ?, ?, ?, ?, ?, ? ";
-            this.getJdbcTemplate().update(sql, 
-            		userProfile.getusername(), userProfile.getpassword(), userProfile.getrole(), 
-            		userProfile.getteamid(), userProfile.getmobile(), userProfile.getemail());
-        }
+    public void save(UserProfile userProfile) {
+    	String sql = "EXEC spCreateMember ?, ?, ?, ?, ?, ? ";
+        this.getJdbcTemplate().update(sql, 
+        		userProfile.getusername(), userProfile.getpassword(), userProfile.getrole(), 
+        		userProfile.getteamid(), userProfile.getmobile(), userProfile.getemail());
     }
     
+    public void update(UserProfile userProfile) {
+    	String sqlUser = "UPDATE tblUser SET password=? WHERE userid=?";
+        this.getJdbcTemplate().update(sqlUser, 
+        		userProfile.getpassword(), userProfile.getuserid());
+    	
+		String sqlRole = "UPDATE tblRole SET role=? WHERE username=?";
+        this.getJdbcTemplate().update(sqlRole, 
+        		userProfile.getrole(), userProfile.getusername());
+        
+        // update if role = USER then update tblUserProfile else no need        	
+        String sql = "UPDATE tblUserProfile SET mobile=?, email=? "
+        		+ "WHERE userid=? ";
+        this.getJdbcTemplate().update(sql, 
+        		userProfile.getmobile(), userProfile.getemail(), userProfile.getuserid());            	
+    }
+
     public void delete(int userid) {
         String sql = "DELETE FROM tblUserProfile WHERE userid=?";
         this.getJdbcTemplate().update(sql, userid);
@@ -118,12 +115,4 @@ public class UserProfileDAOImpl extends JdbcDaoSupport implements UserProfileDAO
 	        }
         });
     }
-
-    @Override
-    public int getCompanyID(String username) {
-        String sql = "EXEC spGetCompanyID ? ";
-        int companyid = (int)getJdbcTemplate().queryForObject(sql, new Object[] {username}, int.class);
-        return companyid;
-    }
-
 }

@@ -8,13 +8,13 @@ public interface UserLoginDAO {
      
     public UserLogin findUserLogin(String username);
      
-    public List<String> getUserRoles(String username);
+    public String getUserRoles(String username);
 
     public List<String> getAllRoles();
 
     public UserLogin get(String username);
 
-    public List<UserLogin> list();
+    public List<UserLogin> list(String role, int companyid);
 
     public List<String> salist();
 
@@ -27,4 +27,6 @@ public interface UserLoginDAO {
     public void saveOrUpdate(UserLogin userLogin);
     
     public void delete(String username);
+
+    public int getCompanyID(String username);
 }

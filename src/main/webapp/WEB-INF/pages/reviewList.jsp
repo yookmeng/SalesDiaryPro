@@ -1,16 +1,22 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <html>
 <jsp:include page="_menu.jsp" />
 <body>
-	<jsp:include page="_mdNavigation.jsp" />
+	<c:if test="${role == 'MD'}">
+		<jsp:include page="_mdNavigation.jsp" />
+	</c:if>
+	<c:if test="${role == 'MA'}">
+		<jsp:include page="_mdNavigation.jsp" />
+	</c:if>
+	<c:if test="${role == 'USER'}">
+		<jsp:include page="_userNavigation.jsp" />
+	</c:if>
 	<div class="container-fluid" id="content">
 		<div id="main">
 		<div class="container-fluid">
-		    <input type="hidden" value="userid" name="userid" /> 
+		    <input type="hidden" value="userProfile" name="userProfile" /> 
 		    <input type="hidden" value="review" name="review" /> 
 			<div class="page-header">
 				<h3>Review</h3>
@@ -22,11 +28,11 @@
 						<i class="fa fa-angle-right"></i>
 					</li>
 					<li>
-						<a href="listMember2">Member</a>
+						<a href="listMember?teamid=${userProfile.teamid}">Member</a>
 						<i class="fa fa-angle-right"></i>
 					</li>
 					<li>
-						<a href="listReview?userid=${userid}">Review</a>
+						<a href="listReview?userid=${userProfile.userid}">Review</a>
 					</li>
 				</ul>
 			</div>

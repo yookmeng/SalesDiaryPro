@@ -24,8 +24,11 @@
 					    <td>${Company.mdname}</td>
 					    <td>${Company.telephone}</td>
 					    <td>
-					        <a href="editCompany?companyid=${Company.companyid}">Edit</a>
-					        <a href="deleteCompany?companyid=${Company.companyid}">Delete</a>
+							<button class="btn btn-small" onclick="window.location='editCompany?companyid=${Company.companyid}';" >
+						    	<i class="fa fa-edit"></i></button>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<button class="btn btn-small" onclick="deleteCompany(${Company.companyid})">
+								<i class="fa fa-trash-o"></i></button>
 					    </td>                             
 					</tr>
 				</c:forEach>             
@@ -33,5 +36,23 @@
 			</div>
 		</div>	
 	</div>
+	<script>
+	    function deleteCompany(companyidid) {
+	    	jQuery.ajax({
+	            type: "DELETE",
+	            url: "http://localhost:8080/SalesDiaryPro/company/delete/"+companyid,
+	            contentType: "application/json",
+	            data: "",
+	            dataType: "",
+	            success: function (data, status, jqXHR) {
+	                alert("record deleted!");	                
+					location.replace(location);
+	            },	        
+	            error: function (jqXHR, status) {
+	                alert("delete failed!");
+	            }
+	        });	
+	    }
+	</script>		
 </body>
 </html>

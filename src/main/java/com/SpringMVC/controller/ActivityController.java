@@ -1,7 +1,6 @@
 package com.SpringMVC.controller;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +20,7 @@ import com.SpringMVC.dao.ActivityDAO;
 import com.SpringMVC.dao.BrandDAO;
 import com.SpringMVC.dao.ModelDAO;
 import com.SpringMVC.dao.ProspectDAO;
+import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.dao.UserProfileDAO;
 import com.SpringMVC.model.Activity;
 import com.SpringMVC.model.Brand;
@@ -34,6 +34,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @EnableWebMvc
 @RestController
 public class ActivityController {
+
+    @Autowired
+    private UserLoginDAO userLoginDAO;
 
     @Autowired
     private UserProfileDAO userProfileDAO;
@@ -50,8 +53,8 @@ public class ActivityController {
     @Autowired
     private ActivityDAO activityDAO;
 
-    @RequestMapping(value = ActivityRestURIConstant.GET, method = RequestMethod.GET)
-	public String getProspect(@PathVariable int activityid) {
+    @RequestMapping(value = ActivityRestURIConstant.Get, method = RequestMethod.GET)
+	public String getActivity(@PathVariable int activityid) {
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
@@ -62,20 +65,19 @@ public class ActivityController {
 		return jsonInString;
 	}
 
-    @RequestMapping(value = ActivityRestURIConstant.GET_ALL, method = RequestMethod.GET)
-	public String getAllProspect(Principal principal) {
-        UserProfile userProfile = userProfileDAO.get(principal.getName());
+    @RequestMapping(value = ActivityRestURIConstant.GetByProspect, method = RequestMethod.GET)
+	public String getAllActivity(@PathVariable int prospectid) {
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
-			jsonInString = mapper.writeValueAsString(activityDAO.list(userProfile.getuserid()));
+			jsonInString = mapper.writeValueAsString(activityDAO.list(prospectid));
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
 		return jsonInString;
 	}
 
-    @RequestMapping(value = ActivityRestURIConstant.CREATE, method = RequestMethod.POST)
+    @RequestMapping(value = ActivityRestURIConstant.Create, method = RequestMethod.POST)
     public ResponseEntity<Activity> createActivity(@RequestBody Activity activity) throws IOException {
     	Brand brand = brandDAO.getByName(activity.getbrandname());
     	activity.setbrandid(brand.getbrandid());
@@ -86,7 +88,7 @@ public class ActivityController {
         return new ResponseEntity<Activity>(activity, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = ActivityRestURIConstant.UPDATE, method = RequestMethod.POST)
+    @RequestMapping(value = ActivityRestURIConstant.Update, method = RequestMethod.POST)
     public ResponseEntity<Activity> updateActivity(@PathVariable("activityid") int activityid, @RequestBody Activity activity) {
     	Activity currentActivity = activityDAO.get(activityid);         
         if (currentActivity==null) {
@@ -115,8 +117,8 @@ public class ActivityController {
         return new ResponseEntity<Activity>(activity, HttpStatus.OK);
     }
 
-    @RequestMapping(value = ActivityRestURIConstant.DELETE, method = RequestMethod.DELETE)
-    public ResponseEntity<Activity> deleteProspect(@PathVariable("activityid") int activityid) {
+    @RequestMapping(value = ActivityRestURIConstant.Delete, method = RequestMethod.DELETE)
+    public ResponseEntity<Activity> deleteActivity(@PathVariable("activityid") int activityid) {
     	Activity activity = activityDAO.get(activityid);
         if (activity == null) {
             return new ResponseEntity<Activity>(HttpStatus.NOT_FOUND);
@@ -147,7 +149,7 @@ public class ActivityController {
         Prospect prospect = prospectDAO.get(prospectid);
         UserProfile userProfile = userProfileDAO.findUser(prospect.getuserid());
         ModelAndView mav = new ModelAndView("activityForm");
-        List<String> brands = brandDAO.getBrands(userProfileDAO.getCompanyID(request.getUserPrincipal().getName()));	
+        List<String> brands = brandDAO.getBrands(userLoginDAO.getCompanyID(request.getUserPrincipal().getName()));	
         mav.addObject("brandlist", brands);
         Brand brand = brandDAO.getByName(brands.get(0));
         List<String> models = modelDAO.getModels(brand.getbrandid());	
@@ -165,7 +167,7 @@ public class ActivityController {
         Prospect prospect = prospectDAO.get(editActivity.getprospectid());
         UserProfile userProfile = userProfileDAO.findUser(prospect.getuserid());
         ModelAndView mav = new ModelAndView("activityForm");
-        List<String> brands = brandDAO.getBrands(userProfileDAO.getCompanyID(request.getUserPrincipal().getName()));	
+        List<String> brands = brandDAO.getBrands(userLoginDAO.getCompanyID(request.getUserPrincipal().getName()));	
         mav.addObject("brandlist", brands);
         Brand brand = brandDAO.getByName(brands.get(0));
         List<String> models = modelDAO.getModels(brand.getbrandid());	

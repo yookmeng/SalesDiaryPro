@@ -44,7 +44,7 @@ public class ProspectController {
     @Autowired
     private CodeMasterDAO codeMasterDAO;
 
-    @RequestMapping(value = ProspectRestURIConstant.GET, method = RequestMethod.GET)
+    @RequestMapping(value = ProspectRestURIConstant.Get, method = RequestMethod.GET)
 	public String getProspect(@PathVariable int prospectid) {
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
@@ -56,7 +56,7 @@ public class ProspectController {
 		return jsonInString;
 	}
 
-    @RequestMapping(value = ProspectRestURIConstant.GET_ALL, method = RequestMethod.GET)
+    @RequestMapping(value = ProspectRestURIConstant.GetAll, method = RequestMethod.GET)
 	public String getAllProspect(Principal principal) {
     	UserLogin userLogin = userLoginDAO.findUserLogin(principal.getName());
     	ObjectMapper mapper = new ObjectMapper();
@@ -69,13 +69,13 @@ public class ProspectController {
 		return jsonInString;
 	}
 
-    @RequestMapping(value = ProspectRestURIConstant.CREATE, method = RequestMethod.POST)
+    @RequestMapping(value = ProspectRestURIConstant.Create, method = RequestMethod.POST)
     public ResponseEntity<Prospect> createProspect(@RequestBody Prospect prospect) throws IOException {
         prospectDAO.save(prospect);
         return new ResponseEntity<Prospect>(prospect, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = ProspectRestURIConstant.UPDATE, method = RequestMethod.POST)
+    @RequestMapping(value = ProspectRestURIConstant.Update, method = RequestMethod.POST)
     public ResponseEntity<Prospect> updateProspect(@PathVariable("prospectid") int prospectid, @RequestBody Prospect prospect) {
     	Prospect currentProspect = prospectDAO.get(prospectid);
          
@@ -110,7 +110,7 @@ public class ProspectController {
         return new ResponseEntity<Prospect>(prospect, HttpStatus.OK);
     }
 
-    @RequestMapping(value = ProspectRestURIConstant.DELETE, method = RequestMethod.DELETE)
+    @RequestMapping(value = ProspectRestURIConstant.Delete, method = RequestMethod.DELETE)
     public ResponseEntity<Prospect> deleteProspect(@PathVariable("prospectid") int prospectid) {
     	Prospect prospect = prospectDAO.get(prospectid);
         if (prospect == null) {

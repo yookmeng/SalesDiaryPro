@@ -4,7 +4,15 @@
 <html>
 <jsp:include page="_menu.jsp" />
 <body>
-<jsp:include page="_deNavigation.jsp" />
+	<c:if test="${role == 'MA'}">
+		<jsp:include page="_maNavigation.jsp" />
+	</c:if>
+	<c:if test="${role == 'SA'}">
+		<jsp:include page="_saNavigation.jsp" />
+	</c:if>
+	<c:if test="${role == 'DE'}">
+		<jsp:include page="_deNavigation.jsp" />
+	</c:if>
 <div id="main" class="container-fluid">	
 	<div align="center">
 		<h5><a href="newUser">Add New</a></h5>

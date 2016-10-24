@@ -23,24 +23,22 @@ public class TeamDAOImpl extends JdbcDaoSupport implements TeamDAO {
         this.setDataSource(dataSource);
     }
 	
-    public void saveOrUpdate(Team team) {
-        if (team.getteamid() > 0)  {
-            // update
-            String sql = "UPDATE tblTeam SET "
-            		+ "teamname=?, leaderid=? "
-            		+ "WHERE teamid=?";
-            this.getJdbcTemplate().update(sql, 
-            		team.getteamname(), team.getleaderid(), team.getteamid());
-        } else {
-            // insert
-            String sql = "INSERT INTO tblTeam "
-            		+ "(teamname, branchid, leaderid) "
-            		+ "VALUES (?, ?, ?)";
-            this.getJdbcTemplate().update(sql, 
-            		team.getteamname(), team.getbranchid(), team.getleaderid());
-            }
+    public void save(Team team) {
+        String sql = "INSERT INTO tblTeam "
+        		+ "(teamname, branchid, leaderid) "
+        		+ "VALUES (?, ?, ?)";
+        this.getJdbcTemplate().update(sql, 
+        		team.getteamname(), team.getbranchid(), team.getleaderid());
     }
     
+    public void update(Team team) {
+        String sql = "UPDATE tblTeam SET "
+        		+ "teamname=?, leaderid=? "
+        		+ "WHERE teamid=?";
+        this.getJdbcTemplate().update(sql, 
+        		team.getteamname(), team.getleaderid(), team.getteamid());
+    }
+
     public void delete(int teamid) {
         String sql = "DELETE FROM tblTeam WHERE teamid=?";
         this.getJdbcTemplate().update(sql, teamid);

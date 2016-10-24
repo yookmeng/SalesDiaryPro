@@ -1,10 +1,17 @@
 <div id="navigation">
 	<div class="container-fluid">
+	   	<input type="hidden" value="branch" name="branch" />	
 		<a href="#" id="brand">Sales Diary Pro</a>
 		<a href="#" class="toggle-nav" rel="tooltip" data-placement="bottom" title="Toggle navigation">
 			<i class="fa fa-bars"></i>
 		</a>
 		<ul class='main-nav'>
+			<li>
+				<a href="editBranch?branchid=${branch.branchid}">Branch Profile</a>
+			</li>
+			<li>
+				<a href="listTeam?branchid=${branch.branchid}">Team</a>
+			</li>
 			<li>
 				<a href="listBranchTargetMA">Target</a>
 			</li>

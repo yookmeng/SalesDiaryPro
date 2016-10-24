@@ -29,13 +29,13 @@ public class ModelDAOImpl extends JdbcDaoSupport implements ModelDAO {
         return brands;
     }
 
-    public void saveModel(Model model) {
+    public void save(Model model) {
         // insert
         String sql = "INSERT INTO tblModel (brandid, modelname, price) VALUES (?, ?, ?)";
         this.getJdbcTemplate().update(sql, model.getbrandid(), model.getmodelname(), model.getprice());
     }
     
-    public void updateModel(Model model) {
+    public void update(Model model) {
         // update
         String sql = "UPDATE tblModel SET modelname=?, price=? WHERE modelid=?";
         this.getJdbcTemplate().update(sql, model.getmodelname(), model.getprice(), model.getmodelid());

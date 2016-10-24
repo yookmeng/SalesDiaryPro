@@ -31,18 +31,17 @@ public class BrandDAOImpl extends JdbcDaoSupport implements BrandDAO {
     }
     
     @Override
-    public void saveOrUpdate(Brand brand) {
-        if (brand.getbrandid() > 0)  {
-            // update
-            String sql = "UPDATE tblBrand SET brandname=? WHERE brandid=?";
-            this.getJdbcTemplate().update(sql, brand.getbrandname(), brand.getbrandid());
-        } else {
-            // insert
-            String sql = "INSERT INTO tblBrand (companyid, brandname) VALUES (?, ?)";
-            this.getJdbcTemplate().update(sql, brand.getcompanyid(), brand.getbrandname());
-            }
+    public void save(Brand brand) {
+        String sql = "INSERT INTO tblBrand (companyid, brandname) VALUES (?, ?)";
+        this.getJdbcTemplate().update(sql, brand.getcompanyid(), brand.getbrandname());
     }
     
+    @Override
+    public void update(Brand brand) {
+        String sql = "UPDATE tblBrand SET brandname=? WHERE brandid=?";
+        this.getJdbcTemplate().update(sql, brand.getbrandname(), brand.getbrandid());
+    }
+
     @Override
     public void delete(int brandid) {
         String sql = "DELETE FROM tblBrand WHERE brandid=?";

@@ -25,7 +25,7 @@
 			<div class="span12">
 				<div class="box">
 					<div class="box-content">
-				        <form:form action="saveTeamTarget" method="post" modelAttribute="teamTarget" class='form-horizontal form-wizard'>
+				        <form:form action="" method="post" modelAttribute="teamTarget" class='form-horizontal form-wizard'>
 			            <form:hidden path="period"/>        
 			            <form:hidden path="targetid"/>        
 			            <form:hidden path="branchtargetid"/>        
@@ -61,7 +61,7 @@
 						</div>
 						<div class="form-actions">
 							<input type="reset" class="btn" onclick="location.href='listTeamTarget?targetid=${teamTarget.branchtargetid}'" value="Back" id="back">
-							<input type="submit" class="btn btn-primary" value="Save">
+							<input id="btnSave" type="submit" class="btn btn-primary" name="Save" value="Save">
 						</div>
 						</form:form>
 					</div>
@@ -69,5 +69,65 @@
 			</div>
 		</div>
 	</div>
+	<script>
+	$('#btnSave').click(function (e) {
+		e.preventDefault(); // <------------------ stop default behaviour of button
+
+		var targetid = $('#targetid').val(); 
+	    var teamid = ""; 
+	    var teamname = $('#teamname').val(); 
+	    var branchtargetid = $('#branchtargetid').val(); 
+	    var period = $('#period').val(); 
+	    var displayperiod = ""; 
+	    var prospect = $('#prospect').val(); 
+	    var testdrive = $('#testdrive').val(); 
+	    var closed = $('#closed').val(); 
+	
+	    var json = {
+	    		"targetid" : targetid,
+	    		"teamid" : teamid,
+	    		"teamname" : teamname,
+	    		"branchtargetid" : branchtargetid,
+	    		"period" : period,
+	    		"displayperiod" : displayperiod,
+	    		"prospect" : prospect,
+	    		"testdrive" : testdrive,
+	    		"closed" : closed
+		};
+	    if (json.targetid=="0"){
+	        $.ajax({
+	            url: "http://localhost:8080/SalesDiaryPro/teamtarget/create",
+	            type: 'POST',
+	            contentType: "application/json",
+	            dataType: "json",
+	            data: JSON.stringify(json), 
+	            success:function(data, Textstatus, jqXHR){
+	                alert("Record created!");
+	                window.location.href = "/SalesDiaryPro/listTeamTarget?targetid="+branchtargetid;
+	            },
+	            error:function(jqXhr, Textstatus){
+	                alert("Create failed!");
+	            }
+	        });    	
+	    }
+	    else {
+	        $.ajax({
+	            url: "http://localhost:8080/SalesDiaryPro/teamtarget/update/"+targetid,
+	            type: 'POST',
+	            contentType: "application/json",
+	            dataType: "json",
+	            data: JSON.stringify(json),
+	            success:function(data, Textstatus, jqXHR){
+	                alert("Record updated!");
+	                window.location.href = "/SalesDiaryPro/listTeamTarget?targetid="+branchtargetid;
+	            },
+	            error:function(jqXhr, Textstatus){
+	                alert("Update failed!");
+	            }
+	        });
+	    }
+	    return true;
+	})
+	</script>	
 </body>
 </html>

@@ -9,8 +9,10 @@ import com.SpringMVC.model.UserTarget;
 @Repository 
 public interface UserTargetDAO {
      
-    public void saveOrUpdate(UserTarget userTarget);
+    public void save(UserTarget userTarget);
      
+    public void update(UserTarget userTarget);
+
     public void delete(int targetid);
      
     public UserTarget get(int targetid);

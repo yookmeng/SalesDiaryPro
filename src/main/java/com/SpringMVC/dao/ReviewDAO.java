@@ -8,8 +8,10 @@ import com.SpringMVC.model.Review;
 @Repository 
 public interface ReviewDAO {
      
-    public void saveOrUpdate(Review review);
+    public void save(Review review);
      
+    public void update(Review review);
+
     public void delete(int reviewid);
      
     public Review get(int reviewid);

@@ -24,23 +24,21 @@ public class TeamTargetDAOImpl extends JdbcDaoSupport implements TeamTargetDAO {
         this.setDataSource(dataSource);
     }
 	
-    public void saveOrUpdate(TeamTarget teamTarget) {
-        if (teamTarget.gettargetid() > 0)  {
-            // update
-            String sql = "UPDATE tblTeamTarget SET prospect=?, testdrive=?, closed=? "
-            		+ "WHERE teamid=? AND period=?";
-            this.getJdbcTemplate().update(sql, 
-            		teamTarget.getprospect(), teamTarget.gettestdrive(), teamTarget.getclosed(), 
-            		teamTarget.getteamid(), teamTarget.getperiod());
-        } else {
-            // insert
-            String sql = "INSERT INTO tblTeamTarget "
-            		+ "(teamid, period, branchtargetid, prospect, testdrive, closed) "
-            		+ "VALUES (?, ?, ?, ?, ?, ?)";
-            this.getJdbcTemplate().update(sql, 
-            		teamTarget.getteamid(), teamTarget.getperiod(), teamTarget.getbranchtargetid(), 
-            		teamTarget.getprospect(), teamTarget.gettestdrive(), teamTarget.getclosed());
-            }
+    public void save(TeamTarget teamTarget) {
+        String sql = "INSERT INTO tblTeamTarget "
+        		+ "(teamid, period, branchtargetid, prospect, testdrive, closed) "
+        		+ "VALUES (?, ?, ?, ?, ?, ?)";
+        this.getJdbcTemplate().update(sql, 
+        		teamTarget.getteamid(), teamTarget.getperiod(), teamTarget.getbranchtargetid(), 
+        		teamTarget.getprospect(), teamTarget.gettestdrive(), teamTarget.getclosed());
+    }
+    
+    public void update(TeamTarget teamTarget) {
+        String sql = "UPDATE tblTeamTarget SET prospect=?, testdrive=?, closed=? "
+        		+ "WHERE teamid=? AND period=?";
+        this.getJdbcTemplate().update(sql, 
+        		teamTarget.getprospect(), teamTarget.gettestdrive(), teamTarget.getclosed(), 
+        		teamTarget.getteamid(), teamTarget.getperiod());
     }
     
     public void delete(int targetid) {

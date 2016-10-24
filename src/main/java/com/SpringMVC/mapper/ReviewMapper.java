@@ -17,12 +17,12 @@ public class ReviewMapper implements RowMapper<Review> {
         int teamtargetid = rs.getInt("teamtargetid");        
         Date reviewdate = rs.getDate("reviewdate");
         int prospect = rs.getInt("prospect");
-        int sales = rs.getInt("sales");
-        float totalsales = rs.getFloat("totalsales");
+        int testdrive = rs.getInt("testdrive");
+        int closed = rs.getInt("closed");
         String minute = rs.getString("minute");
         int reviewby = rs.getInt("reviewby");
         
         return new Review(reviewid, userid, targetid, teamtargetid, reviewdate, 
-        		prospect, sales, totalsales, minute, reviewby);
+        		prospect, testdrive, closed, minute, reviewby);
     }
 }

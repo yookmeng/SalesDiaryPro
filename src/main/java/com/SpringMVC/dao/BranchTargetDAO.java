@@ -9,7 +9,9 @@ import com.SpringMVC.model.BranchTarget;
 @Repository 
 public interface BranchTargetDAO {
      
-    public void saveOrUpdate(BranchTarget branchTarget);
+    public void save(BranchTarget branchTarget);
+
+    public void update(BranchTarget branchTarget);
      
     public void delete(int targetid);
      

@@ -1,7 +1,6 @@
 package com.SpringMVC.controller;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,7 +54,7 @@ public class RequestController {
     @Autowired
     private RequestDAO requestDAO;
 
-    @RequestMapping(value = RequestRestURIConstant.GET, method = RequestMethod.GET)
+    @RequestMapping(value = RequestRestURIConstant.Get, method = RequestMethod.GET)
 	public String getRequest(@PathVariable int requestid) {
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
@@ -67,20 +66,19 @@ public class RequestController {
 		return jsonInString;
 	}
 
-    @RequestMapping(value = RequestRestURIConstant.GET_ALL, method = RequestMethod.GET)
-	public String getAllRequest(Principal principal) {
-    	UserLogin userLogin = userLoginDAO.findUserLogin(principal.getName());
+    @RequestMapping(value = RequestRestURIConstant.GetByProspect, method = RequestMethod.GET)
+	public String getAllRequest(@PathVariable int prospectid) {
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
-			jsonInString = mapper.writeValueAsString(requestDAO.list(userLogin.getuserid()));
+			jsonInString = mapper.writeValueAsString(requestDAO.list(prospectid));
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
 		return jsonInString;
 	}
 
-    @RequestMapping(value = RequestRestURIConstant.CREATE, method = RequestMethod.POST)
+    @RequestMapping(value = RequestRestURIConstant.Create, method = RequestMethod.POST)
     public ResponseEntity<Request> createRequest(@RequestBody Request request) throws IOException {
     	Brand brand = brandDAO.getByName(request.getbrandname());
     	request.setbrandid(brand.getbrandid());
@@ -91,7 +89,7 @@ public class RequestController {
         return new ResponseEntity<Request>(request, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = RequestRestURIConstant.UPDATE, method = RequestMethod.POST)
+    @RequestMapping(value = RequestRestURIConstant.Update, method = RequestMethod.POST)
     public ResponseEntity<Request> updateRequest(@PathVariable("requestid") int requestid, @RequestBody Request request) {
     	Request currentRequest = requestDAO.get(requestid);         
         if (currentRequest==null) {
@@ -115,7 +113,7 @@ public class RequestController {
         return new ResponseEntity<Request>(request, HttpStatus.OK);
     }
 
-    @RequestMapping(value = RequestRestURIConstant.DELETE, method = RequestMethod.DELETE)
+    @RequestMapping(value = RequestRestURIConstant.Delete, method = RequestMethod.DELETE)
     public ResponseEntity<Request> deleteRequest(@PathVariable("requestid") int requestid) {
     	Request request = requestDAO.get(requestid);
         if (request == null) {
@@ -148,7 +146,7 @@ public class RequestController {
         Prospect prospect = prospectDAO.get(prospectid);
         UserProfile userProfile = userProfileDAO.findUser(prospect.getuserid());
         ModelAndView mav = new ModelAndView("requestForm");
-        List<String> brands = brandDAO.getBrands(userProfileDAO.getCompanyID(request.getUserPrincipal().getName()));	
+        List<String> brands = brandDAO.getBrands(userLoginDAO.getCompanyID(request.getUserPrincipal().getName()));	
         mav.addObject("brandlist", brands);
         Brand brand = brandDAO.getByName(brands.get(0));
         List<String> models = modelDAO.getModels(brand.getbrandid());	
@@ -166,7 +164,7 @@ public class RequestController {
         Prospect prospect = prospectDAO.get(editRequest.getprospectid());
         UserProfile userProfile = userProfileDAO.findUser(prospect.getuserid());
         ModelAndView mav = new ModelAndView("requestForm");
-        List<String> brands = brandDAO.getBrands(userProfileDAO.getCompanyID(request.getUserPrincipal().getName()));	
+        List<String> brands = brandDAO.getBrands(userLoginDAO.getCompanyID(request.getUserPrincipal().getName()));	
         mav.addObject("brandlist", brands);
         List<String> models = modelDAO.getModels(editRequest.getbrandid());	
         mav.addObject("userProfile", userProfile);

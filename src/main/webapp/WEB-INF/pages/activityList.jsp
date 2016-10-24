@@ -54,7 +54,7 @@
 				</div>
 			</div>
 		</div>
-	</div>		
+	</div>
 	<script>
 	    function deleteActivity(activityid) {
 	    	jQuery.ajax({

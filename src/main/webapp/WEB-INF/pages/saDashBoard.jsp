@@ -5,10 +5,4 @@
 	<jsp:include page="_saNavigation.jsp" />
 	<div id="main"></div>
 </body>
-<script>
-	function companyForm(){
-		
-		$('#main').load('companyForm.jsp');
-	}
-</script>
 </html>

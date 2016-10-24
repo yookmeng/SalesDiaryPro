@@ -8,8 +8,10 @@ import com.SpringMVC.model.Company;
 @Repository 
 public interface CompanyDAO {
      
-    public void saveOrUpdate(Company company);
+    public void save(Company company);
      
+    public void update(Company company);
+
     public void delete(int companyid);
      
     public Company get(int companyid);

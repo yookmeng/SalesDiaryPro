@@ -23,26 +23,24 @@ public class ReviewDAOImpl extends JdbcDaoSupport implements ReviewDAO {
         this.setDataSource(dataSource);
     }
 	
-    public void saveOrUpdate(Review review) {
-        if (review.getreviewid() > 0)  {
-            // update
-            String sql = "UPDATE tblReview SET reviewdate=?, prospect=?, sales=?, totalsales=?, minute=?, reviewby=?"
-            		+ "WHERE reviewid=?";
-            this.getJdbcTemplate().update(sql, review.getreviewdate(), 
-            		review.getprospect(), review.getsales(), review.gettotalsales(), 
-            		review.getminute(), review.getreviewby(), 
-            		review.getreviewid());
-        } else {
-            // insert
-            String sql = "INSERT INTO tblReview "
-            		+ "(userid, targetid, teamtargetid, reviewdate, "
-            		+ "prospect, sales, totalsales, minute, reviewby) "
-            		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            this.getJdbcTemplate().update(sql, 
-            		review.getuserid(), review.gettargetid(), review.getteamtargetid(), review.getreviewdate(), 
-            		review.getprospect(), review.getsales(), review.gettotalsales(), 
-            		review.getminute(), review.getreviewby());
-            }
+    public void save(Review review) {
+        String sql = "INSERT INTO tblReview "
+        		+ "(userid, targetid, teamtargetid, reviewdate, "
+        		+ "prospect, testdrive, closed, minute, reviewby) "
+        		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        this.getJdbcTemplate().update(sql, 
+        		review.getuserid(), review.gettargetid(), review.getteamtargetid(), review.getreviewdate(), 
+        		review.getprospect(), review.gettestdrive(), review.getclosed(), 
+        		review.getminute(), review.getreviewby());
+    }
+    
+    public void update(Review review) {
+        String sql = "UPDATE tblReview SET reviewdate=?, prospect=?, testdrive=?, closed=?, minute=?, reviewby=?"
+        		+ "WHERE reviewid=?";
+        this.getJdbcTemplate().update(sql, review.getreviewdate(), 
+        		review.getprospect(), review.gettestdrive(), review.getclosed(), 
+        		review.getminute(), review.getreviewby(), 
+        		review.getreviewid());
     }
     
     public void delete(int reviewid) {
@@ -52,7 +50,7 @@ public class ReviewDAOImpl extends JdbcDaoSupport implements ReviewDAO {
     
     public List<Review> list(int userid) {
 	    String sql = "SELECT reviewid, userid, targetid, teamtargetid, reviewdate, "
-        		+ "prospect, sales, totalsales, minute, reviewby "
+        		+ "prospect, testdrive, closed, minute, reviewby "
         		+ "FROM tblReview "
         		+ "WHERE userid = " + userid;
 	    ReviewMapper mapper = new ReviewMapper();
@@ -62,7 +60,7 @@ public class ReviewDAOImpl extends JdbcDaoSupport implements ReviewDAO {
 
     public Review get(int reviewid) {
 	    String sql = "SELECT reviewid, userid, targetid, teamtargetid, reviewdate, "
-        		+ "prospect, sales, totalsales, minute, reviewby "
+        		+ "prospect, testdrive, closed, minute, reviewby "
         		+ "FROM tblReview "
 	    		+ "WHERE activityid=" + reviewid;
 	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<Review>() {
@@ -78,8 +76,8 @@ public class ReviewDAOImpl extends JdbcDaoSupport implements ReviewDAO {
 	                review.setteamtargetid(rs.getInt("teamtargetid"));
 	                review.setreviewdate(rs.getDate("reviewdate"));
 	                review.setprospect(rs.getInt("prospect"));
-	                review.setsales(rs.getInt("sales"));
-	                review.settotalsales(rs.getFloat("totalsales"));
+	                review.settestdrive(rs.getInt("testdrive"));
+	                review.setclosed(rs.getInt("closed"));
 	                review.setminute(rs.getString("minute"));
 	                review.setreviewby(rs.getInt("reviewby"));
 	                return review;

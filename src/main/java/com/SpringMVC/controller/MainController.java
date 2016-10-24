@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.SpringMVC.model.Branch;
 import com.SpringMVC.model.UserLogin;
+import com.SpringMVC.dao.BranchDAO;
 import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.model.UserMonthlySummary;
 import com.SpringMVC.dao.UserMonthlySummaryDAO;
@@ -29,10 +31,13 @@ public class MainController {
     private UserLoginDAO userLoginDAO;
 
     @Autowired
+    private BranchDAO branchDAO;
+
+    @Autowired
     private UserMonthlySummaryDAO userMonthlySummaryDAO;
 
     private enum Roles {
-        USER, SA, MD, MA;
+        USER, SA, MD, MA, DEV;
     }
     
     @RequestMapping(value = { "/", "/login" }, method = RequestMethod.GET)
@@ -61,6 +66,8 @@ public class MainController {
     	   model.addAttribute("userMonthlySummary", userMonthlySummary);    	   
     	   return "userDashBoard";    	   
        case MA:
+    	   Branch branch = branchDAO.getByMA(userLogin.getuserid());
+    	   model.addAttribute("branch", branch);    	   
            return "maDashBoard";    	   
        case MD:
            return "mdDashBoard";    	   
@@ -76,13 +83,15 @@ public class MainController {
        return "calendar";
    }
  
-   @RequestMapping(value="/listUser")
-   public ModelAndView listUser(ModelAndView model, Principal principal) throws IOException{
-	    List<UserLogin> listUser = userLoginDAO.list();
-	    model.addObject("listUser", listUser);
-	    model.addObject("role", userLoginDAO.getUserRoles(principal.getName()));
-	    model.setViewName("userList");	 	    
-	    return model;
+	@RequestMapping(value="/listUser")
+	public ModelAndView listUser(ModelAndView model, Principal principal) throws IOException{
+		List<UserLogin> listUser = userLoginDAO.list(
+				userLoginDAO.getUserRoles(principal.getName()),
+				userLoginDAO.getCompanyID(principal.getName()));
+		model.addObject("listUser", listUser);
+		model.addObject("role", userLoginDAO.getUserRoles(principal.getName()));
+		model.setViewName("userList");	 	    
+		return model;
 	}
 	   
    @RequestMapping(value = "/newUser", method = RequestMethod.GET)

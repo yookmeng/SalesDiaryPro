@@ -6,7 +6,8 @@
 <body>
 	<jsp:include page="_mdNavigation.jsp" />
 	<div id="main" class="container-fluid">
-	   	<input type="hidden" value="company" name="company" />
+	   	<input type="hidden" value="company" name="company"/>
+		<input type="hidden" value="${company.companyname}" name="companyname" id="companyname"/>		   	
 		<div class="breadcrumbs">
 			<ul>
 				<li>
@@ -22,7 +23,7 @@
 			<div class="span12">
 				<div class="box">
 					<div class="box-content">
-			        <form:form action="saveCompanyTarget" method="post" modelAttribute="companyTarget" class='form-horizontal form-wizard'>
+			        <form:form action="" method="post" modelAttribute="companyTarget" class='form-horizontal form-wizard'>
 		            <form:hidden path="companyid"/>        
 		            <form:hidden path="targetid"/>			            
 					<div class="form-group">
@@ -51,7 +52,7 @@
 					</div>
 					<div class="form-actions">
 						<input type="reset" class="btn" onclick="location.href='listCompanyTarget?username=${pageContext.request.userPrincipal.name}'" value="Back" id="back">
-						<input type="submit" class="btn btn-primary" value="Save">
+						<input id="btnSave" type="submit" class="btn btn-primary" name="Save" value="Save">
 					</div>
 					</form:form>
 					</div>
@@ -59,5 +60,63 @@
 			</div>
 		</div>
 	</div>
+	<script>
+	$('#btnSave').click(function (e) {
+		e.preventDefault(); // <------------------ stop default behaviour of button
+		
+		var targetid = $('#targetid').val(); 
+	    var companyid = $('#companyid').val(); 
+	    var companyname = $('#companyname').val();
+	    var period = $('#period').val(); 
+	    var displayperiod = ""; 
+	    var prospect = $('#prospect').val(); 
+	    var testdrive = $('#testdrive').val(); 
+	    var closed = $('#closed').val(); 
+	
+	    var json = {
+	    		"targetid" : targetid,
+	    		"companyid" : companyid,
+	    		"companyname" : companyname,
+	    		"period" : period,
+	    		"displayperiod" : displayperiod,
+	    		"prospect" : prospect,
+	    		"testdrive" : testdrive,
+	    		"closed" : closed
+		};
+	    if (json.targetid=="0"){
+	        $.ajax({
+	            url: "http://localhost:8080/SalesDiaryPro/companytarget/create",
+	            type: 'POST',
+	            contentType: "application/json",
+	            dataType: "json",
+	            data: JSON.stringify(json), 
+	            success:function(data, Textstatus, jqXHR){
+	                alert("Record created!");
+	                window.location.href = "/SalesDiaryPro/listCompanyTarget";
+	            },
+	            error:function(jqXhr, Textstatus){
+	                alert("Create failed!");
+	            }
+	        });    	
+	    }
+	    else {
+	        $.ajax({
+	            url: "http://localhost:8080/SalesDiaryPro/companytarget/update/"+targetid,
+	            type: 'POST',
+	            contentType: "application/json",
+	            dataType: "json",
+	            data: JSON.stringify(json),
+	            success:function(data, Textstatus, jqXHR){
+	                alert("Record updated!");
+	                window.location.href = "/SalesDiaryPro/listCompanyTarget";
+	            },
+	            error:function(jqXhr, Textstatus){
+	                alert("Update failed!");
+	            }
+	        });
+	    }
+	    return true;
+	})
+	</script>	
 </body>
 </html>

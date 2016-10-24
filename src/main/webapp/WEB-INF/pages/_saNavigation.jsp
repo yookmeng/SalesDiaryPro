@@ -15,7 +15,10 @@
 						<a href="editCompany?companyid=0">Company Profile</a>
 					</li>
 					<li>
-						<a href="listBranch?companyid=0">Branches</a>
+						<a href="listUser">User</a>
+					</li>
+					<li>
+						<a href="listBranch?companyid=0">Branch</a>
 					</li>
 				</ul>
 			</li>

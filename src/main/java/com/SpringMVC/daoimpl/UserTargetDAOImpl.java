@@ -24,25 +24,27 @@ public class UserTargetDAOImpl extends JdbcDaoSupport implements UserTargetDAO {
         this.setDataSource(dataSource);
     }
 	
-    public void saveOrUpdate(UserTarget userTarget) {
-        if (userTarget.gettargetid() > 0)  {
-            // update
-            String sql = "UPDATE tblUserTarget SET prospect=?, testdrive=?, closed=? "
-            		+ "WHERE targetid=?";
-            this.getJdbcTemplate().update(sql, 
-            		userTarget.getprospect(), userTarget.gettestdrive(), userTarget.getclosed(), 
-            		userTarget.gettargetid());
-        } else {
-            // insert
-            String sql = "INSERT INTO tblUserTarget "
-            		+ "(userid, period, teamtargetid, prospect, testdrive, closed) "
-            		+ "VALUES (?, ?, ?, ?, ?, ?)";
-            this.getJdbcTemplate().update(sql, 
-            		userTarget.getuserid(), userTarget.getperiod(), userTarget.getteamtargetid(),
-            		userTarget.getprospect(), userTarget.gettestdrive(), userTarget.getclosed());
-            }
+    public void save(UserTarget userTarget) {
+        String sql = "INSERT INTO tblUserTarget "
+        		+ "(userid, period, teamtargetid, prospect, testdrive, closed) "
+        		+ "VALUES (?, ?, ?, ?, ?, ?)";
+        this.getJdbcTemplate().update(sql, 
+        		userTarget.getuserid(), userTarget.getperiod(), userTarget.getteamtargetid(),
+        		userTarget.getprospect(), userTarget.gettestdrive(), userTarget.getclosed());
     }
     
+    public void update(UserTarget userTarget) {
+    	System.out.println(userTarget.getprospect());
+    	System.out.println(userTarget.gettestdrive());
+    	System.out.println(userTarget.getclosed());
+    	System.out.println(userTarget.gettargetid());
+        String sql = "UPDATE tblUserTarget SET prospect=?, testdrive=?, closed=? "
+        		+ "WHERE targetid=?";
+        this.getJdbcTemplate().update(sql, 
+        		userTarget.getprospect(), userTarget.gettestdrive(), userTarget.getclosed(), 
+        		userTarget.gettargetid());
+    }
+
     public void delete(int targetid) {
         String sql = "DELETE FROM tblUserTarget WHERE targetid=?";
         this.getJdbcTemplate().update(sql, targetid);

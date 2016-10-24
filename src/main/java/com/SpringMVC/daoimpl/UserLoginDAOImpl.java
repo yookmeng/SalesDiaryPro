@@ -48,13 +48,11 @@ public class UserLoginDAOImpl extends JdbcDaoSupport implements UserLoginDAO {
     }
  
     @Override
-    public List<String> getUserRoles(String username) {
-        String sql = "Select role "
-                + " from tblRole where username = ? ";
-         
-        Object[] params = new Object[] { username };         
-        List<String> roles = this.getJdbcTemplate().queryForList(sql,params, String.class);         
-        return roles;
+    public String getUserRoles(String username) {
+        String sql = "Select role from tblRole WITH (NOLOCK) where username = ? ";
+
+        String role = (String)getJdbcTemplate().queryForObject(sql, new Object[] {username}, String.class);         
+        return role;
     }
      
     @Override
@@ -97,14 +95,29 @@ public class UserLoginDAOImpl extends JdbcDaoSupport implements UserLoginDAO {
     }
     
     @Override
-    public List<UserLogin> list() {
-        String sql = "SELECT u.userid AS userid, u.username AS username, u.password AS password, "
-        		+ "r.role AS role, ISNULL(sa.companyid, ISNULL(md.companyid, 0)) AS companyid "
-        		+ "FROM	tblUser u "        		
-				+ "LEFT JOIN tblRole r ON u.username = r.username "
-				+ "LEFT JOIN tblCompany sa ON sa.said = u.userid "
-				+ "LEFT JOIN tblCompany md ON md.mdid = u.userid "
-        		+ "WHERE r.role <> 'USER'";
+    public List<UserLogin> list(String role, int companyid) {
+    	String sql = "";
+    	if (role.equals("DEV") ){    	
+	        sql = "SELECT u.userid AS userid, u.username AS username, u.password AS password, "
+	        		+ "r.role AS role, ISNULL(sa.companyid, ISNULL(md.companyid, 0)) AS companyid "
+	        		+ "FROM	tblUser u "
+					+ "LEFT JOIN tblRole r ON u.username = r.username "
+					+ "LEFT JOIN tblCompany sa ON sa.said = u.userid "
+					+ "LEFT JOIN tblCompany md ON md.mdid = u.userid "
+    				+ "WHERE r.role IN ('SA', 'MD')";    		    		
+    	}
+    	else {
+	        sql = "SELECT u.userid AS userid, u.username AS username, u.password AS password, "
+	        		+ "r.role AS role, ISNULL(b1.companyid, ISNULL(b2.companyid, 0)) AS companyid "
+	        		+ "FROM	tblUser u "        		
+	        		+ "LEFT JOIN tblRole r ON u.username = r.username "
+	        		+ "LEFT JOIN tblBranch b1 ON b1.maid = u.userid "
+	        		+ "LEFT JOIN tblUserProfile up ON u.userid = up.userid "
+	        		+ "LEFT JOIN tblTeam t ON t.teamid = up.teamid "
+	        		+ "LEFT JOIN tblBranch b2 ON b2.branchid = t.branchid "	        		
+	        		+ "WHERE r.role IN ('MA', 'USER') "
+	        		+ "AND (b1.companyid=" + companyid + " OR b2.companyid=" + companyid + ")";
+    	}
         UserLoginMapper mapper = new UserLoginMapper();
         List<UserLogin> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
@@ -172,5 +185,12 @@ public class UserLoginDAOImpl extends JdbcDaoSupport implements UserLoginDAO {
 	            return null;
 	        }
         });
+    }
+
+    @Override
+    public int getCompanyID(String username) {
+        String sql = "EXEC spGetCompanyID ? ";
+        int companyid = (int)getJdbcTemplate().queryForObject(sql, new Object[] {username}, int.class);
+        return companyid;
     }
 }

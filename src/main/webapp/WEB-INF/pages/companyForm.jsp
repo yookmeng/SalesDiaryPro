@@ -11,11 +11,12 @@
 		<jsp:include page="_deNavigation.jsp" />
 	</c:if>   
 	<div id="main" class="container-fluid">
+	   	<input type="hidden" value="${role}" name="role" id="role"/>
 		<div class="row">
 			<div class="span12">
 				<div class="box">
 					<div class="box-content">
-			        <form:form action="saveCompany" method="post" modelAttribute="company" class='form-horizontal form-wizard'>
+			        <form:form action="" method="post" modelAttribute="company" class='form-horizontal form-wizard'>
 		            <form:hidden path="companyid"/>
 					<div class="form-group">
 						<label for="companyname" class="control-label col-sm-2">Company Name</label>
@@ -96,8 +97,13 @@
 						</div>
 					</div>
 					<div class="form-actions">
-						<input type="reset" class="btn" onclick="location.href='home'" value="Back" id="back">						
-						<input type="submit" class="btn btn-primary" value="Save">
+						<c:if test="${role == 'SA'}">
+							<input type="reset" class="btn" onclick="location.href='home'" value="Back" id="back">						
+						</c:if>
+						<c:if test="${role == 'DEV'}">
+							<input type="reset" class="btn" onclick="location.href='listCompany'" value="Back" id="back">						
+						</c:if>   
+						<input id="btnSave" type="submit" class="btn btn-primary" name="Save" value="Save">
 					</div>
 					</form:form>
 					</div>
@@ -105,5 +111,89 @@
 			</div>
 		</div>
 	</div>
+	<script>
+	$('#btnSave').click(function (e) {
+		e.preventDefault(); // <------------------ stop default behaviour of button
+
+		var companyid = $('#companyid').val(); 
+	    var companyname = $('#companyname').val(); 
+	    var regno = $('#regno').val(); 
+	    var mdid = ""; 
+	    var mdname = $('#mdname').val(); 
+	    var address = $('#address').val(); 
+	    var zipcode = $('#zipcode').val(); 
+	    var city = $('#city').val(); 
+	    var state = $('#state').val(); 
+	    var country = $('#country').val(); 
+	    var telephone = $('#telephone').val(); 
+	    var fax = $('#fax').val(); 
+	    var email = $('#email').val(); 
+	    var website = $('#website').val(); 
+	    var said = ""; 
+	    var saname = $('#saname').val(); 
+
+	    var json = {
+	    		"companyid" : companyid,
+	    		"companyname" : companyname,
+	    		"regno" : regno,
+	    		"mdid" : mdid,
+	    		"mdname" : mdname,		
+	    		"address" : address,
+	    		"zipcode" : zipcode,
+	    		"city" : city,
+	    		"state" : state,
+	    		"country" : country,
+	    		"telephone" : telephone,
+	    		"fax" : fax,
+	    		"email" : email,
+	    		"website" : website,
+	    		"said" : said,
+	    		"saname" : saname			    		
+		};
+	    if (json.companyid=="0"){
+	        $.ajax({
+	            url: "http://localhost:8080/SalesDiaryPro/company/create",
+	            type: 'POST',
+	            contentType: "application/json",
+	            dataType: "json",
+	            data: JSON.stringify(json), 
+	            success:function(data, Textstatus, jqXHR){
+	                alert("Record created!");
+	                if ($('#role').val()=="DEV"){
+		                window.location.href = "/SalesDiaryPro/listCompany";	                	
+	                }
+	                else{
+		                window.location.href = "/SalesDiaryPro/home";	                	
+	                }
+	            },
+	            error:function(jqXhr, Textstatus){
+	                alert("Create failed!"+status);
+	            }
+	        });    	
+	    }
+	    else {
+	        $.ajax({
+	            url: "http://localhost:8080/SalesDiaryPro/company/update/"+companyid,
+	            type: 'POST',
+	            contentType: "application/json",
+	            dataType: "json",
+	            data: JSON.stringify(json),
+	            success:function(data, Textstatus, jqXHR){
+	                alert("Record updated!");
+	                if ($('#role').val()=="DEV"){
+		                window.location.href = "/SalesDiaryPro/listCompany";	                	
+	                }
+	                else{
+		                window.location.href = "/SalesDiaryPro/home";	                	
+	                }
+	            },
+	            error:function(jqXhr, Textstatus){
+	                alert("Update failed!");
+	            }
+	        });
+	    }
+	    return true;
+	})
+	</script>	
 </body>
 </html>

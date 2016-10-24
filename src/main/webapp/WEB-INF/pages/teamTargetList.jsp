@@ -48,9 +48,11 @@
 	                    <td><fmt:formatNumber value="${teamTarget.testdrive}"/></td>
 	                    <td><fmt:formatNumber value="${teamTarget.closed}"/></td>
 	                    <td>
-	                        <a href="editTeamTarget?targetid=${teamTarget.targetid}">Edit</a>
-	                        &nbsp;&nbsp;&nbsp;&nbsp;
-	                        <a href="deleteTeamTarget?targetid=${teamTarget.targetid}">Delete</a>
+							<button class="btn btn-small" onclick="window.location='editTeamTarget?targetid=${teamTarget.targetid}';" >
+						    	<i class="fa fa-edit"></i></button>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<button class="btn btn-small" onclick="deleteTeamTarget(${teamTarget.targetid})">
+								<i class="fa fa-trash-o"></i></button>
 	                    </td>
 	                </tr>
                 </c:forEach>             
@@ -58,5 +60,23 @@
         	</div>
         </div>
 	</div>
+	<script>
+	    function deleteTeamTarget(targetid) {
+	    	jQuery.ajax({
+	            type: "DELETE",
+	            url: "http://localhost:8080/SalesDiaryPro/teamtarget/delete/"+targetid,
+	            contentType: "application/json",
+	            data: "",
+	            dataType: "",
+	            success: function (data, status, jqXHR) {
+	                alert("record deleted!");	                
+					location.replace(location);
+	            },	        
+	            error: function (jqXHR, status) {
+	                alert("delete failed!");
+	            }
+	        });	
+	    }
+	</script>	
 </body>
 </html>

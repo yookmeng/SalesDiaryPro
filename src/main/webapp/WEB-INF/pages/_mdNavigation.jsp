@@ -9,7 +9,7 @@
 				<a href="listCompanyTarget">Target</a>
 			</li>
 			<li>
-				<a href="listBranch2?companyid=0">Branch</a>
+				<a href="listBranch?companyid=0">Branch</a>
 			</li>
 		</ul>
 		<div class="user">

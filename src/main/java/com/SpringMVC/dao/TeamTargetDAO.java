@@ -9,8 +9,10 @@ import com.SpringMVC.model.TeamTarget;
 @Repository 
 public interface TeamTargetDAO {
      
-    public void saveOrUpdate(TeamTarget teamTarget);
+    public void save(TeamTarget teamTarget);
      
+    public void update(TeamTarget teamTarget);
+
     public void delete(int targetid);
      
     public TeamTarget get(int targetid);

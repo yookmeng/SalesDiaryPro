@@ -24,23 +24,21 @@ public class BranchTargetDAOImpl extends JdbcDaoSupport implements BranchTargetD
         this.setDataSource(dataSource);
     }
 	
-    public void saveOrUpdate(BranchTarget branchTarget) {
-        if (branchTarget.gettargetid() > 0)  {
-            // update
-            String sql = "UPDATE tblBranchTarget SET prospect=?, testdrive=?, closed=? "
-            		+ "WHERE targetid=?";
-            this.getJdbcTemplate().update(sql, 
-            		branchTarget.getprospect(), branchTarget.gettestdrive(), branchTarget.getclosed(), 
-            		branchTarget.gettargetid());
-        } else {
-            // insert
-            String sql = "INSERT INTO tblBranchTarget "
-            		+ "(branchid, period, companytargetid, prospect, testdrive, closed) "
-            		+ "VALUES (?, ?, ?, ?, ?, ?)";
-            this.getJdbcTemplate().update(sql, 
-            		branchTarget.getbranchid(), branchTarget.getperiod(), branchTarget.getcompanytargetid(), 
-            		branchTarget.getprospect(), branchTarget.gettestdrive(), branchTarget.getclosed());
-            }
+    public void save(BranchTarget branchTarget) {
+        String sql = "INSERT INTO tblBranchTarget "
+        		+ "(branchid, period, companytargetid, prospect, testdrive, closed) "
+        		+ "VALUES (?, ?, ?, ?, ?, ?)";
+        this.getJdbcTemplate().update(sql, 
+        		branchTarget.getbranchid(), branchTarget.getperiod(), branchTarget.getcompanytargetid(), 
+        		branchTarget.getprospect(), branchTarget.gettestdrive(), branchTarget.getclosed());
+    }
+    
+    public void update(BranchTarget branchTarget) {
+        String sql = "UPDATE tblBranchTarget SET prospect=?, testdrive=?, closed=? "
+        		+ "WHERE targetid=?";
+        this.getJdbcTemplate().update(sql, 
+        		branchTarget.getprospect(), branchTarget.gettestdrive(), branchTarget.getclosed(), 
+        		branchTarget.gettargetid());
     }
     
     public void delete(int targetid) {

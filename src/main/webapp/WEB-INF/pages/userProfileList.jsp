@@ -5,73 +5,88 @@
 <html>
 <jsp:include page="_menu.jsp" />
 <body>
-<div id="main">
-	<c:if test="${role == 'SA'}">
-		<jsp:include page="_saNavigation.jsp" />
-	</c:if>
-	<c:if test="${role == 'MD'}">
-		<jsp:include page="_mdNavigation.jsp" />
-	</c:if>   
-	<c:if test="${role == 'MA'}">
-		<jsp:include page="_maNavigation.jsp" />
-	</c:if>   
-	<c:if test="${role == 'USER'}">
-		<jsp:include page="_userNavigation.jsp" />
-	</c:if>   
-	<div class="container-fluid">
-        <input type="hidden" value="companyid" name="companyid" />     
-        <input type="hidden" value="branchid" name="branchid" />     
-        <input type="hidden" value="team" name="team" />     
-		<div class="breadcrumbs">
-			<ul>
-				<li>
-					<a href="home">Home</a>
-					<i class="fa fa-angle-right"></i>
-				</li>
-				<li>
-					<a href="listBranch?companyid=${company.companyid}">Branch</a>
-					<i class="fa fa-angle-right"></i>
-				</li>
-				<li>
-					<a href="listTeam?branchid=${branch.branchid}">Team</a>
-					<i class="fa fa-angle-right"></i>
-				</li>
-				<li>
-					<a href="listMember?teamid=${team.teamid}">Member</a>
-				</li>
-			</ul>
-			<div class="close-bread">
-				<a href="#">
-					<i class="fa fa-times"></i>
-				</a>
+	<div id="main">
+		<c:if test="${role == 'SA'}">
+			<jsp:include page="_saNavigation.jsp" />
+		</c:if>
+		<c:if test="${role == 'MD'}">
+			<jsp:include page="_mdNavigation.jsp" />
+		</c:if>   
+		<c:if test="${role == 'MA'}">
+			<jsp:include page="_maNavigation.jsp" />
+		</c:if>   
+		<c:if test="${role == 'USER'}">
+			<jsp:include page="_userNavigation.jsp" />
+		</c:if>   
+		<div class="container-fluid">
+	        <input type="hidden" value="companyid" name="companyid" />     
+	        <input type="hidden" value="branchid" name="branchid" />     
+	        <input type="hidden" value="team" name="team" />     
+			<div class="breadcrumbs">
+				<ul>
+					<li>
+						<a href="home">Home</a>
+						<i class="fa fa-angle-right"></i>
+					</li>
+					<li>
+						<a href="listBranch?companyid=${company.companyid}">Branch</a>
+						<i class="fa fa-angle-right"></i>
+					</li>
+					<li>
+						<a href="listTeam?branchid=${branch.branchid}">Team</a>
+						<i class="fa fa-angle-right"></i>
+					</li>
+					<li>
+						<a href="listMember?teamid=${team.teamid}">Member</a>
+					</li>
+				</ul>
 			</div>
-		</div>
-		<div align="center">
-            <h5><a href="addMember?teamid=${team.teamid}">Add New</a></h5>
-			<div class="box-content nopadding">
-				<table class="table table-hover table-nomargin table-colored-header">
-				<tr>
-				    <th>Member Name</th>
-				    <th>Mobile</th>
-				    <th>Email</th>
-				    <th>Action</th>
-				</tr>
-				<c:forEach var="member" items="${userProfile}" varStatus="status">
+			<div align="center">
+	            <h5><a href="addMember?teamid=${team.teamid}">Add New</a></h5>
+				<div class="box-content nopadding">
+					<table class="table table-hover table-nomargin table-colored-header">
 					<tr>
-					    <td>${member.username}</td>
-						<td>${member.mobile}</td>
-						<td>${member.email}</td>
-						<td>
-						    <a href="editMember?userid=${member.userid}">Edit</a>
-	                        &nbsp;&nbsp;&nbsp;&nbsp;
-							<a href="deleteMember?userid=${member.userid}">Delete</a>
-					    </td>		                 
+					    <th>Member Name</th>
+					    <th>Mobile</th>
+					    <th>Email</th>
+					    <th>Action</th>
 					</tr>
-				</c:forEach>             
-				</table>
+					<c:forEach var="member" items="${userProfile}" varStatus="status">
+						<tr>
+						    <td>${member.username}</td>
+							<td>${member.mobile}</td>
+							<td>${member.email}</td>
+							<td>
+								<button class="btn btn-small" onclick="window.location='editMember?userid=${member.userid}';" >
+							    	<i class="fa fa-edit"></i></button>
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								<button class="btn btn-small" onclick="deleteMember(${member.userid})">
+									<i class="fa fa-trash-o"></i></button>
+						    </td>		                 
+						</tr>
+					</c:forEach>             
+					</table>
+				</div>
 			</div>
 		</div>
-	</div>
-</div>	
+	</div>	
+	<script>
+	    function deleteMember(userid) {
+	    	jQuery.ajax({
+	            type: "DELETE",
+	            url: "http://localhost:8080/SalesDiaryPro/userprofile/delete/"+userid,
+	            contentType: "application/json",
+	            data: "",
+	            dataType: "",
+	            success: function (data, status, jqXHR) {
+	                alert("record deleted!");	                
+					location.replace(location);
+	            },	        
+	            error: function (jqXHR, status) {
+	                alert("delete failed!");
+	            }
+	        });	
+	    }
+	</script>
 </body>
 </html>
