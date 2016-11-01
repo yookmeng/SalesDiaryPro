@@ -1,11 +1,10 @@
 <!DOCTYPE HTML>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
- 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 <html>
 <jsp:include page="_menu.jsp" />
 <body>
 	<jsp:include page="_deNavigation.jsp" />
-	<div id="main" class="container-fluid">
+	<div class="container-fluid">
 		<div align="center">
 			<h5><a href="addCompany">Add New</a></h5>
 			<div class="box-content nopadding">

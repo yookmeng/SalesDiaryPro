@@ -5,7 +5,7 @@
 <jsp:include page="_menu.jsp" />
 <body>
 	<jsp:include page="_saNavigation.jsp" />
-	<div id="main" class="container-fluid">
+	<div class="container-fluid">
 	   	<input type="hidden" value="brand" name="brand" />
 		<div class="breadcrumbs">
 			<ul>

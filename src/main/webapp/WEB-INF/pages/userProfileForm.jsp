@@ -4,19 +4,19 @@
 <html>
 <jsp:include page="_menu.jsp" />
 <body>
-	<div id="main" class="container-fluid">
-		<c:if test="${role == 'SA'}">
-			<jsp:include page="_saNavigation.jsp" />
-		</c:if>
-		<c:if test="${role == 'MD'}">
-			<jsp:include page="_mdNavigation.jsp" />
-		</c:if>   
-		<c:if test="${role == 'MA'}">
-			<jsp:include page="_maNavigation.jsp" />
-		</c:if>   
-		<c:if test="${role == 'USER'}">
-			<jsp:include page="_userNavigation.jsp" />
-		</c:if>   
+	<c:if test="${role == 'SA'}">
+		<jsp:include page="_saNavigation.jsp" />
+	</c:if>
+	<c:if test="${role == 'MD'}">
+		<jsp:include page="_mdNavigation.jsp" />
+	</c:if>   
+	<c:if test="${role == 'MA'}">
+		<jsp:include page="_maNavigation.jsp" />
+	</c:if>   
+	<c:if test="${role == 'USER'}">
+		<jsp:include page="_userNavigation.jsp" />
+	</c:if>   
+	<div class="container-fluid">
 		<input type="hidden" value="companyid" name="companyid" />     
 		<input type="hidden" value="branchid" name="branchid" />     
 		<input type="hidden" value="team" name="team" />     

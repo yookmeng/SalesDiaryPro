@@ -141,9 +141,16 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
           <!-- Config: Maven Tomcat Plugin -->
           <!-- http://mvnrepository.com/artifact/org.apache.tomcat.maven/tomcat7-maven-plugin -->
           <plugin>
-              <groupId>org.apache.tomcat.maven</groupId>
-              <artifactId>tomcat7-maven-plugin</artifactId>
-              <version>2.2</version>
+<!-- run local -->
+<!--          
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+ -->            
+<!-- run at heroku -->
+ 			<groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <version>2.3</version>
 			<executions>
                 <execution>
                     <phase>package</phase>
@@ -160,7 +167,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                     </configuration>
                 </execution>
             </executions>
-          </plugin>
+           </plugin>
       </plugins>
   </build>       
   

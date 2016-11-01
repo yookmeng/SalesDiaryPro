@@ -1,6 +1,4 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>  
 <html>
 <jsp:include page="_menu.jsp" />
@@ -14,7 +12,7 @@
 	<c:if test="${role == 'MA'}">
 		<jsp:include page="_maNavigation.jsp" />
 	</c:if>   
-	<div id="main" class="container-fluid">
+	<div class="container-fluid">
         <input type="hidden" value="branch" name="branch" /> 
 		<div class="breadcrumbs">
 			<ul>

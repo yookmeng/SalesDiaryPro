@@ -5,7 +5,7 @@
 <jsp:include page="_menu.jsp" />
 <body>
 	<jsp:include page="_tlNavigation.jsp" />
-	<div id="main" class="container-fluid">
+	<div class="container-fluid">
 		<div class="breadcrumbs">
 			<ul>
 				<li>

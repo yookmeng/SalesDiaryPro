@@ -5,7 +5,7 @@
 <jsp:include page="_menu.jsp" />
 <body>
 	<jsp:include page="_mdNavigation.jsp" />
-	<div id="main" class="container-fluid">
+	<div class="container-fluid">
 	   	<input type="hidden" value="company" name="company"/>
 		<input type="hidden" value="${company.companyname}" name="companyname" id="companyname"/>		   	
 		<div class="breadcrumbs">

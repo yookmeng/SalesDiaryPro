@@ -9,7 +9,7 @@
 	<c:if test="${role == 'MD'}">
 		<jsp:include page="_mdNavigation.jsp" />
 	</c:if>
- 	<div id="main" class="container-fluid">
+ 	<div class="container-fluid">
 		<div class="breadcrumbs">
 			<ul>
 				<li>

@@ -6,7 +6,7 @@
 	<script src="resources/js/plugins/wizard/jquery.form.wizard.min.js"></script>
 <body>
 	<jsp:include page="_userNavigation.jsp" />
-	<div id="main">
+	<div>
 		<br><br>
 		<div class="row">
 			<div class="span12">

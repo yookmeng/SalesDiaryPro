@@ -5,7 +5,7 @@
 <body data-mobile-sidebar="slide">
 <div>
 	<jsp:include page="_userNavigation.jsp" />
-	<div id="main">
+	<div>
 		<input type="hidden" value="userMonthlySummary" name="userMonthlySummary" /> 
 		<div class="row margin-top">
 			<div class="col-sm-3">

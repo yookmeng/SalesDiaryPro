@@ -4,7 +4,7 @@
 <jsp:include page="_menu.jsp" />
 <body>
 	<jsp:include page="_userNavigation.jsp" />
-	<div id="main">
+	<div>
 		<div class="breadcrumbs">
 			<ul>
 				<li>

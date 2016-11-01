@@ -13,7 +13,7 @@
 	<c:if test="${role == 'DEV'}">
 		<jsp:include page="_deNavigation.jsp" />
 	</c:if>
-<div id="main" class="container-fluid">	
+<div class="container-fluid">	
 	<div align="center">
 		<h5><a href="newUser">Add New</a></h5>
 		<div class="box-content nopadding">

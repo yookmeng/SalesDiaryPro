@@ -20,7 +20,7 @@
 	<c:if test="${role == 'USER'}">
 		<jsp:include page="_userNavigation.jsp" />
 	</c:if>   
-	<div id="main">
+	<div>
 		<div class="container-fluid">
 	        <input type="hidden" value="companyid" name="companyid" />     
 	        <input type="hidden" value="branchid" name="branchid" />     

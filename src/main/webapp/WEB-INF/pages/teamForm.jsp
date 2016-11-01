@@ -16,7 +16,7 @@
 	<c:if test="${role == 'TL'}">
 		<jsp:include page="_tlNavigation.jsp" />
 	</c:if>   
-	<div id="main" class="container-fluid">
+	<div class="container-fluid">
         <input type="hidden" value="company" name="company" />     
         <input type="hidden" value="branch" name="branch" /> 
 		<input type="hidden" value="${role}" name="role" id="role"/>	            

@@ -10,7 +10,7 @@
 	<c:if test="${role == 'MA'}">
 		<jsp:include page="_maNavigation.jsp" />
 	</c:if>   
-	<div id="main" class="container-fluid">
+	<div class="container-fluid">
 	   	<input type="hidden" value="${role}" name="role" id="role"/>	
 		<div class="breadcrumbs">
 			<ul>
