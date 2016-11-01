@@ -46,9 +46,15 @@ public class RequestDAOImpl extends JdbcDaoSupport implements RequestDAO {
     }
     
     public List<Request> list(int prospectid) {
-        String sql = "SELECT r.requestid requestid, r.prospectid prospectid, r.requestdate requestdate, "
-        		+ "r.brandid brandid, r.modelid modelid, r.remark remark, r.status status, "
-        		+ "b.brandname brandname, m.modelname modelname "
+        String sql = "SELECT r.requestid AS requestid, "
+        		+ "r.prospectid AS prospectid, "
+        		+ "r.requestdate AS requestdate, "
+        		+ "r.brandid AS brandid, "
+        		+ "r.modelid AS modelid, "
+        		+ "r.remark AS remark, "
+        		+ "r.status AS status, "
+        		+ "b.brandname AS brandname, "
+        		+ "m.modelname AS modelname "
         		+ "FROM tblRequest r "
         		+ "LEFT JOIN tblBrand b ON b.brandid = r.brandid "
         		+ "LEFT JOIN tblModel m ON m.modelid = r.modelid "
@@ -60,9 +66,15 @@ public class RequestDAOImpl extends JdbcDaoSupport implements RequestDAO {
     }
 
     public Request get(int requestid) {
-	    String sql = "SELECT r.requestid requestid, r.prospectid prospectid, r.requestdate requestdate, "
-        		+ "r.brandid brandid, r.modelid modelid, r.remark remark, r.status status, "
-        		+ "b.brandname brandname, m.modelname modelname "
+	    String sql = "SELECT r.requestid AS requestid, "
+	    		+ "r.prospectid AS prospectid, "
+	    		+ "r.requestdate AS requestdate, "
+        		+ "r.brandid AS brandid, "
+        		+ "r.modelid AS modelid, "
+        		+ "r.remark AS remark, "
+        		+ "r.status AS status, "
+        		+ "b.brandname AS brandname, "
+        		+ "m.modelname AS modelname "
 	    		+ "FROM tblRequest r "
         		+ "LEFT JOIN tblBrand b ON b.brandid = r.brandid "
         		+ "LEFT JOIN tblModel m ON m.modelid = r.modelid "

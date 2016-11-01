@@ -49,20 +49,84 @@ public class ReviewDAOImpl extends JdbcDaoSupport implements ReviewDAO {
     }
     
     public List<Review> list(int userid) {
-	    String sql = "SELECT reviewid, userid, targetid, teamtargetid, reviewdate, "
-        		+ "prospect, testdrive, closed, minute, reviewby "
-        		+ "FROM tblReview "
-        		+ "WHERE userid = " + userid;
+	    String sql = "SELECT r.reviewid AS reviewid, "
+	    		+ "r.userid AS userid, "
+	    		+ "up.username AS username, "
+	    		+ "r.targetid AS targetid, "
+	    		+ "r.teamtargetid AS teamtargetid, "
+	    		+ "r.reviewdate AS reviewdate, "
+        		+ "r.prospect AS prospect, "
+        		+ "r.testdrive AS testdrive, "
+        		+ "r.closed AS closed, "
+        		+ "r.minute AS minute, "
+        		+ "r.reviewby AS reviewby "
+        		+ "FROM tblReview r "
+        		+ "LEFT JOIN tblUserProfile up on up.userid = r.userid "
+        		+ "WHERE r.userid = " + userid;
+	    ReviewMapper mapper = new ReviewMapper();
+        List<Review> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }
+
+    public List<Review> listByBranch(int branchid) {
+	    String sql = "SELECT r.reviewid AS reviewid, "
+	    		+ "r.userid AS userid, up.username AS username, "
+	    		+ "r.targetid AS targetid, "
+	    		+ "r.teamtargetid AS teamtargetid, "
+	    		+ "r.reviewdate AS reviewdate, "
+        		+ "r.prospect AS prospect, "
+        		+ "r.testdrive AS testdrive, "
+        		+ "r.closed AS closed, "
+        		+ "r.minute AS minute, "
+        		+ "r.reviewby AS reviewby "
+        		+ "FROM tblReview r "
+        		+ "LEFT JOIN tblUserProfile up on up.userid = r.userid "
+        		+ "LEFT JOIN tblTeam t on t.teamid = up.teamid "
+        		+ "LEFT JOIN tblBranch b on b.branchid = t.branchid "        		
+        		+ "WHERE b.branchid = " + branchid;
+	    ReviewMapper mapper = new ReviewMapper();
+        List<Review> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }
+
+    public List<Review> listByCompany(int companyid) {
+	    String sql = "SELECT r.reviewid AS reviewid, "
+	    		+ "r.userid AS userid, "
+	    		+ "up.username AS username, "
+	    		+ "r.targetid AS targetid, "
+	    		+ "r.teamtargetid AS teamtargetid, "
+	    		+ "r.reviewdate AS reviewdate, "
+        		+ "r.prospect AS prospect, "
+        		+ "r.testdrive AS testdrive, "
+        		+ "r.closed AS closed, "
+        		+ "r.minute AS minute, "
+        		+ "r.reviewby AS reviewby "
+        		+ "FROM tblReview r "
+        		+ "LEFT JOIN tblUserProfile up on up.userid = r.userid "
+        		+ "LEFT JOIN tblTeam t on t.teamid = up.teamid "
+        		+ "LEFT JOIN tblBranch b on b.branchid = t.branchid "
+        		+ "LEFT JOIN tblCompany c on c.companyid = b.companyid "
+        		+ "WHERE c.companyid = " + companyid;
 	    ReviewMapper mapper = new ReviewMapper();
         List<Review> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
     }
 
     public Review get(int reviewid) {
-	    String sql = "SELECT reviewid, userid, targetid, teamtargetid, reviewdate, "
-        		+ "prospect, testdrive, closed, minute, reviewby "
-        		+ "FROM tblReview "
-	    		+ "WHERE activityid=" + reviewid;
+	    String sql = "SELECT r.reviewid AS reviewid, "
+	    		+ "r.userid AS userid, "
+	    		+ "up.username AS username, "
+	    		+ "r.targetid AS targetid, "
+	    		+ "r.teamtargetid AS teamtargetid, "
+	    		+ "r.reviewdate AS reviewdate, "
+        		+ "r.prospect AS prospect, "
+        		+ "r.testdrive AS testdrive, "
+        		+ "r.closed AS closed, "
+        		+ "r.minute AS minute, "
+        		+ "r.reviewby AS reviewby "
+        		+ "FROM tblReview r "
+        		+ "LEFT JOIN tblUserProfile up on up.userid = r.userid "
+	    		+ "WHERE r.reviewid=" + reviewid;
 	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<Review>() {
 	 
 	        @Override
@@ -72,6 +136,7 @@ public class ReviewDAOImpl extends JdbcDaoSupport implements ReviewDAO {
 	                Review review = new Review();
 	                review.setreviewid(rs.getInt("reviewid"));
 	                review.setuserid(rs.getInt("userid"));
+	                review.setusername(rs.getString("username"));
 	                review.settargetid(rs.getInt("targetid"));
 	                review.setteamtargetid(rs.getInt("teamtargetid"));
 	                review.setreviewdate(rs.getDate("reviewdate"));

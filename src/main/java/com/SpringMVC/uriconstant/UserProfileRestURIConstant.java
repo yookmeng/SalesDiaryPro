@@ -6,5 +6,5 @@ public class UserProfileRestURIConstant {
 	public static final String Find = "/userprofile/{userid}";
 	public static final String Create = "/userprofile/create";
 	public static final String Update = "/userprofile/update/{userid}";
-	public static final String Delete = "/userprofile/delete/{userid}";
+	public static final String Delete = "/userprofile/delete/{username}";
 }

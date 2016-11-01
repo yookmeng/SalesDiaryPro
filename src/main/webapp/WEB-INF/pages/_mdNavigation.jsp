@@ -6,10 +6,16 @@
 		</a>
 		<ul class='main-nav'>
 			<li>
+				<a href="listClosingPeriod">Closing</a>
+			</li>
+			<li>
 				<a href="listCompanyTarget">Target</a>
 			</li>
 			<li>
 				<a href="listBranch?companyid=0">Branch</a>
+			</li>
+			<li>
+				<a href="listReview">Review</a>
 			</li>
 		</ul>
 		<div class="user">

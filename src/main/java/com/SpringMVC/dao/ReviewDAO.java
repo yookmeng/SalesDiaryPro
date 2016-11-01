@@ -17,4 +17,9 @@ public interface ReviewDAO {
     public Review get(int reviewid);
      
     public List<Review> list(int userid);    
+
+    public List<Review> listByBranch(int branchid);    
+
+    public List<Review> listByCompany(int companyid);    
+
 }

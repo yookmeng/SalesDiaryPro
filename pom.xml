@@ -64,8 +64,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
           <version>4.2.5.RELEASE</version>
       </dependency>
      
-     
- 
+	<dependency>
+	  <groupId>org.postgresql</groupId>
+	  <artifactId>postgresql</artifactId>
+	  <version>9.4-1206-jdbc42</version>
+	</dependency>     
+		 
       <!-- http://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
       <dependency>
           <groupId>org.springframework</groupId>

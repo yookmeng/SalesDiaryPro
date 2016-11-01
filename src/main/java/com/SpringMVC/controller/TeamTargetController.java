@@ -139,13 +139,13 @@ public class TeamTargetController {
  	    return mav;
  	}
  	   
-    @RequestMapping(value="/listTeamTargetUser", method = RequestMethod.GET)
+    @RequestMapping(value="/listTeamTargetTL", method = RequestMethod.GET)
     public ModelAndView listTeamTargetUser(HttpServletRequest request) {
         UserProfile userProfile = userProfileDAO.get(request.getUserPrincipal().getName());
-        Team team = teamDAO.get(userProfile.getteamid());
+        Team team = teamDAO.getByUser(userProfile.getuserid());
         if (userProfile.getuserid() == team.getleaderid()){
 	 	    List<TeamTarget> listTeamTarget = teamTargetDAO.listByTeam(team.getteamid());
-	 	    ModelAndView mav = new ModelAndView("teamTargetUserList");
+	 	    ModelAndView mav = new ModelAndView("teamTargetTLList");
 	 	    mav.addObject("listTarget", listTeamTarget);
 	 	    return mav;
         }    	

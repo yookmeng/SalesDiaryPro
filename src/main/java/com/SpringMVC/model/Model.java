@@ -5,15 +5,18 @@ public class Model {
     private String modelname;
     private int brandid;
     private float price;
+    private float commission;
     
     public Model() {
     }
  
-    public Model(int modelid, String modelname, int brandid, float price) {
+    public Model(int modelid, String modelname, int brandid, 
+    		float price, float commission) {
         this.modelid = modelid;
         this.modelname = modelname;
         this.brandid = brandid;
         this.price = price;
+        this.commission = commission;
     }
  
     public int getmodelid() {
@@ -42,5 +45,12 @@ public class Model {
     }  
     public void setprice(float price) {
         this.price = price;
+    }
+
+    public float getcommission() {
+        return commission;
+    }  
+    public void setcommission(float commission) {
+        this.commission = commission;
     }
 }

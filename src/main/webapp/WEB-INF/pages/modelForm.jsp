@@ -41,6 +41,12 @@
 							<form:input type="text" path="price" name="price" id="price" class="form-control" />
 						</div>
 					</div>
+					<div class="form-group">
+						<label for="commission" class="control-label col-sm-2">Commission</label>
+						<div class="col-sm-5">
+							<form:input type="text" path="commission" name="commission" id="commission" class="form-control" />
+						</div>
+					</div>
 					<div class="form-actions">
 						<input type="reset" class="btn" onclick="location.href='listModel?brandid=${model.brandid}'" value="Back" id="back">						
 						<input id="btnSave" type="submit" class="btn btn-primary" name="Save" value="Save">
@@ -59,12 +65,14 @@
 	    var modelid = $('#modelid').val(); 
 	    var modelname = $('#modelname').val(); 	    
 	    var price = $('#price').val(); 
+	    var commission = $('#commission').val(); 
 	
 	    var json = {
 	    		"modelid" : modelid,
 	    		"modelname" : modelname,	    		
 	    		"brandid" : brandid,
-	    		"price" : price
+	    		"price" : price,
+	    		"commission" : commission
 		};
 	    if (json.modelid=="0"){
 	        $.ajax({

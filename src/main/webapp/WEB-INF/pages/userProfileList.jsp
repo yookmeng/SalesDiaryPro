@@ -5,19 +5,22 @@
 <html>
 <jsp:include page="_menu.jsp" />
 <body>
+	<c:if test="${role == 'SA'}">
+		<jsp:include page="_saNavigation.jsp" />
+	</c:if>
+	<c:if test="${role == 'MD'}">
+		<jsp:include page="_mdNavigation.jsp" />
+	</c:if>   
+	<c:if test="${role == 'MA'}">
+		<jsp:include page="_maNavigation.jsp" />
+	</c:if>   
+	<c:if test="${role == 'TL'}">
+		<jsp:include page="_tlNavigation.jsp" />
+	</c:if>   
+	<c:if test="${role == 'USER'}">
+		<jsp:include page="_userNavigation.jsp" />
+	</c:if>   
 	<div id="main">
-		<c:if test="${role == 'SA'}">
-			<jsp:include page="_saNavigation.jsp" />
-		</c:if>
-		<c:if test="${role == 'MD'}">
-			<jsp:include page="_mdNavigation.jsp" />
-		</c:if>   
-		<c:if test="${role == 'MA'}">
-			<jsp:include page="_maNavigation.jsp" />
-		</c:if>   
-		<c:if test="${role == 'USER'}">
-			<jsp:include page="_userNavigation.jsp" />
-		</c:if>   
 		<div class="container-fluid">
 	        <input type="hidden" value="companyid" name="companyid" />     
 	        <input type="hidden" value="branchid" name="branchid" />     
@@ -28,17 +31,23 @@
 						<a href="home">Home</a>
 						<i class="fa fa-angle-right"></i>
 					</li>
-					<li>
-						<a href="listBranch?companyid=${company.companyid}">Branch</a>
-						<i class="fa fa-angle-right"></i>
-					</li>
-					<li>
-						<a href="listTeam?branchid=${branch.branchid}">Team</a>
-						<i class="fa fa-angle-right"></i>
-					</li>
-					<li>
-						<a href="listMember?teamid=${team.teamid}">Member</a>
-					</li>
+					<c:if test="${role == 'MD' || role == 'SA'}">
+						<li>
+							<a href="listBranch?companyid=${company.companyid}">Branch</a>
+							<i class="fa fa-angle-right"></i>
+						</li>
+					</c:if>
+					<c:if test="${role == 'MD' || role == 'SA' || role == 'MA'}" >
+						<li>
+							<a href="listTeam?branchid=${branch.branchid}">Team</a>
+							<i class="fa fa-angle-right"></i>
+						</li>
+					</c:if>
+					<c:if test="${role == 'MD' || role == 'SA' || role == 'MA' || role == 'TL'}" >
+						<li>
+							<a href="listMember?teamid=${team.teamid}">Member</a>
+						</li>
+					</c:if>
 				</ul>
 			</div>
 			<div align="center">
@@ -60,7 +69,7 @@
 								<button class="btn btn-small" onclick="window.location='editMember?userid=${member.userid}';" >
 							    	<i class="fa fa-edit"></i></button>
 								&nbsp;&nbsp;&nbsp;&nbsp;
-								<button class="btn btn-small" onclick="deleteMember(${member.userid})">
+								<button class="btn btn-small" onclick="deleteMember('${member.username}')">
 									<i class="fa fa-trash-o"></i></button>
 						    </td>		                 
 						</tr>
@@ -71,10 +80,10 @@
 		</div>
 	</div>	
 	<script>
-	    function deleteMember(userid) {
+	    function deleteMember(username) {
 	    	jQuery.ajax({
 	            type: "DELETE",
-	            url: "http://localhost:8080/SalesDiaryPro/userprofile/delete/"+userid,
+	            url: "http://localhost:8080/SalesDiaryPro/userprofile/delete/"+username,
 	            contentType: "application/json",
 	            data: "",
 	            dataType: "",

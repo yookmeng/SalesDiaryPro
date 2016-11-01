@@ -53,10 +53,21 @@ public class BranchDAOImpl extends JdbcDaoSupport implements BranchDAO {
     }
     
     public List<Branch> list(int companyid) {
-	    String sql = "SELECT b.branchid branchid, b.branchname branchname, b.companyid companyid, "
-	    		+ "b.regno regno, b.maid maid, ma.username maname, b.address address, "
-	    		+ "b.zipcode zipcode, b.city city, b.state state, b.country country, "
-	    		+ "b.telephone telephone, b.fax fax, b.email email, b.website website "
+	    String sql = "SELECT b.branchid AS branchid, "
+	    		+ "b.branchname AS branchname, "
+	    		+ "b.companyid AS companyid, "
+	    		+ "b.regno AS regno, "
+	    		+ "b.maid AS maid, "
+	    		+ "ma.username AS maname, "
+	    		+ "b.address AS address, "
+	    		+ "b.zipcode AS zipcode, "
+	    		+ "b.city AS city, "
+	    		+ "b.state AS state, "
+	    		+ "b.country AS country, "
+	    		+ "b.telephone AS telephone, "
+	    		+ "b.fax AS fax, "
+	    		+ "b.email AS email, "
+	    		+ "b.website AS website "
 	    		+ "FROM tblBranch b "
 	    		+ "LEFT JOIN tblUser ma on b.maid = ma.userid "
         		+ "WHERE b.companyid=" + companyid;
@@ -72,10 +83,21 @@ public class BranchDAOImpl extends JdbcDaoSupport implements BranchDAO {
     }
 
     public Branch get(int branchid) {
-	    String sql = "SELECT b.branchid branchid, b.branchname branchname, b.companyid companyid, "
-	    		+ "b.regno regno, b.maid maid, ma.username maname, b.address address, "
-	    		+ "b.zipcode zipcode, b.city city, b.state state, b.country country, "
-	    		+ "b.telephone telephone, b.fax fax, b.email email, b.website website "
+	    String sql = "SELECT b.branchid AS branchid, "
+	    		+ "b.branchname AS branchname, "
+	    		+ "b.companyid AS companyid, "
+	    		+ "b.regno AS regno, "
+	    		+ "b.maid AS maid, "
+	    		+ "ma.username AS maname, "
+	    		+ "b.address AS address, "
+	    		+ "b.zipcode AS zipcode, "
+	    		+ "b.city AS city, "
+	    		+ "b.state AS state, "
+	    		+ "b.country AS country, "
+	    		+ "b.telephone AS telephone, "
+	    		+ "b.fax AS fax, "
+	    		+ "b.email AS email, "
+	    		+ "b.website AS website "
 	    		+ "FROM tblBranch b "
 	    		+ "LEFT JOIN tblUser ma on b.maid = ma.userid "
 	    		+ "WHERE b.branchid=" + branchid;
@@ -109,10 +131,21 @@ public class BranchDAOImpl extends JdbcDaoSupport implements BranchDAO {
     }
     
     public Branch getByName(String branchname) {
-	    String sql = "SELECT b.branchid branchid, b.branchname branchname, b.companyid companyid, "
-	    		+ "b.regno regno, b.maid maid, ma.username maname, b.address address, "
-	    		+ "b.zipcode zipcode, b.city city, b.state state, b.country country, "
-	    		+ "b.telephone telephone, b.fax fax, b.email email, b.website website "
+	    String sql = "SELECT b.branchid AS branchid, "
+	    		+ "b.branchname AS branchname, "
+	    		+ "b.companyid AS companyid, "
+	    		+ "b.regno AS regno, "
+	    		+ "b.maid AS maid, "
+	    		+ "ma.username AS maname, "
+	    		+ "b.address AS address, "
+	    		+ "b.zipcode AS zipcode, "
+	    		+ "b.city AS city, "
+	    		+ "b.state AS state, "
+	    		+ "b.country AS country, "
+	    		+ "b.telephone AS telephone, "
+	    		+ "b.fax AS fax, "
+	    		+ "b.email AS email, "
+	    		+ "b.website AS website "
 	    		+ "FROM tblBranch b "
 	    		+ "LEFT JOIN tblUser ma on b.maid = ma.userid "	    		
 	    		+ "WHERE b.branchname='" + branchname + "'";
@@ -146,10 +179,21 @@ public class BranchDAOImpl extends JdbcDaoSupport implements BranchDAO {
     }
 
     public Branch getByMA(int maid) {
-	    String sql = "SELECT b.branchid branchid, b.branchname branchname, b.companyid companyid, "
-	    		+ "b.regno regno, b.maid maid, ma.username maname, b.address address, "
-	    		+ "b.zipcode zipcode, b.city city, b.state state, b.country country, "
-	    		+ "b.telephone telephone, b.fax fax, b.email email, b.website website "
+	    String sql = "SELECT b.branchid AS branchid, "
+	    		+ "b.branchname AS branchname, "
+	    		+ "b.companyid AS companyid, "
+	    		+ "b.regno AS regno, "
+	    		+ "b.maid AS maid, "
+	    		+ "ma.username AS maname, "
+	    		+ "b.address AS address, "
+	    		+ "b.zipcode AS zipcode, "
+	    		+ "b.city AS city, "
+	    		+ "b.state AS state, "
+	    		+ "b.country AS country, "
+	    		+ "b.telephone AS telephone, "
+	    		+ "b.fax AS fax, "
+	    		+ "b.email AS email, "
+	    		+ "b.website AS website "
 	    		+ "FROM tblBranch b "
 	    		+ "LEFT JOIN tblUser ma on b.maid = ma.userid "
 	    		+ "WHERE b.maid=" + maid;

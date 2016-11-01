@@ -45,8 +45,11 @@ public class TeamDAOImpl extends JdbcDaoSupport implements TeamDAO {
     }
     
     public List<Team> list(int branchid) {
-        String sql = "SELECT t.teamid teamid, t.teamname teamname, t.branchid branchid, "
-        		+ "t.leaderid leaderid, l.username leadername "
+        String sql = "SELECT t.teamid AS teamid, "
+        		+ "t.teamname AS teamname, "
+        		+ "t.branchid AS branchid, "
+        		+ "t.leaderid AS leaderid, "
+        		+ "l.username AS leadername "
         		+ "FROM tblTeam t "
 	    		+ "LEFT JOIN tblUser l on t.leaderid = l.userid "
         		+ "WHERE t.branchid = " + branchid;
@@ -62,8 +65,11 @@ public class TeamDAOImpl extends JdbcDaoSupport implements TeamDAO {
     }
 
     public Team get(int teamid) {
-        String sql = "SELECT t.teamid teamid, t.teamname teamname, t.branchid branchid, "
-        		+ "t.leaderid leaderid, l.username leadername "
+        String sql = "SELECT t.teamid AS teamid, "
+        		+ "t.teamname AS teamname, "
+        		+ "t.branchid AS branchid, "
+        		+ "t.leaderid AS leaderid, "
+        		+ "l.username AS leadername "
         		+ "FROM tblTeam t "
 	    		+ "LEFT JOIN tblUser l on t.leaderid = l.userid "
 	    		+ "WHERE t.teamid=" + teamid;
@@ -87,8 +93,11 @@ public class TeamDAOImpl extends JdbcDaoSupport implements TeamDAO {
     }
 
     public Team getByName(String teamname) {
-        String sql = "SELECT t.teamid teamid, t.teamname teamname, t.branchid branchid, "
-        		+ "t.leaderid leaderid, l.username leadername "
+        String sql = "SELECT t.teamid AS teamid, "
+        		+ "t.teamname AS teamname, "
+        		+ "t.branchid AS branchid, "
+        		+ "t.leaderid AS leaderid, "
+        		+ "l.username AS leadername "
         		+ "FROM tblTeam t "
 	    		+ "LEFT JOIN tblUser l on t.leaderid = l.userid "
 	    		+ "WHERE t.teamname='" + teamname +"'";
@@ -112,8 +121,11 @@ public class TeamDAOImpl extends JdbcDaoSupport implements TeamDAO {
     }
 
     public Team getByUser(int userid) {
-        String sql = "SELECT t.teamid teamid, t.teamname teamname, t.branchid branchid, "
-        		+ "t.leaderid leaderid, l.username leadername "
+        String sql = "SELECT t.teamid AS teamid, "
+        		+ "t.teamname AS teamname, "
+        		+ "t.branchid AS branchid, "
+        		+ "t.leaderid AS leaderid, "
+        		+ "l.username AS leadername "
         		+ "FROM tblTeam t "
 	    		+ "LEFT JOIN tblUser l on t.leaderid = l.userid "
 	    		+ "WHERE t.leaderid=" + userid;

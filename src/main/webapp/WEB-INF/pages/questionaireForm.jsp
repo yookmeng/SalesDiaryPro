@@ -57,16 +57,18 @@
 							</div>
 					</div>
 					<div class="step" id="fourthStep">
+							<label for="currentmodel" class="control-label col-sm-1">Trade In</label>
 							<div class="form-group" align="center">
-								<div class="col-sm-5">
-									<form:checkbox name="tradein" path="tradein" id="tradein" /> Trade In
+								<div class="col-sm-1">
+									<form:checkbox path="tradein" id="tradein" class="form-control"/>
 								</div>
 							</div>
 					</div>
 					<div class="step" id="fifthStep">
+							<label for="currentmodel" class="control-label col-sm-1">Test Drive</label>
 							<div class="form-group" align="center">
-								<div class="col-sm-5">
-									<form:checkbox name="testdrive" path="testdrive" id="testdrive" /> Test Drive
+								<div class="col-sm-1">
+									<form:checkbox path="testdrive" id="testdrive" class="form-control"/>
 								</div>
 							</div>
 					</div>
@@ -84,16 +86,16 @@
 $('#next').click(function (e) {
 	if ($('#next').val()=="Submit"){
 		e.preventDefault(); // <------------------ stop default behaviour of button
-		
-	    var userid = $('#userid').val(); 
+
+		var userid = $('#userid').val(); 
 	    var prospectname = $('#prospectname').val(); 
 	    var mobile = $('#mobile').val(); 
 	    var brandname = $('#brandname').val(); 
 	    var modelname = $('#modelname').val(); 
 	    var currentbrand = $('#currentbrand').val(); 
 	    var currentmodel = $('#currentmodel').val(); 
-	    var tradein = $('#tradein').val(); 
-	    var testdrive = $('#testdrive').val(); 
+	    var tradein = $('#tradein').prop('checked');
+	    var testdrive = $('#testdrive').prop('checked');
 	
 	    var json = {
 	    		"userid" : userid,

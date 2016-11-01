@@ -101,10 +101,10 @@
 	    var brandname = $('#brandname').val(); 
 	    var modelid = ""; 
 	    var modelname = $('#modelname').val(); 
-	    var demo = $('#demo').val(); 
-	    var testdrive = $('#testdrive').val(); 
-	    var quotation = $('#quotation').val(); 
-	    var linkevent = $('#linkevent').val(); 
+	    var demo = $('#demo').prop('checked'); 
+	    var testdrive = $('#testdrive').prop('checked'); 
+	    var quotation = $('#quotation').prop('checked'); 
+	    var linkevent = $('#linkevent').prop('checked'); 
 	    var remark1 = $('#remark1').val(); 
 	    var remark2 = $('#remark2').val(); 
 	    var remark3 = $('#remark3').val(); 

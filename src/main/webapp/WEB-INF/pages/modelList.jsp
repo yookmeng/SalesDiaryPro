@@ -30,12 +30,14 @@
 				<tr>
 				    <th>Model Name</th>
 				    <th>Price</th>
+				    <th>Commission</th>
 				    <th>Action</th>
 				</tr>
 				<c:forEach var="model" items="${listModel}" varStatus="status">
 					<tr>
 					    <td>${model.modelname}</td>
 					    <td><fmt:formatNumber value="${model.price}"/></td>
+					    <td><fmt:formatNumber value="${model.commission}"/></td>
 						<td>
 							<button class="btn btn-small" onclick="window.location='editModel?modelid=${model.modelid}';" >
 						    	<i class="fa fa-edit"></i></button>

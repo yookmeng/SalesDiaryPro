@@ -63,6 +63,8 @@ public class BranchController {
 
     @RequestMapping(value = BranchRestURIConstant.Create, method = RequestMethod.POST)
     public ResponseEntity<Branch> createBranch(@RequestBody Branch branch) throws IOException {
+    	UserLogin userLogin = userLoginDAO.get(branch.getmaname());
+    	branch.setmaid(userLogin.getuserid());
     	branchDAO.save(branch);
         return new ResponseEntity<Branch>(branch, HttpStatus.CREATED);
     }
@@ -75,7 +77,22 @@ public class BranchController {
             return new ResponseEntity<Branch>(HttpStatus.NOT_FOUND);
         }
         
-        currentBranch.setbranchname(branch.getbranchname());
+    	UserLogin userLogin = userLoginDAO.get(branch.getmaname());
+    	branch.setmaid(userLogin.getuserid());
+
+    	currentBranch.setbranchname(branch.getbranchname());
+    	currentBranch.setregno(branch.getregno());
+    	currentBranch.setmaid(branch.getmaid());
+    	currentBranch.setmaname(branch.getmaname());
+    	currentBranch.setcountry(branch.getcountry());
+    	currentBranch.setzipcode(branch.getzipcode());
+    	currentBranch.setstate(branch.getstate());
+    	currentBranch.setcity(branch.getcity());
+    	currentBranch.setaddress(branch.getaddress());
+    	currentBranch.settelephone(branch.gettelephone());
+    	currentBranch.setfax(branch.getfax());
+    	currentBranch.setemail(branch.getemail());
+    	currentBranch.setwebsite(branch.getwebsite());
 
         branchDAO.update(currentBranch);
         return new ResponseEntity<Branch>(branch, HttpStatus.OK);

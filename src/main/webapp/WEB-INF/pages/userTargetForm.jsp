@@ -3,7 +3,7 @@
 <html>
 <jsp:include page="_menu.jsp" />
 <body>
-	<jsp:include page="_maNavigation.jsp" />
+	<jsp:include page="_tlNavigation.jsp" />
 	<div id="main" class="container-fluid">
         <input type="hidden" value="teamTarget" name="teamTarget" /> 
 		<div class="breadcrumbs">
@@ -13,7 +13,7 @@
 					<i class="fa fa-angle-right"></i>
 				</li>
 				<li>
-					<a href="listTeamTargetUser">Target</a>
+					<a href="listTeamTargetTL">Target</a>
 					<i class="fa fa-angle-right"></i>
 				</li>
 				<li>

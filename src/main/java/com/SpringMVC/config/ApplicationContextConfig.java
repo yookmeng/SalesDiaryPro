@@ -28,7 +28,8 @@ import org.springframework.web.servlet.view.JstlView;
 @ComponentScan("com.SpringMVC.*")
 @EnableTransactionManagement
 // Load to Environment.
-@PropertySource("classpath:datasource-cfg.properties")
+@PropertySource("classpath:datasource-cfg.postgresql")
+//@PropertySource("classpath:datasource-cfg.mssql")
 public class ApplicationContextConfig {
  
   // The Environment class serves as the property holder

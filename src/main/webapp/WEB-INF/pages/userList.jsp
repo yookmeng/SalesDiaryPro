@@ -10,7 +10,7 @@
 	<c:if test="${role == 'SA'}">
 		<jsp:include page="_saNavigation.jsp" />
 	</c:if>
-	<c:if test="${role == 'DE'}">
+	<c:if test="${role == 'DEV'}">
 		<jsp:include page="_deNavigation.jsp" />
 	</c:if>
 <div id="main" class="container-fluid">	

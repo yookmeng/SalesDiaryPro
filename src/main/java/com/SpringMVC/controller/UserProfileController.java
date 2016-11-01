@@ -107,13 +107,13 @@ public class UserProfileController {
     }
 
     @RequestMapping(value = UserProfileRestURIConstant.Delete, method = RequestMethod.DELETE)
-    public ResponseEntity<UserProfile> deleteUserProfile(@PathVariable("userid") int userid) {
-    	UserProfile userProfile = userProfileDAO.findUser(userid);
+    public ResponseEntity<UserProfile> deleteUserProfile(@PathVariable("username") String username) {
+    	UserProfile userProfile = userProfileDAO.get(username);
         if (userProfile == null) {
             return new ResponseEntity<UserProfile>(HttpStatus.NOT_FOUND);
         }
  
-        userProfileDAO.delete(userid);
+        userProfileDAO.delete(username);
         return new ResponseEntity<UserProfile>(HttpStatus.OK);
     }
     

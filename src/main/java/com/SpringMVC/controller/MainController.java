@@ -2,8 +2,8 @@ package com.SpringMVC.controller;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.sql.Date;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.SpringMVC.model.Branch;
+import com.SpringMVC.model.Team;
 import com.SpringMVC.model.UserLogin;
 import com.SpringMVC.dao.BranchDAO;
+import com.SpringMVC.dao.TeamDAO;
 import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.model.UserMonthlySummary;
 import com.SpringMVC.dao.UserMonthlySummaryDAO;
@@ -34,10 +36,13 @@ public class MainController {
     private BranchDAO branchDAO;
 
     @Autowired
+    private TeamDAO teamDAO;
+
+    @Autowired
     private UserMonthlySummaryDAO userMonthlySummaryDAO;
 
     private enum Roles {
-        USER, SA, MD, MA, DEV;
+        USER, SA, MD, MA, TL, DEV;
     }
     
     @RequestMapping(value = { "/", "/login" }, method = RequestMethod.GET)
@@ -52,19 +57,23 @@ public class MainController {
 	}
  
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public String home(Model model, Principal principal) {
+	public String home(Model model, Principal principal) throws ParseException {
 	   model.addAttribute("username", principal.getName());
 	   UserLogin userLogin = userLoginDAO.findUserLogin(principal.getName());
 	   model.addAttribute("role", userLogin.getrole());
 	   Roles role = Roles.valueOf(userLogin.getrole()); 
        switch (role){
        case USER:
-    	   DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     	   Calendar c = Calendar.getInstance(); 
-    	   String period = dateFormat.format(c.getTime());
+    	   c.set(Calendar.DAY_OF_MONTH, 1);
+    	   Date period = new java.sql.Date(c.getTimeInMillis());
     	   UserMonthlySummary userMonthlySummary = userMonthlySummaryDAO.get(period, userLogin.getuserid());
     	   model.addAttribute("userMonthlySummary", userMonthlySummary);    	   
     	   return "userDashBoard";    	   
+       case TL:
+    	   Team team = teamDAO.getByUser(userLogin.getuserid());
+    	   model.addAttribute("team", team);    	   
+           return "tlDashBoard";    	   
        case MA:
     	   Branch branch = branchDAO.getByMA(userLogin.getuserid());
     	   model.addAttribute("branch", branch);    	   
@@ -96,11 +105,21 @@ public class MainController {
 	   
    @RequestMapping(value = "/newUser", method = RequestMethod.GET)
    public ModelAndView addUser(ModelAndView model, Principal principal) {
+       UserLogin userLogin = userLoginDAO.get(principal.getName());
        UserLogin newUser = new UserLogin();
        model.addObject("user", newUser);
-       List<String> roles= userLoginDAO.getAllRoles();	
-       model.addObject("role", userLoginDAO.getUserRoles(principal.getName()));
-       model.addObject("rolelist", roles);
+       if (userLogin.getrole().equals("DEV")){       
+	       List<String> roles= userLoginDAO.getAllRoles();	
+	       model.addObject("role", userLoginDAO.getUserRoles(principal.getName()));
+	       model.addObject("rolelist", roles);
+       }
+	   else {		// SA
+    	   List<String> roles= new ArrayList<String>();	
+    	   roles.add("MA");
+    	   roles.add("TL");
+    	   model.addObject("role", userLogin.getrole());
+           model.addObject("rolelist", roles);
+       }
        model.setViewName("userForm");
        return model;
    }
@@ -108,12 +127,7 @@ public class MainController {
    @RequestMapping(value = "/saveUser", method = RequestMethod.POST)
    public ModelAndView saveUser(@ModelAttribute UserLogin userLogin) {
        userLoginDAO.saveOrUpdate(userLogin);
-       if (userLogin.getrole().equals("DEV")){
-           return new ModelAndView("redirect:/listUser");    	   
-       }
-       else {
-    	   return new ModelAndView("redirect:/home");
-       }
+       return new ModelAndView("redirect:/listUser");    	   
    }
    
    @RequestMapping(value = "/deleteUser", method = RequestMethod.GET)
@@ -128,16 +142,15 @@ public class MainController {
        String username = request.getParameter("username");
        UserLogin userLogin = userLoginDAO.get(username);
        ModelAndView model = new ModelAndView("userForm");
-       if (userLogin.getrole().equals("SA") || userLogin.getrole().equals("ADMIN") || 
-        	   userLogin.getrole().equals("DEV")){
+       if (userLogin.getrole().equals("DEV")){
         	   List<String> roles= userLoginDAO.getAllRoles();	
                model.addObject("role", userLogin.getrole());
                model.addObject("rolelist", roles);
            }
-    	   else {
+	   else {		// SA
         	   List<String> roles= new ArrayList<String>();	
-        	   roles.add(userLogin.getrole());
-               model.addObject("role", userLogin.getrole());
+        	   roles.add("MA");
+        	   model.addObject("role", userLogin.getrole());
                model.addObject("rolelist", roles);
     	   }
        model.addObject("user", userLogin);       

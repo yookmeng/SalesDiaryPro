@@ -3,6 +3,8 @@ package com.SpringMVC.daoimpl;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
  
 import javax.sql.DataSource;
@@ -47,10 +49,14 @@ public class TeamTargetDAOImpl extends JdbcDaoSupport implements TeamTargetDAO {
     }
     
     public TeamTarget get(int targetid) {
-	    String sql = "SELECT tt.targetid targetid, tt.teamid teamid, t.teamname teamname, "
-	    		+ "tt.period period, CONVERT(varchar(7), tt.period, 111) displayperiod, "
-	    		+ "tt.branchtargetid branchtargetid, "
-	    		+ "tt.prospect prospect, tt.testdrive testdrive, tt.closed closed "
+	    String sql = "SELECT tt.targetid AS targetid, "
+	    		+ "tt.teamid AS teamid, "
+	    		+ "t.teamname AS teamname, "
+	    		+ "tt.period AS period, "
+	    		+ "tt.branchtargetid AS branchtargetid, "
+	    		+ "tt.prospect AS prospect, "
+	    		+ "tt.testdrive AS testdrive, "
+	    		+ "tt.closed AS closed "
 	    		+ "FROM tblTeamTarget tt "
         		+ "LEFT JOIN tblTeam t ON t.teamid = tt.teamid "	    		
 	    		+ "WHERE tt.targetid="+targetid;
@@ -60,12 +66,13 @@ public class TeamTargetDAOImpl extends JdbcDaoSupport implements TeamTargetDAO {
 	        public TeamTarget extractData(ResultSet rs) throws SQLException,
 	                DataAccessException {
 	            if (rs.next()) {
+	            	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM");
 	                TeamTarget teamTarget = new TeamTarget();
 	                teamTarget.settargetid(rs.getInt("targetid"));
 	                teamTarget.setteamid(rs.getInt("teamid"));
 	                teamTarget.setteamname(rs.getString("teamname"));
 	                teamTarget.setperiod(rs.getDate("period"));
-	                teamTarget.setdisplayperiod(rs.getString("displayperiod"));
+	                teamTarget.setdisplayperiod(dateFormat.format(rs.getDate("period")));
 	                teamTarget.setbranchtargetid(rs.getInt("branchtargetid"));
 	                teamTarget.setprospect(rs.getInt("prospect"));
 	                teamTarget.settestdrive(rs.getInt("testdrive"));
@@ -78,10 +85,14 @@ public class TeamTargetDAOImpl extends JdbcDaoSupport implements TeamTargetDAO {
     }
 
     public TeamTarget getByPeriod(String period, int teamid) {
-	    String sql = "SELECT tt.targetid targetid, tt.teamid teamid, t.teamname teamname, "
-	    		+ "tt.period period, CONVERT(varchar(7), tt.period, 111) displayperiod, "
-	    		+ "tt.branchtargetid branchtargetid, "
-	    		+ "tt.prospect prospect, tt.testdrive testdrive, tt.closed closed "
+	    String sql = "SELECT tt.targetid AS targetid, "
+	    		+ "tt.teamid AS teamid, "
+	    		+ "t.teamname AS teamname, "
+	    		+ "tt.period AS period, "
+	    		+ "tt.branchtargetid AS branchtargetid, "
+	    		+ "tt.prospect AS prospect, "
+	    		+ "tt.testdrive AS testdrive, "
+	    		+ "tt.closed AS closed "
 	    		+ "FROM tblTeamTarget tt "
         		+ "LEFT JOIN tblTeam t ON t.teamid = tt.teamid "	    		
 	    		+ "WHERE tt.period='"+period + "' "
@@ -92,12 +103,13 @@ public class TeamTargetDAOImpl extends JdbcDaoSupport implements TeamTargetDAO {
 	        public TeamTarget extractData(ResultSet rs) throws SQLException,
 	                DataAccessException {
 	            if (rs.next()) {
+	            	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM");
 	                TeamTarget teamTarget = new TeamTarget();
 	                teamTarget.settargetid(rs.getInt("targetid"));
 	                teamTarget.setteamid(rs.getInt("teamid"));
 	                teamTarget.setteamname(rs.getString("teamname"));
 	                teamTarget.setperiod(rs.getDate("period"));
-	                teamTarget.setdisplayperiod(rs.getString("displayperiod"));
+	                teamTarget.setdisplayperiod(dateFormat.format(rs.getDate("period")));
 	                teamTarget.setbranchtargetid(rs.getInt("branchtargetid"));
 	                teamTarget.setprospect(rs.getInt("prospect"));
 	                teamTarget.settestdrive(rs.getInt("testdrive"));
@@ -110,10 +122,14 @@ public class TeamTargetDAOImpl extends JdbcDaoSupport implements TeamTargetDAO {
     }
 
     public TeamTarget getByTeam(int teamid) {
-	    String sql = "SELECT tt.targetid targetid, tt.teamid teamid, t.teamname teamname, "
-	    		+ "tt.period period, CONVERT(varchar(7), tt.period, 111) displayperiod, "
-	    		+ "tt.branchtargetid branchtargetid, "
-	    		+ "tt.prospect prospect, tt.testdrive testdrive, tt.closed closed "
+	    String sql = "SELECT tt.targetid AS targetid, "
+	    		+ "tt.teamid AS teamid, "
+	    		+ "t.teamname AS teamname, "
+	    		+ "tt.period AS period, "
+	    		+ "tt.branchtargetid AS branchtargetid, "
+	    		+ "tt.prospect AS prospect, "
+	    		+ "tt.testdrive AS testdrive, "
+	    		+ "tt.closed AS closed "
 	    		+ "FROM tblTeamTarget tt "
         		+ "LEFT JOIN tblTeam t ON t.teamid = tt.teamid "	    		
 	    		+ "WHERE tt.teamid="+teamid;
@@ -123,12 +139,13 @@ public class TeamTargetDAOImpl extends JdbcDaoSupport implements TeamTargetDAO {
 	        public TeamTarget extractData(ResultSet rs) throws SQLException,
 	                DataAccessException {
 	            if (rs.next()) {
+	            	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM");
 	                TeamTarget teamTarget = new TeamTarget();
 	                teamTarget.settargetid(rs.getInt("targetid"));
 	                teamTarget.setteamid(rs.getInt("teamid"));
 	                teamTarget.setteamname(rs.getString("teamname"));
 	                teamTarget.setperiod(rs.getDate("period"));
-	                teamTarget.setdisplayperiod(rs.getString("displayperiod"));
+	                teamTarget.setdisplayperiod(dateFormat.format(rs.getDate("period")));
 	                teamTarget.setbranchtargetid(rs.getInt("branchtargetid"));
 	                teamTarget.setprospect(rs.getInt("prospect"));
 	                teamTarget.settestdrive(rs.getInt("testdrive"));
@@ -141,10 +158,14 @@ public class TeamTargetDAOImpl extends JdbcDaoSupport implements TeamTargetDAO {
     }
 
     public List<TeamTarget> list(Date period, int branchid) {
-	    String sql = "SELECT tt.targetid targetid, tt.teamid teamid, t.teamname teamname, "
-	    		+ "tt.period period, CONVERT(varchar(7), tt.period, 111) displayperiod, "
-	    		+ "tt.branchtargetid branchtargetid, "
-	    		+ "tt.prospect prospect, tt.testdrive testdrive, tt.closed closed "
+	    String sql = "SELECT tt.targetid AS targetid, "
+	    		+ "tt.teamid AS teamid, "
+	    		+ "t.teamname AS teamname, "
+	    		+ "tt.period AS period, "
+	    		+ "tt.branchtargetid AS branchtargetid, "
+	    		+ "tt.prospect AS prospect, "
+	    		+ "tt.testdrive AS testdrive, "
+	    		+ "tt.closed AS closed "
 	    		+ "FROM tblTeamTarget tt "
         		+ "LEFT JOIN tblTeam t ON t.teamid = tt.teamid "	    		
         		+ "WHERE tt.period = '" + period + "' "
@@ -155,10 +176,14 @@ public class TeamTargetDAOImpl extends JdbcDaoSupport implements TeamTargetDAO {
     }
 
     public List<TeamTarget> listByTeam(int teamid) {
-	    String sql = "SELECT tt.targetid targetid, tt.teamid teamid, t.teamname teamname, "
-	    		+ "tt.period period, CONVERT(varchar(7), tt.period, 111) displayperiod, "
-	    		+ "tt.branchtargetid branchtargetid, "
-	    		+ "tt.prospect prospect, tt.testdrive testdrive, tt.closed closed "
+	    String sql = "SELECT tt.targetid AS targetid, "
+	    		+ "tt.teamid AS teamid, "
+	    		+ "t.teamname AS teamname, "
+	    		+ "tt.period AS period, "
+	    		+ "tt.branchtargetid AS branchtargetid, "
+	    		+ "tt.prospect AS prospect, "
+	    		+ "tt.testdrive AS testdrive, "
+	    		+ "tt.closed AS closed "
 	    		+ "FROM tblTeamTarget tt "
         		+ "LEFT JOIN tblTeam t ON t.teamid = tt.teamid "	    		
         		+ "WHERE t.teamid = " + teamid + " "

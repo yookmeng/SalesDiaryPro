@@ -1,7 +1,10 @@
 package com.SpringMVC.daoimpl;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.List;
  
 import javax.sql.DataSource;
@@ -24,40 +27,90 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
     }
 	
     public void save(Activity activity) {
-    	String option = "0";
-    			
-    	String sql = "EXEC spActivityInsUpdDel ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?";
-        this.getJdbcTemplate().update(sql, option,
-        			activity.getactivityid(), activity.getprospectid(), activity.getactivitydate(), 
-            		activity.getbrandid(), activity.getmodelid(), 
-            		activity.getdemo(), activity.gettestdrive(), activity.getquotation(), 
-            		activity.getlinkevent(), 
-            		activity.getremark1(), activity.getremark2(), activity.getremark3());
+		Connection conn = this.getConnection();
+    	try {
+			conn.setAutoCommit(true);
+	    	CallableStatement proc = conn.prepareCall("{ ? = call spActivityInsUpdDel(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }");
+	    	proc.registerOutParameter(1, Types.OTHER);
+	    	proc.setString(2, "0");
+	    	proc.setInt(3, activity.getactivityid());
+	    	proc.setInt(4, activity.getprospectid());
+	    	proc.setDate(5, activity.getactivitydate());
+	    	proc.setInt(6, activity.getbrandid());
+	    	proc.setInt(7, activity.getmodelid());
+	    	proc.setBoolean(8, activity.getdemo());
+	    	proc.setBoolean(9, activity.gettestdrive());
+	    	proc.setBoolean(10, activity.getquotation());
+	    	proc.setBoolean(11, activity.getlinkevent());
+	    	proc.setString(12, activity.getremark1());
+	    	proc.setString(13, activity.getremark2());
+	    	proc.setString(14, activity.getremark3());
+	    	proc.execute();
+	    	proc.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}    	
     }
     
     public void update(Activity activity) {
-    	String option = "1";
-    			
-    	String sql = "EXEC spActivityInsUpdDel ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?";
-        this.getJdbcTemplate().update(sql, option,
-        			activity.getactivityid(), activity.getprospectid(), activity.getactivitydate(), 
-            		activity.getbrandid(), activity.getmodelid(), 
-            		activity.getdemo(), activity.gettestdrive(), activity.getquotation(), 
-            		activity.getlinkevent(), 
-            		activity.getremark1(), activity.getremark2(), activity.getremark3());
+		Connection conn = this.getConnection();
+    	try {
+			conn.setAutoCommit(true);
+	    	CallableStatement proc = conn.prepareCall("{ ? = call spActivityInsUpdDel(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }");
+	    	proc.registerOutParameter(1, Types.OTHER);
+	    	proc.setString(2, "1");
+	    	proc.setInt(3, activity.getactivityid());
+	    	proc.setInt(4, activity.getprospectid());
+	    	proc.setDate(5, activity.getactivitydate());
+	    	proc.setInt(6, activity.getbrandid());
+	    	proc.setInt(7, activity.getmodelid());
+	    	proc.setBoolean(8, activity.getdemo());
+	    	proc.setBoolean(9, activity.gettestdrive());
+	    	proc.setBoolean(10, activity.getquotation());
+	    	proc.setBoolean(11, activity.getlinkevent());
+	    	proc.setString(12, activity.getremark1());
+	    	proc.setString(13, activity.getremark2());
+	    	proc.setString(14, activity.getremark3());
+	    	proc.execute();
+	    	proc.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}    	
     }
 
     public void delete(int activityid) {
-    	String sql = "EXEC spActivityInsUpdDel ?, ?";
-        this.getJdbcTemplate().update(sql, "2", activityid);
+		Connection conn = this.getConnection();
+    	try {
+			conn.setAutoCommit(true);
+	    	CallableStatement proc = conn.prepareCall("{ ? = call spActivityInsUpdDel(?, ?) }");
+	    	proc.registerOutParameter(1, Types.OTHER);
+	    	proc.setString(2, "2");
+	    	proc.setInt(3, activityid);
+	    	proc.execute();
+	    	proc.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}    	
     }
     
     public List<Activity> list(int prospectid) {
-        String sql = "SELECT a.activityid activityid, a.prospectid prospectid, a.activitydate activitydate, "
-        		+ "a.brandid brandid, a.modelid modelid, a.demo demo, a.testdrive testdrive, "
-        		+ "a.quotation quotation, a.linkevent linkevent, "
-        		+ "b.brandname brandname, m.modelname modelname, "
-        		+ "a.remark1 remark1, a.remark2 remark2, a.remark3 remark3 "
+        String sql = "SELECT a.activityid AS activityid, "
+        		+ "a.prospectid AS prospectid, "
+        		+ "a.activitydate AS activitydate, "
+        		+ "a.brandid AS brandid, "
+        		+ "a.modelid AS modelid, "
+        		+ "a.demo AS demo, "
+        		+ "a.testdrive AS testdrive, "
+        		+ "a.quotation AS quotation, "
+        		+ "a.linkevent AS linkevent, "
+        		+ "b.brandname AS brandname, "
+        		+ "m.modelname AS modelname, "
+        		+ "a.remark1 AS remark1, "
+        		+ "a.remark2 AS remark2, "
+        		+ "a.remark3 AS remark3 "
         		+ "FROM tblActivity a "
         		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
         		+ "LEFT JOIN tblModel m ON m.modelid = a.modelid "
@@ -69,11 +122,20 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
     }
 
     public Activity get(int activityid) {
-	    String sql = "SELECT a.activityid activityid, a.prospectid prospectid, a.activitydate activitydate, "
-        		+ "a.brandid brandid, a.modelid modelid, a.demo demo, a.testdrive testdrive, "
-        		+ "a.quotation quotation, a.linkevent linkevent, "
-        		+ "b.brandname brandname, m.modelname modelname, "
-        		+ "a.remark1 remark1, a.remark2 remark2, a.remark3 remark3 "
+	    String sql = "SELECT a.activityid AS activityid, "
+	    		+ "a.prospectid AS prospectid, "
+	    		+ "a.activitydate AS activitydate, "
+        		+ "a.brandid AS brandid, "
+        		+ "a.modelid AS modelid, "
+        		+ "a.demo AS demo, "
+        		+ "a.testdrive AS testdrive, "
+        		+ "a.quotation AS quotation, "
+        		+ "a.linkevent AS linkevent, "
+        		+ "b.brandname AS brandname, "
+        		+ "m.modelname AS modelname, "
+        		+ "a.remark1 AS remark1, "
+        		+ "a.remark2 AS remark2, "
+        		+ "a.remark3 AS remark3 "
         		+ "FROM tblActivity a "
         		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
         		+ "LEFT JOIN tblModel m ON m.modelid = a.modelid "

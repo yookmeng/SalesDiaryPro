@@ -13,14 +13,9 @@
 	<c:if test="${role == 'USER'}">
 		<jsp:include page="_userNavigation.jsp" />
 	</c:if>
-	<div class="container-fluid" id="content">
-		<div id="main">
+	<div id="main">
 		<div class="container-fluid">
 		    <input type="hidden" value="userProfile" name="userProfile" /> 
-		    <input type="hidden" value="review" name="review" /> 
-			<div class="page-header">
-				<h3>Review</h3>
-			</div>    
 			<div class="breadcrumbs">
 				<ul>
 					<li>
@@ -28,43 +23,64 @@
 						<i class="fa fa-angle-right"></i>
 					</li>
 					<li>
-						<a href="listMember?teamid=${userProfile.teamid}">Member</a>
-						<i class="fa fa-angle-right"></i>
-					</li>
-					<li>
-						<a href="listReview?userid=${userProfile.userid}">Review</a>
+						<a href="listReview">Review</a>
 					</li>
 				</ul>
 			</div>
 		    <div align="center">
-	        	<h5><a href="addReview?userid=${userid}">Add Review</a></h5>
-	            <table border="1">
+				<c:if test="${role != 'USER'}">			    
+	        		<h5><a href="addReview">Add Review</a></h5>
+				</c:if>
+				<table class="table table-hover table-nomargin table-colored-header">
 	            <tr>
 	                <th>Review Date</th>
+	                <th>Member</th>
 	                <th>Prospect</th>
-	                <th>Sales</th>
-	                <th>Total Sales</th>
+	                <th>Test Drive</th>
+	                <th>Closed</th>
 	                <th>Minute</th>
 	                <th>Action</th>
 	            </tr>
-	                <c:forEach var="Review" items="${listReview}" varStatus="status">
-	                <tr>
-	                    <td>${Review.reviewdate}</td>
-	                    <td><fmt:formatNumber value="${Review.prospect}"/></td>
-	                    <td><fmt:formatNumber value="${Review.sales}"/></td>
-	                    <td><fmt:formatNumber value="${Review.totalsales}"/></td>
-	                    <td>${Review.minute}</td>
-	                    <td>
-	                        <a href="editReview?reviewid=${Review.reviewid}">Edit</a>
-	                        &nbsp;
-	                        <a href="deleteReview?reviewid=${Review.reviewid}">Delete</a>
-	                    </td>
-	                </tr>
-	                </c:forEach>             
+                <c:forEach var="review" items="${listReview}" varStatus="status">
+                <tr>
+                    <td>${review.reviewdate}</td>
+                    <td>${review.username}</td>
+                    <td><fmt:formatNumber value="${review.prospect}"/></td>
+                    <td><fmt:formatNumber value="${review.testdrive}"/></td>
+                    <td><fmt:formatNumber value="${review.closed}"/></td>
+                    <td>${review.minute}</td>
+                    <td>
+						<c:if test="${role != 'USER'}">
+							<button class="btn btn-small" onclick="window.location='editReview?reviewid=${review.reviewid}';" >
+						    	<i class="fa fa-edit"></i></button>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<button class="btn btn-small" onclick="deleteReview(${review.reviewid})">
+								<i class="fa fa-trash-o"></i></button>
+                    	</c:if>
+                    </td>
+                </tr>
+                </c:forEach>             
 	            </table>
 			</div>
 		</div>
 	</div>
-	</div>
+	<script>
+	    function deleteReview(reviewid) {
+	    	jQuery.ajax({
+	            type: "DELETE",
+	            url: "http://localhost:8080/SalesDiaryPro/review/delete/"+reviewid,
+	            contentType: "application/json",
+	            data: "",
+	            dataType: "",
+	            success: function (data, status, jqXHR) {
+	                alert("record deleted!");	                
+					location.replace(location);
+	            },	        
+	            error: function (jqXHR, status) {
+	                alert("delete failed!");
+	            }
+	        });	
+	    }
+	</script>	
 </body>
 </html>

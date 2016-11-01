@@ -15,6 +15,9 @@
 						<a href="editCompany?companyid=0">Company Profile</a>
 					</li>
 					<li>
+						<a href="listClosingPeriod">Closing</a>
+					</li>
+					<li>
 						<a href="listUser">User</a>
 					</li>
 					<li>

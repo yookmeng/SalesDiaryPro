@@ -1,7 +1,11 @@
 package com.SpringMVC.daoimpl;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 
 import javax.sql.DataSource;
 
@@ -20,14 +24,34 @@ public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMon
     public UserMonthlySummaryDAOImpl(DataSource dataSource) {
         this.setDataSource(dataSource);
     }
-    public UserMonthlySummary get(String period, int userid) {
-	    String sql = "EXEC spGetUserMonthlySummary '"+userid+"', '"+period+"' ";
+    public UserMonthlySummary get(Date period, int userid) {
+		Connection conn = this.getConnection();
+    	try {
+			conn.setAutoCommit(true);
+	    	CallableStatement proc = conn.prepareCall("{ ? = call spGenMonthlySummary(?, ?) }");
+	    	proc.registerOutParameter(1, Types.OTHER);
+	    	proc.setInt(2, userid);
+	    	proc.setDate(3, period);
+	    	proc.execute();
+	    	proc.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}    	
+    	
+	    String sql = "SELECT period, userid, username, "
+	    		+ "targetprospect, targettestdrive, targetclosed, "
+	    		+ "actualprospect, actualtestdrive, actualclosed, "
+	    		+ "percentprospect, percenttestdrive, percentclosed "
+	    		+ "FROM tblMonthlySummary "
+	    		+ "WHERE period = '" + period + "' "
+				+ "AND userid = " + userid;
 	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<UserMonthlySummary>() {
-	 
+
 	        @Override
 	        public UserMonthlySummary extractData(ResultSet rs) throws SQLException,
 	                DataAccessException {
-	            if (rs.next()) {
+	        	if (rs.next()) {
 	            	UserMonthlySummary userMonthlySummary = new UserMonthlySummary();
 	            	userMonthlySummary.setperiod(rs.getDate("period"));
 	            	userMonthlySummary.setuserid(rs.getInt("userid"));
@@ -42,9 +66,9 @@ public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMon
 	            	userMonthlySummary.setpercenttestdrive(rs.getFloat("percenttestdrive"));
 	            	userMonthlySummary.setpercentclosed(rs.getFloat("percentclosed"));
 	                return userMonthlySummary;
-	            }	 
+	            }
 	            return null;
 	        }
-        });
+        });                
     }
 }

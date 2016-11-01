@@ -62,6 +62,11 @@ public class CompanyController {
 
     @RequestMapping(value = CompanyRestURIConstant.Create, method = RequestMethod.POST)
     public ResponseEntity<Company> createCompany(@RequestBody Company company) throws IOException {
+    	UserLogin userLoginMD = userLoginDAO.get(company.getmdname());
+    	company.setmdid(userLoginMD.getuserid());
+    	UserLogin userLoginSA = userLoginDAO.get(company.getsaname());
+    	company.setsaid(userLoginSA.getuserid());
+
     	companyDAO.save(company);
         return new ResponseEntity<Company>(company, HttpStatus.CREATED);
     }
@@ -74,7 +79,24 @@ public class CompanyController {
             return new ResponseEntity<Company>(HttpStatus.NOT_FOUND);
         }
         
-        currentCompany.setcompanyname(company.getcompanyname());
+    	UserLogin userLoginMD = userLoginDAO.get(company.getmdname());
+    	company.setmdid(userLoginMD.getuserid());
+    	UserLogin userLoginSA = userLoginDAO.get(company.getsaname());
+    	company.setsaid(userLoginSA.getuserid());
+
+    	currentCompany.setcompanyname(company.getcompanyname());
+    	currentCompany.setregno(company.getregno());
+    	currentCompany.setmdid(company.getmdid());
+    	currentCompany.setcountry(company.getcountry());
+    	currentCompany.setzipcode(company.getzipcode());
+    	currentCompany.setstate(company.getstate());
+    	currentCompany.setcity(company.getcity());
+    	currentCompany.setaddress(company.getaddress());
+    	currentCompany.settelephone(company.gettelephone());
+    	currentCompany.setfax(company.getfax());
+    	currentCompany.setemail(company.getemail());
+    	currentCompany.setwebsite(company.getwebsite());
+    	currentCompany.setsaid(company.getsaid());
 
         companyDAO.update(currentCompany);
         return new ResponseEntity<Company>(company, HttpStatus.OK);

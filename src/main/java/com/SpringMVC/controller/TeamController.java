@@ -66,6 +66,9 @@ public class TeamController {
 
     @RequestMapping(value = TeamRestURIConstant.Create, method = RequestMethod.POST)
     public ResponseEntity<Team> createTeam(@RequestBody Team team) throws IOException {
+    	UserLogin userLogin = userLoginDAO.get(team.getleadername());
+    	team.setleaderid(userLogin.getuserid());
+
     	teamDAO.save(team);
         return new ResponseEntity<Team>(team, HttpStatus.CREATED);
     }
@@ -77,8 +80,13 @@ public class TeamController {
         if (currentTeam==null) {
             return new ResponseEntity<Team>(HttpStatus.NOT_FOUND);
         }
-        currentTeam.setteamname(team.getteamname());
+        
+    	UserLogin userLogin = userLoginDAO.get(team.getleadername());
+    	team.setleaderid(userLogin.getuserid());
+
+    	currentTeam.setteamname(team.getteamname());
         currentTeam.setleaderid(team.getleaderid());
+        
         teamDAO.update(currentTeam);
         return new ResponseEntity<Team>(team, HttpStatus.OK);
     }

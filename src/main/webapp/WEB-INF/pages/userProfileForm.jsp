@@ -114,7 +114,7 @@
 	                window.location.href = "/SalesDiaryPro/listMember?teamid="+teamid;
 	            },
 	            error:function(jqXhr, Textstatus){
-	                alert("Create failed!");
+	                alert("Create failed!"+JSON.stringify(jqXhr));
 	            }
 	        });    	
 	    }

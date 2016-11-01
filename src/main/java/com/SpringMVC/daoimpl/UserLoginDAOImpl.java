@@ -29,8 +29,13 @@ public class UserLoginDAOImpl extends JdbcDaoSupport implements UserLoginDAO {
   
     @Override
     public UserLogin findUserLogin(String username) {
-        String sql = "SELECT u.userid AS userid, u.username AS username, u.password AS password, "
-        		+ "r.role AS role, ISNULL(sa.companyid, ISNULL(md.companyid, 0)) AS companyid "
+        String sql = "SELECT u.userid AS userid, "
+        		+ "u.username AS username, "
+        		+ "u.password AS password, "
+        		+ "r.role AS role, "
+        		+ "CASE WHEN sa.companyid IS NULL THEN "
+        		+ "CASE WHEN md.companyid IS NULL THEN 0 ELSE md.companyid END "
+        		+ "ELSE sa.companyid END AS companyid "
         		+ "FROM	tblUser u "        		
 				+ "LEFT JOIN tblRole r ON u.username = r.username "
 				+ "LEFT JOIN tblCompany sa ON sa.said = u.userid "
@@ -49,7 +54,7 @@ public class UserLoginDAOImpl extends JdbcDaoSupport implements UserLoginDAO {
  
     @Override
     public String getUserRoles(String username) {
-        String sql = "Select role from tblRole WITH (NOLOCK) where username = ? ";
+        String sql = "Select role from tblRole where username = ? ";
 
         String role = (String)getJdbcTemplate().queryForObject(sql, new Object[] {username}, String.class);         
         return role;
@@ -73,7 +78,6 @@ public class UserLoginDAOImpl extends JdbcDaoSupport implements UserLoginDAO {
             this.getJdbcTemplate().update(sqlRole, 
             		userLogin.getrole(), userLogin.getusername());            
         } else {
-            // insert
         	String sqlUser = "INSERT INTO tblUser (username, password, enabled) "
         			+ "VALUES (?, ?, '1')";
             this.getJdbcTemplate().update(sqlUser, 
@@ -82,7 +86,7 @@ public class UserLoginDAOImpl extends JdbcDaoSupport implements UserLoginDAO {
     		String sqlRole = "INSERT INTO tblRole (username, role) "
     				+ "VALUES (?, ?)";
             this.getJdbcTemplate().update(sqlRole, 
-            		userLogin.getusername(), userLogin.getrole());
+            		userLogin.getusername(), userLogin.getrole());            	
         }
     }
     
@@ -98,8 +102,13 @@ public class UserLoginDAOImpl extends JdbcDaoSupport implements UserLoginDAO {
     public List<UserLogin> list(String role, int companyid) {
     	String sql = "";
     	if (role.equals("DEV") ){    	
-	        sql = "SELECT u.userid AS userid, u.username AS username, u.password AS password, "
-	        		+ "r.role AS role, ISNULL(sa.companyid, ISNULL(md.companyid, 0)) AS companyid "
+	        sql = "SELECT u.userid AS userid, "
+	        		+ "u.username AS username, "
+	        		+ "u.password AS password, "
+	        		+ "r.role AS role, "
+	        		+ "CASE WHEN sa.companyid IS NULL THEN "
+	        		+ "CASE WHEN md.companyid IS NULL THEN 0 ELSE md.companyid END "
+	        		+ "ELSE sa.companyid END AS companyid "
 	        		+ "FROM	tblUser u "
 					+ "LEFT JOIN tblRole r ON u.username = r.username "
 					+ "LEFT JOIN tblCompany sa ON sa.said = u.userid "
@@ -107,16 +116,22 @@ public class UserLoginDAOImpl extends JdbcDaoSupport implements UserLoginDAO {
     				+ "WHERE r.role IN ('SA', 'MD')";    		    		
     	}
     	else {
-	        sql = "SELECT u.userid AS userid, u.username AS username, u.password AS password, "
-	        		+ "r.role AS role, ISNULL(b1.companyid, ISNULL(b2.companyid, 0)) AS companyid "
+	        sql = "SELECT u.userid AS userid, "
+	        		+ "u.username AS username, "
+	        		+ "u.password AS password, "
+	        		+ "r.role AS role, "
+	        		+ "CASE WHEN b1.companyid IS NULL THEN "
+	        		+ "CASE WHEN b2.companyid IS NULL THEN 0 ELSE b2.companyid END "
+	        		+ "ELSE b1.companyid END AS companyid "
 	        		+ "FROM	tblUser u "        		
 	        		+ "LEFT JOIN tblRole r ON u.username = r.username "
 	        		+ "LEFT JOIN tblBranch b1 ON b1.maid = u.userid "
 	        		+ "LEFT JOIN tblUserProfile up ON u.userid = up.userid "
 	        		+ "LEFT JOIN tblTeam t ON t.teamid = up.teamid "
 	        		+ "LEFT JOIN tblBranch b2 ON b2.branchid = t.branchid "	        		
-	        		+ "WHERE r.role IN ('MA', 'USER') "
-	        		+ "AND (b1.companyid=" + companyid + " OR b2.companyid=" + companyid + ")";
+	        		+ "WHERE r.role IN ('MA', 'TL') "
+	        		+ "AND (b1.companyid IS NULL OR b1.companyid=" + companyid + " "
+    				+ "OR b2.companyid IS NULL OR b2.companyid=" + companyid + ")";
     	}
         UserLoginMapper mapper = new UserLoginMapper();
         List<UserLogin> list = this.getJdbcTemplate().query(sql, mapper);
@@ -154,15 +169,20 @@ public class UserLoginDAOImpl extends JdbcDaoSupport implements UserLoginDAO {
     public List<String> leaderlist() {
         String sql = "SELECT u.username AS username FROM tblUser u "        		
 				+ "LEFT JOIN tblRole r ON u.username = r.username "
-        		+ "WHERE r.role = 'USER'";
+        		+ "WHERE r.role = 'TL'";
         List<String> leaderlist = this.getJdbcTemplate().queryForList(sql, String.class);         
         return leaderlist;
     }
 
     @Override
     public UserLogin get(String username) {
-	    String sql = "SELECT u.userid userid, u.username username, u.password password, "
-	    		+ "r.role role, ISNULL(sa.companyid, ISNULL(md.companyid, 0)) AS companyid "
+	    String sql = "SELECT u.userid AS userid, "
+	    		+ "u.username AS username, "
+	    		+ "u.password AS password, "
+	    		+ "r.role AS role, "
+        		+ "CASE WHEN sa.companyid IS NULL THEN "
+        		+ "CASE WHEN md.companyid IS NULL THEN 0 ELSE md.companyid END "
+        		+ "ELSE sa.companyid END AS companyid "
         		+ "FROM	tblUser u "
 				+ "LEFT JOIN tblRole r ON u.username = r.username "
 				+ "LEFT JOIN tblCompany sa ON sa.said = u.userid "
@@ -189,7 +209,8 @@ public class UserLoginDAOImpl extends JdbcDaoSupport implements UserLoginDAO {
 
     @Override
     public int getCompanyID(String username) {
-        String sql = "EXEC spGetCompanyID ? ";
+    	String sql = "SELECT spGetCompanyID(?) ";
+//    	String sql = "EXEC spGetCompanyID ? ";
         int companyid = (int)getJdbcTemplate().queryForObject(sql, new Object[] {username}, int.class);
         return companyid;
     }

@@ -13,6 +13,7 @@ public class ReviewMapper implements RowMapper<Review> {
     public Review mapRow(ResultSet rs, int rowNum) throws SQLException { 
         int reviewid = rs.getInt("reviewid");
         int userid = rs.getInt("userid");        
+        String username = rs.getString("username");        
         int targetid = rs.getInt("targetid");        
         int teamtargetid = rs.getInt("teamtargetid");        
         Date reviewdate = rs.getDate("reviewdate");
@@ -22,7 +23,7 @@ public class ReviewMapper implements RowMapper<Review> {
         String minute = rs.getString("minute");
         int reviewby = rs.getInt("reviewby");
         
-        return new Review(reviewid, userid, targetid, teamtargetid, reviewdate, 
+        return new Review(reviewid, userid, username, targetid, teamtargetid, reviewdate, 
         		prospect, testdrive, closed, minute, reviewby);
     }
 }

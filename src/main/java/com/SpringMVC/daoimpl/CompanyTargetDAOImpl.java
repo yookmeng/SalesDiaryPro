@@ -2,6 +2,8 @@ package com.SpringMVC.daoimpl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
  
 import javax.sql.DataSource;
@@ -46,24 +48,29 @@ public class CompanyTargetDAOImpl extends JdbcDaoSupport implements CompanyTarge
     }
     
     public CompanyTarget get(int targetid) {
-	    String sql = "SELECT ct.targetid targetid, ct.companyid companyid, c.companyname companyname, "
-	    		+ "ct.period period, CONVERT(varchar(7), ct.period, 111) displayperiod, "
-	    		+ "ct.prospect prospect, ct.testdrive testdrive, ct.closed closed "
+	    String sql = "SELECT ct.targetid AS targetid, "
+	    		+ "ct.companyid AS companyid, "
+	    		+ "c.companyname AS companyname, "
+	    		+ "ct.period AS period, "
+	    		+ "ct.prospect AS prospect, "
+	    		+ "ct.testdrive AS testdrive, "
+	    		+ "ct.closed AS closed "
 	    		+ "FROM tblCompanyTarget ct "
 	    		+ "LEFT JOIN tblCompany c ON c.companyid = ct.companyid "
 	    		+ "WHERE ct.targetid="+targetid;
 	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<CompanyTarget>() {
 	 
-	        @Override
+			@Override
 	        public CompanyTarget extractData(ResultSet rs) throws SQLException,
 	                DataAccessException {
 	            if (rs.next()) {
+	            	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM");
 	                CompanyTarget companyTarget = new CompanyTarget();
 	                companyTarget.settargetid(rs.getInt("targetid"));
 	                companyTarget.setcompanyid(rs.getInt("companyid"));
 	                companyTarget.setcompanyname(rs.getString("companyname"));
 	                companyTarget.setperiod(rs.getDate("period"));
-	                companyTarget.setdisplayperiod(rs.getString("displayperiod"));	                
+	                companyTarget.setdisplayperiod(dateFormat.format(rs.getDate("period")));	                
 	                companyTarget.setprospect(rs.getInt("prospect"));
 	                companyTarget.settestdrive(rs.getInt("testdrive"));
 	                companyTarget.setclosed(rs.getInt("closed"));
@@ -75,9 +82,13 @@ public class CompanyTargetDAOImpl extends JdbcDaoSupport implements CompanyTarge
     }
 
     public List<CompanyTarget> list(int companyid) {
-	    String sql = "SELECT ct.targetid targetid, ct.companyid companyid, c.companyname companyname, "
-	    		+ "ct.period period, CONVERT(varchar(7), ct.period, 111) displayperiod, "
-	    		+ "ct.prospect prospect, ct.testdrive testdrive, ct.closed closed "
+	    String sql = "SELECT ct.targetid AS targetid, "
+	    		+ "ct.companyid AS companyid, "
+	    		+ "c.companyname AS companyname, "
+	    		+ "ct.period AS period, "
+	    		+ "ct.prospect AS prospect, "
+	    		+ "ct.testdrive AS testdrive, "
+	    		+ "ct.closed AS closed "
 	    		+ "FROM tblCompanyTarget ct "
 	    		+ "LEFT JOIN tblCompany c ON c.companyid = ct.companyid "
         		+ "WHERE ct.companyid=" + companyid;

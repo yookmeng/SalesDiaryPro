@@ -3,6 +3,8 @@ package com.SpringMVC.daoimpl;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
  
 import javax.sql.DataSource;
@@ -47,10 +49,14 @@ public class BranchTargetDAOImpl extends JdbcDaoSupport implements BranchTargetD
     }
     
     public BranchTarget get(int targetid) {
-	    String sql = "SELECT bt.targetid targetid, bt.branchid branchid, b.branchname branchname, "
-        		+ "bt.period period, CONVERT(varchar(7), bt.period, 111) displayperiod, "
-        		+ "bt.companytargetid companytargetid, bt.prospect prospect, "
-        		+ "bt.testdrive testdrive, bt.closed closed "
+	    String sql = "SELECT bt.targetid AS targetid, "
+	    		+ "bt.branchid AS branchid, "
+	    		+ "b.branchname AS branchname, "
+        		+ "bt.period AS period, "
+        		+ "bt.companytargetid AS companytargetid, "
+        		+ "bt.prospect AS prospect, "
+        		+ "bt.testdrive AS testdrive, "
+        		+ "bt.closed AS closed "
 	    		+ "FROM tblBranchTarget bt "
         		+ "LEFT JOIN tblBranch b ON b.branchid = bt.branchid "
 	    		+ "WHERE targetid="+targetid;
@@ -60,13 +66,14 @@ public class BranchTargetDAOImpl extends JdbcDaoSupport implements BranchTargetD
 	        public BranchTarget extractData(ResultSet rs) throws SQLException,
 	                DataAccessException {
 	            if (rs.next()) {
+	            	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM");
 	                BranchTarget branchTarget = new BranchTarget();
 	                branchTarget.settargetid(rs.getInt("targetid"));
 	                branchTarget.setbranchid(rs.getInt("branchid"));
 	                branchTarget.setbranchname(rs.getString("branchname"));
 	                branchTarget.setcompanytargetid(rs.getInt("companytargetid"));
 	                branchTarget.setperiod(rs.getDate("period"));
-	                branchTarget.setdisplayperiod(rs.getString("displayperiod"));
+	                branchTarget.setdisplayperiod(dateFormat.format(rs.getDate("period")));
 	                branchTarget.setprospect(rs.getInt("prospect"));
 	                branchTarget.settestdrive(rs.getInt("testdrive"));
 	                branchTarget.setclosed(rs.getInt("closed"));
@@ -78,10 +85,14 @@ public class BranchTargetDAOImpl extends JdbcDaoSupport implements BranchTargetD
     }
 
     public List<BranchTarget> list(Date period, int companyid) {
-        String sql = "SELECT bt.targetid targetid, bt.branchid branchid, b.branchname branchname, "
-        		+ "bt.period period, CONVERT(varchar(7), bt.period, 111) displayperiod, "
-        		+ "bt.companytargetid companytargetid, bt.prospect prospect, "
-        		+ "bt.testdrive testdrive, bt.closed closed "
+        String sql = "SELECT bt.targetid AS targetid, "
+        		+ "bt.branchid AS branchid, "
+        		+ "b.branchname AS branchname, "
+        		+ "bt.period AS period, "
+        		+ "bt.companytargetid AS companytargetid, "
+        		+ "bt.prospect AS prospect, "
+        		+ "bt.testdrive AS testdrive, "
+        		+ "bt.closed AS closed "
         		+ "FROM tblBranchTarget bt "
         		+ "LEFT JOIN tblBranch b ON b.branchid = bt.branchid "
         		+ "WHERE bt.period = '" + period + "' "
@@ -93,10 +104,14 @@ public class BranchTargetDAOImpl extends JdbcDaoSupport implements BranchTargetD
     }
 
     public List<BranchTarget> listByBranch(int branchid) {
-        String sql = "SELECT bt.targetid targetid, bt.branchid branchid, b.branchname branchname, "
-        		+ "bt.period period, CONVERT(varchar(7), bt.period, 111) displayperiod, "
-        		+ "bt.companytargetid companytargetid, bt.prospect prospect, "
-        		+ "bt.testdrive testdrive, bt.closed closed "
+        String sql = "SELECT bt.targetid AS targetid, "
+        		+ "bt.branchid AS branchid, "
+        		+ "b.branchname AS branchname, "
+        		+ "bt.period AS period, "
+        		+ "bt.companytargetid AS companytargetid, "
+        		+ "bt.prospect AS prospect, "
+        		+ "bt.testdrive AS testdrive, "
+        		+ "bt.closed AS closed "
         		+ "FROM tblBranchTarget bt "
         		+ "LEFT JOIN tblBranch b ON b.branchid = bt.branchid "
         		+ "WHERE bt.branchid = " + branchid + " "

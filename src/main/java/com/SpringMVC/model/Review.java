@@ -5,6 +5,7 @@ import java.sql.Date;
 public class Review {
     private int reviewid;
     private int userid;
+    private String username;
     private int targetid;
     private int teamtargetid;
     private Date reviewdate;
@@ -16,10 +17,11 @@ public class Review {
     public Review() {
     }
  
-    public Review(int reviewid, int userid, int targetid, int teamtargetid, Date reviewdate, 
+    public Review(int reviewid, int userid, String username, int targetid, int teamtargetid, Date reviewdate, 
     		int prospect, int testdrive, int closed, String minute, int reviewby) {
         this.reviewid = reviewid;
         this.userid = userid;
+        this.username = username;
         this.targetid = targetid;
         this.teamtargetid = teamtargetid;
         this.reviewdate = reviewdate;
@@ -42,6 +44,13 @@ public class Review {
     }  
     public void setuserid(int userid) {
         this.userid = userid;
+    }
+
+    public String getusername() {
+        return username;
+    }  
+    public void setusername(String username) {
+        this.username = username;
     }
 
     public int gettargetid() {

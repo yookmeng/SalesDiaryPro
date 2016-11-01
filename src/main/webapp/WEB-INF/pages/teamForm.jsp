@@ -1,9 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<!DOCTYPE HTML>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-    "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <jsp:include page="_menu.jsp" />
 <body>
@@ -16,9 +13,13 @@
 	<c:if test="${role == 'MA'}">
 		<jsp:include page="_maNavigation.jsp" />
 	</c:if>   
+	<c:if test="${role == 'TL'}">
+		<jsp:include page="_tlNavigation.jsp" />
+	</c:if>   
 	<div id="main" class="container-fluid">
         <input type="hidden" value="company" name="company" />     
-        <input type="hidden" value="branch" name="branch" />     
+        <input type="hidden" value="branch" name="branch" /> 
+		<input type="hidden" value="${role}" name="role" id="role"/>	            
 		<div class="breadcrumbs">
 			<ul>
 				<li>
@@ -38,7 +39,7 @@
 			<div class="span12">
 				<div class="box">
 					<div class="box-content">
-				        <form:form action="saveTeam" method="post" modelAttribute="team" class='form-horizontal form-wizard'>
+				        <form:form action="" method="post" modelAttribute="team" class='form-horizontal form-wizard'>
 			            <form:hidden path="branchid" value="${branch.branchid}"/>        
 			            <form:hidden path="teamid"/>
 						<div class="form-group">
@@ -55,7 +56,7 @@
 						</div>
 						<div class="form-actions">
 							<input type="reset" class="btn" onclick="location.href='listTeam?branchid=${team.branchid}'" value="Back" id="back">						
-							<input type="submit" class="btn btn-primary" value="Save">
+							<input id="btnSave" type="submit" class="btn btn-primary" name="Save" value="Save">
 						</div>
 						</form:form>
 					</div>
@@ -63,5 +64,67 @@
 			</div>
 		</div>
 	</div>
+	<script>
+	$('#btnSave').click(function (e) {
+		e.preventDefault(); // <------------------ stop default behaviour of button
+		
+		var teamid = $('#teamid').val(); 
+	    var teamname = $('#teamname').val(); 	    
+	    var branchid = $('#branchid').val(); 
+	    var leaderid = ""; 
+	    var leadername = $('#leadername').val(); 	    
+	
+	    var json = {
+	    		"teamid" : teamid,
+	    		"teamname" : teamname,	    		
+	    		"branchid" : branchid,
+	    		"leaderid" : leaderid,
+	    		"leadername" : leadername
+	    };
+	    if (json.teamid=="0"){
+	        $.ajax({
+	            url: "http://localhost:8080/SalesDiaryPro/team/create",
+	            type: 'POST',
+	            contentType: "application/json",
+	            dataType: "json",
+	            data: JSON.stringify(json), 
+	            success:function(data, Textstatus, jqXHR){
+	                alert("Record created!");
+	                if ($('#role').val()=="TL"){
+		                window.location.href = "/SalesDiaryPro/home";
+	                }
+	                else{
+		                window.location.href = "/SalesDiaryPro/listTeam?branchid="+branchid;	                	
+	                }	                
+	            },
+	            error:function(jqXhr, Textstatus){
+	                alert("Create failed!"+status);
+	            }
+	        });    	
+	    }
+	    else {
+	        $.ajax({
+	            url: "http://localhost:8080/SalesDiaryPro/team/update/"+teamid,
+	            type: 'POST',
+	            contentType: "application/json",
+	            dataType: "json",
+	            data: JSON.stringify(json),
+	            success:function(data, Textstatus, jqXHR){
+	                alert("Record updated!");
+	                if ($('#role').val()=="TL"){
+		                window.location.href = "/SalesDiaryPro/home";
+	                }
+	                else{
+		                window.location.href = "/SalesDiaryPro/listTeam?branchid="+branchid;	                	
+	                }	                
+	            },
+	            error:function(jqXhr, Textstatus){
+	                alert("Update failed!");
+	            }
+	        });
+	    }
+	    return true;
+	})
+	</script>	
 </body>
 </html>

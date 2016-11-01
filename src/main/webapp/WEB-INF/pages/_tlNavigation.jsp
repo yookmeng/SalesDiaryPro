@@ -1,29 +1,19 @@
 <div id="navigation">
 	<div class="container-fluid">
+	   	<input type="hidden" value="team" name="team" />	
 		<a href="#" id="brand">Sales Diary Pro</a>
-		<a class="toggle-nav" rel="tooltip" data-placement="bottom" title="Toggle navigation">
+		<a href="#" class="toggle-nav" rel="tooltip" data-placement="bottom" title="Toggle navigation">
 			<i class="fa fa-bars"></i>
 		</a>
 		<ul class='main-nav'>
 			<li>
-				<a href="home">
-					<span>Home</span>
-				</a>
+				<a href="editTeam?teamid=${team.teamid}">Team Profile</a>
 			</li>
 			<li>
-				<a href="calendar">
-					<span>Calendar</span>
-				</a>
+				<a href="listMember?teamid=${team.teamid}">Member</a>
 			</li>
 			<li>
-				<a href="listProspect">
-					<span>Prospect</span>
-				</a>
-			</li>
-			<li>
-				<a href="listContact">
-					<span>Contact</span>
-				</a>
+				<a href="listTeamTargetTL">Target</a>
 			</li>
 			<li>
 				<a href="listReview">Review</a>

@@ -31,14 +31,18 @@ public class ModelDAOImpl extends JdbcDaoSupport implements ModelDAO {
 
     public void save(Model model) {
         // insert
-        String sql = "INSERT INTO tblModel (brandid, modelname, price) VALUES (?, ?, ?)";
-        this.getJdbcTemplate().update(sql, model.getbrandid(), model.getmodelname(), model.getprice());
+        String sql = "INSERT INTO tblModel (brandid, modelname, price, commission) VALUES (?, ?, ?, ?)";
+        this.getJdbcTemplate().update(sql, 
+        		model.getbrandid(), model.getmodelname(), 
+        		model.getprice(), model.getcommission());
     }
     
     public void update(Model model) {
         // update
-        String sql = "UPDATE tblModel SET modelname=?, price=? WHERE modelid=?";
-        this.getJdbcTemplate().update(sql, model.getmodelname(), model.getprice(), model.getmodelid());
+        String sql = "UPDATE tblModel SET modelname=?, price=?, commission=? WHERE modelid=?";
+        this.getJdbcTemplate().update(sql, 
+        		model.getmodelname(), model.getprice(), 
+        		model.getcommission(), model.getmodelid());
     }
 
     public void delete(int modelid) {
@@ -66,6 +70,7 @@ public class ModelDAOImpl extends JdbcDaoSupport implements ModelDAO {
 	                model.setmodelname(rs.getString("modelname"));
 	                model.setbrandid(rs.getInt("brandid"));
 	                model.setprice(rs.getFloat("price"));
+	                model.setcommission(rs.getFloat("commission"));
 	                return model;
 	            }	 
 	            return null;
@@ -86,6 +91,7 @@ public class ModelDAOImpl extends JdbcDaoSupport implements ModelDAO {
 	                model.setmodelname(rs.getString("modelname"));
 	                model.setbrandid(rs.getInt("brandid"));
 	                model.setprice(rs.getFloat("price"));
+	                model.setcommission(rs.getFloat("commission"));
 	                return model;
 	            }	 
 	            return null;
@@ -95,4 +101,5 @@ public class ModelDAOImpl extends JdbcDaoSupport implements ModelDAO {
 
     public boolean isExist(Model model) {
         return getByName(model.getmodelname())!=null;
-    }}
+    }
+}
