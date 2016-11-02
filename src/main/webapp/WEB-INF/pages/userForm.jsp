@@ -19,7 +19,7 @@
 	<c:if test="${role == 'USER'}">
 		<jsp:include page="_userNavigation.jsp" />
 	</c:if>
-    <div>
+    <div id="main">
 		<div class="container-fluid">
 			<div class="row">
 				<div class="span12">

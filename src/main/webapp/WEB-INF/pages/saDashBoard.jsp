@@ -3,6 +3,6 @@
 <jsp:include page="_menu.jsp" />
 <body>
 	<jsp:include page="_saNavigation.jsp" />
-	<div></div>
+	<div id="main"></div>
 </body>
 </html>

@@ -2,10 +2,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <jsp:include page="_menu.jsp" />
-<body data-mobile-sidebar="slide">
-<div>
+<body>
 	<jsp:include page="_userNavigation.jsp" />
-	<div>
+	<div id="main">
 		<input type="hidden" value="userMonthlySummary" name="userMonthlySummary" /> 
 		<div class="row margin-top">
 			<div class="col-sm-3">
@@ -51,11 +50,10 @@
 			</div>
 		</div>
 	</div>
-</div>	
-<script>
-	function getpercent(x, y) {
-		return x/y*100;
-	}
-</script>
+	<script>
+		function getpercent(x, y) {
+			return x/y*100;
+		}
+	</script>
 </body>
 </html>

@@ -1,6 +1,11 @@
 <!DOCTYPE HTML>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="req" value="${pageContext.request}" />
+<c:set var="url">${req.requestURL}</c:set>
+<c:set var="uri" value="${req.requestURI}" />
+<c:set var="base" value="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}"/>
 <html>
 <jsp:include page="_menu.jsp" />
 <body>
@@ -10,7 +15,8 @@
 	<c:if test="${role == 'DEV'}">
 		<jsp:include page="_deNavigation.jsp" />
 	</c:if>   
-	<div class="container-fluid">
+	<div id="main" class="container-fluid">
+	   	<input type="hidden" value="${base}" name="base" id="base"/>	
 	   	<input type="hidden" value="${role}" name="role" id="role"/>
 		<div class="row">
 			<div class="span12">
@@ -152,7 +158,7 @@
 		};
 	    if (json.companyid=="0"){
 	        $.ajax({
-	            url: "http://localhost:8080/SalesDiaryPro/company/create",
+	            url: $('#base').val()+"/company/create",
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
@@ -160,20 +166,20 @@
 	            success:function(data, Textstatus, jqXHR){
 	                alert("Record created!");
 	                if ($('#role').val()=="DEV"){
-		                window.location.href = "/SalesDiaryPro/listCompany";	                	
+		                window.location.href = $('#base').val()+"/listCompany";	                	
 	                }
 	                else{
-		                window.location.href = "/SalesDiaryPro/home";	                	
+		                window.location.href = $('#base').val()+"/home";	                	
 	                }
 	            },
 	            error:function(jqXhr, Textstatus){
-	                alert("Create failed!"+JSON.stringify(jqXhr));
+	                alert("Create failed!");
 	            }
 	        });    	
 	    }
 	    else {
 	        $.ajax({
-	            url: "http://localhost:8080/SalesDiaryPro/company/update/"+companyid,
+	            url: $('#base').val()+"/company/update/"+companyid,
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
@@ -181,10 +187,10 @@
 	            success:function(data, Textstatus, jqXHR){
 	                alert("Record updated!");
 	                if ($('#role').val()=="DEV"){
-		                window.location.href = "/SalesDiaryPro/listCompany";	                	
+		                window.location.href = $('#base').val()+"/listCompany";	                	
 	                }
 	                else{
-		                window.location.href = "/SalesDiaryPro/home";	                	
+		                window.location.href = $('#base').val()+"/home";	                	
 	                }
 	            },
 	            error:function(jqXhr, Textstatus){

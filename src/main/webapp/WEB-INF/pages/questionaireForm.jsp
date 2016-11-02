@@ -1,12 +1,19 @@
 <!DOCTYPE HTML>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="req" value="${pageContext.request}" />
+<c:set var="url">${req.requestURL}</c:set>
+<c:set var="uri" value="${req.requestURI}" />
+<c:set var="base" value="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}"/>
 <html>
 	<jsp:include page="_menu.jsp" />
 	<!-- Wizard -->
 	<script src="resources/js/plugins/wizard/jquery.form.wizard.min.js"></script>
 <body>
 	<jsp:include page="_userNavigation.jsp" />
-	<div>
+	<div id="main">
+	   	<input type="hidden" value="${base}" name="base" id="base"/>		
 		<br><br>
 		<div class="row">
 			<div class="span12">
@@ -109,17 +116,17 @@ $('#next').click(function (e) {
 	    		"testdrive" : testdrive,
 		};
 		$.ajax({
-		    url: "http://localhost:8080/SalesDiaryPro/questionaire",
+		    url: $('#base').val()+"/questionaire",
 		    type: 'POST',
 		    contentType: "application/json",
 		    dataType: "json",
 		    data: JSON.stringify(json), 
 		    success:function(data, Textstatus, jqXHR){
 		        alert("Record created!");
-		        window.location.href = "/SalesDiaryPro/home";
+		        window.location.href = $('#base').val()+"/home";
 		    },
 		    error:function(jqXhr, Textstatus){
-		        alert("Create failed!"+status);
+		        alert("Create failed!");
 		    }
 		});    	
 	    return true;
