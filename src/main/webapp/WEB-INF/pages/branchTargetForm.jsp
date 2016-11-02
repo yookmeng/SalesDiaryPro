@@ -81,7 +81,12 @@
 	$('#btnSave').click(function (e) {
 		e.preventDefault(); // <------------------ stop default behaviour of button
 		
-		var targetid = $('#targetid').val(); 
+		var base = $('#base').val();
+    	if (window.location.protocol === 'https:') {
+    	    base = base.replace("http", "https");
+    	}	    	
+
+    	var targetid = $('#targetid').val(); 
 	    var branchid = ""; 
 	    var branchname = $('#branchname').val();
 	    var period = $('#period').val(); 
@@ -104,14 +109,14 @@
 		};
 	    if (json.targetid=="0"){
 	        $.ajax({
-	            url: $('#base').val()+"/branchtarget/create",
+	            url: base+"/branchtarget/create",
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
 	            data: JSON.stringify(json), 
 	            success:function(data, Textstatus, jqXHR){
 	                alert("Record created!");
-	                window.location.href = $('#base').val()+"/listBranchTarget?targetid="+companytargetid;
+	                window.location.href = base+"/listBranchTarget?targetid="+companytargetid;
 	            },
 	            error:function(jqXhr, Textstatus){
 	                alert("Create failed!");
@@ -120,14 +125,14 @@
 	    }
 	    else {
 	        $.ajax({
-	            url: $('#base').val()+"/branchtarget/update/"+targetid,
+	            url: base+"/branchtarget/update/"+targetid,
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
 	            data: JSON.stringify(json),
 	            success:function(data, Textstatus, jqXHR){
 	                alert("Record updated!");
-	                window.location.href = $('#base').val()+"/listBranchTarget?targetid="+companytargetid;
+	                window.location.href = base+"/listBranchTarget?targetid="+companytargetid;
 	            },
 	            error:function(jqXhr, Textstatus){
 	                alert("Update failed!");

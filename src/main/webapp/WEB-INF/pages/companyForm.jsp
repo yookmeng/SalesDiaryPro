@@ -118,10 +118,15 @@
 		</div>
 	</div>
 	<script>
-	$('#btnSave').click(function (e) {
+	$('#btnSave').click(function (e) {	
 		e.preventDefault(); // <------------------ stop default behaviour of button
 
-		var companyid = $('#companyid').val(); 
+		var base = $('#base').val();
+    	if (window.location.protocol === 'https:') {
+    	    base = base.replace("http", "https");
+    	}	    	
+
+    	var companyid = $('#companyid').val(); 
 	    var companyname = $('#companyname').val(); 
 	    var regno = $('#regno').val(); 
 	    var mdid = ""; 
@@ -158,7 +163,7 @@
 		};
 	    if (json.companyid=="0"){
 	        $.ajax({
-	            url: $('#base').val()+"/company/create",
+	            url: base+"/company/create",
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
@@ -166,10 +171,10 @@
 	            success:function(data, Textstatus, jqXHR){
 	                alert("Record created!");
 	                if ($('#role').val()=="DEV"){
-		                window.location.href = $('#base').val()+"/listCompany";	                	
+		                window.location.href = base+"/listCompany";	                	
 	                }
 	                else{
-		                window.location.href = $('#base').val()+"/home";	                	
+		                window.location.href = base+"/home";	                	
 	                }
 	            },
 	            error:function(jqXhr, Textstatus){
@@ -179,7 +184,7 @@
 	    }
 	    else {
 	        $.ajax({
-	            url: $('#base').val()+"/company/update/"+companyid,
+	            url: base+"/company/update/"+companyid,
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
@@ -187,10 +192,10 @@
 	            success:function(data, Textstatus, jqXHR){
 	                alert("Record updated!");
 	                if ($('#role').val()=="DEV"){
-		                window.location.href = $('#base').val()+"/listCompany";	                	
+		                window.location.href = base+"/listCompany";	                	
 	                }
 	                else{
-		                window.location.href = $('#base').val()+"/home";	                	
+		                window.location.href = base+"/home";	                	
 	                }
 	            },
 	            error:function(jqXhr, Textstatus){

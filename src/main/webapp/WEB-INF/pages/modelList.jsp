@@ -59,9 +59,14 @@
 	</div>
 	<script>
 	    function deleteModel(modelid) {
+			var base = $('#base').val();
+	    	if (window.location.protocol === 'https:') {
+	    	    base = base.replace("http", "https");
+	    	}	    	
+
 	    	jQuery.ajax({
-	            type: "DELETE",
-	            url: $('#base').val()+"/model/delete/"+modelid,
+		    	type: "DELETE",
+	            url: base+"/model/delete/"+modelid,
 	            contentType: "application/json",
 	            data: "",
 	            dataType: "",

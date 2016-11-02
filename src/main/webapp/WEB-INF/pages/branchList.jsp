@@ -64,9 +64,14 @@
 	</div>
 	<script>
 	    function deleteBranch(branchid) {
+			var base = $('#base').val();
+	    	if (window.location.protocol === 'https:') {
+	    	    base = base.replace("http", "https");
+	    	}	    	
+	    	
 	    	jQuery.ajax({
 	            type: "DELETE",
-	            url: $('#base').val()+"/branch/delete/"+branchid,
+	            url: base+"/branch/delete/"+branchid,
 	            contentType: "application/json",
 	            data: "",
 	            dataType: "",

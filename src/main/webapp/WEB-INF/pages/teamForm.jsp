@@ -74,7 +74,12 @@
 	$('#btnSave').click(function (e) {
 		e.preventDefault(); // <------------------ stop default behaviour of button
 		
-		var teamid = $('#teamid').val(); 
+		var base = $('#base').val();
+    	if (window.location.protocol === 'https:') {
+    	    base = base.replace("http", "https");
+    	}	    	
+
+    	var teamid = $('#teamid').val(); 
 	    var teamname = $('#teamname').val(); 	    
 	    var branchid = $('#branchid').val(); 
 	    var leaderid = ""; 
@@ -89,7 +94,7 @@
 	    };
 	    if (json.teamid=="0"){
 	        $.ajax({
-	            url: $('#base').val()+"/team/create",
+	            url: base+"/team/create",
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
@@ -97,10 +102,10 @@
 	            success:function(data, Textstatus, jqXHR){
 	                alert("Record created!");
 	                if ($('#role').val()=="TL"){
-		                window.location.href = $('#base').val()+"/home";
+		                window.location.href = base+"/home";
 	                }
 	                else{
-		                window.location.href = $('#base').val()+"/listTeam?branchid="+branchid;	                	
+		                window.location.href = base+"/listTeam?branchid="+branchid;	                	
 	                }	                
 	            },
 	            error:function(jqXhr, Textstatus){
@@ -110,7 +115,7 @@
 	    }
 	    else {
 	        $.ajax({
-	            url: "http://localhost:8080/SalesDiaryPro/team/update/"+teamid,
+	            url: base+"/team/update/"+teamid,
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
@@ -118,10 +123,10 @@
 	            success:function(data, Textstatus, jqXHR){
 	                alert("Record updated!");
 	                if ($('#role').val()=="TL"){
-		                window.location.href = $('#base').val()+"/home";
+		                window.location.href = base+"/home";
 	                }
 	                else{
-		                window.location.href = $('#base').val()+"/listTeam?branchid="+branchid;	                	
+		                window.location.href = base+"/listTeam?branchid="+branchid;	                	
 	                }	                
 	            },
 	            error:function(jqXhr, Textstatus){

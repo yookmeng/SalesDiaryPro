@@ -73,7 +73,12 @@
 	$('#btnSave').click(function (e) {
 		e.preventDefault(); // <------------------ stop default behaviour of button
 		
-		var id = $('#id').val(); 
+		var base = $('#base').val();
+    	if (window.location.protocol === 'https:') {
+    	    base = base.replace("http", "https");
+    	}	    	
+
+    	var id = $('#id').val(); 
 		var companyid = $('#companyid').val(); 
 	    var controlyear = $('#controlyear').val(); 
 	    var controlmonth = $('#controlmonth').val(); 
@@ -90,14 +95,14 @@
 		};
 	    if (json.id=="0"){
 	        $.ajax({
-	            url: $('#base').val()+"/closingperiod/create",
+	            url: base+"/closingperiod/create",
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
 	            data: JSON.stringify(json), 
 	            success:function(data, Textstatus, jqXHR){
 	                alert("Record created!");
-	                window.location.href = $('#base').val()+"/listClosingPeriod";
+	                window.location.href = base+"/listClosingPeriod";
 	            },
 	            error:function(jqXhr, Textstatus){
 	                alert("Create failed!");
@@ -106,14 +111,14 @@
 	    }
 	    else {
 	        $.ajax({
-	            url: $('#base').val()+"/closingperiod/update/"+id,
+	            url: base+"/closingperiod/update/"+id,
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
 	            data: JSON.stringify(json),
 	            success:function(data, Textstatus, jqXHR){
 	                alert("Record updated!");
-	                window.location.href = $('#base').val()+"/listClosingPeriod";
+	                window.location.href = base+"/listClosingPeriod";
 	            },
 	            error:function(jqXhr, Textstatus){
 	                alert("Update failed!");

@@ -68,7 +68,12 @@
 	$('#btnSave').click(function (e) {
 		e.preventDefault(); // <------------------ stop default behaviour of button
 		
-		var brandid = $('#brandid').val(); 
+		var base = $('#base').val();
+    	if (window.location.protocol === 'https:') {
+    	    base = base.replace("http", "https");
+    	}	    	
+
+    	var brandid = $('#brandid').val(); 
 	    var modelid = $('#modelid').val(); 
 	    var modelname = $('#modelname').val(); 	    
 	    var price = $('#price').val(); 
@@ -83,14 +88,14 @@
 		};
 	    if (json.modelid=="0"){
 	        $.ajax({
-	            url: $('#base').val()+"/model/create",
+	            url: base+"/model/create",
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
 	            data: JSON.stringify(json), 
 	            success:function(data, Textstatus, jqXHR){
 	                alert("Record created!");
-	                window.location.href = $('#base').val()+"/listModel?brandid="+brandid;
+	                window.location.href = base+"/listModel?brandid="+brandid;
 	            },
 	            error:function(jqXhr, Textstatus){
 	                alert("Create failed!");
@@ -99,14 +104,14 @@
 	    }
 	    else {
 	        $.ajax({
-	            url: $('#base').val()+"/model/update/"+modelid,
+	            url: base+"/model/update/"+modelid,
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
 	            data: JSON.stringify(json),
 	            success:function(data, Textstatus, jqXHR){
 	                alert("Record updated!");
-	                window.location.href = $('#base').val()+"/listModel?brandid="+brandid;
+	                window.location.href = base+"/listModel?brandid="+brandid;
 	            },
 	            error:function(jqXhr, Textstatus){
 	                alert("Update failed!");

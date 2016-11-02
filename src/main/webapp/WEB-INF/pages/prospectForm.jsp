@@ -165,7 +165,12 @@
 	$('#btnSave').click(function (e) {
 		e.preventDefault(); // <------------------ stop default behaviour of button
 		
-		var prospectid = $('#prospectid').val(); 
+		var base = $('#base').val();
+    	if (window.location.protocol === 'https:') {
+    	    base = base.replace("http", "https");
+    	}	    	
+
+    	var prospectid = $('#prospectid').val(); 
 	    var firstname = $('#firstname').val(); 
 	    var lastname = $('#lastname').val(); 
 	    var userid = $('#userid').val(); 
@@ -216,14 +221,14 @@
 		};
 	    if (json.prospectid=="0"){
 	        $.ajax({
-	            url: $('#base').val()+"/prospect/create",
+	            url: base+"/prospect/create",
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
 	            data: JSON.stringify(json), 
 	            success:function(data, Textstatus, jqXHR){
 	                alert("Record created!");
-	                window.location.href = $('#base').val()+"/listProspect";
+	                window.location.href = base+"/listProspect";
 	            },
 	            error:function(jqXhr, Textstatus){
 	                alert("Create failed!");
@@ -232,14 +237,14 @@
 	    }
 	    else {
 	        $.ajax({
-	            url: $('#base').val()+"/prospect/update/"+prospectid,
+	            url: base+"/prospect/update/"+prospectid,
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
 	            data: JSON.stringify(json),
 	            success:function(data, Textstatus, jqXHR){
 	                alert("Record updated!");
-	                window.location.href = $('#base').val()+"/listProspect";
+	                window.location.href = base+"/listProspect";
 	            },
 	            error:function(jqXhr, Textstatus){
 	                alert("Update failed!");

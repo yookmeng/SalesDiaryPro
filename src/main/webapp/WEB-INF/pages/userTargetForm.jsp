@@ -80,7 +80,12 @@
 	$('#btnSave').click(function (e) {
 		e.preventDefault(); // <------------------ stop default behaviour of button
 
-		var targetid = $('#targetid').val(); 
+		var base = $('#base').val();
+    	if (window.location.protocol === 'https:') {
+    	    base = base.replace("http", "https");
+    	}	    	
+
+    	var targetid = $('#targetid').val(); 
 	    var userid = ""; 
 	    var username = $('#username').val(); 
 	    var period = $('#period').val(); 
@@ -103,14 +108,14 @@
 		};
 	    if (json.targetid=="0"){
 	        $.ajax({
-	            url: $('#base').val()+"/usertarget/create",
+	            url: base+"/usertarget/create",
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
 	            data: JSON.stringify(json), 
 	            success:function(data, Textstatus, jqXHR){
 	                alert("Record created!");
-	                window.location.href = $('#base').val()+"/listUserTarget?targetid="+teamtargetid;
+	                window.location.href = base+"/listUserTarget?targetid="+teamtargetid;
 	            },
 	            error:function(jqXhr, Textstatus){
 	                alert("Create failed!");
@@ -119,14 +124,14 @@
 	    }
 	    else {
 	        $.ajax({
-	            url: $('#base').val()+"/usertarget/update/"+targetid,
+	            url: base+"/usertarget/update/"+targetid,
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
 	            data: JSON.stringify(json),
 	            success:function(data, Textstatus, jqXHR){
 	                alert("Record updated!");
-	                window.location.href = $('#base').val()+"/listUserTarget?targetid="+teamtargetid;
+	                window.location.href = base+"/listUserTarget?targetid="+teamtargetid;
 	            },
 	            error:function(jqXhr, Textstatus){
 	                alert("Update failed!");

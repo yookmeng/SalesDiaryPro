@@ -72,9 +72,14 @@
 	</div>
 	<script>
 	    function deleteReview(reviewid) {
+			var base = $('#base').val();
+	    	if (window.location.protocol === 'https:') {
+	    	    base = base.replace("http", "https");
+	    	}	    	
+
 	    	jQuery.ajax({
 	            type: "DELETE",
-	            url: $('#base').val()+"/review/delete/"+reviewid,
+	            url: base+"/review/delete/"+reviewid,
 	            contentType: "application/json",
 	            data: "",
 	            dataType: "",

@@ -140,7 +140,12 @@
 	$('#btnSave').click(function (e) {
 		e.preventDefault(); // <------------------ stop default behaviour of button
 		
-		var contactid = $('#contactid').val(); 
+		var base = $('#base').val();
+    	if (window.location.protocol === 'https:') {
+    	    base = base.replace("http", "https");
+    	}	    	
+
+    	var contactid = $('#contactid').val(); 
 	    var userid = $('#userid').val(); 
 	    var firstname = $('#firstname').val(); 
 	    var lastname = $('#lastname').val(); 
@@ -181,14 +186,14 @@
 		};
 	    if (json.contactid=="0"){
 	        $.ajax({
-	            url: $('#base').val()+"/contact/create",
+	            url: base+"/contact/create",
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
 	            data: JSON.stringify(json), 
 	            success:function(data, Textstatus, jqXHR){
 	                alert("Record created!");
-	                window.location.href = $('#base').val()+"/listContact";
+	                window.location.href = base+"/listContact";
 	            },
 	            error:function(jqXhr, Textstatus){
 	                alert("Create failed!");
@@ -197,14 +202,14 @@
 	    }
 	    else {
 	        $.ajax({
-	            url: $('#base').val()+"/contact/update/"+contactid,
+	            url: base+"/contact/update/"+contactid,
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
 	            data: JSON.stringify(json),
 	            success:function(data, Textstatus, jqXHR){
 	                alert("Record updated!");
-	                window.location.href = $('#base').val()+"/listContact";
+	                window.location.href = base+"/listContact";
 	            },
 	            error:function(jqXhr, Textstatus){
 	                alert("Update failed!");

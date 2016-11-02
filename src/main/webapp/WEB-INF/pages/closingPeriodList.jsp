@@ -64,9 +64,14 @@
 	</div>
 	<script>
 	    function deleteClosingPeriod(id) {
+			var base = $('#base').val();
+	    	if (window.location.protocol === 'https:') {
+	    	    base = base.replace("http", "https");
+	    	}	    	
+
 	    	jQuery.ajax({
 	            type: "DELETE",
-	            url: $('#base').val()+"/closingperiod/delete/"+id,
+	            url: base+"/closingperiod/delete/"+id,
 	            contentType: "application/json",
 	            data: "",
 	            dataType: "",

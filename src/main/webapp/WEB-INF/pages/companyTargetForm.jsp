@@ -71,7 +71,12 @@
 	$('#btnSave').click(function (e) {
 		e.preventDefault(); // <------------------ stop default behaviour of button
 		
-		var targetid = $('#targetid').val(); 
+		var base = $('#base').val();
+    	if (window.location.protocol === 'https:') {
+    	    base = base.replace("http", "https");
+    	}	    	
+
+    	var targetid = $('#targetid').val(); 
 	    var companyid = $('#companyid').val(); 
 	    var companyname = $('#companyname').val();
 	    var period = $('#period').val(); 
@@ -92,14 +97,14 @@
 		};
 	    if (json.targetid=="0"){
 	        $.ajax({
-	            url: $('#base').val()+"/companytarget/create",
+	            url: base+"/companytarget/create",
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
 	            data: JSON.stringify(json), 
 	            success:function(data, Textstatus, jqXHR){
 	                alert("Record created!");
-	                window.location.href = $('#base').val()+"/listCompanyTarget";
+	                window.location.href = base+"/listCompanyTarget";
 	            },
 	            error:function(jqXhr, Textstatus){
 	                alert("Create failed!");
@@ -108,14 +113,14 @@
 	    }
 	    else {
 	        $.ajax({
-	            url: $('#base').val()+"/companytarget/update/"+targetid,
+	            url: base+"/companytarget/update/"+targetid,
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
 	            data: JSON.stringify(json),
 	            success:function(data, Textstatus, jqXHR){
 	                alert("Record updated!");
-	                window.location.href = $('#base').val()+"/listCompanyTarget";
+	                window.location.href = base+"/listCompanyTarget";
 	            },
 	            error:function(jqXhr, Textstatus){
 	                alert("Update failed!");

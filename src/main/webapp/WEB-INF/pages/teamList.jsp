@@ -70,9 +70,14 @@
 	</div>
 	<script>
 	    function deleteTeam(branchid) {
+			var base = $('#base').val();
+	    	if (window.location.protocol === 'https:') {
+	    	    base = base.replace("http", "https");
+	    	}	    	
+
 	    	jQuery.ajax({
 	            type: "DELETE",
-	            url: $('#base').val()+"/team/delete/"+teamid,
+	            url: base+"/team/delete/"+teamid,
 	            contentType: "application/json",
 	            data: "",
 	            dataType: "",

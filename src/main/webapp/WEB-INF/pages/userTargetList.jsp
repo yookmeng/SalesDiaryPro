@@ -68,9 +68,14 @@
 	</div>
 	<script>
 	    function deleteUserTarget(targetid) {
+			var base = $('#base').val();
+	    	if (window.location.protocol === 'https:') {
+	    	    base = base.replace("http", "https");
+	    	}	    	
+
 	    	jQuery.ajax({
 	            type: "DELETE",
-	            url: $('#base').val()+"/usertarget/delete/"+targetid,
+	            url: base+"/usertarget/delete/"+targetid,
 	            contentType: "application/json",
 	            data: "",
 	            dataType: "",

@@ -94,7 +94,12 @@ $('#next').click(function (e) {
 	if ($('#next').val()=="Submit"){
 		e.preventDefault(); // <------------------ stop default behaviour of button
 
-		var userid = $('#userid').val(); 
+		var base = $('#base').val();
+    	if (window.location.protocol === 'https:') {
+    	    base = base.replace("http", "https");
+    	}	    	
+
+    	var userid = $('#userid').val(); 
 	    var prospectname = $('#prospectname').val(); 
 	    var mobile = $('#mobile').val(); 
 	    var brandname = $('#brandname').val(); 
@@ -116,14 +121,14 @@ $('#next').click(function (e) {
 	    		"testdrive" : testdrive,
 		};
 		$.ajax({
-		    url: $('#base').val()+"/questionaire",
+		    url: base+"/questionaire",
 		    type: 'POST',
 		    contentType: "application/json",
 		    dataType: "json",
 		    data: JSON.stringify(json), 
 		    success:function(data, Textstatus, jqXHR){
 		        alert("Record created!");
-		        window.location.href = $('#base').val()+"/home";
+		        window.location.href = base+"/home";
 		    },
 		    error:function(jqXhr, Textstatus){
 		        alert("Create failed!");

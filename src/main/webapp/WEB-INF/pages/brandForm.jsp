@@ -50,7 +50,12 @@
 	$('#btnSave').click(function (e) {
 		e.preventDefault(); // <------------------ stop default behaviour of button
 		
-		var brandid = $('#brandid').val(); 
+		var base = $('#base').val();
+    	if (window.location.protocol === 'https:') {
+    	    base = base.replace("http", "https");
+    	}	    	
+
+    	var brandid = $('#brandid').val(); 
 	    var brandname = $('#brandname').val(); 
 	    var companyid = $('#companyid').val(); 
 	
@@ -61,14 +66,14 @@
 		};
 	    if (json.brandid=="0"){
 	        $.ajax({
-	            url: $('#base').val()+"/brand/create",
+	            url: base+"/brand/create",
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
 	            data: JSON.stringify(json), 
 	            success:function(data, Textstatus, jqXHR){
 	                alert("Record created!");
-	                window.location.href = $('#base').val()+"/listBrand";
+	                window.location.href = base+"/listBrand";
 	            },
 	            error:function(jqXhr, Textstatus){
 	                alert("Create failed!"+status);
@@ -77,14 +82,14 @@
 	    }
 	    else {
 	        $.ajax({
-	            url: $('#base').val()+"/brand/update/"+brandid,
+	            url: base+"/brand/update/"+brandid,
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
 	            data: JSON.stringify(json),
 	            success:function(data, Textstatus, jqXHR){
 	                alert("Record updated!");
-	                window.location.href = $('#base').val()+"/listBrand";
+	                window.location.href = base+"/listBrand";
 	            },
 	            error:function(jqXhr, Textstatus){
 	                alert("Update failed!");

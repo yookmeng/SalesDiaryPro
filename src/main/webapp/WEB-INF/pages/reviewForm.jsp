@@ -111,7 +111,12 @@
 	$('#btnSave').click(function (e) {
 		e.preventDefault(); // <------------------ stop default behaviour of button
 		
-		var reviewid = $('#reviewid').val(); 
+		var base = $('#base').val();
+    	if (window.location.protocol === 'https:') {
+    	    base = base.replace("http", "https");
+    	}	    	
+
+    	var reviewid = $('#reviewid').val(); 
 	    var userid = $('#userid').val(); 
 	    var username = $('#username').val(); 
 	    var targetid = $('#targetid').val();
@@ -139,14 +144,14 @@
 		};
 	    if (json.reviewid=="0"){
 	        $.ajax({
-	            url: $('#base').val()+"/review/create",
+	            url: base+"/review/create",
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
 	            data: JSON.stringify(json), 
 	            success:function(data, Textstatus, jqXHR){
 	                alert("Record created!");
-	                window.location.href = $('#base').val()+"/listReview";
+	                window.location.href = base+"/listReview";
 	            },
 	            error:function(jqXhr, Textstatus){
 	                alert("Create failed!");
@@ -155,14 +160,14 @@
 	    }
 	    else {
 	        $.ajax({
-	            url: $('#base').val()+"/review/update/"+reviewid,
+	            url: base+"/review/update/"+reviewid,
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
 	            data: JSON.stringify(json),
 	            success:function(data, Textstatus, jqXHR){
 	                alert("Record updated!");
-	                window.location.href = $('#base').val()+"/listReview";
+	                window.location.href = base+"/listReview";
 	            },
 	            error:function(jqXhr, Textstatus){
 	                alert("Update failed!");

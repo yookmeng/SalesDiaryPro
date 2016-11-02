@@ -82,7 +82,12 @@
 	$('#btnSave').click(function (e) {
 		e.preventDefault(); // <------------------ stop default behaviour of button
 		
-		var requestid = $('#requestid').val(); 
+		var base = $('#base').val();
+    	if (window.location.protocol === 'https:') {
+    	    base = base.replace("http", "https");
+    	}	    	
+
+    	var requestid = $('#requestid').val(); 
 	    var prospectid = $('#prospectid').val(); 
 	    var requestdate = $('#requestdate').val(); 
 	    var brandid = ""; 
@@ -105,14 +110,14 @@
 		};
 	    if (json.requestid=="0"){
 	        $.ajax({
-	            url: $('#base').val()+"/request/create",
+	            url: base+"/request/create",
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
 	            data: JSON.stringify(json), 
 	            success:function(data, Textstatus, jqXHR){
 	                alert("Record created!");
-	                window.location.href = $('#base').val()+"/listRequest?prospectid="+prospectid;
+	                window.location.href = base+"/listRequest?prospectid="+prospectid;
 	            },
 	            error:function(jqXhr, Textstatus){
 	                alert("Create failed!");
@@ -121,14 +126,14 @@
 	    }
 	    else {
 	        $.ajax({
-	            url: $('#base').val()+"/request/update/"+requestid,
+	            url: base+"/request/update/"+requestid,
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
 	            data: JSON.stringify(json),
 	            success:function(data, Textstatus, jqXHR){
 	                alert("Record updated!");
-	                window.location.href = $('#base').val()+"/listRequest?prospectid="+prospectid;
+	                window.location.href = base+"/listRequest?prospectid="+prospectid;
 	            },
 	            error:function(jqXhr, Textstatus){
 	                alert("Update failed!");

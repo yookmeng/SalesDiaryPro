@@ -50,9 +50,14 @@
 	</div>
 	<script>
 	    function deleteBrand(brandid) {
+			var base = $('#base').val();
+	    	if (window.location.protocol === 'https:') {
+	    	    base = base.replace("http", "https");
+	    	}	    	
+
 	    	jQuery.ajax({
 	            type: "DELETE",
-	            url: $('#base').val()+"/brand/delete/"+brandid,
+	            url: base+"/brand/delete/"+brandid,
 	            contentType: "application/json",
 	            data: "",
 	            dataType: "",

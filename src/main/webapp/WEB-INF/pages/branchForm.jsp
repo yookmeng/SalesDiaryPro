@@ -134,7 +134,12 @@
 	$('#btnSave').click(function (e) {
 		e.preventDefault(); // <------------------ stop default behaviour of button
 		
-		var branchid = $('#branchid').val(); 
+		var base = $('#base').val();
+    	if (window.location.protocol === 'https:') {
+    	    base = base.replace("http", "https");
+    	}	    	
+
+    	var branchid = $('#branchid').val(); 
 	    var branchname = $('#branchname').val(); 
 	    var companyid = $('#companyid').val(); 
 	    var regno = $('#regno').val(); 
@@ -170,7 +175,7 @@
 		};
 	    if (json.branchid=="0"){
 	        $.ajax({
-	            url: $('#base').val()+"/branch/create",
+	            url: base+"/branch/create",
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
@@ -178,10 +183,10 @@
 	            success:function(data, Textstatus, jqXHR){
 	                alert("Record created!");
 	                if ($('#role').val()=="SA"){
-		                window.location.href = $('#base').val()+"/listBranch";
+		                window.location.href = base+"/listBranch";
 	                }
 	                else{
-		                window.location.href = $('#base').val()+"/home";	                	
+		                window.location.href = base+"/home";	                	
 	                }	                
 	            },
 	            error:function(jqXhr, Textstatus){
@@ -191,7 +196,7 @@
 	    }
 	    else {
 	        $.ajax({
-	            url: $('#base').val()+"/branch/update/"+branchid,
+	            url: base+"/branch/update/"+branchid,
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
@@ -199,10 +204,10 @@
 	            success:function(data, Textstatus, jqXHR){
 	                alert("Record updated!");
 	                if ($('#role').val()=="SA"){
-		                window.location.href = $('#base').val()+"/listBranch";
+		                window.location.href = base+"/listBranch";
 	                }
 	                else{
-		                window.location.href = $('#base').val()+"/home";	                	
+		                window.location.href = base+"/home";	                	
 	                }	                
 	            },
 	            error:function(jqXhr, Textstatus){
