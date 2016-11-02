@@ -167,7 +167,7 @@
 	                }
 	            },
 	            error:function(jqXhr, Textstatus){
-	                alert("Create failed!"+status);
+	                alert("Create failed!"+JSON.stringify(jqXhr));
 	            }
 	        });    	
 	    }

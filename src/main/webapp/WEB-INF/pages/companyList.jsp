@@ -36,7 +36,7 @@
 		</div>	
 	</div>
 	<script>
-	    function deleteCompany(companyidid) {
+	    function deleteCompany(companyid) {
 	    	jQuery.ajax({
 	            type: "DELETE",
 	            url: "http://localhost:8080/SalesDiaryPro/company/delete/"+companyid,
