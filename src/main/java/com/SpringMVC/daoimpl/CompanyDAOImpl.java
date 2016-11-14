@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import com.SpringMVC.model.Address;
 import com.SpringMVC.model.Company;
 import com.SpringMVC.dao.CompanyDAO;
 import com.SpringMVC.mapper.CompanyMapper;
@@ -24,29 +25,29 @@ public class CompanyDAOImpl extends JdbcDaoSupport implements CompanyDAO {
     }
 	
     public void save(Company company) {
+    	Address address = company.getaddress();
         String sql = "INSERT INTO tblCompany "
-        		+ "(companyname, regno, mdid, address, zipcode, city, state, country, "
+        		+ "(companyname, regno, mdid, "
+        		+ "address.country, address.zipcode, address.state, address.city, address.street, "
         		+ "telephone, fax, email, website, said) "
         		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         this.getJdbcTemplate().update(sql, 
         		company.getcompanyname(), company.getregno(), company.getmdid(),
-        		company.getaddress(), company.getzipcode(), company.getcity(),
-        		company.getstate(), company.getcountry(), company.gettelephone(),
-        		company.getfax(), company.getemail(), company.getwebsite(), company.getsaid());
+        		address.getcountry(), address.getzipcode(), address.getstate(), address.getcity(), address.getstreet(),
+        		company.gettelephone(), company.getfax(), company.getemail(), company.getwebsite(), company.getsaid());
     }
     
     public void update(Company company) {
+    	Address address = company.getaddress();
         String sql = "UPDATE tblCompany SET "
-        		+ "companyName=?, regno=?, mdid=?, "
-        		+ "address=?, zipcode=?, city=?, "
-        		+ "state=?, country=?, telephone=?, "
-        		+ "fax=?, email=?, website=?, said=? "
+        		+ "companyname=?, regno=?, mdid=?, "
+        		+ "address.country=?, address.zipcode=?, address.state=?, address.city=?, address.street=?, "
+        		+ "telephone=?, fax=?, email=?, website=?, said=? "
         		+ "WHERE companyid=?";
         this.getJdbcTemplate().update(sql, 
         		company.getcompanyname(), company.getregno(), company.getmdid(),
-        		company.getaddress(), company.getzipcode(), company.getcity(),
-        		company.getstate(), company.getcountry(), company.gettelephone(),
-        		company.getfax(), company.getemail(), company.getwebsite(), 
+        		address.getcountry(), address.getzipcode(), address.getstate(), address.getcity(), address.getstreet(),
+        		company.gettelephone(), company.getfax(), company.getemail(), company.getwebsite(), 
         		company.getsaid(), company.getcompanyid());
     }
     
@@ -56,19 +57,19 @@ public class CompanyDAOImpl extends JdbcDaoSupport implements CompanyDAO {
     }
     
     public List<Company> list() {
-	    String sql = "SELECT c.companyid AS companyid, "
-	    		+ "c.companyname AS companyname, "
-	    		+ "c.regno AS regno, "
+	    String sql = "SELECT companyid AS companyid, "
+	    		+ "companyname AS companyname, "
+	    		+ "regno AS regno, "
 	    		+ "c.mdid AS mdid, "
-	    		+ "c.address AS address, "
-	    		+ "c.zipcode AS zipcode, "
-	    		+ "c.city AS city, "
-	    		+ "c.state AS state, "
-	    		+ "c.country AS country, "
-	    		+ "c.telephone AS telephone, "
-	    		+ "c.fax AS fax, "
-	    		+ "c.email AS email, "
-	    		+ "c.website AS website, "
+	    		+ "(address).country AS country, "
+	    		+ "(address).zipcode AS zipcode, "
+	    		+ "(address).state AS state, "
+	    		+ "(address).city AS city, "
+	    		+ "(address).street AS street, "
+	    		+ "telephone AS telephone, "
+	    		+ "fax AS fax, "
+	    		+ "email AS email, "
+	    		+ "website AS website, "
 	    		+ "c.said AS said, "
 	    		+ "md.username AS mdname, "
 	    		+ "sa.username AS saname "
@@ -87,19 +88,19 @@ public class CompanyDAOImpl extends JdbcDaoSupport implements CompanyDAO {
     }
 
     public Company get(int companyid) {
-	    String sql = "SELECT c.companyid AS companyid, "
-	    		+ "c.companyname AS companyname, "
-	    		+ "c.regno AS regno, "
+	    String sql = "SELECT companyid AS companyid, "
+	    		+ "companyname AS companyname, "
+	    		+ "regno AS regno, "
 	    		+ "c.mdid AS mdid, "
-	    		+ "c.address AS address, "
-	    		+ "c.zipcode AS zipcode, "
-	    		+ "c.city AS city, "
-	    		+ "c.state AS state, "
-	    		+ "c.country AS country, "
-	    		+ "c.telephone AS telephone, "
-	    		+ "c.fax AS fax, "
-	    		+ "c.email AS email, "
-	    		+ "c.website AS website, "
+	    		+ "(address).country AS country, "
+	    		+ "(address).zipcode AS zipcode, "
+	    		+ "(address).state AS state, "
+	    		+ "(address).city AS city, "
+	    		+ "(address).street AS street, "
+	    		+ "telephone AS telephone, "
+	    		+ "fax AS fax, "
+	    		+ "email AS email, "
+	    		+ "website AS website, "
 	    		+ "c.said AS said, "
 	    		+ "md.username AS mdname, "
 	    		+ "sa.username AS saname "
@@ -119,11 +120,13 @@ public class CompanyDAOImpl extends JdbcDaoSupport implements CompanyDAO {
 	                company.setregno(rs.getString("regno"));
 	                company.setmdid(rs.getInt("mdid"));
 	                company.setmdname(rs.getString("mdname"));
-	                company.setaddress(rs.getString("address"));
-	                company.setzipcode(rs.getString("zipcode"));
-	                company.setcity(rs.getString("city"));
-	                company.setstate(rs.getString("state"));
-	                company.setcountry(rs.getString("country"));
+	                Address address = new Address();
+	                address.setcountry(rs.getString("country"));
+	                address.setzipcode(rs.getString("zipcode"));
+	                address.setstate(rs.getString("state"));
+	                address.setcity(rs.getString("city"));
+	                address.setstreet(rs.getString("street"));
+	                company.setaddress(address);
 	                company.settelephone(rs.getString("telephone"));
 	                company.setfax(rs.getString("fax"));
 	                company.setemail(rs.getString("email"));

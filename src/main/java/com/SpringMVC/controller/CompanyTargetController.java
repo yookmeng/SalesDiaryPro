@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import com.SpringMVC.dao.CommonDAO;
 import com.SpringMVC.dao.CompanyDAO;
 import com.SpringMVC.dao.CompanyTargetDAO;
 import com.SpringMVC.dao.UserLoginDAO;
@@ -38,6 +39,9 @@ public class CompanyTargetController {
 
 	@Autowired
     private CompanyTargetDAO companyTargetDAO;
+
+    @Autowired
+    private CommonDAO commonDAO;
 
     @RequestMapping(value = CompanyTargetRestURIConstant.Get, method = RequestMethod.GET)
 	public String getCompanyTarget(@PathVariable int targetid) {
@@ -111,9 +115,11 @@ public class CompanyTargetController {
     public ModelAndView addCompanyTarget(HttpServletRequest request) {
         int companyid = userLoginDAO.getCompanyID(request.getUserPrincipal().getName());
         Company company = companyDAO.get(companyid);
+        List<String> periods = commonDAO.periodList();
         CompanyTarget newCompanyTarget = new CompanyTarget();
         newCompanyTarget.setcompanyid(companyid);
         ModelAndView mav = new ModelAndView("companyTargetForm");
+        mav.addObject("periodlist", periods);
         mav.addObject("company", company);
         mav.addObject("companyTarget", newCompanyTarget);
         return mav;
@@ -122,9 +128,11 @@ public class CompanyTargetController {
     @RequestMapping(value = "/editCompanyTarget", method = RequestMethod.GET)
     public ModelAndView editCompanyTarget(HttpServletRequest request) {
         int targetid = Integer.parseInt(request.getParameter("targetid"));        
+        List<String> periods = commonDAO.periodList();
         CompanyTarget editCompanyTarget = companyTargetDAO.get(targetid);
         Company company = companyDAO.get(editCompanyTarget.getcompanyid());
         ModelAndView mav = new ModelAndView("companyTargetForm");
+        mav.addObject("periodlist", periods);
         mav.addObject("company", company);
         mav.addObject("companyTarget", editCompanyTarget);
         return mav;

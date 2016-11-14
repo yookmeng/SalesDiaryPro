@@ -1,10 +1,7 @@
 package com.SpringMVC.daoimpl;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
  
 import javax.sql.DataSource;
@@ -66,14 +63,12 @@ public class BranchTargetDAOImpl extends JdbcDaoSupport implements BranchTargetD
 	        public BranchTarget extractData(ResultSet rs) throws SQLException,
 	                DataAccessException {
 	            if (rs.next()) {
-	            	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM");
 	                BranchTarget branchTarget = new BranchTarget();
 	                branchTarget.settargetid(rs.getInt("targetid"));
 	                branchTarget.setbranchid(rs.getInt("branchid"));
 	                branchTarget.setbranchname(rs.getString("branchname"));
 	                branchTarget.setcompanytargetid(rs.getInt("companytargetid"));
-	                branchTarget.setperiod(rs.getDate("period"));
-	                branchTarget.setdisplayperiod(dateFormat.format(rs.getDate("period")));
+	                branchTarget.setperiod(rs.getString("period"));
 	                branchTarget.setprospect(rs.getInt("prospect"));
 	                branchTarget.settestdrive(rs.getInt("testdrive"));
 	                branchTarget.setclosed(rs.getInt("closed"));
@@ -84,7 +79,7 @@ public class BranchTargetDAOImpl extends JdbcDaoSupport implements BranchTargetD
         });
     }
 
-    public List<BranchTarget> list(Date period, int companyid) {
+    public List<BranchTarget> list(String period, int companyid) {
         String sql = "SELECT bt.targetid AS targetid, "
         		+ "bt.branchid AS branchid, "
         		+ "b.branchname AS branchname, "

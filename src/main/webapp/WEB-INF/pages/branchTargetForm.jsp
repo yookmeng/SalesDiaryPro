@@ -115,11 +115,9 @@
 	            dataType: "json",
 	            data: JSON.stringify(json), 
 	            success:function(data, Textstatus, jqXHR){
-	                alert("Record created!");
 	                window.location.href = base+"/listBranchTarget?targetid="+companytargetid;
 	            },
 	            error:function(jqXhr, Textstatus){
-	                alert("Create failed!");
 	            }
 	        });    	
 	    }
@@ -131,11 +129,9 @@
 	            dataType: "json",
 	            data: JSON.stringify(json),
 	            success:function(data, Textstatus, jqXHR){
-	                alert("Record updated!");
 	                window.location.href = base+"/listBranchTarget?targetid="+companytargetid;
 	            },
 	            error:function(jqXhr, Textstatus){
-	                alert("Update failed!");
 	            }
 	        });
 	    }

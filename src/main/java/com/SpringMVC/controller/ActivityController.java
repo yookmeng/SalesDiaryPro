@@ -1,6 +1,8 @@
 package com.SpringMVC.controller;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,12 +23,11 @@ import com.SpringMVC.dao.BrandDAO;
 import com.SpringMVC.dao.ModelDAO;
 import com.SpringMVC.dao.ProspectDAO;
 import com.SpringMVC.dao.UserLoginDAO;
-import com.SpringMVC.dao.UserProfileDAO;
 import com.SpringMVC.model.Activity;
 import com.SpringMVC.model.Brand;
 import com.SpringMVC.model.Model;
 import com.SpringMVC.model.Prospect;
-import com.SpringMVC.model.UserProfile;
+import com.SpringMVC.model.UserLogin;
 import com.SpringMVC.uriconstant.ActivityRestURIConstant;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,9 +38,6 @@ public class ActivityController {
 
     @Autowired
     private UserLoginDAO userLoginDAO;
-
-    @Autowired
-    private UserProfileDAO userProfileDAO;
 
     @Autowired
     private ProspectDAO prospectDAO;
@@ -108,10 +106,16 @@ public class ActivityController {
         currentActivity.setdemo(activity.getdemo());
         currentActivity.settestdrive(activity.gettestdrive());
         currentActivity.setquotation(activity.getquotation());
-        currentActivity.setlinkevent(activity.getlinkevent());
-        currentActivity.setremark1(activity.getremark1());
-        currentActivity.setremark2(activity.getremark2());
-        currentActivity.setremark3(activity.getremark3());
+        currentActivity.setfollowup(activity.getfollowup());
+        currentActivity.setclosed(activity.getclosed());
+        currentActivity.setlost(activity.getlost());
+        currentActivity.setdemostatus(activity.getdemostatus());
+        currentActivity.settestdrivestatus(activity.gettestdrivestatus());
+        currentActivity.setfollowupremark(activity.getfollowupremark());
+        currentActivity.setfollowupstatus(activity.getfollowupstatus());
+        currentActivity.setquotationid(activity.getquotationid());
+        currentActivity.setclosedid(activity.getclosedid());
+        currentActivity.setlostremark(activity.getlostremark());
 
         activityDAO.update(currentActivity);
         return new ResponseEntity<Activity>(activity, HttpStatus.OK);
@@ -132,10 +136,10 @@ public class ActivityController {
     public ModelAndView listActivity(HttpServletRequest request) {
         int prospectid = Integer.parseInt(request.getParameter("prospectid"));
         Prospect prospect = prospectDAO.get(prospectid);
-        UserProfile userProfile = userProfileDAO.findUser(prospect.getuserid());
+        UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
  	    List<Activity> listActivity= activityDAO.list(prospectid);
         ModelAndView mav = new ModelAndView("activityList");
-        mav.addObject("userProfile", userProfile);
+		mav.addObject("role", userLogin.getrole());
         mav.addObject("prospect", prospect);
         mav.addObject("listActivity", listActivity);
  	    return mav;
@@ -146,14 +150,16 @@ public class ActivityController {
         int prospectid = Integer.parseInt(request.getParameter("prospectid"));
         Activity newActivity = new Activity();
         newActivity.setprospectid(prospectid);
+        Date date = new Date(Calendar.getInstance().getTime().getTime());
+        newActivity.setactivitydate(date);
         Prospect prospect = prospectDAO.get(prospectid);
-        UserProfile userProfile = userProfileDAO.findUser(prospect.getuserid());
+        UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
         ModelAndView mav = new ModelAndView("activityForm");
-        List<String> brands = brandDAO.getBrands(userLoginDAO.getCompanyID(request.getUserPrincipal().getName()));	
+        List<String> brands = brandDAO.getSellingBrands(userLoginDAO.getCompanyID(request.getUserPrincipal().getName()));	
         mav.addObject("brandlist", brands);
         Brand brand = brandDAO.getByName(brands.get(0));
-        List<String> models = modelDAO.getModels(brand.getbrandid());	
-        mav.addObject("userProfile", userProfile);
+        List<String> models = modelDAO.getSellingModels(brand.getbrandid());	
+		mav.addObject("role", userLogin.getrole());
         mav.addObject("prospect", prospect);
         mav.addObject("modellist", models);
         mav.addObject("activity", newActivity);
@@ -163,15 +169,17 @@ public class ActivityController {
     @RequestMapping(value = "/editActivity", method = RequestMethod.GET)
     public ModelAndView editActivity(HttpServletRequest request) {
         int activityid = Integer.parseInt(request.getParameter("activityid")); 
+        int step = Integer.parseInt(request.getParameter("step")); 
         Activity editActivity = activityDAO.get(activityid);
         Prospect prospect = prospectDAO.get(editActivity.getprospectid());
-        UserProfile userProfile = userProfileDAO.findUser(prospect.getuserid());
+        UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
         ModelAndView mav = new ModelAndView("activityForm");
-        List<String> brands = brandDAO.getBrands(userLoginDAO.getCompanyID(request.getUserPrincipal().getName()));	
+        List<String> brands = brandDAO.getSellingBrands(userLoginDAO.getCompanyID(request.getUserPrincipal().getName()));	
         mav.addObject("brandlist", brands);
         Brand brand = brandDAO.getByName(brands.get(0));
-        List<String> models = modelDAO.getModels(brand.getbrandid());	
-        mav.addObject("userProfile", userProfile);
+        List<String> models = modelDAO.getSellingModels(brand.getbrandid());	
+		mav.addObject("role", userLogin.getrole());
+		mav.addObject("step", step);		
         mav.addObject("prospect", prospect);
         mav.addObject("modellist", models);
         mav.addObject("activity", editActivity);

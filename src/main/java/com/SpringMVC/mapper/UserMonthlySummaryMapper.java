@@ -1,6 +1,5 @@
 package com.SpringMVC.mapper;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
  
@@ -11,7 +10,7 @@ public class UserMonthlySummaryMapper implements RowMapper<UserMonthlySummary> {
  
     @Override
     public UserMonthlySummary mapRow(ResultSet rs, int rowNum) throws SQLException { 
-        Date period = rs.getDate("period");
+        String period = rs.getString("period");
         int userid = rs.getInt("userid");
         String username = rs.getString("username");
         int targetprospect = rs.getInt("targetprospect");
@@ -23,10 +22,12 @@ public class UserMonthlySummaryMapper implements RowMapper<UserMonthlySummary> {
         float percentprospect = rs.getFloat("percentprospect");
         float percenttestdrive = rs.getFloat("percenttestdrive");
         float percentclosed = rs.getFloat("percentclosed");
+        float commission = rs.getFloat("commission");
         
         return new UserMonthlySummary(period, userid, username, 
         		targetprospect, targettestdrive, targetclosed,
         		actualprospect, actualtestdrive, actualclosed,
-        		percentprospect, percenttestdrive, percentclosed);
+        		percentprospect, percenttestdrive, percentclosed,
+        		commission);
     }
 }

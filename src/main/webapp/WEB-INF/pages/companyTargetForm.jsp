@@ -36,7 +36,7 @@
 					<div class="form-group">
 						<label for="period" class="control-label col-sm-2">Period</label>
 						<div class="col-sm-2">
-							<form:input type = "date" name="period" path="period" id="period" data-rule-required="true" />
+							<form:select type = "text" name="period" path="period" id="period" items="${periodlist}" data-rule-required="true" />
 						</div>
 					</div>
 					<div class="form-group">
@@ -103,11 +103,9 @@
 	            dataType: "json",
 	            data: JSON.stringify(json), 
 	            success:function(data, Textstatus, jqXHR){
-	                alert("Record created!");
 	                window.location.href = base+"/listCompanyTarget";
 	            },
 	            error:function(jqXhr, Textstatus){
-	                alert("Create failed!");
 	            }
 	        });    	
 	    }
@@ -119,11 +117,9 @@
 	            dataType: "json",
 	            data: JSON.stringify(json),
 	            success:function(data, Textstatus, jqXHR){
-	                alert("Record updated!");
 	                window.location.href = base+"/listCompanyTarget";
 	            },
 	            error:function(jqXhr, Textstatus){
-	                alert("Update failed!");
 	            }
 	        });
 	    }

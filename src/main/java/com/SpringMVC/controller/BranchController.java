@@ -84,11 +84,7 @@ public class BranchController {
     	currentBranch.setregno(branch.getregno());
     	currentBranch.setmaid(branch.getmaid());
     	currentBranch.setmaname(branch.getmaname());
-    	currentBranch.setcountry(branch.getcountry());
-    	currentBranch.setzipcode(branch.getzipcode());
-    	currentBranch.setstate(branch.getstate());
-    	currentBranch.setcity(branch.getcity());
-    	currentBranch.setaddress(branch.getaddress());
+    	currentBranch.setaddress(branch.getaddress());    	
     	currentBranch.settelephone(branch.gettelephone());
     	currentBranch.setfax(branch.getfax());
     	currentBranch.setemail(branch.getemail());

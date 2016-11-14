@@ -12,7 +12,7 @@
 				<a href="listCompanyTarget">Target</a>
 			</li>
 			<li>
-				<a href="listBranch?companyid=0">Branch</a>
+				<a href="listBranch">Branch</a>
 			</li>
 			<li>
 				<a href="listReview">Review</a>

@@ -21,7 +21,7 @@
 						<a href="listUser">User</a>
 					</li>
 					<li>
-						<a href="listBranch?companyid=0">Branch</a>
+						<a href="listBranch">Branch</a>
 					</li>
 				</ul>
 			</li>
@@ -32,7 +32,7 @@
 				</a>
 				<ul class="dropdown-menu">
 					<li>
-						<a href="listBrand?companyid=0">Brand</a>
+						<a href="listBrand">Brand</a>
 					</li>
 				</ul>
 			</li>

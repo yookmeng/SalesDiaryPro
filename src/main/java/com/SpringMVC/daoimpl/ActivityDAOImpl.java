@@ -30,7 +30,9 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 		Connection conn = this.getConnection();
     	try {
 			conn.setAutoCommit(true);
-	    	CallableStatement proc = conn.prepareCall("{ ? = call spActivityInsUpdDel(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }");
+	    	CallableStatement proc = conn.prepareCall("{ ? = call spActivityInsUpd("
+	    			+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
+	    			+ "?, ?, ?, ?, ?, ?, ?, ?, ?) }");
 	    	proc.registerOutParameter(1, Types.OTHER);
 	    	proc.setString(2, "0");
 	    	proc.setInt(3, activity.getactivityid());
@@ -41,10 +43,16 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 	    	proc.setBoolean(8, activity.getdemo());
 	    	proc.setBoolean(9, activity.gettestdrive());
 	    	proc.setBoolean(10, activity.getquotation());
-	    	proc.setBoolean(11, activity.getlinkevent());
-	    	proc.setString(12, activity.getremark1());
-	    	proc.setString(13, activity.getremark2());
-	    	proc.setString(14, activity.getremark3());
+	    	proc.setBoolean(11, activity.getfollowup());
+	    	proc.setBoolean(12, activity.getclosed());
+	    	proc.setBoolean(13, activity.getlost());
+	    	proc.setBoolean(14, activity.getdemostatus());
+	    	proc.setBoolean(15, activity.gettestdrivestatus());
+	    	proc.setString(16, activity.getfollowupremark());
+	    	proc.setBoolean(17, activity.getfollowupstatus());
+	    	proc.setInt(18, activity.getquotationid());
+	    	proc.setInt(19, activity.getclosedid());
+	    	proc.setString(20, activity.getlostremark());
 	    	proc.execute();
 	    	proc.close();
 		} catch (SQLException e) {
@@ -57,7 +65,9 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 		Connection conn = this.getConnection();
     	try {
 			conn.setAutoCommit(true);
-	    	CallableStatement proc = conn.prepareCall("{ ? = call spActivityInsUpdDel(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }");
+	    	CallableStatement proc = conn.prepareCall("{ ? = call spActivityInsUpd("
+	    			+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
+	    			+ "?, ?, ?, ?, ?, ?, ?, ?, ?) }");
 	    	proc.registerOutParameter(1, Types.OTHER);
 	    	proc.setString(2, "1");
 	    	proc.setInt(3, activity.getactivityid());
@@ -68,10 +78,16 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 	    	proc.setBoolean(8, activity.getdemo());
 	    	proc.setBoolean(9, activity.gettestdrive());
 	    	proc.setBoolean(10, activity.getquotation());
-	    	proc.setBoolean(11, activity.getlinkevent());
-	    	proc.setString(12, activity.getremark1());
-	    	proc.setString(13, activity.getremark2());
-	    	proc.setString(14, activity.getremark3());
+	    	proc.setBoolean(11, activity.getfollowup());
+	    	proc.setBoolean(12, activity.getclosed());
+	    	proc.setBoolean(13, activity.getlost());
+	    	proc.setBoolean(14, activity.getdemostatus());
+	    	proc.setBoolean(15, activity.gettestdrivestatus());
+	    	proc.setString(16, activity.getfollowupremark());
+	    	proc.setBoolean(17, activity.getfollowupstatus());
+	    	proc.setInt(18, activity.getquotationid());
+	    	proc.setInt(19, activity.getclosedid());
+	    	proc.setString(20, activity.getlostremark());
 	    	proc.execute();
 	    	proc.close();
 		} catch (SQLException e) {
@@ -84,10 +100,9 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 		Connection conn = this.getConnection();
     	try {
 			conn.setAutoCommit(true);
-	    	CallableStatement proc = conn.prepareCall("{ ? = call spActivityInsUpdDel(?, ?) }");
+	    	CallableStatement proc = conn.prepareCall("{ ? = call spActivityDel(?) }");
 	    	proc.registerOutParameter(1, Types.OTHER);
-	    	proc.setString(2, "2");
-	    	proc.setInt(3, activityid);
+	    	proc.setInt(2, activityid);
 	    	proc.execute();
 	    	proc.close();
 		} catch (SQLException e) {
@@ -97,45 +112,29 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
     }
     
     public List<Activity> list(int prospectid) {
-        String sql = "SELECT a.activityid AS activityid, "
-        		+ "a.prospectid AS prospectid, "
-        		+ "a.activitydate AS activitydate, "
-        		+ "a.brandid AS brandid, "
-        		+ "a.modelid AS modelid, "
-        		+ "a.demo AS demo, "
-        		+ "a.testdrive AS testdrive, "
-        		+ "a.quotation AS quotation, "
-        		+ "a.linkevent AS linkevent, "
-        		+ "b.brandname AS brandname, "
-        		+ "m.modelname AS modelname, "
-        		+ "a.remark1 AS remark1, "
-        		+ "a.remark2 AS remark2, "
-        		+ "a.remark3 AS remark3 "
+        String sql = "SELECT activityid, prospectid, activitydate, "
+        		+ "a.brandid AS brandid, a.modelid AS modelid, "
+        		+ "b.brandname AS brandname, m.modelname AS modelname, "
+        		+ "demo, testdrive, quotation, followup, closed, lost, "
+        		+ "demostatus, testdrivestatus, followupremark, followupstatus, "
+        		+ "quotationid, closedid, lostremark "
         		+ "FROM tblActivity a "
         		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
         		+ "LEFT JOIN tblModel m ON m.modelid = a.modelid "
-        		+ "WHERE a.prospectid = " + prospectid + " "
-        		+ "ORDER BY a.activitydate ";
+        		+ "WHERE prospectid = " + prospectid + " "
+        		+ "ORDER BY activitydate ";
         ActivityMapper mapper = new ActivityMapper();
         List<Activity> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
     }
 
     public Activity get(int activityid) {
-	    String sql = "SELECT a.activityid AS activityid, "
-	    		+ "a.prospectid AS prospectid, "
-	    		+ "a.activitydate AS activitydate, "
-        		+ "a.brandid AS brandid, "
-        		+ "a.modelid AS modelid, "
-        		+ "a.demo AS demo, "
-        		+ "a.testdrive AS testdrive, "
-        		+ "a.quotation AS quotation, "
-        		+ "a.linkevent AS linkevent, "
-        		+ "b.brandname AS brandname, "
-        		+ "m.modelname AS modelname, "
-        		+ "a.remark1 AS remark1, "
-        		+ "a.remark2 AS remark2, "
-        		+ "a.remark3 AS remark3 "
+        String sql = "SELECT activityid, prospectid, activitydate, "
+        		+ "a.brandid AS brandid, a.modelid AS modelid, "
+        		+ "b.brandname AS brandname, m.modelname AS modelname, "
+        		+ "demo, testdrive, quotation, followup, closed, lost, "
+        		+ "demostatus, testdrivestatus, followupremark, followupstatus, "
+        		+ "quotationid, closedid, lostremark "
         		+ "FROM tblActivity a "
         		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
         		+ "LEFT JOIN tblModel m ON m.modelid = a.modelid "
@@ -157,10 +156,16 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 	                activity.setdemo(rs.getBoolean("demo"));
 	                activity.settestdrive(rs.getBoolean("testdrive"));
 	                activity.setquotation(rs.getBoolean("quotation"));
-	                activity.setlinkevent(rs.getBoolean("linkevent"));
-	                activity.setremark1(rs.getString("remark1"));
-	                activity.setremark2(rs.getString("remark2"));
-	                activity.setremark3(rs.getString("remark3"));
+	                activity.setfollowup(rs.getBoolean("followup"));
+	                activity.setclosed(rs.getBoolean("closed"));
+	                activity.setlost(rs.getBoolean("lost"));
+	                activity.setdemostatus(rs.getBoolean("demostatus"));
+	                activity.settestdrivestatus(rs.getBoolean("testdrivestatus"));
+	                activity.setfollowupremark(rs.getString("followupremark"));
+	                activity.setfollowupstatus(rs.getBoolean("followupstatus"));
+	                activity.setquotationid(rs.getInt("quotationid"));
+	                activity.setclosedid(rs.getInt("closedid"));
+	                activity.setlostremark(rs.getString("lostremark"));
 	                return activity;
 	            }	 
 	            return null;

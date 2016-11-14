@@ -20,4 +20,6 @@ public interface ContactDAO {
     public boolean isExist(Contact contact);
     
     public List<Contact> list(int userid);    
+
+    public List<Contact> listfilter(int userid, String filter);    
 }

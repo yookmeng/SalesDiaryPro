@@ -29,7 +29,7 @@
 			</ul>
 		</div>
 		<div>
-			<h4>${companyTarget.companyname}  ${companyTarget.displayperiod}  Company Target</h4>
+			<h4>${companyTarget.companyname}  ${companyTarget.period}  Company Target</h4>
 		</div>
         <div>
     		<h5>Prospect : ${companyTarget.prospect}</h5>
@@ -80,11 +80,9 @@
 	            data: "",
 	            dataType: "",
 	            success: function (data, status, jqXHR) {
-	                alert("record deleted!");	                
 					location.replace(location);
 	            },	        
 	            error: function (jqXHR, status) {
-	                alert("delete failed!");
 	            }
 	        });	
 	    }

@@ -37,7 +37,7 @@
 				</tr>
 				<c:forEach var="companyTarget" items="${listTarget}" varStatus="status">
 					<tr>
-	                    <td>${companyTarget.displayperiod}</td>
+	                    <td>${companyTarget.period}</td>
 	                    <td><fmt:formatNumber value="${companyTarget.prospect}"/></td>
 	                    <td><fmt:formatNumber value="${companyTarget.testdrive}"/></td>
 	                    <td><fmt:formatNumber value="${companyTarget.closed}"/></td>
@@ -70,11 +70,9 @@
 	            data: "",
 	            dataType: "",
 	            success: function (data, status, jqXHR) {
-	                alert("record deleted!");	                
 					location.replace(location);
 	            },	        
 	            error: function (jqXHR, status) {
-	                alert("delete failed!");
 	            }
 	        });	
 	    }

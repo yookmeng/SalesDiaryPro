@@ -36,6 +36,12 @@
 							<form:input type="text" path="brandname" name="brandname" id="brandname" class="form-control" />
 						</div>
 					</div>
+					<div class="form-group">
+						<label for="sellingbrand" class="control-label col-sm-2">Selling Brand</label>
+						<div class="col-sm-1">
+							<form:checkbox path="sellingbrand" id="sellingbrand" class="form-control"/>
+						</div>
+					</div>
 					<div class="form-actions">
 						<input type="reset" class="btn" onclick="location.href='listBrand?companyid=${brand.companyid}'" value="Back" id="back">						
 						<input id="btnSave" type="submit" class="btn btn-primary" name="Save" value="Save">
@@ -58,11 +64,13 @@
     	var brandid = $('#brandid').val(); 
 	    var brandname = $('#brandname').val(); 
 	    var companyid = $('#companyid').val(); 
+	    var sellingbrand = $('#sellingbrand').prop('checked');
 	
 	    var json = {
 	    		"brandid" : brandid,
 	    		"brandname" : brandname,
-	    		"companyid" : companyid
+	    		"companyid" : companyid,
+	    		"sellingbrand" : sellingbrand
 		};
 	    if (json.brandid=="0"){
 	        $.ajax({
@@ -72,11 +80,9 @@
 	            dataType: "json",
 	            data: JSON.stringify(json), 
 	            success:function(data, Textstatus, jqXHR){
-	                alert("Record created!");
 	                window.location.href = base+"/listBrand";
 	            },
 	            error:function(jqXhr, Textstatus){
-	                alert("Create failed!"+status);
 	            }
 	        });    	
 	    }
@@ -88,11 +94,9 @@
 	            dataType: "json",
 	            data: JSON.stringify(json),
 	            success:function(data, Textstatus, jqXHR){
-	                alert("Record updated!");
 	                window.location.href = base+"/listBrand";
 	            },
 	            error:function(jqXhr, Textstatus){
-	                alert("Update failed!");
 	            }
 	        });
 	    }

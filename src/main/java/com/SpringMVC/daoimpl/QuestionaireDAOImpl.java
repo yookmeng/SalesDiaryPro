@@ -25,17 +25,19 @@ public class QuestionaireDAOImpl extends JdbcDaoSupport implements QuestionaireD
 		Connection conn = this.getConnection();
     	try {
 			conn.setAutoCommit(true);
-	    	CallableStatement proc = conn.prepareCall("{ ? = call spQuestionaire(?, ?, ?, ?, ?, ?, ?, ?, ?) }");
+	    	CallableStatement proc = conn.prepareCall("{ ? = call spQuestionaire(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }");
 	    	proc.registerOutParameter(1, Types.OTHER);
 	    	proc.setInt(2, questionaire.getuserid());
 	    	proc.setString(3, questionaire.getprospectname());
 	    	proc.setString(4, questionaire.getmobile());
 	    	proc.setInt(5, questionaire.getbrandid());
 	    	proc.setInt(6, questionaire.getmodelid());
-	    	proc.setString(7, questionaire.getcurrentbrand());
-	    	proc.setString(8, questionaire.getcurrentmodel());	    	
-	    	proc.setBoolean(9, questionaire.gettradein());
-	    	proc.setBoolean(10, questionaire.gettestdrive());
+	    	proc.setBoolean(7, questionaire.getdemo());
+	    	proc.setBoolean(8, questionaire.gettestdrive());
+	    	proc.setBoolean(9, questionaire.getquotation());
+	    	proc.setBoolean(10, questionaire.gettradein());
+	    	proc.setString(11, questionaire.getcurrentbrand());
+	    	proc.setString(12, questionaire.getcurrentmodel());	    	
 	    	proc.execute();
 	    	proc.close();
 		} catch (SQLException e) {

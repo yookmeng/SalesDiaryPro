@@ -6,11 +6,7 @@ public class Company {
     private String regno;
     private int mdid;
     private String mdname;
-    private String address;
-    private String zipcode;
-    private String city;
-    private String state;
-    private String country;
+    private Address address;
     private String telephone;
     private String fax;
     private String email;
@@ -23,9 +19,7 @@ public class Company {
  
     public Company(int companyid, 
     		String companyname, String regno, int mdid, String mdname, 
-    		String address, String zipcode, String city, 
-    		String state, String country, String telephone, 
-    		String fax, String email, String website, 
+    		Address address, String telephone, String fax, String email, String website, 
     		int said, String saname) {
         this.companyid = companyid;
         this.companyname = companyname;
@@ -33,10 +27,6 @@ public class Company {
         this.mdid = mdid;
         this.mdname = mdname;
         this.address = address;
-        this.zipcode = zipcode;
-        this.city = city;
-        this.state = state;
-        this.country = country;        
         this.telephone = telephone;
         this.fax = fax;
         this.email = email;
@@ -80,39 +70,11 @@ public class Company {
         this.mdname = mdname;
     }
     
-    public String getaddress() {
+    public Address getaddress() {
         return address;
     }
-    public void setaddress(String address) {
+    public void setaddress(Address address) {
         this.address = address;
-    }
-
-    public String getzipcode() {
-        return zipcode;
-    }
-    public void setzipcode(String zipcode) {
-        this.zipcode = zipcode;
-    }
-
-    public String getcity() {
-        return city;
-    }  
-    public void setcity(String city) {
-        this.city = city;
-    }
-
-    public String getstate() {
-        return state;
-    }  
-    public void setstate(String state) {
-        this.state = state;
-    }
-
-    public String getcountry() {
-        return country;
-    }  
-    public void setcountry(String country) {
-        this.country = country;
     }
 
     public String gettelephone() {

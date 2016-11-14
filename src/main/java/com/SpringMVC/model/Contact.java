@@ -12,11 +12,7 @@ public class Contact {
     private String work;
     private String email;
     private Date birthday;
-    private String country;
-    private String zipcode;
-    private String state;
-    private String city;
-    private String street;
+    private Address address;
     private String company;
     private String title;    
     private String note;
@@ -27,8 +23,7 @@ public class Contact {
  
     public Contact(int contactid, int userid, String firstname, String lastname, 
     		String mobile, String home, String work, String email, Date birthday, 
-    		String country, String zipcode, String state, String city, String street, 
-    		String company, String title, String note, String website) {
+    		Address address, String company, String title, String note, String website) {
         this.contactid = contactid;
         this.userid = userid;
         this.firstname = firstname;
@@ -38,11 +33,7 @@ public class Contact {
         this.work = work;
         this.email = email;
         this.birthday = birthday;
-        this.country = country;        
-        this.zipcode = zipcode;
-        this.state = state;
-        this.city = city;
-        this.street = street;        
+        this.address = address;        
         this.company = company;
         this.title = title;
         this.note = note;
@@ -112,39 +103,11 @@ public class Contact {
         this.birthday = birthday;
     }
 
-    public String getcountry() {
-        return country;
+    public Address getaddress() {
+        return address;
     }
-    public void setcountry(String country) {
-        this.country = country;
-    }
-
-    public String getzipcode() {
-        return zipcode;
-    }
-    public void setzipcode(String zipcode) {
-        this.zipcode = zipcode;
-    }
-
-    public String getstate() {
-        return state;
-    }
-    public void setstate(String state) {
-        this.state = state;
-    }
-
-    public String getcity() {
-        return city;
-    }
-    public void setcity(String city) {
-        this.city = city;
-    }
-
-    public String getstreet() {
-        return street;
-    }  
-    public void setstreet(String street) {
-        this.street = street;
+    public void setaddress(Address address) {
+        this.address = address;
     }
 
     public String getcompany() {
@@ -173,17 +136,5 @@ public class Contact {
     }
     public void setwebsite(String website) {
         this.website = website;
-    }
-    
-    @Override
-    public String toString() {
-        return "Contact {contactid:" + contactid + ", userid:" + userid 
-        		+ ", firstname:" + firstname + ", lastname:" + lastname
-                + ", mobile:" + mobile + ", home:" + home + ", work:" + work 
-                + ", email:" + email + ", birthday:" + birthday 
-                + ", country:" + country + ", zipcode:" + zipcode + ", state:" + state
-                + ", city:" + city + ", street:" + street 
-                + ", company:" + company+ ", title:" + title + ", note:" + note + ", website:" + website
-                + "}";
-    }
+    }    
 }

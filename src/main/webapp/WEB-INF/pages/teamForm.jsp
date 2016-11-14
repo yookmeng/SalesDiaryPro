@@ -61,7 +61,12 @@
 							</div>
 						</div>
 						<div class="form-actions">
-							<input type="reset" class="btn" onclick="location.href='listTeam?branchid=${team.branchid}'" value="Back" id="back">						
+							<c:if test="${role == 'TL'}">
+								<input type="reset" class="btn" onclick="location.href='home'" value="Back" id="back">						
+							</c:if>
+							<c:if test="${role != 'TL'}">
+								<input type="reset" class="btn" onclick="location.href='listTeam?branchid=${team.branchid}'" value="Back" id="back">						
+							</c:if>
 							<input id="btnSave" type="submit" class="btn btn-primary" name="Save" value="Save">
 						</div>
 						</form:form>
@@ -100,7 +105,6 @@
 	            dataType: "json",
 	            data: JSON.stringify(json), 
 	            success:function(data, Textstatus, jqXHR){
-	                alert("Record created!");
 	                if ($('#role').val()=="TL"){
 		                window.location.href = base+"/home";
 	                }
@@ -109,7 +113,6 @@
 	                }	                
 	            },
 	            error:function(jqXhr, Textstatus){
-	                alert("Create failed!");
 	            }
 	        });    	
 	    }
@@ -121,7 +124,6 @@
 	            dataType: "json",
 	            data: JSON.stringify(json),
 	            success:function(data, Textstatus, jqXHR){
-	                alert("Record updated!");
 	                if ($('#role').val()=="TL"){
 		                window.location.href = base+"/home";
 	                }
@@ -130,7 +132,6 @@
 	                }	                
 	            },
 	            error:function(jqXhr, Textstatus){
-	                alert("Update failed!");
 	            }
 	        });
 	    }

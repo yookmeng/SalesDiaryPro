@@ -23,23 +23,36 @@ public class BrandDAOImpl extends JdbcDaoSupport implements BrandDAO {
     }
 
     @Override
-    public List<String> getBrands(int companyid) {
-        String sql = "Select brandname FROM tblBrand WHERE companyid = " + companyid;
+    public List<String> getSellingBrands(int companyid) {
+        String sql = "Select brandname FROM tblBrand "
+        		+ "WHERE companyid = " + companyid + " "
+        		+ "AND sellingbrand = TRUE";
          
         List<String> brands = this.getJdbcTemplate().queryForList(sql, String.class);         
         return brands;
     }
     
     @Override
+    public List<String> getAllBrands(int companyid) {
+        String sql = "Select brandname FROM tblBrand "
+        		+ "WHERE companyid = " + companyid;
+         
+        List<String> brands = this.getJdbcTemplate().queryForList(sql, String.class);         
+        return brands;
+    }
+
+    @Override
     public void save(Brand brand) {
-        String sql = "INSERT INTO tblBrand (companyid, brandname) VALUES (?, ?)";
-        this.getJdbcTemplate().update(sql, brand.getcompanyid(), brand.getbrandname());
+        String sql = "INSERT INTO tblBrand (companyid, brandname, sellingbrand) VALUES (?, ?, ?)";
+        this.getJdbcTemplate().update(sql, brand.getcompanyid(), brand.getbrandname(), 
+        		brand.getsellingbrand());
     }
     
     @Override
     public void update(Brand brand) {
-        String sql = "UPDATE tblBrand SET brandname=? WHERE brandid=?";
-        this.getJdbcTemplate().update(sql, brand.getbrandname(), brand.getbrandid());
+        String sql = "UPDATE tblBrand SET brandname=?, sellingbrand=? WHERE brandid=?";
+        this.getJdbcTemplate().update(sql, brand.getbrandname(), brand.getsellingbrand(), 
+        		brand.getbrandid());
     }
 
     @Override
@@ -69,6 +82,7 @@ public class BrandDAOImpl extends JdbcDaoSupport implements BrandDAO {
 	                brand.setbrandid(rs.getInt("brandid"));
 	                brand.setbrandname(rs.getString("brandname"));
 	                brand.setcompanyid(rs.getInt("companyid"));
+	                brand.setsellingbrand(rs.getBoolean("sellingbrand"));	                
 	                return brand;
 	            }	 
 	            return null;
@@ -89,6 +103,7 @@ public class BrandDAOImpl extends JdbcDaoSupport implements BrandDAO {
 	                brand.setbrandid(rs.getInt("brandid"));
 	                brand.setbrandname(rs.getString("brandname"));
 	                brand.setcompanyid(rs.getInt("companyid"));
+	                brand.setsellingbrand(rs.getBoolean("sellingbrand"));	                
 	                return brand;
 	            }	 
 	            return null;

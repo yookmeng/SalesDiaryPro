@@ -2,8 +2,6 @@ package com.SpringMVC.controller;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.SpringMVC.dao.ClosingPeriodDAO;
+import com.SpringMVC.dao.CommonDAO;
 import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.model.ClosingPeriod;
 import com.SpringMVC.model.UserLogin;
@@ -30,6 +29,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @EnableWebMvc
 @RestController
 public class ClosingPeriodController {
+
+    @Autowired
+    private CommonDAO commonDAO;
 
     @Autowired
     private UserLoginDAO userLoginDAO;
@@ -78,6 +80,7 @@ public class ClosingPeriodController {
         
     	currentClosingPeriod.setopendate(closingPeriod.getopendate());
     	currentClosingPeriod.setclosedate(closingPeriod.getclosedate());
+    	currentClosingPeriod.setclosed(closingPeriod.getclosed());
 
         closingPeriodDAO.update(currentClosingPeriod);
         return new ResponseEntity<ClosingPeriod>(closingPeriod, HttpStatus.OK);
@@ -109,21 +112,11 @@ public class ClosingPeriodController {
     public ModelAndView addClosingPeriod(ModelAndView mav, Principal principal) {
         UserLogin userLogin = userLoginDAO.get(principal.getName());
         int companyid = userLoginDAO.getCompanyID(principal.getName());
-        int controlyear = Calendar.getInstance().get(Calendar.YEAR);
         ClosingPeriod newClosingPeriod = new ClosingPeriod();
         newClosingPeriod.setcompanyid(companyid);
-        newClosingPeriod.setcontrolyear(controlyear);
-        List<Integer> years = new ArrayList<Integer>();
-        for(int y=controlyear-10;y<=controlyear+10;y++){
-        	years.add(y);
-        }
-        List<Integer> months = new ArrayList<Integer>();
-        for(int m=1;m<=12;m++){
-        	months.add(m);
-        }
+        List<String> periods = commonDAO.periodList();
         mav.addObject("closingPeriod", newClosingPeriod);
-        mav.addObject("yearlist", years);                
-        mav.addObject("monthlist", months);
+        mav.addObject("periodlist", periods);                
         mav.addObject("role", userLogin.getrole());        
         mav.setViewName("closingPeriodForm");
         return mav;
@@ -134,18 +127,9 @@ public class ClosingPeriodController {
         int id = Integer.parseInt(request.getParameter("id"));       	
         ClosingPeriod editClosingPeriod = closingPeriodDAO.get(id);
         UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
-        int controlyear = Calendar.getInstance().get(Calendar.YEAR);
-        List<Integer> years = new ArrayList<Integer>();
-        for(int y=controlyear-10;y<=controlyear+10;y++){
-        	years.add(y);
-        }
-        List<Integer> months = new ArrayList<Integer>();
-        for(int m=1;m<=12;m++){
-        	months.add(m);
-        }
+        List<String> periods = commonDAO.periodList();
         ModelAndView mav = new ModelAndView("closingPeriodForm");
-        mav.addObject("yearlist", years);                
-        mav.addObject("monthlist", months);                  
+        mav.addObject("periodlist", periods);
  	   	mav.addObject("role", userLogin.getrole());
         mav.addObject("closingPeriod", editClosingPeriod);
         return mav;

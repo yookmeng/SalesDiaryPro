@@ -1,10 +1,7 @@
 package com.SpringMVC.daoimpl;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
  
 import javax.sql.DataSource;
@@ -66,13 +63,11 @@ public class UserTargetDAOImpl extends JdbcDaoSupport implements UserTargetDAO {
 	        public UserTarget extractData(ResultSet rs) throws SQLException,
 	                DataAccessException {
 	            if (rs.next()) {
-	            	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM");
 	                UserTarget userTarget = new UserTarget();
 	                userTarget.settargetid(rs.getInt("targetid"));
 	                userTarget.setuserid(rs.getInt("userid"));
 	                userTarget.setusername(rs.getString("username"));	                
-	                userTarget.setperiod(rs.getDate("period"));
-	                userTarget.setdisplayperiod(dateFormat.format(rs.getDate("period")));
+	                userTarget.setperiod(rs.getString("period"));
 	                userTarget.setteamtargetid(rs.getInt("teamtargetid"));
 	                userTarget.setprospect(rs.getInt("prospect"));
 	                userTarget.settestdrive(rs.getInt("testdrive"));
@@ -103,13 +98,11 @@ public class UserTargetDAOImpl extends JdbcDaoSupport implements UserTargetDAO {
 	        public UserTarget extractData(ResultSet rs) throws SQLException,
 	                DataAccessException {
 	            if (rs.next()) {
-	            	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM");
 	                UserTarget userTarget = new UserTarget();
 	                userTarget.settargetid(rs.getInt("targetid"));
 	                userTarget.setuserid(rs.getInt("userid"));
 	                userTarget.setusername(rs.getString("username"));	                
-	                userTarget.setperiod(rs.getDate("period"));
-	                userTarget.setdisplayperiod(dateFormat.format(rs.getDate("period")));
+	                userTarget.setperiod(rs.getString("period"));
 	                userTarget.setteamtargetid(rs.getInt("teamtargetid"));
 	                userTarget.setprospect(rs.getInt("prospect"));
 	                userTarget.settestdrive(rs.getInt("testdrive"));
@@ -121,7 +114,7 @@ public class UserTargetDAOImpl extends JdbcDaoSupport implements UserTargetDAO {
         });
     }
 
-    public List<UserTarget> list(Date period, int teamid) {
+    public List<UserTarget> list(String period, int teamid) {
 	    String sql = "SELECT ut.targetid AS targetid, "
 	    		+ "ut.userid AS userid, "
 	    		+ "up.username AS username, "

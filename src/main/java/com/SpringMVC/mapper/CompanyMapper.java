@@ -2,8 +2,10 @@ package com.SpringMVC.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
- 
+
+import com.SpringMVC.model.Address;
 import com.SpringMVC.model.Company;
+
 import org.springframework.jdbc.core.RowMapper;
  
 public class CompanyMapper implements RowMapper<Company> {
@@ -15,11 +17,12 @@ public class CompanyMapper implements RowMapper<Company> {
         String regno = rs.getString("regno");
         int mdid = rs.getInt("mdid");
         String mdname = rs.getString("mdname");
-        String address = rs.getString("address");
-        String zipcode = rs.getString("zipCode");
-        String city = rs.getString("city");
-        String state = rs.getString("state");
-        String country = rs.getString("country");
+        Address address = new Address();
+        address.setcountry(rs.getString("country"));
+        address.setzipcode(rs.getString("zipcode"));
+        address.setstate(rs.getString("state"));
+        address.setcity(rs.getString("city"));
+        address.setstreet(rs.getString("street"));
         String telephone = rs.getString("telephone");
         String fax = rs.getString("fax");
         String email = rs.getString("email");
@@ -28,7 +31,6 @@ public class CompanyMapper implements RowMapper<Company> {
         String saname = rs.getString("saname");
         
         return new Company(companyid, companyname, regno, mdid, mdname, 
-        		address, zipcode, city, state, country, 
-        		telephone, fax, email, website, said, saname);
+        		address, telephone, fax, email, website, said, saname);
     }
 }

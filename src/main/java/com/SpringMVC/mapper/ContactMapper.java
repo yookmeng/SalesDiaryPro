@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
 
+import com.SpringMVC.model.Address;
 import com.SpringMVC.model.Contact;
 import org.springframework.jdbc.core.RowMapper;
  
@@ -20,11 +21,12 @@ public class ContactMapper implements RowMapper<Contact> {
         String work = rs.getString("work");
         String email = rs.getString("email");
         Date birthday = rs.getDate("birthday");
-        String country = rs.getString("country");
-        String zipcode = rs.getString("zipcode");
-        String state = rs.getString("state");
-        String city = rs.getString("city");
-        String street = rs.getString("street");
+        Address address = new Address();
+        address.setcountry(rs.getString("country"));
+        address.setzipcode(rs.getString("zipcode"));
+        address.setstate(rs.getString("state"));
+        address.setcity(rs.getString("city"));
+        address.setstreet(rs.getString("street"));
         String company = rs.getString("company");
         String title = rs.getString("title");
         String note = rs.getString("note");
@@ -32,7 +34,6 @@ public class ContactMapper implements RowMapper<Contact> {
         
         return new Contact(contactid, userid, firstname, lastname, 
         		mobile, home, work, email, birthday, 
-        		country, zipcode, state, city, street, 
-        		company, title, note, website);
+        		address, company, title, note, website);
     } 
 }

@@ -17,9 +17,7 @@
        
    		<form name='f' action="${pageContext.request.contextPath}/j_spring_security_check" method='POST'>
 		<div class="form-group">
-			<div class="email controls">
-				<input type="text" name='username' placeholder="Email address" class='form-control' data-rule-required="true" data-rule-email="true">
-			</div>
+			<input type="text" name='username' placeholder="User Name" class='form-control' data-rule-required="true">
 		</div>
 		<div class="form-group">
 			<div class="pw controls">

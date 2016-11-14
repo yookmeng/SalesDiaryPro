@@ -74,12 +74,10 @@ public class CompanyController {
     @RequestMapping(value = CompanyRestURIConstant.Update, method = RequestMethod.POST)
     public ResponseEntity<Company> updateCompany(@PathVariable("companyid") int companyid, @RequestBody Company company) {
     	Company currentCompany = companyDAO.get(companyid);
-         
         if (currentCompany==null) {
             return new ResponseEntity<Company>(HttpStatus.NOT_FOUND);
         }
-        
-    	UserLogin userLoginMD = userLoginDAO.get(company.getmdname());
+        UserLogin userLoginMD = userLoginDAO.get(company.getmdname());
     	company.setmdid(userLoginMD.getuserid());
     	UserLogin userLoginSA = userLoginDAO.get(company.getsaname());
     	company.setsaid(userLoginSA.getuserid());
@@ -87,11 +85,7 @@ public class CompanyController {
     	currentCompany.setcompanyname(company.getcompanyname());
     	currentCompany.setregno(company.getregno());
     	currentCompany.setmdid(company.getmdid());
-    	currentCompany.setcountry(company.getcountry());
-    	currentCompany.setzipcode(company.getzipcode());
-    	currentCompany.setstate(company.getstate());
-    	currentCompany.setcity(company.getcity());
-    	currentCompany.setaddress(company.getaddress());
+    	currentCompany.setaddress(company.getaddress());    	
     	currentCompany.settelephone(company.gettelephone());
     	currentCompany.setfax(company.getfax());
     	currentCompany.setemail(company.getemail());

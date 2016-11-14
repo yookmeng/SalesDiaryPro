@@ -18,7 +18,7 @@ public class CodeMasterDAOImpl extends JdbcDaoSupport implements CodeMasterDAO {
 	
     @Override
     public List<String> getCode(String codetype) {
-        String sql = "SELECT codeid FROM tblCodeMaster WHERE codetype = ? ";
+        String sql = "SELECT codename FROM tblCodeMaster WHERE codetype = ? ORDER BY codeid";
          
         Object[] params = new Object[] { codetype };         
         List<String> codes = this.getJdbcTemplate().queryForList(sql,params, String.class);         

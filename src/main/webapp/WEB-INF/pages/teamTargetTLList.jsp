@@ -36,7 +36,7 @@
 	            </tr>
                 <c:forEach var="teamTarget" items="${listTarget}" varStatus="status">
 	                <tr>
-	                    <td>${teamTarget.displayperiod}</td>
+	                    <td>${teamTarget.period}</td>
 	                    <td><fmt:formatNumber value="${teamTarget.prospect}"/></td>
 	                    <td><fmt:formatNumber value="${teamTarget.testdrive}"/></td>
 	                    <td><fmt:formatNumber value="${teamTarget.closed}"/></td>

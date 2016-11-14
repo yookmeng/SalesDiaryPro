@@ -29,7 +29,7 @@
 			</ul>
 		</div>
 		<div>
-			<h4>${branchTarget.branchname}  ${branchTarget.displayperiod}  Target</h4>
+			<h4>${branchTarget.branchname}  ${branchTarget.period}  Target</h4>
 		</div>
         <div>
     		<h5>Prospect : ${branchTarget.prospect}</h5>
@@ -80,11 +80,9 @@
 	            data: "",
 	            dataType: "",
 	            success: function (data, status, jqXHR) {
-	                alert("record deleted!");	                
 					location.replace(location);
 	            },	        
 	            error: function (jqXHR, status) {
-	                alert("delete failed!");
 	            }
 	        });	
 	    }

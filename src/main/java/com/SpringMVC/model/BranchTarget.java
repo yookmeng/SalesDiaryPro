@@ -1,13 +1,10 @@
 package com.SpringMVC.model;
 
-import java.sql.Date;
-
 public class BranchTarget {
 	private int targetid;
 	private int branchid;
 	private String branchname;
-    private Date period;
-    private String displayperiod;        
+    private String period;        
 	private int companytargetid;
     private int prospect;
     private int testdrive;
@@ -16,13 +13,12 @@ public class BranchTarget {
     public BranchTarget() {
     }
  
-    public BranchTarget(int targetid, int branchid, String branchname, Date period, 
-    		String displayperiod, int companytargetid, int prospect, int testdrive, int closed) {
+    public BranchTarget(int targetid, int branchid, String branchname, String period, 
+    		int companytargetid, int prospect, int testdrive, int closed) {
         this.targetid = targetid;
         this.branchid = branchid;
         this.branchname = branchname;
         this.period = period;
-        this.displayperiod = displayperiod;
         this.companytargetid = companytargetid;        
         this.prospect = prospect;
         this.testdrive = testdrive;
@@ -50,18 +46,11 @@ public class BranchTarget {
         this.branchname = branchname;
     }
 
-    public Date getperiod() {
+    public String getperiod() {
         return period;
     }  
-    public void setperiod(Date period) {
+    public void setperiod(String period) {
         this.period = period;
-    }
-
-    public String getdisplayperiod() {
-        return displayperiod;
-    }  
-    public void setdisplayperiod(String displayperiod) {
-        this.displayperiod = displayperiod;
     }
 
     public int getcompanytargetid() {

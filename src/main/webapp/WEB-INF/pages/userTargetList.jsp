@@ -29,7 +29,7 @@
 			</ul>
 		</div>
 		<div>
-			<h4>${teamTarget.teamname}  ${teamTarget.displayperiod}  Target</h4>
+			<h4>${teamTarget.teamname}  ${teamTarget.period}  Target</h4>
 		</div>
         <div>
     		<h5>Prospect : ${teamTarget.prospect}</h5>
@@ -80,11 +80,9 @@
 	            data: "",
 	            dataType: "",
 	            success: function (data, status, jqXHR) {
-	                alert("record deleted!");	                
 					location.replace(location);
 	            },	        
 	            error: function (jqXHR, status) {
-	                alert("delete failed!");
 	            }
 	        });	
 	    }

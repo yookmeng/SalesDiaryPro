@@ -1,9 +1,7 @@
 package com.SpringMVC.model;
 
-import java.sql.Date;
-
 public class UserMonthlySummary {
-    private Date period;
+    private String period;
     private int userid;
     private String username;
     private int targetprospect;
@@ -15,14 +13,16 @@ public class UserMonthlySummary {
     private float percentprospect;
     private float percenttestdrive;
     private float percentclosed;
+    private float commission;
     
     public UserMonthlySummary() {
     }
  
-    public UserMonthlySummary(Date period, int userid, String username, 
+    public UserMonthlySummary(String period, int userid, String username, 
     		int targetprospect, int targettestdrive, int targetclosed,
     		int actualprospect, int actualtestdrive, int actualclosed,
-    		float percentprospect, float percenttestdrive, float percentclosed) {
+    		float percentprospect, float percenttestdrive, float percentclosed,
+    		float commission) {
         this.period = period;
         this.userid = userid;
         this.username = username;
@@ -35,12 +35,13 @@ public class UserMonthlySummary {
         this.percentprospect = percentprospect;
         this.percenttestdrive = percenttestdrive;
         this.percentclosed = percentclosed;
+        this.commission = commission;
     }
  
-    public Date getperiod() {
+    public String getperiod() {
         return period;
     }  
-    public void setperiod(Date period) {
+    public void setperiod(String period) {
         this.period = period;
     }
 
@@ -119,5 +120,12 @@ public class UserMonthlySummary {
     }  
     public void setpercentclosed(float percentclosed) {
         this.percentclosed = percentclosed;
+    }
+
+    public float getcommission() {
+        return commission;
+    }  
+    public void setcommission(float commission) {
+        this.commission = commission;
     }
 }

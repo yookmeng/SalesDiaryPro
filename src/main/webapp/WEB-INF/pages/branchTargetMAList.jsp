@@ -39,7 +39,7 @@
 				</tr>
 				<c:forEach var="branchTarget" items="${listTarget}" varStatus="status">
 					<tr>
-						<td>${branchTarget.displayperiod}</td>
+						<td>${branchTarget.period}</td>
 						<td><fmt:formatNumber value="${branchTarget.prospect}"/></td>
 						<td><fmt:formatNumber value="${branchTarget.testdrive}"/></td>
 						<td><fmt:formatNumber value="${branchTarget.closed}"/></td>

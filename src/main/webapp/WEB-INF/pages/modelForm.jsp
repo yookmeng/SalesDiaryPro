@@ -43,15 +43,69 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="price" class="control-label col-sm-2">Price</label>
-						<div class="col-sm-5">
-							<form:input type="text" path="price" name="price" id="price" class="form-control" />
+						<label for="sellingmodel" class="control-label col-sm-2">Selling Model</label>
+						<div class="col-sm-1">
+							<form:checkbox path="sellingmodel" id="sellingmodel" class="form-control"/>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="commission" class="control-label col-sm-2">Commission</label>
 						<div class="col-sm-5">
 							<form:input type="text" path="commission" name="commission" id="commission" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="price" class="control-label col-sm-2">Price</label>
+						<div class="col-sm-5">
+							<form:input type="text" path="price" name="price" id="price" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="suminsured" class="control-label col-sm-2">Recommended Sum Insured</label>
+						<div class="col-sm-5">
+							<form:input type="text" path="suminsured" name="suminsured" id="suminsured" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="premium" class="control-label col-sm-2">Premium</label>
+						<div class="col-sm-5">
+							<form:input type="text" path="premium" name="premium" id="premium" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="enginetype" class="control-label col-sm-2">Engine Type</label>
+						<div class="col-sm-5">
+							<form:input type="text" path="enginetype" name="enginetype" id="enginetype" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="fuelsupplysystem" class="control-label col-sm-2">Fuel Supply System</label>
+						<div class="col-sm-5">
+							<form:input type="text" path="fuelsupplysystem" name="fuelsupplysystem" id="fuelsupplysystem" class="form-control" />
+						</div>
+					</div>					
+					<div class="form-group">
+						<label for="displacement" class="control-label col-sm-2">Displacement</label>
+						<div class="col-sm-5">
+							<form:input type="text" path="displacement" name="displacement" id="displacement" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="maxpower" class="control-label col-sm-2">Maximum Power</label>
+						<div class="col-sm-5">
+							<form:input type="text" path="maxpower" name="maxpower" id="maxpower" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="maxtorque" class="control-label col-sm-2">maximum Torque</label>
+						<div class="col-sm-5">
+							<form:input type="text" path="maxtorque" name="maxtorque" id="maxtorque" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="transmission" class="control-label col-sm-2">Transmission</label>
+						<div class="col-sm-5">
+							<form:input type="text" path="transmission" name="transmission" id="transmission" class="form-control" />
 						</div>
 					</div>
 					<div class="form-actions">
@@ -76,15 +130,34 @@
     	var brandid = $('#brandid').val(); 
 	    var modelid = $('#modelid').val(); 
 	    var modelname = $('#modelname').val(); 	    
-	    var price = $('#price').val(); 
+	    var sellingmodel = $('#sellingmodel').prop('checked');
 	    var commission = $('#commission').val(); 
-	
-	    var json = {
+	    var price = $('#price').val(); 
+	    var suminsured = $('#suminsured').val(); 
+	    var premium = $('#premium').val(); 
+		var enginetype = $('#enginetype').val();	
+		var fuelsupplysystem = $('#fuelsupplysystem').val();	
+		var displacement = $('#displacement').val();	
+		var maxpower = $('#maxpower').val();	
+		var maxtorque = $('#maxtorque').val();	
+		var transmission = $('#transmission').val();	
+
+		var json = {
 	    		"modelid" : modelid,
 	    		"modelname" : modelname,	    		
 	    		"brandid" : brandid,
+	    		"sellingmodel" : sellingmodel,
+	    		"commission" : commission,
 	    		"price" : price,
-	    		"commission" : commission
+	    		"suminsured" : suminsured,
+	    		"premium" : premium,
+	    		"enginetype" : enginetype,
+	    		"fuelsupplysystem" : fuelsupplysystem,
+	    		"displacement" : displacement,
+	    		"maxpower" : maxpower,
+	    		"maxtorque" : maxtorque,
+	    		"transmission" : transmission
+
 		};
 	    if (json.modelid=="0"){
 	        $.ajax({
@@ -94,11 +167,9 @@
 	            dataType: "json",
 	            data: JSON.stringify(json), 
 	            success:function(data, Textstatus, jqXHR){
-	                alert("Record created!");
 	                window.location.href = base+"/listModel?brandid="+brandid;
 	            },
 	            error:function(jqXhr, Textstatus){
-	                alert("Create failed!");
 	            }
 	        });    	
 	    }
@@ -110,11 +181,9 @@
 	            dataType: "json",
 	            data: JSON.stringify(json),
 	            success:function(data, Textstatus, jqXHR){
-	                alert("Record updated!");
 	                window.location.href = base+"/listModel?brandid="+brandid;
 	            },
 	            error:function(jqXhr, Textstatus){
-	                alert("Update failed!");
 	            }
 	        });
 	    }

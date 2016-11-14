@@ -4,20 +4,40 @@ public class Model {
     private int modelid;
     private String modelname;
     private int brandid;
-    private float price;
+    private boolean sellingmodel;
     private float commission;
+    private float price;
+    private float suminsured;
+    private float premium;
+    private String enginetype;
+    private String fuelsupplysystem;
+    private String displacement;
+    private String maxpower;
+    private String maxtorque;
+    private String transmission;
     
     public Model() {
     }
  
-    public Model(int modelid, String modelname, int brandid, 
-    		float price, float commission) {
+    public Model(int modelid, String modelname, int brandid, boolean sellingmodel, 
+    		float commission, float price, float suminsured, float premium,
+    		String enginetype, String fuelsupplysystem, String displacement,
+    		String maxpower, String maxtorque, String transmission) {
         this.modelid = modelid;
         this.modelname = modelname;
         this.brandid = brandid;
-        this.price = price;
+        this.sellingmodel = sellingmodel;
         this.commission = commission;
-    }
+        this.price = price;
+        this.suminsured = suminsured;
+        this.premium = premium;
+        this.enginetype = enginetype;
+        this.fuelsupplysystem = fuelsupplysystem;
+        this.displacement = displacement;
+        this.maxpower = maxpower;
+        this.maxtorque = maxtorque;
+        this.transmission = transmission;
+}
  
     public int getmodelid() {
         return modelid;
@@ -40,11 +60,11 @@ public class Model {
         this.brandid = brandid;
     }
 
-    public float getprice() {
-        return price;
+    public boolean getsellingmodel() {
+        return sellingmodel;
     }  
-    public void setprice(float price) {
-        this.price = price;
+    public void setsellingmodel(boolean sellingmodel) {
+        this.sellingmodel = sellingmodel;
     }
 
     public float getcommission() {
@@ -52,5 +72,68 @@ public class Model {
     }  
     public void setcommission(float commission) {
         this.commission = commission;
+    }
+
+    public float getprice() {
+        return price;
+    }  
+    public void setprice(float price) {
+        this.price = price;
+    }
+
+    public float getsuminsured() {
+        return suminsured;
+    }  
+    public void setsuminsured(float suminsured) {
+        this.suminsured = suminsured;
+    }
+
+    public float getpremium() {
+        return premium;
+    }  
+    public void setpremium(float premium) {
+        this.premium = premium;
+    }
+
+    public String getenginetype() {
+        return enginetype;
+    }  
+    public void setenginetype(String enginetype) {
+        this.enginetype = enginetype;
+    }
+
+    public String getfuelsupplysystem() {
+        return fuelsupplysystem;
+    }  
+    public void setfuelsupplysystem(String fuelsupplysystem) {
+        this.fuelsupplysystem = fuelsupplysystem;
+    }
+
+    public String getdisplacement() {
+        return displacement;
+    }  
+    public void setdisplacement(String displacement) {
+        this.displacement = displacement;
+    }
+
+    public String getmaxpower() {
+        return maxpower;
+    }  
+    public void setmaxpower(String maxpower) {
+        this.maxpower = maxpower;
+    }
+
+    public String getmaxtorque() {
+        return maxtorque;
+    }  
+    public void setmaxtorque(String maxtorque) {
+        this.maxtorque = maxtorque;
+    }
+
+    public String gettransmission() {
+        return transmission;
+    }  
+    public void settransmission(String transmission) {
+        this.transmission = transmission;
     }
 }

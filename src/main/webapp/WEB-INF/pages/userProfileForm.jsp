@@ -121,11 +121,9 @@
 	            dataType: "json",
 	            data: JSON.stringify(json), 
 	            success:function(data, Textstatus, jqXHR){
-	                alert("Record created!");
 	                window.location.href = base+"/listMember?teamid="+teamid;
 	            },
 	            error:function(jqXhr, Textstatus){
-	                alert("Create failed!");
 	            }
 	        });    	
 	    }
@@ -137,11 +135,9 @@
 	            dataType: "json",
 	            data: JSON.stringify(json),
 	            success:function(data, Textstatus, jqXHR){
-	                alert("Record updated!");
 	                window.location.href = base+"/listMember?teamid="+teamid;
 	            },
 	            error:function(jqXhr, Textstatus){
-	                alert("Update failed!");
 	            }
 	        });
 	    }

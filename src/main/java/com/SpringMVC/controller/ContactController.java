@@ -88,11 +88,7 @@ public class ContactController {
         currentContact.setwork(contact.getwork());
         currentContact.setemail(contact.getemail());
         currentContact.setbirthday(contact.getbirthday());
-        currentContact.setcountry(contact.getcountry());
-        currentContact.setzipcode(contact.getzipcode());
-        currentContact.setstate(contact.getstate());
-        currentContact.setcity(contact.getcity());
-        currentContact.setstreet(contact.getstreet());
+        currentContact.setaddress(contact.getaddress());
         currentContact.setcompany(contact.getcompany());
         currentContact.settitle(contact.gettitle());
         currentContact.setnote(contact.getnote());
@@ -113,8 +109,8 @@ public class ContactController {
         return new ResponseEntity<Contact>(HttpStatus.OK);
     }
 
-    @RequestMapping(value="/listContact", method = RequestMethod.GET)
-    public ModelAndView listContact(HttpServletRequest request) {
+    @RequestMapping(value="/listContacts", method = RequestMethod.GET)
+    public ModelAndView listContacts(HttpServletRequest request) {
         UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
  	    ModelAndView mav = new ModelAndView("contactList");
 		UserProfile userProfile = userProfileDAO.get(userLogin.getusername());
@@ -124,6 +120,18 @@ public class ContactController {
  	    return mav;
  	}
     
+    @RequestMapping(value="/listContact", method = RequestMethod.GET)
+    public ModelAndView listContact(HttpServletRequest request) {
+        String filter = request.getParameter("filter"); 
+        UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
+ 	    ModelAndView mav = new ModelAndView("contactList");
+		UserProfile userProfile = userProfileDAO.get(userLogin.getusername());
+		List<Contact> listContact = contactDAO.listfilter(userLogin.getuserid(), filter);
+		mav.addObject("userProfile", userProfile);
+		mav.addObject("listContact", listContact);        	
+ 	    return mav;
+ 	}
+
     @RequestMapping(value = "/addContact", method = RequestMethod.GET)
     public ModelAndView addContact(HttpServletRequest request) {
     	UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());

@@ -23,7 +23,16 @@ public class ModelDAOImpl extends JdbcDaoSupport implements ModelDAO {
     }
 	
     @Override
-    public List<String> getModels(int brandid) {
+    public List<String> getSellingModels(int brandid) {
+        String sql = "Select modelname FROM tblModel "
+        		+ "WHERE brandid = " + brandid + " "
+        		+ "AND sellingmodel = TRUE";
+        List<String> brands = this.getJdbcTemplate().queryForList(sql, String.class);         
+        return brands;
+    }
+
+    @Override
+    public List<String> getAllModels(int brandid) {
         String sql = "Select modelname FROM tblModel WHERE brandid = " + brandid;         
         List<String> brands = this.getJdbcTemplate().queryForList(sql, String.class);         
         return brands;
@@ -31,18 +40,27 @@ public class ModelDAOImpl extends JdbcDaoSupport implements ModelDAO {
 
     public void save(Model model) {
         // insert
-        String sql = "INSERT INTO tblModel (brandid, modelname, price, commission) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO tblModel ("
+        		+ "brandid, modelname, sellingmodel, commission, price, suminsured, premium, "
+        		+ "enginetype, fuelsupplysystem, displacement, maxpower, maxtorque, transmission) "
+        		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         this.getJdbcTemplate().update(sql, 
-        		model.getbrandid(), model.getmodelname(), 
-        		model.getprice(), model.getcommission());
+        		model.getbrandid(), model.getmodelname(), model.getsellingmodel(),
+        		model.getcommission(), model.getprice(), model.getsuminsured(), model.getpremium(),
+        		model.getenginetype(), model.getfuelsupplysystem(), model.getdisplacement(), 
+        		model.getmaxpower(), model.getmaxtorque(), model.gettransmission());
     }
     
     public void update(Model model) {
         // update
-        String sql = "UPDATE tblModel SET modelname=?, price=?, commission=? WHERE modelid=?";
+        String sql = "UPDATE tblModel SET modelname=?, sellingmodel=?, commission=?, price=?, "
+        		+ "suminsured=?, premium=?, enginetype=?, fuelsupplysystem=?, displacement=?, maxpower=?, "
+        		+ "maxtorque=?, transmission=? WHERE modelid=?";
         this.getJdbcTemplate().update(sql, 
-        		model.getmodelname(), model.getprice(), 
-        		model.getcommission(), model.getmodelid());
+        		model.getmodelname(), model.getsellingmodel(), model.getcommission(), 
+        		model.getprice(), model.getsuminsured(), model.getpremium(), model.getenginetype(), 
+        		model.getfuelsupplysystem(), model.getdisplacement(), model.getmaxpower(), 
+        		model.getmaxtorque(), model.gettransmission(), model.getmodelid());
     }
 
     public void delete(int modelid) {
@@ -69,8 +87,17 @@ public class ModelDAOImpl extends JdbcDaoSupport implements ModelDAO {
 	                model.setmodelid(rs.getInt("modelid"));
 	                model.setmodelname(rs.getString("modelname"));
 	                model.setbrandid(rs.getInt("brandid"));
-	                model.setprice(rs.getFloat("price"));
+	                model.setsellingmodel(rs.getBoolean("sellingmodel"));
 	                model.setcommission(rs.getFloat("commission"));
+	                model.setprice(rs.getFloat("price"));
+	                model.setsuminsured(rs.getFloat("suminsured"));
+	                model.setpremium(rs.getFloat("premium"));
+	                model.setenginetype(rs.getString("enginetype"));
+	                model.setfuelsupplysystem(rs.getString("fuelsupplysystem"));
+	                model.setdisplacement(rs.getString("displacement"));
+	                model.setmaxpower(rs.getString("maxpower"));
+	                model.setmaxtorque(rs.getString("maxtorque"));
+	                model.settransmission(rs.getString("transmission"));
 	                return model;
 	            }	 
 	            return null;
@@ -90,8 +117,17 @@ public class ModelDAOImpl extends JdbcDaoSupport implements ModelDAO {
 	                model.setmodelid(rs.getInt("modelid"));
 	                model.setmodelname(rs.getString("modelname"));
 	                model.setbrandid(rs.getInt("brandid"));
-	                model.setprice(rs.getFloat("price"));
+	                model.setsellingmodel(rs.getBoolean("sellingmodel"));
 	                model.setcommission(rs.getFloat("commission"));
+	                model.setprice(rs.getFloat("price"));
+	                model.setsuminsured(rs.getFloat("suminsured"));
+	                model.setpremium(rs.getFloat("premium"));
+	                model.setenginetype(rs.getString("enginetype"));
+	                model.setfuelsupplysystem(rs.getString("fuelsupplysystem"));
+	                model.setdisplacement(rs.getString("displacement"));
+	                model.setmaxpower(rs.getString("maxpower"));
+	                model.setmaxtorque(rs.getString("maxtorque"));
+	                model.settransmission(rs.getString("transmission"));	                
 	                return model;
 	            }	 
 	            return null;

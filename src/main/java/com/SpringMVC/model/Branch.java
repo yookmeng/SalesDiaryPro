@@ -7,11 +7,7 @@ public class Branch {
     private String regno;
     private int maid;    
     private String maname;
-    private String address;
-    private String zipcode;
-    private String city;
-    private String state;
-    private String country;
+    private Address address;
     private String telephone;
     private String fax;
     private String email;
@@ -22,8 +18,7 @@ public class Branch {
  
     public Branch(int branchid, String branchname, 
     		int companyid, String regno, int maid, String maname, 
-    		String address, String zipcode, String city, 
-    		String state, String country, String telephone, 
+    		Address address, String telephone, 
     		String fax,String email, String website) {
         this.branchid = branchid;
         this.branchname = branchname;
@@ -32,10 +27,6 @@ public class Branch {
         this.maid = maid;
         this.maname = maname;
         this.address = address;
-        this.zipcode = zipcode;
-        this.city = city;
-        this.state = state;
-        this.country = country;        
         this.telephone = telephone;
         this.fax = fax;
         this.email = email;
@@ -84,39 +75,11 @@ public class Branch {
         this.maname = maname;
     }
 
-    public String getaddress() {
+    public Address getaddress() {
         return address;
     }
-    public void setaddress(String address) {
+    public void setaddress(Address address) {
         this.address = address;
-    }
-
-    public String getzipcode() {
-        return zipcode;
-    }
-    public void setzipcode(String zipcode) {
-        this.zipcode = zipcode;
-    }
-
-    public String getcity() {
-        return city;
-    }
-    public void setcity(String city) {
-        this.city = city;
-    }
-
-    public String getstate() {
-        return state;
-    }
-    public void setstate(String state) {
-        this.state = state;
-    }
-
-    public String getcountry() {
-        return country;
-    }
-    public void setcountry(String country) {
-        this.country = country;
     }
 
     public String gettelephone() {

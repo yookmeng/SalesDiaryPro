@@ -13,7 +13,8 @@ public class BrandMapper implements RowMapper<Brand> {
         int brandid = rs.getInt("brandid");
         String brandname = rs.getString("brandname");
         int companyid = rs.getInt("companyid");
+        boolean sellingbrand = rs.getBoolean("sellingbrand");
         
-        return new Brand(brandid, brandname, companyid);
+        return new Brand(brandid, brandname, companyid, sellingbrand);
     }
 }

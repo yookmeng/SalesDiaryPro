@@ -21,13 +21,21 @@ public class ActivityMapper implements RowMapper<Activity> {
         boolean demo = rs.getBoolean("demo");
         boolean testdrive = rs.getBoolean("testdrive");
         boolean quotation = rs.getBoolean("quotation");
-        boolean linkevent = rs.getBoolean("linkevent");
-        String remark1 = rs.getString("remark1");
-        String remark2 = rs.getString("remark2");
-        String remark3 = rs.getString("remark3");
+        boolean followup = rs.getBoolean("followup");
+        boolean closed = rs.getBoolean("closed");
+        boolean lost = rs.getBoolean("lost");
+        boolean demostatus = rs.getBoolean("demostatus");
+        boolean testdrivestatus = rs.getBoolean("testdrivestatus");
+        String followupremark = rs.getString("followupremark");
+        boolean followupstatus = rs.getBoolean("followupstatus");
+        int quotationid = rs.getInt("quotationid");
+        int closedid = rs.getInt("closedid");
+        String lostremark = rs.getString("lostremark");
         
         return new Activity(activityid, prospectid, activitydate, 
         		brandid, brandname, modelid, modelname,
-        		demo, testdrive, quotation, linkevent, remark1, remark2, remark3);
+        		demo, testdrive, quotation, followup, closed, lost, 
+        		demostatus, testdrivestatus, followupremark, followupstatus,        		
+        		quotationid, closedid, lostremark);
     }
 }

@@ -1,7 +1,6 @@
 package com.SpringMVC.controller;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,15 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import com.SpringMVC.model.UserProfile;
+import com.SpringMVC.dao.BranchDAO;
 import com.SpringMVC.dao.BranchTargetDAO;
 import com.SpringMVC.dao.TeamDAO;
 import com.SpringMVC.dao.TeamTargetDAO;
 import com.SpringMVC.dao.UserProfileDAO;
 import com.SpringMVC.exceptions.ServiceException;
+import com.SpringMVC.model.Branch;
 import com.SpringMVC.model.BranchTarget;
 import com.SpringMVC.model.Team;
 import com.SpringMVC.model.TeamTarget;
+import com.SpringMVC.model.UserProfile;
 import com.SpringMVC.uriconstant.TeamTargetRestURIConstant;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,6 +43,9 @@ public class TeamTargetController {
 
     @Autowired
     private BranchTargetDAO branchTargetDAO;
+
+    @Autowired
+    private BranchDAO branchDAO;
 
     @Autowired
     private TeamTargetDAO teamTargetDAO;
@@ -71,7 +75,7 @@ public class TeamTargetController {
 	}
 
     @RequestMapping(value = TeamTargetRestURIConstant.GetByPeriodBranch, method = RequestMethod.GET)
-	public String getAllTeamTargetByPeriodBranch(@PathVariable Date period, int branchid) {
+	public String getAllTeamTargetByPeriodBranch(@PathVariable String period, int branchid) {
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
@@ -132,8 +136,10 @@ public class TeamTargetController {
     public ModelAndView listTeamTarget(HttpServletRequest request) {
         int targetid = Integer.parseInt(request.getParameter("targetid"));
         BranchTarget branchTarget = branchTargetDAO.get(targetid);
+        Branch branch = branchDAO.get(branchTarget.getbranchid());
  	    List<TeamTarget> listTeamTarget = teamTargetDAO.list(branchTarget.getperiod(), branchTarget.getbranchid());
         ModelAndView mav = new ModelAndView("teamTargetList");
+        mav.addObject("branch", branch);
         mav.addObject("branchTarget", branchTarget);
  	    mav.addObject("listTarget", listTeamTarget);
  	    return mav;
@@ -146,6 +152,7 @@ public class TeamTargetController {
         if (userProfile.getuserid() == team.getleaderid()){
 	 	    List<TeamTarget> listTeamTarget = teamTargetDAO.listByTeam(team.getteamid());
 	 	    ModelAndView mav = new ModelAndView("teamTargetTLList");
+	        mav.addObject("team", team);
 	 	    mav.addObject("listTarget", listTeamTarget);
 	 	    return mav;
         }    	
@@ -158,12 +165,14 @@ public class TeamTargetController {
     public ModelAndView addTeamTarget(HttpServletRequest request) {
         int targetid = Integer.parseInt(request.getParameter("targetid"));
         BranchTarget branchTarget = branchTargetDAO.get(targetid);
+        Branch branch = branchDAO.get(branchTarget.getbranchid());
         TeamTarget newTeamTarget = new TeamTarget();
         newTeamTarget.setperiod(branchTarget.getperiod());
         newTeamTarget.setbranchtargetid(branchTarget.gettargetid());        
         ModelAndView mav = new ModelAndView("teamTargetForm");
         List<String> teams = teamDAO.teamList(branchTarget.getbranchid());	
         mav.addObject("teamlist", teams);
+        mav.addObject("branch", branch);
         mav.addObject("branchTarget", branchTarget);
         mav.addObject("teamTarget", newTeamTarget);
         return mav;
@@ -174,9 +183,11 @@ public class TeamTargetController {
         int targetid = Integer.parseInt(request.getParameter("targetid"));
         TeamTarget editTeamTarget = teamTargetDAO.get(targetid);
         BranchTarget branchTarget = branchTargetDAO.get(editTeamTarget.getbranchtargetid());
+        Branch branch = branchDAO.get(branchTarget.getbranchid());
         ModelAndView mav = new ModelAndView("teamTargetForm");
         List<String> teams = teamDAO.teamList(branchTarget.getbranchid());	
         mav.addObject("teamlist", teams);
+        mav.addObject("branch", branch);
         mav.addObject("branchTarget", branchTarget);
         mav.addObject("teamTarget", editTeamTarget);
         return mav;

@@ -14,7 +14,9 @@ public interface BrandDAO {
      
     public void delete(int brandid);
      
-    public List<String> getBrands(int companyid);
+    public List<String> getSellingBrands(int companyid);
+
+    public List<String> getAllBrands(int companyid);
 
     public Brand get(int brandid);
      

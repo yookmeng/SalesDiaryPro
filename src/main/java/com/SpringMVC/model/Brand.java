@@ -4,14 +4,16 @@ public class Brand {
     private int brandid;
     private String brandname;
     private int companyid;
+    private boolean sellingbrand;
 
     public Brand() {
     }
  
-    public Brand(int brandid, String brandname, int companyid) {
+    public Brand(int brandid, String brandname, int companyid, boolean sellingbrand) {
         this.brandid = brandid;
         this.brandname = brandname;
         this.companyid = companyid;
+        this.sellingbrand = sellingbrand;
     }
  
     public int getbrandid() {
@@ -33,5 +35,12 @@ public class Brand {
     }  
     public void setcompanyid(int companyid) {
         this.companyid = companyid;
+    }
+
+    public boolean getsellingbrand() {
+        return sellingbrand;
+    }  
+    public void setsellingbrand(boolean sellingbrand) {
+        this.sellingbrand = sellingbrand;
     }
 }

@@ -39,7 +39,7 @@
 						<div class="form-group">
 							<label for="period" class="control-label col-sm-2">Period</label>
 							<div class="col-sm-2">
-								<label>${branchTarget.displayperiod}</label>
+								<label>${branchTarget.period}</label>
 							</div>
 						</div>
 						<div class="form-group">
@@ -114,11 +114,9 @@
 	            dataType: "json",
 	            data: JSON.stringify(json), 
 	            success:function(data, Textstatus, jqXHR){
-	                alert("Record created!");
 	                window.location.href = base+"/listTeamTarget?targetid="+branchtargetid;
 	            },
 	            error:function(jqXhr, Textstatus){
-	                alert("Create failed!");
 	            }
 	        });    	
 	    }

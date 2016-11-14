@@ -2,8 +2,6 @@ package com.SpringMVC.daoimpl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
  
 import javax.sql.DataSource;
@@ -64,13 +62,11 @@ public class CompanyTargetDAOImpl extends JdbcDaoSupport implements CompanyTarge
 	        public CompanyTarget extractData(ResultSet rs) throws SQLException,
 	                DataAccessException {
 	            if (rs.next()) {
-	            	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM");
 	                CompanyTarget companyTarget = new CompanyTarget();
 	                companyTarget.settargetid(rs.getInt("targetid"));
 	                companyTarget.setcompanyid(rs.getInt("companyid"));
 	                companyTarget.setcompanyname(rs.getString("companyname"));
-	                companyTarget.setperiod(rs.getDate("period"));
-	                companyTarget.setdisplayperiod(dateFormat.format(rs.getDate("period")));	                
+	                companyTarget.setperiod(rs.getString("period"));
 	                companyTarget.setprospect(rs.getInt("prospect"));
 	                companyTarget.settestdrive(rs.getInt("testdrive"));
 	                companyTarget.setclosed(rs.getInt("closed"));

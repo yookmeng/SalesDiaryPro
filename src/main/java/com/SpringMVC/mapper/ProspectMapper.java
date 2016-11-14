@@ -2,7 +2,8 @@ package com.SpringMVC.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
- 
+
+import com.SpringMVC.model.Address;
 import com.SpringMVC.model.Prospect;
 import org.springframework.jdbc.core.RowMapper;
  
@@ -15,28 +16,32 @@ public class ProspectMapper implements RowMapper<Prospect> {
         String lastname = rs.getString("lastname");
         int userid = rs.getInt("userid");
         String source = rs.getString("source");
-        String haddress = rs.getString("haddress");
-        String hzipcode = rs.getString("hzipcode");
-        String hcity = rs.getString("hcity");
-        String hstate = rs.getString("hstate");
-        String hcountry = rs.getString("hcountry");
+        Address homeaddress = new Address();
+        homeaddress.setcountry(rs.getString("hcountry"));
+        homeaddress.setzipcode(rs.getString("hzipcode"));
+        homeaddress.setstate(rs.getString("hstate"));
+        homeaddress.setcity(rs.getString("hcity"));
+        homeaddress.setstreet(rs.getString("hstreet"));
         String mobile = rs.getString("mobile");
         String htelno = rs.getString("htelno");
-        String waddress = rs.getString("waddress");
-        String wzipcode = rs.getString("wzipcode");
-        String wcity = rs.getString("wcity");
-        String wstate = rs.getString("wstate");
-        String wcountry = rs.getString("wcountry");
+        int contactid= rs.getInt("contactid");
+        Address workaddress = new Address();
+        workaddress.setcountry(rs.getString("wcountry"));
+        workaddress.setzipcode(rs.getString("wzipcode"));
+        workaddress.setstate(rs.getString("wstate"));
+        workaddress.setcity(rs.getString("wcity"));
+        workaddress.setstreet(rs.getString("wstreet"));
         String wtelno = rs.getString("wtelno");
         String occupation = rs.getString("occupation");
         int age = rs.getInt("age");
         String gender = rs.getString("gender");
         String income = rs.getString("income");
         String email = rs.getString("email");
+        String status = rs.getString("status");
         
         return new Prospect(prospectid, firstname, lastname, userid, source, 
-        		haddress, hzipcode, hcity, hstate, hcountry, mobile, htelno, 
-        		waddress, wzipcode, wcity, wstate, wcountry, wtelno, 
-        		occupation, age, gender, income, email);
+        		homeaddress, mobile, htelno, contactid,
+        		workaddress, wtelno, 
+        		occupation, age, gender, income, email, status);
     } 
 }

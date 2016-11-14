@@ -36,15 +36,9 @@
 		            <form:hidden path="id"/>
 		            <form:hidden path="companyid"/>
 					<div class="form-group">
-						<label for="controlyear" class="control-label col-sm-2">Control Year</label>
+						<label for="period" class="control-label col-sm-2">Period</label>
 						<div class="col-sm-2">
-							<form:select type="text" path="controlyear" name="controlyear" id="controlyear" items="${yearlist}" class="form-control" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="controlmonth" class="control-label col-sm-2">Control Month</label>
-						<div class="col-sm-2">
-							<form:select type="text" path="controlmonth" name="controlmonth" id="controlmonth" items="${monthlist}" class="form-control" />
+							<form:select type="text" path="period" name="period" id="period" items="${periodlist}" class="form-control" />
 						</div>
 					</div>
 					<div class="form-group">
@@ -57,6 +51,12 @@
 						<label for="closedate" class="control-label col-sm-2">Closing Date</label>
 						<div class="col-sm-3">
 							<form:input type="date" path="closedate" name="closedate" id="closedate" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group" align="center">
+						<label for="closed" class="control-label col-sm-2">Closed</label>
+						<div class="col-sm-1">
+							<form:checkbox path="closed" id="closed" class="form-control"/>
 						</div>
 					</div>					
 					<div class="form-actions">
@@ -80,18 +80,18 @@
 
     	var id = $('#id').val(); 
 		var companyid = $('#companyid').val(); 
-	    var controlyear = $('#controlyear').val(); 
-	    var controlmonth = $('#controlmonth').val(); 
+	    var period = $('#period').val(); 
 	    var opendate = $('#opendate').val(); 
 	    var closedate = $('#closedate').val(); 
-	
+	    var closed = $('#closed').prop('checked');
+
 	    var json = {
 	    		"id" : id,
 	    		"companyid" : companyid,
-	    		"controlyear" : controlyear,
-	    		"controlmonth" : controlmonth,
+	    		"period" : period,
 	    		"opendate" : opendate,
-	    		"closedate" : closedate
+	    		"closedate" : closedate,	    		
+	    		"closed" : closed,
 		};
 	    if (json.id=="0"){
 	        $.ajax({
@@ -101,11 +101,9 @@
 	            dataType: "json",
 	            data: JSON.stringify(json), 
 	            success:function(data, Textstatus, jqXHR){
-	                alert("Record created!");
 	                window.location.href = base+"/listClosingPeriod";
 	            },
 	            error:function(jqXhr, Textstatus){
-	                alert("Create failed!");
 	            }
 	        });    	
 	    }
@@ -117,11 +115,9 @@
 	            dataType: "json",
 	            data: JSON.stringify(json),
 	            success:function(data, Textstatus, jqXHR){
-	                alert("Record updated!");
 	                window.location.href = base+"/listClosingPeriod";
 	            },
 	            error:function(jqXhr, Textstatus){
-	                alert("Update failed!");
 	            }
 	        });
 	    }

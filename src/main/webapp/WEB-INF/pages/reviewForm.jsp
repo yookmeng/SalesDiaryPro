@@ -48,22 +48,19 @@
 							</div>
 						</div>
 						
-						<div class="box box-bordered">
+						<div class="box box-color blue box-bordered">
 							<div class="box-title">
-								<h4>
-									<i class="fa fa-bars"></i>
+								<h5>
 									Previous Reviews
-								</h4>
+								</h5>
+								<div class="actions">
+									<a href="#" class="btn btn-mini content-slideUp">
+										<i class="fa fa-angle-down"></i>
+									</a>
+								</div>
 							</div>
-							<div id="prevreview" class="box-content">
-				                <c:forEach var="prevreview" items="${prevreview}" varStatus="status">
-									<h5>Date : ${prevreview.reviewdate}</h5>
-									<h5>Prospect : ${prevreview.prospect}</h5>
-									<h5>Test Drive : ${prevreview.testdrive}</h5>
-									<h5>Closed : ${prevreview.closed}</h5>
-									<h5>Minute : ${prevreview.minute}</h5>
-									<hr/>
-								</c:forEach>
+							<div class="box-content" style="display: block;">
+								<h5>test</h5>
 							</div>
 						</div>						
 						<br>
@@ -150,11 +147,9 @@
 	            dataType: "json",
 	            data: JSON.stringify(json), 
 	            success:function(data, Textstatus, jqXHR){
-	                alert("Record created!");
 	                window.location.href = base+"/listReview";
 	            },
 	            error:function(jqXhr, Textstatus){
-	                alert("Create failed!");
 	            }
 	        });    	
 	    }
@@ -166,11 +161,9 @@
 	            dataType: "json",
 	            data: JSON.stringify(json),
 	            success:function(data, Textstatus, jqXHR){
-	                alert("Record updated!");
 	                window.location.href = base+"/listReview";
 	            },
 	            error:function(jqXhr, Textstatus){
-	                alert("Update failed!");
 	            }
 	        });
 	    }

@@ -72,6 +72,7 @@ public class BrandController {
         }
         
         currentBrand.setbrandname(brand.getbrandname());
+        currentBrand.setsellingbrand(brand.getsellingbrand());
 
         brandDAO.update(currentBrand);
         return new ResponseEntity<Brand>(brand, HttpStatus.OK);

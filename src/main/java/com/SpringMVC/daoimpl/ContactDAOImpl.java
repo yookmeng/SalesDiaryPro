@@ -4,7 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import javax.sql.DataSource;
- 
+
+import com.SpringMVC.model.Address;
 import com.SpringMVC.model.Contact;
 import com.SpringMVC.dao.ContactDAO;
 import com.SpringMVC.mapper.ContactMapper;
@@ -24,29 +25,34 @@ public class ContactDAOImpl extends JdbcDaoSupport implements ContactDAO {
     }
 
 	public void save(Contact contact) {
+		Address address = contact.getaddress();
+		
         String sql = "INSERT INTO tblContact "
         		+ "(userid, firstname, lastname, mobile, home, work, email, birthday, "
-        		+ "country, zipcode, state, city, street, "
+        		+ "address.country, address.zipcode, address.state, address.city, address.street, "
         		+ "company, title, note, website) "
         		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         this.getJdbcTemplate().update(sql, 
         		contact.getuserid(), contact.getfirstname(), contact.getlastname(), 
         		contact.getmobile(), contact.gethome(), contact.getwork(), 
         		contact.getemail(), contact.getbirthday(), 
-        		contact.getcountry(), contact.getzipcode(), contact.getstate(), 
-        		contact.getcity(), contact.getstreet(), contact.getcompany(), 
+        		address.getcountry(), address.getzipcode(), address.getstate(), 
+        		address.getcity(), address.getstreet(), contact.getcompany(), 
         		contact.gettitle(), contact.getnote(), contact.getwebsite());
 	}
     
     public void update(Contact contact) {
+		Address address = contact.getaddress();
+
         String sql = "UPDATE tblContact SET firstname=?, lastname=?, mobile=?, "
-        		+ "home=?, work=?, email=?, birthday=?, country=?, zipcode=?, state=?, "
-        		+ "city=?, street=?, company=?, title=?, note=?, website=? WHERE contactid=?";
+        		+ "home=?, work=?, email=?, birthday=?, address.country=?, "
+        		+ "address.zipcode=?, address.state=?, address.city=?, address.street=?, "
+        		+ "company=?, title=?, note=?, website=? WHERE contactid=?";
         this.getJdbcTemplate().update(sql, contact.getfirstname(), contact.getlastname(), 
         		contact.getmobile(), contact.gethome(), contact.getwork(), 
         		contact.getemail(), contact.getbirthday(), 
-        		contact.getcountry(), contact.getzipcode(), contact.getstate(), 
-        		contact.getcity(), contact.getstreet(), contact.getcompany(), 
+        		address.getcountry(), address.getzipcode(), address.getstate(), 
+        		address.getcity(), address.getstreet(), contact.getcompany(), 
         		contact.gettitle(), contact.getnote(), contact.getwebsite(),
         		contact.getcontactid());
     }
@@ -57,14 +63,34 @@ public class ContactDAOImpl extends JdbcDaoSupport implements ContactDAO {
     }
     
 	public List<Contact> list(int userid) {
-        String sql = "SELECT * FROM tblContact WHERE userid = " + userid;
+        String sql = "SELECT contactid, userid, firstname, lastname, "
+        		+ "mobile, home, work, email, birthday, (address).country AS country, "
+        		+ "(address).zipcode AS zipcode, (address).state AS state, (address).city AS city, "
+        		+ "(address).street AS street, company, title, note, website "
+        		+ "FROM tblContact WHERE userid = " + userid;
         ContactMapper mapper = new ContactMapper();
         List<Contact> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
     }
 
-    public Contact get(int contactid) {
-        String sql = "SELECT * FROM tblContact WHERE contactid=" + contactid;
+	public List<Contact> listfilter(int userid, String filter) {
+        String sql = "SELECT contactid, userid, firstname, lastname, "
+        		+ "mobile, home, work, email, birthday, (address).country AS country, "
+        		+ "(address).zipcode AS zipcode, (address).state AS state, (address).city AS city, "
+        		+ "(address).street AS street, company, title, note, website "
+        		+ "FROM tblContact WHERE userid = " + userid + " "
+        		+ "AND UPPER(firstname) like '" + filter + "%'";
+        ContactMapper mapper = new ContactMapper();
+        List<Contact> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }
+
+	public Contact get(int contactid) {
+        String sql = "SELECT contactid, userid, firstname, lastname, "
+        		+ "mobile, home, work, email, birthday, (address).country AS country, "
+        		+ "(address).zipcode AS zipcode, (address).state AS state, (address).city AS city, "
+        		+ "(address).street AS street, company, title, note, website "
+        		+ "FROM tblContact WHERE contactid=" + contactid;
 	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<Contact>() {
 	 
 	        @Override
@@ -81,11 +107,13 @@ public class ContactDAOImpl extends JdbcDaoSupport implements ContactDAO {
 	            	contact.setwork(rs.getString("work"));
 	            	contact.setemail(rs.getString("email"));
 	            	contact.setbirthday(rs.getDate("birthday"));
-	            	contact.setcountry(rs.getString("country"));
-	            	contact.setzipcode(rs.getString("zipcode"));
-	            	contact.setstate(rs.getString("state"));
-	            	contact.setcity(rs.getString("city"));
-	            	contact.setstreet(rs.getString("street"));
+	                Address address = new Address();
+	                address.setcountry(rs.getString("country"));
+	                address.setzipcode(rs.getString("zipcode"));
+	                address.setstate(rs.getString("state"));
+	                address.setcity(rs.getString("city"));
+	                address.setstreet(rs.getString("street"));
+	                contact.setaddress(address);
 	            	contact.setcompany(rs.getString("company"));
 	            	contact.settitle(rs.getString("title"));
 	            	contact.setnote(rs.getString("note"));
@@ -98,7 +126,11 @@ public class ContactDAOImpl extends JdbcDaoSupport implements ContactDAO {
 	}
     
     public Contact findByMobile(String mobile) {
-        String sql = "SELECT * FROM tblContact WHERE mobile='" + mobile + "'";
+        String sql = "SELECT contactid, userid, firstname, lastname, "
+        		+ "mobile, home, work, email, birthday, (address).country AS country, "
+        		+ "(address).zipcode AS zipcode, (address).state AS state, (address).city AS city, "
+        		+ "(address).street AS street, company, title, note, website "
+        		+ "FROM tblContact WHERE mobile='" + mobile + "'";
 	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<Contact>() {
 	 
 	        @Override
@@ -115,11 +147,13 @@ public class ContactDAOImpl extends JdbcDaoSupport implements ContactDAO {
 	            	contact.setwork(rs.getString("work"));
 	            	contact.setemail(rs.getString("email"));
 	            	contact.setbirthday(rs.getDate("birthday"));
-	            	contact.setcountry(rs.getString("country"));
-	            	contact.setzipcode(rs.getString("zipcode"));
-	            	contact.setstate(rs.getString("state"));
-	            	contact.setcity(rs.getString("city"));
-	            	contact.setstreet(rs.getString("street"));
+	                Address address = new Address();
+	                address.setcountry(rs.getString("country"));
+	                address.setzipcode(rs.getString("zipcode"));
+	                address.setstate(rs.getString("state"));
+	                address.setcity(rs.getString("city"));
+	                address.setstreet(rs.getString("street"));
+	                contact.setaddress(address);
 	            	contact.setcompany(rs.getString("company"));
 	            	contact.settitle(rs.getString("title"));
 	            	contact.setnote(rs.getString("note"));

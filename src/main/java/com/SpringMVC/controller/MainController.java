@@ -2,7 +2,6 @@ package com.SpringMVC.controller;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.sql.Date;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -64,9 +63,9 @@ public class MainController {
 	   Roles role = Roles.valueOf(userLogin.getrole()); 
        switch (role){
        case USER:
-    	   Calendar c = Calendar.getInstance(); 
-    	   c.set(Calendar.DAY_OF_MONTH, 1);
-    	   Date period = new java.sql.Date(c.getTimeInMillis());
+           int currentyear = Calendar.getInstance().get(Calendar.YEAR);
+           int currentmonth = Calendar.getInstance().get(Calendar.MONTH)+1;
+    	   String period = String.valueOf(currentyear)+"/"+String.valueOf(currentmonth);
     	   UserMonthlySummary userMonthlySummary = userMonthlySummaryDAO.get(period, userLogin.getuserid());
     	   model.addAttribute("userMonthlySummary", userMonthlySummary);    	   
     	   return "userDashBoard";    	   

@@ -62,35 +62,35 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="address" class="control-label col-sm-2">Address</label>
-						<div class="col-sm-10">
-							<form:input type="address" path="address" name="address" id="regno" class="form-control" />
+						<label for="country" class="control-label col-sm-2">Country</label>
+						<div class="col-sm-3">
+							<form:input type="text" path="address.country" name="address.country" id="country" class="form-control" />
 						</div>
-					</div>
+					</div>								
 					<div class="form-group">
 						<label for="zipcode" class="control-label col-sm-2">Zip Code</label>
 						<div class="col-sm-3">
-							<form:input type="text" name="zipcode" path="zipcode" id="zipcode" class="form-control" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="city" class="control-label col-sm-2">City</label>
-						<div class="col-sm-3">
-							<form:input type="text" path="city" name="city" id="city" class="form-control" />
+							<form:input type="text" name="address.zipcode" path="address.zipcode" id="zipcode" class="form-control" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="state" class="control-label col-sm-2">State</label>
 						<div class="col-sm-3">
-							<form:input type="text" path="state" name="state" id="state" class="form-control" />
+							<form:input type="text" path="address.state" name="address.state" id="state" class="form-control" />
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="country" class="control-label col-sm-2">Country</label>
+						<label for="city" class="control-label col-sm-2">City</label>
 						<div class="col-sm-3">
-							<form:input type="text" path="country" name="country" id="country" class="form-control" />
+							<form:input type="text" path="address.city" name="address.city" id="city" class="form-control" />
 						</div>
-					</div>								
+					</div>
+					<div class="form-group">
+						<label for="street" class="control-label col-sm-2">Street</label>
+						<div class="col-sm-10">
+							<form:input type="text" path="address.street" name="address.street" id="street" class="form-control" />
+						</div>
+					</div>					
 					<div class="form-group">
 						<label for="telephone" class="control-label col-sm-2">Tel. No</label>
 						<div class="col-sm-3">
@@ -145,11 +145,11 @@
 	    var regno = $('#regno').val(); 
 	    var maid = ""; 
 	    var maname = $('#maname').val(); 
-	    var address = $('#address').val(); 
-	    var zipcode = $('#zipcode').val(); 
-	    var city = $('#city').val(); 
-	    var state = $('#state').val(); 
 	    var country = $('#country').val(); 
+	    var zipcode = $('#zipcode').val(); 
+	    var state = $('#state').val(); 
+	    var city = $('#city').val(); 
+	    var street = $('#street').val(); 
 	    var telephone = $('#telephone').val(); 
 	    var fax = $('#fax').val(); 
 	    var email = $('#email').val(); 
@@ -161,12 +161,14 @@
 	    		"companyid" : companyid,
 	    		"regno" : regno,
 	    		"maid" : maid,
-	    		"maname" : maname,		
-	    		"address" : address,
-	    		"zipcode" : zipcode,
-	    		"city" : city,
-	    		"state" : state,
-	    		"country" : country,
+	    		"maname" : maname,
+	    		"address" : {
+		    		"country" : country,
+		    		"zipcode" : zipcode,
+		    		"state" : state,
+		    		"city" : city,
+	    			"street" : street
+	    		},
 	    		"telephone" : telephone,
 	    		"fax" : fax,
 	    		"email" : email,
@@ -202,7 +204,6 @@
 	            dataType: "json",
 	            data: JSON.stringify(json),
 	            success:function(data, Textstatus, jqXHR){
-	                alert("Record updated!");
 	                if ($('#role').val()=="SA"){
 		                window.location.href = base+"/listBranch";
 	                }
@@ -211,7 +212,6 @@
 	                }	                
 	            },
 	            error:function(jqXhr, Textstatus){
-	                alert("Update failed!");
 	            }
 	        });
 	    }

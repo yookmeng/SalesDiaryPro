@@ -13,11 +13,11 @@ public class ClosingPeriodMapper implements RowMapper<ClosingPeriod> {
     public ClosingPeriod mapRow(ResultSet rs, int rowNum) throws SQLException { 
         int id = rs.getInt("id");
         int companyid = rs.getInt("companyid");        
-        int controlyear = rs.getInt("controlyear");
-        int controlmonth = rs.getInt("controlmonth");
+        String period = rs.getString("period");
         Date opendate = rs.getDate("opendate");
         Date closedate = rs.getDate("closedate");
+        Boolean closed = rs.getBoolean("closed");
         
-        return new ClosingPeriod(id, companyid, controlyear, controlmonth, opendate, closedate);
+        return new ClosingPeriod(id, companyid, period, opendate, closedate, closed);
     }
 }

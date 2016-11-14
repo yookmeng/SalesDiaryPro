@@ -1,0 +1,42 @@
+package com.SpringMVC.mapper;
+
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+ 
+import com.SpringMVC.model.Quotation;
+import org.springframework.jdbc.core.RowMapper;
+ 
+public class QuotationMapper implements RowMapper<Quotation> {
+ 
+    @Override
+    public Quotation mapRow(ResultSet rs, int rowNum) throws SQLException { 
+        int quotationid = rs.getInt("quotationid");
+        Date quotationdate = rs.getDate("quotationdate");
+        int prospectid = rs.getInt("prospectid");
+        String prospectname = rs.getString("prospectname");
+        int activityid = rs.getInt("activityid");
+        int brandid = rs.getInt("brandid");
+        String brandname = rs.getString("brandname");
+        int modelid = rs.getInt("modelid");
+        String modelname = rs.getString("modelname");
+        float retailprice = rs.getFloat("retailprice");
+        float suminsured = rs.getFloat("suminsured");
+        String ncd = rs.getString("ncd");
+        float premium = rs.getFloat("premium");
+        float registrationfee = rs.getFloat("registrationfee");
+        float handlingcharges = rs.getFloat("handlingcharges");
+        float extendedwarranty = rs.getFloat("extendedwarranty");
+        float othercharges = rs.getFloat("othercharges");
+        float discount = rs.getFloat("discount");
+        float quoteamount = rs.getFloat("quoteamount");
+        String term = rs.getString("term");
+        String remark = rs.getString("remark");
+
+        return new Quotation(quotationid, quotationdate, prospectid, prospectname,
+        		activityid, brandid, brandname, modelid, modelname,
+        		retailprice, suminsured, ncd, premium,
+        		registrationfee, handlingcharges, extendedwarranty,
+        		othercharges, discount, quoteamount, term, remark);        
+    }
+}

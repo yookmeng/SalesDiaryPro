@@ -1,13 +1,10 @@
 package com.SpringMVC.model;
 
-import java.sql.Date;
-
 public class CompanyTarget {
     private int targetid;
     private int companyid;
     private String companyname;
-    private Date period;
-    private String displayperiod;    
+    private String period;
     private int prospect;
     private int testdrive;
     private int closed;
@@ -16,12 +13,11 @@ public class CompanyTarget {
     }
  
     public CompanyTarget(int targetid, int companyid, String companyname, 
-    			Date period, String displayperiod, int prospect, int testdrive, int closed) {
+    			String period, int prospect, int testdrive, int closed) {
         this.targetid = targetid;
         this.companyid = companyid;
         this.companyname = companyname;
-        this.period = period;
-        this.displayperiod = displayperiod;        
+        this.period  = period;        
         this.prospect = prospect;
         this.testdrive = testdrive;
         this.closed = closed;
@@ -48,18 +44,11 @@ public class CompanyTarget {
         this.companyname = companyname;
     }
 
-    public Date getperiod() {
+    public String getperiod() {
         return period;
     }  
-    public void setperiod(Date period) {
+    public void setperiod(String period) {
         this.period = period;
-    }
-
-    public String getdisplayperiod() {
-        return displayperiod;
-    }  
-    public void setdisplayperiod(String displayperiod) {
-        this.displayperiod = displayperiod;
     }
 
     public int getprospect() {

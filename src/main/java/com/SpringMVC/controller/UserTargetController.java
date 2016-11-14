@@ -1,7 +1,6 @@
 package com.SpringMVC.controller;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,9 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import com.SpringMVC.dao.TeamDAO;
 import com.SpringMVC.dao.TeamTargetDAO;
 import com.SpringMVC.dao.UserProfileDAO;
 import com.SpringMVC.dao.UserTargetDAO;
+import com.SpringMVC.model.Team;
 import com.SpringMVC.model.TeamTarget;
 import com.SpringMVC.model.UserProfile;
 import com.SpringMVC.model.UserTarget;
@@ -38,9 +39,12 @@ public class UserTargetController {
     private TeamTargetDAO teamTargetDAO;
 
     @Autowired
+    private TeamDAO teamDAO;
+
+    @Autowired
     private UserTargetDAO userTargetDAO;
 
-    @RequestMapping(value = UserTargetRestURIConstant.Get, method = RequestMethod.GET)
+	@RequestMapping(value = UserTargetRestURIConstant.Get, method = RequestMethod.GET)
 	public String getUserTarget(@PathVariable int targetid) {
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
@@ -65,7 +69,7 @@ public class UserTargetController {
 	}
 
     @RequestMapping(value = UserTargetRestURIConstant.GetByPeriodTeam, method = RequestMethod.GET)
-	public String getAllUserTargetByPeriodTeam(@PathVariable Date period, int teamid) {
+	public String getAllUserTargetByPeriodTeam(@PathVariable String period, int teamid) {
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
@@ -126,8 +130,10 @@ public class UserTargetController {
     public ModelAndView listUserTarget(HttpServletRequest request) {
         int targetid = Integer.parseInt(request.getParameter("targetid"));
         TeamTarget teamTarget = teamTargetDAO.get(targetid);
+        Team team = teamDAO.get(teamTarget.getteamid());
  	    List<UserTarget> listUserTarget = userTargetDAO.list(teamTarget.getperiod(), teamTarget.getteamid());
         ModelAndView mav = new ModelAndView("userTargetList");
+        mav.addObject("team", team);
         mav.addObject("teamTarget", teamTarget);
  	    mav.addObject("listTarget", listUserTarget);
  	    return mav;
@@ -137,11 +143,13 @@ public class UserTargetController {
     public ModelAndView addUserTarget(HttpServletRequest request) {
         int targetid = Integer.parseInt(request.getParameter("targetid"));
         TeamTarget teamTarget = teamTargetDAO.get(targetid);
+        Team team = teamDAO.get(teamTarget.getteamid());
         UserTarget newUserTarget = new UserTarget();
         newUserTarget.setperiod(teamTarget.getperiod());
         newUserTarget.setteamtargetid(teamTarget.gettargetid());        
         ModelAndView mav = new ModelAndView("userTargetForm");
         List<String> members = userProfileDAO.userList(teamTarget.getteamid());	
+        mav.addObject("team", team);
         mav.addObject("userlist", members);
         mav.addObject("teamTarget", teamTarget);
         mav.addObject("userTarget", newUserTarget);
@@ -153,8 +161,10 @@ public class UserTargetController {
         int targetid = Integer.parseInt(request.getParameter("targetid"));
         UserTarget editUserTarget = userTargetDAO.get(targetid);
         TeamTarget teamTarget = teamTargetDAO.get(editUserTarget.getteamtargetid());
+        Team team = teamDAO.get(teamTarget.getteamid());
         ModelAndView mav = new ModelAndView("userTargetForm");
         List<String> members = userProfileDAO.userList(teamTarget.getteamid());	
+        mav.addObject("team", team);
         mav.addObject("userlist", members);
         mav.addObject("teamTarget", teamTarget);
         mav.addObject("userTarget", editUserTarget);

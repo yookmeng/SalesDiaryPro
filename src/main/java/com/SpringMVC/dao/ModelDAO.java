@@ -14,8 +14,10 @@ public interface ModelDAO {
      
     public void delete(int modelid);
 
-    public List<String> getModels(int brandid);
+    public List<String> getSellingModels(int brandid);
     
+    public List<String> getAllModels(int brandid);
+
     public Model get(int modelid);
 
     public Model getByName(String modelname);

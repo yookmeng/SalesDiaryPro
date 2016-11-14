@@ -8,6 +8,8 @@
 <c:set var="base" value="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}"/>
 <html>
 <jsp:include page="_menu.jsp" />
+<!-- Wizard -->
+<script src="resources/js/plugins/wizard/jquery.form.wizard.min.js"></script>
 <body>
 	<jsp:include page="_userNavigation.jsp" />
 	<div id="main">
@@ -19,7 +21,7 @@
 					<i class="fa fa-angle-right"></i>
 				</li>
 				<li>
-					<a href="listProspect">Prospect</a>
+					<a href="listProspects">Prospect</a>
 				</li>
 			</ul>
 		</div>		
@@ -30,130 +32,151 @@
 						<form:form action="" method="post" modelAttribute="prospect" class='form-horizontal form-wizard'>
 			            <form:hidden path="prospectid"/>
 			            <form:hidden path="userid"/>
-						<div class="form-group">
-							<label for="firstname" class="control-label col-sm-2">First Name</label>
-							<div class="col-sm-5">
-								<form:input type="text" path="firstname" name="firstname" id="firstname" class="form-control" data-rule-required="true" />
+						<div class="step" id="firstStep">
+							<div class="form-group">
+								<label for="firstname" class="control-label col-sm-2">First Name</label>
+								<div class="col-sm-5">
+									<form:input type="text" path="firstname" name="firstname" id="firstname" class="form-control" data-rule-required="true" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="control-label col-sm-2">Last Name</label>
+								<div class="col-sm-5">
+									<form:input type="text" path="lastname" name="lastname" id="lastname" class="form-control"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="mobile" class="control-label col-sm-2">Mobile</label>
+								<div class="col-sm-3">
+									<form:input type="text" path="mobile" name="mobile" id="mobile" class="form-control" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="text" class="control-label col-sm-2">Status</label>
+								<div class="col-sm-1">
+									<form:select name="status" path="status" id="status" items="${statuslist}" data-rule-required="true" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="text" class="control-label col-sm-2">Gender</label>
+								<div class="col-sm-1">
+									<form:select name="gender" path="gender" id="gender" items="${genderlist}"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="age" class="control-label col-sm-2">Age</label>
+								<div class="col-sm-1">
+									<form:input type="text" name="age" path="age" id="age" class="form-control" data-rule-required="true"/>
+								</div>
 							</div>
 						</div>
-						<div class="form-group">
-							<label for="lastname" class="control-label col-sm-2">Last Name</label>
-							<div class="col-sm-5">
-								<form:input type="text" path="lastname" name="lastname" id="lastname" class="form-control" data-rule-required="true" />
+						<div class="step" id="secondStep">
+							<div class="form-group">
+								<label for="text" class="control-label col-sm-1">Home</label>
+							</div>
+							<div class="form-group">
+								<label for="country" class="control-label col-sm-1">Country</label>
+								<div class="col-sm-3">
+									<form:input type="text" path="homeaddress.country" name="homeaddress.country" id="hcountry" class="form-control" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="zipcode" class="control-label col-sm-1">Zip Code</label>
+								<div class="col-sm-3">
+									<form:input type="text" name="homeaddress.zipcode" path="homeaddress.zipcode" id="hzipcode" class="form-control" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="state" class="control-label col-sm-1">State</label>
+								<div class="col-sm-3">
+									<form:input type="text" path="homeaddress.state" name="homeaddress.state" id="hstate" class="form-control" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="city" class="control-label col-sm-1">City</label>
+								<div class="col-sm-3">
+									<form:input type="text" path="homeaddress.city" name="homeaddress.city" id="hcity" class="form-control" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="street" class="control-label col-sm-1">Street</label>
+								<div class="col-sm-5">
+									<form:input type="text" path="homeaddress.street" name="homeaddress.street" id="hstreet" class="form-control" />
+								</div>
+							</div>		
+							<div class="form-group">
+								<label for="htelno" class="control-label col-sm-1">Tel. No</label>
+								<div class="col-sm-3">
+									<form:input type="text" path="htelno" name="htelno" id="htelno" class="form-control" />
+								</div>
 							</div>
 						</div>
-						<div class="form-group">
-							<label for="age" class="control-label col-sm-2">Age</label>
-							<div class="col-sm-1">
-								<form:input type="text" name="age" path="age" id="age" class="form-control" data-rule-required="true" data-rule-minlength="2" />
+						<div class="step" id="thirdStep">
+							<div class="form-group">
+								<label for="text" class="control-label col-sm-1">Office</label>
 							</div>
+							<div class="form-group">
+								<label for="country" class="control-label col-sm-1">Country</label>
+								<div class="col-sm-3">
+									<form:input type="text" path="workaddress.country" name="workaddress.country" id="wcountry" class="form-control" />
+								</div>
+							</div>								
+							<div class="form-group">
+								<label for="zipcode" class="control-label col-sm-1">Zip Code</label>
+								<div class="col-sm-3">
+									<form:input type="text" name="workaddress.zipcode" path="workaddress.zipcode" id="wzipcode" class="form-control" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="state" class="control-label col-sm-1">State</label>
+								<div class="col-sm-3">
+									<form:input type="text" path="workaddress.state" name="workaddress.state" id="wstate" class="form-control" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="city" class="control-label col-sm-1">City</label>
+								<div class="col-sm-3">
+									<form:input type="text" path="workaddress.city" name="workaddress.city" id="wcity" class="form-control" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="street" class="control-label col-sm-1">Street</label>
+								<div class="col-sm-5">
+									<form:input type="text" path="workaddress.street" name="workaddress.street" id="wstreet" class="form-control" />
+								</div>
+							</div>		
+							<div class="form-group">
+								<label for="wtelno" class="control-label col-sm-1">Tel. No</label>
+								<div class="col-sm-3">
+									<form:input type="text" path="wtelno" name="wtelno" id="wtelno" class="form-control" />
+								</div>
+							</div>						
 						</div>
-						<div class="form-group">
-							<label for="text" class="control-label col-sm-2">Gender</label>
-							<div class="col-sm-1">
-								<form:select name="gender" path="gender" id="gender" items="${genderlist}" data-rule-required="true" />
+						<div class="step" id="fourthStep">
+							<div class="form-group">
+								<label for="text" class="control-label col-sm-2">Source</label>
+								<div class="col-sm-3">
+									<form:select name="source" path="source" id="source" items="${sourcelist}" />
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label for="haddress" class="control-label col-sm-2">Home Address</label>
-							<div class="col-sm-10">
-								<form:input type="text" path="haddress" name="haddress" id="haddress" class="form-control" />
+							<div class="form-group">
+								<label for="text" class="control-label col-sm-2">Occupation</label>
+								<div class="col-sm-3">
+									<form:input type="text" name="occupation" path="occupation" id="occupation" class="form-control" />
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label for="hzipcode" class="control-label col-sm-2">Zip Code</label>
-							<div class="col-sm-3">
-								<form:input type="text" name="hzipcode" path="hzipcode" id="hzipcode" class="form-control" />
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="hcity" class="control-label col-sm-2">City</label>
-							<div class="col-sm-3">
-								<form:input type="text" path="hcity" name="hcity" id="hcity" class="form-control" />
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="hstate" class="control-label col-sm-2">State</label>
-							<div class="col-sm-3">
-								<form:input type="text" path="hstate" name="hstate" id="hstate" class="form-control" />
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="hcountry" class="control-label col-sm-2">Country</label>
-							<div class="col-sm-3">
-								<form:input type="text" path="hcountry" name="hcountry" id="hcountry" class="form-control" />
-							</div>
-						</div>								
-						<div class="form-group">
-							<label for="mobile" class="control-label col-sm-2">Mobile</label>
-							<div class="col-sm-3">
-								<form:input type="text" path="mobile" name="mobile" id="mobile" class="form-control" />
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="htelno" class="control-label col-sm-2">Tel. No</label>
-							<div class="col-sm-3">
-								<form:input type="text" path="htelno" name="htelno" id="htelno" class="form-control" />
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="waddress" class="control-label col-sm-2">Work Address</label>
-							<div class="col-sm-10">
-								<form:input type="text" path="waddress" name="waddress" id="waddress" class="form-control" />
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="wzipcode" class="control-label col-sm-2">Zip Code</label>
-							<div class="col-sm-3">
-								<form:input type="text" name="wzipcode" path="wzipcode" id="wzipcode" class="form-control" />
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="wcity" class="control-label col-sm-2">City</label>
-							<div class="col-sm-3">
-								<form:input type="text" path="wcity" name="wcity" id="wcity" class="form-control" />
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="wstate" class="control-label col-sm-2">State</label>
-							<div class="col-sm-3">
-								<form:input type="text" path="wstate" name="wstate" id="wstate" class="form-control" />
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="wcountry" class="control-label col-sm-2">Country</label>
-							<div class="col-sm-3">
-								<form:input type="text" path="wcountry" name="wcountry" id="wcountry" class="form-control" />
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="wtelno" class="control-label col-sm-2">Tel. No</label>
-							<div class="col-sm-3">
-								<form:input type="text" path="wtelno" name="wtelno" id="wtelno" class="form-control" />
+							<div class="form-group">
+								<label for="text" class="control-label col-sm-2">Income</label>
+								<div class="col-sm-3">
+									<form:input type="text" name="income" path="income" id="income" class="form-control" />
+								</div>
 							</div>
 						</div>
 						
-						<div class="form-group">
-							<label for="text" class="control-label col-sm-2">Source</label>
-							<div class="col-sm-3">
-								<form:select name="source" path="source" id="source" items="${sourcelist}" />
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="text" class="control-label col-sm-2">Occupation</label>
-							<div class="col-sm-3">
-								<form:input type="text" name="occupation" path="occupation" id="occupation" class="form-control" />
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="text" class="control-label col-sm-2">Income</label>
-							<div class="col-sm-3">
-								<form:input type="text" name="income" path="income" id="income" class="form-control" />
-							</div>
-						</div>
 						<div class="form-actions">
 							<input type="reset" class="btn" onclick="location.href='listProspect'" value="Back" id="back">
-							<input id="btnSave" type="submit" class="btn btn-primary" name="Save" value="Save">
+							<input type="submit" class="btn btn-primary" value="Save" id="next">
+							<input type="button" class="btn" value="Done" id="done">
 						</div>
 						</form:form>
 					</div>
@@ -162,9 +185,7 @@
 		</div>
 	</div>
 	<script>
-	$('#btnSave').click(function (e) {
-		e.preventDefault(); // <------------------ stop default behaviour of button
-		
+	$('#done').click(function (e) {
 		var base = $('#base').val();
     	if (window.location.protocol === 'https:') {
     	    base = base.replace("http", "https");
@@ -175,24 +196,25 @@
 	    var lastname = $('#lastname').val(); 
 	    var userid = $('#userid').val(); 
 	    var source = $('#source').val(); 
-	    var haddress = $('#haddress').val(); 
-	    var hzipcode = $('#hzipcode').val(); 
-	    var hcity = $('#hcity').val(); 
-	    var hstate = $('#hstate').val(); 
 	    var hcountry = $('#hcountry').val(); 
+	    var hzipcode = $('#hzipcode').val(); 
+	    var hstate = $('#hstate').val(); 
+	    var hcity = $('#hcity').val(); 
+	    var hstreet = $('#hstreet').val(); 
 	    var mobile = $('#mobile').val(); 
 	    var htelno = $('#htelno').val(); 
-	    var waddress = $('#waddress').val(); 
-	    var wzipcode = $('#wzipcode').val(); 
-	    var wcity = $('#wcity').val(); 
-	    var wstate = $('#wstate').val(); 
 	    var wcountry = $('#wcountry').val(); 
+	    var wzipcode = $('#wzipcode').val(); 
+	    var wstate = $('#wstate').val(); 
+	    var wcity = $('#wcity').val(); 
+	    var wstreet = $('#wstreet').val(); 
 	    var wtelno = $('#wtelno').val(); 
 	    var occupation = $('#occupation').val(); 
 	    var age = $('#age').val(); 
 	    var gender = $('#gender').val(); 
 	    var income = $('#income').val(); 
 	    var email = $('#email').val(); 
+	    var status = $('#status').val(); 
 	
 	    var json = {
 	    		"prospectid" : prospectid,
@@ -200,24 +222,29 @@
 	    		"lastname" : lastname,
 	    		"userid" : userid,
 	    		"source" : source,
-	    		"haddress" : haddress,
-	    		"hzipcode" : hzipcode,
-	    		"hcity" : hcity,
-	    		"hstate" : hstate,
-	    		"hcountry" : hcountry,
+	    		"homeaddress" : {
+		    		"country" : hcountry,
+		    		"zipcode" : hzipcode,
+		    		"state" : hstate,
+		    		"city" : hcity,
+	    			"street" : hstreet
+	    		},
 	    		"mobile" : mobile,
 	    		"htelno" : htelno,
-	    		"waddress" : waddress,
-	    		"wzipcode" : wzipcode,
-	    		"wcity" : wcity,
-	    		"wstate" : wstate,
-	    		"wcountry" : wcountry,
+	    		"workaddress" : {
+		    		"country" : wcountry,
+		    		"zipcode" : wzipcode,
+		    		"state" : wstate,
+		    		"city" : wcity,
+	    			"street" : wstreet
+	    		},
 	    		"wtelno" : wtelno,
 	    		"occupation" : occupation,
 	    		"age" : age,
 	    		"gender" : gender,
 	    		"income" : income,
-	    		"email" : email
+	    		"email" : email,
+	    		"status" : status
 		};
 	    if (json.prospectid=="0"){
 	        $.ajax({
@@ -227,11 +254,9 @@
 	            dataType: "json",
 	            data: JSON.stringify(json), 
 	            success:function(data, Textstatus, jqXHR){
-	                alert("Record created!");
-	                window.location.href = base+"/listProspect";
+	                window.location.href = base+"/listProspects";
 	            },
 	            error:function(jqXhr, Textstatus){
-	                alert("Create failed!");
 	            }
 	        });    	
 	    }
@@ -243,16 +268,110 @@
 	            dataType: "json",
 	            data: JSON.stringify(json),
 	            success:function(data, Textstatus, jqXHR){
-	                alert("Record updated!");
-	                window.location.href = base+"/listProspect";
+	                window.location.href = base+"/listProspects";
 	            },
 	            error:function(jqXhr, Textstatus){
-	                alert("Update failed!");
 	            }
 	        });
 	    }
 	    return true;
-	})
+	});
+	
+	$('#next').click(function (e) {
+		e.preventDefault(); // <------------------ stop default behaviour of button
+		
+		if ($('#next').val()=="Submit"){		
+			var base = $('#base').val();
+	    	if (window.location.protocol === 'https:') {
+	    	    base = base.replace("http", "https");
+	    	}	    	
+	
+	    	var prospectid = $('#prospectid').val(); 
+		    var firstname = $('#firstname').val(); 
+		    var lastname = $('#lastname').val(); 
+		    var userid = $('#userid').val(); 
+		    var source = $('#source').val(); 
+		    var hcountry = $('#hcountry').val(); 
+		    var hzipcode = $('#hzipcode').val(); 
+		    var hstate = $('#hstate').val(); 
+		    var hcity = $('#hcity').val(); 
+		    var hstreet = $('#hstreet').val(); 
+		    var mobile = $('#mobile').val(); 
+		    var htelno = $('#htelno').val(); 
+		    var wcountry = $('#wcountry').val(); 
+		    var wzipcode = $('#wzipcode').val(); 
+		    var wstate = $('#wstate').val(); 
+		    var wcity = $('#wcity').val(); 
+		    var wstreet = $('#wstreet').val(); 
+		    var wtelno = $('#wtelno').val(); 
+		    var occupation = $('#occupation').val(); 
+		    var age = $('#age').val(); 
+		    var gender = $('#gender').val(); 
+		    var income = $('#income').val(); 
+		    var email = $('#email').val(); 
+		    var status = $('#status').val(); 
+		
+		    var json = {
+		    		"prospectid" : prospectid,
+		    		"firstname" : firstname,
+		    		"lastname" : lastname,
+		    		"userid" : userid,
+		    		"source" : source,
+		    		"homeaddress" : {
+			    		"country" : hcountry,
+			    		"zipcode" : hzipcode,
+			    		"state" : hstate,
+			    		"city" : hcity,
+		    			"street" : hstreet
+		    		},
+		    		"mobile" : mobile,
+		    		"htelno" : htelno,
+		    		"workaddress" : {
+			    		"country" : wcountry,
+			    		"zipcode" : wzipcode,
+			    		"state" : wstate,
+			    		"city" : wcity,
+		    			"street" : wstreet
+		    		},
+		    		"wtelno" : wtelno,
+		    		"occupation" : occupation,
+		    		"age" : age,
+		    		"gender" : gender,
+		    		"income" : income,
+		    		"email" : email,
+		    		"status" : status
+			};
+		    if (json.prospectid=="0"){
+		        $.ajax({
+		            url: base+"/prospect/create",
+		            type: 'POST',
+		            contentType: "application/json",
+		            dataType: "json",
+		            data: JSON.stringify(json), 
+		            success:function(data, Textstatus, jqXHR){
+		                window.location.href = base+"/listProspects";
+		            },
+		            error:function(jqXhr, Textstatus){
+		            }
+		        });    	
+		    }
+		    else {
+		        $.ajax({
+		            url: base+"/prospect/update/"+prospectid,
+		            type: 'POST',
+		            contentType: "application/json",
+		            dataType: "json",
+		            data: JSON.stringify(json),
+		            success:function(data, Textstatus, jqXHR){
+		                window.location.href = base+"/listProspects";
+		            },
+		            error:function(jqXhr, Textstatus){
+		            }
+		        });
+		    }
+		    return true;
+		}
+	});
 	</script>	
 </body>
 </html>

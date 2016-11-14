@@ -62,11 +62,9 @@
 	            data: "",
 	            dataType: "",
 	            success: function (data, status, jqXHR) {
-	                alert("record deleted!");	                
 					location.replace(location);
 	            },	        
 	            error: function (jqXHR, status) {
-	                alert("delete failed!");
 	            }
 	        });	
 	    }

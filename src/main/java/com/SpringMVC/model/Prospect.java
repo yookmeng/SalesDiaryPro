@@ -6,57 +6,43 @@ public class Prospect {
     private String lastname;
     private int userid;
     private String source;
-    private String haddress;
-    private String hzipcode;
-    private String hcity;
-    private String hstate;
-    private String hcountry;
+    private Address homeaddress;
     private String mobile;
     private String htelno;
-    private String waddress;
-    private String wzipcode;
-    private String wcity;
-    private String wstate;
-    private String wcountry;
+    private int contactid;
+    private Address workaddress;
     private String wtelno;
     private String occupation;
     private int age;
     private String gender;    
     private String income;
     private String email;
+    private String status;
 
     public Prospect() {
     }
  
     public Prospect(int prospectid, String firstname, String lastname, int userid, String source,  
-    		String haddress, String hzipcode, String hcity, 
-    		String hstate, String hcountry, String mobile, String htelno, 
-    		String waddress, String wzipcode, String wcity, 
-    		String wstate, String wcountry, String wtelno, 
-    		String occupation, int age, String gender, String income, String email) {
+    		Address homeaddress, String mobile, String htelno, int contactid,
+    		Address workaddress, String wtelno, 
+    		String occupation, int age, String gender, String income, String email, String status) {
         this.prospectid = prospectid;
         this.firstname = firstname;
         this.lastname = lastname;
         this.userid = userid;
         this.source = source;
-        this.haddress = haddress;
-        this.hzipcode = hzipcode;
-        this.hcity = hcity;
-        this.hstate = hstate;
-        this.hcountry = hcountry;        
+        this.homeaddress = homeaddress;
         this.mobile = mobile;
         this.htelno = htelno;
-        this.waddress = waddress;
-        this.wzipcode = wzipcode;
-        this.wcity = wcity;
-        this.wstate = wstate;
-        this.wcountry = wcountry;        
+        this.contactid = contactid;
+        this.workaddress = workaddress;
         this.wtelno = wtelno;
         this.occupation = occupation;
         this.age = age;
         this.gender = gender;
         this.income = income;
         this.email = email;
+        this.status = status;
     }
  
     public int getprospectid() {
@@ -94,39 +80,11 @@ public class Prospect {
         this.source = source;
     }
 
-    public String gethaddress() {
-        return haddress;
+    public Address gethomeaddress() {
+        return homeaddress;
     }  
-    public void sethaddress(String haddress) {
-        this.haddress = haddress;
-    }
-
-    public String gethzipcode() {
-        return hzipcode;
-    }
-    public void sethzipcode(String hzipcode) {
-        this.hzipcode = hzipcode;
-    }
-
-    public String gethcity() {
-        return hcity;
-    }
-    public void sethcity(String hcity) {
-        this.hcity = hcity;
-    }
-
-    public String gethstate() {
-        return hstate;
-    }
-    public void sethstate(String hstate) {
-        this.hstate = hstate;
-    }
-
-    public String gethcountry() {
-        return hcountry;
-    }
-    public void sethcountry(String hcountry) {
-        this.hcountry = hcountry;
+    public void sethomeaddress(Address homeaddress) {
+        this.homeaddress = homeaddress;
     }
 
     public String getmobile() {
@@ -143,39 +101,18 @@ public class Prospect {
         this.htelno = htelno;
     }
 
-    public String getwaddress() {
-        return waddress;
+    public int getcontactid() {
+        return contactid;
+    }
+    public void setcontactid(int contactid) {
+        this.contactid = contactid;
+    }
+
+    public Address getworkaddress() {
+        return workaddress;
     }  
-    public void setwaddress(String waddress) {
-        this.waddress = waddress;
-    }
-
-    public String getwzipcode() {
-        return wzipcode;
-    }
-    public void setwzipcode(String wzipcode) {
-        this.wzipcode = wzipcode;
-    }
-
-    public String getwcity() {
-        return wcity;
-    }
-    public void setwcity(String wcity) {
-        this.wcity = wcity;
-    }
-
-    public String getwstate() {
-        return wstate;
-    }
-    public void setwstate(String wstate) {
-        this.wstate = wstate;
-    }
-
-    public String getwcountry() {
-        return wcountry;
-    }
-    public void setwcountry(String wcountry) {
-        this.wcountry = wcountry;
+    public void setworkaddress(Address workaddress) {
+        this.workaddress = workaddress;
     }
 
     public String getwtelno() {
@@ -218,18 +155,12 @@ public class Prospect {
     }
     public void setemail(String email) {
         this.email = email;
-    }
-    
-    @Override
-    public String toString() {
-        return "Prospect [prospectid=" + prospectid + ", firstname=" + firstname + ", lastname=" + lastname
-                + ", userid=" + userid + ", source=" + source 
-                + ", haddress=" + haddress + ", hzipcode=" + hzipcode + ", hcity=" + hcity
-                + ", hstate=" + hstate + ", hcountry=" + hcountry + ", mobile=" + mobile + ", htelno=" + htelno 
-                + ", waddress=" + waddress + ", wzipcode=" + wzipcode + ", wcity=" + wcity
-                + ", wstate=" + wstate + ", wcountry=" + wcountry + ", wtelno=" + wtelno 
-                + ", occupation=" + occupation + ", age=" + age + ", gender=" + gender 
-                + ", income=" + income + ", email=" + email
-                + "]";
+    }    
+
+    public String getstatus() {
+        return status;
+    }  
+    public void setstatus(String status) {
+        this.status = status;
     }
 }

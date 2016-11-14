@@ -5,22 +5,22 @@ import java.sql.Date;
 public class ClosingPeriod {
     private int id;
     private int companyid;
-    private int controlyear;
-    private int controlmonth;
+    private String period;
     private Date opendate;
     private Date closedate;
+    private Boolean closed;
 
     public ClosingPeriod() {
     }
  
-    public ClosingPeriod(int id, int companyid, int controlyear, int controlmonth, 
-    			Date opendate, Date closedate) {
+    public ClosingPeriod(int id, int companyid, String period, 
+    			Date opendate, Date closedate, Boolean closed) {
         this.id = id;
         this.companyid = companyid;
-        this.controlyear = controlyear;
-        this.controlmonth = controlmonth;
+        this.period = period;
         this.opendate = opendate;        
         this.closedate = closedate;
+        this.closed = closed;
     }
  
     public int getid() {
@@ -37,18 +37,11 @@ public class ClosingPeriod {
         this.companyid = companyid;
     }
 
-    public int getcontrolyear() {
-        return controlyear;
+    public String getperiod() {
+        return period;
     }  
-    public void setcontrolyear(int controlyear) {
-        this.controlyear = controlyear;
-    }
-
-    public int getcontrolmonth() {
-        return controlmonth;
-    }  
-    public void setcontrolmonth(int controlmonth) {
-        this.controlmonth = controlmonth;
+    public void setperiod(String period) {
+        this.period = period;
     }
 
     public Date getopendate() {
@@ -63,5 +56,12 @@ public class ClosingPeriod {
     }  
     public void setclosedate(Date closedate) {
         this.closedate = closedate;
+    }
+
+    public Boolean getclosed() {
+        return closed;
+    }  
+    public void setclosed(Boolean closed) {
+        this.closed = closed;
     }
 }

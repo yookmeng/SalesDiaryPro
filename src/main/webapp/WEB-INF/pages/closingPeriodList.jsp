@@ -35,18 +35,18 @@
 			<div class="box-content nopadding">
 				<table class="table table-hover table-nomargin table-colored-header">
 				<tr>
-				    <th>Control Year</th>
-				    <th>Control Month</th>
+				    <th>Period</th>
 				    <th>Opening Date</th>
 				    <th>Closing Date</th>
+				    <th>Closed</th>
 				    <th>Action</th>
 				</tr>
 				<c:forEach var="closingPeriod" items="${listClosingPeriod}" varStatus="status">
 					<tr>
-					    <td>${closingPeriod.controlyear}</td>
-					    <td>${closingPeriod.controlmonth}</td>
+					    <td>${closingPeriod.period}</td>
 					    <td>${closingPeriod.opendate}</td>
 					    <td>${closingPeriod.closedate}</td>
+					    <td>${closingPeriod.closed}</td>
 						<td>
 							<button class="btn btn-small" onclick="window.location='editClosingPeriod?id=${closingPeriod.id}';" >
 						    	<i class="fa fa-edit"></i></button>
@@ -76,11 +76,9 @@
 	            data: "",
 	            dataType: "",
 	            success: function (data, status, jqXHR) {
-	                alert("record deleted!");	                
 					location.replace(location);
 	            },	        
 	            error: function (jqXHR, status) {
-	                alert("delete failed!");
 	            }
 	        });	
 	    }

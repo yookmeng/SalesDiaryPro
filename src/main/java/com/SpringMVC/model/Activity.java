@@ -13,18 +13,27 @@ public class Activity {
     private boolean demo;
     private boolean testdrive;
     private boolean quotation;
-    private boolean linkevent;
-    private String remark1;
-    private String remark2;
-    private String remark3;
+    private boolean followup;
+    private boolean closed;
+    private boolean lost;
+    private Boolean demostatus;
+    private Boolean testdrivestatus;
+    private String followupremark;
+    private Boolean followupstatus;
+    private int quotationid;
+    private int closedid;
+    private String lostremark;
     
     public Activity() {
     }
  
     public Activity(int activityid, int prospectid, Date activitydate, 
     		int brandid, String brandname, int modelid, String modelname, 
-    		boolean demo, boolean testdrive, boolean quotation, boolean linkevent, 
-    		String remark1, String remark2, String remark3) {
+    		boolean demo, boolean testdrive, boolean quotation, 
+    		boolean followup, boolean closed, boolean lost, 
+    		boolean demostatus, boolean testdrivestatus, 
+    		String followupremark, boolean followupstatus,    		
+    		int quotationid, int closedid, String lostremark) {
         this.activityid = activityid;
         this.prospectid = prospectid;
         this.activitydate = activitydate;
@@ -35,10 +44,16 @@ public class Activity {
         this.demo = demo;
         this.testdrive = testdrive;
         this.quotation = quotation;
-        this.linkevent = linkevent;
-        this.remark1 = remark1;
-        this.remark2 = remark2;
-        this.remark3 = remark3;
+        this.followup = followup;
+        this.closed= closed;
+        this.lost = lost;
+        this.demostatus = demostatus;
+        this.testdrivestatus = testdrivestatus;
+        this.followupremark = followupremark;
+        this.followupstatus = followupstatus;
+        this.quotationid = quotationid;
+        this.closedid = closedid;
+        this.lostremark = lostremark;
     }
  
     public int getactivityid() {
@@ -111,31 +126,73 @@ public class Activity {
         this.quotation = quotation;
     }
 
-    public boolean getlinkevent() {
-        return linkevent;
+    public boolean getfollowup() {
+        return followup;
     }  
-    public void setlinkevent(boolean linkevent) {
-        this.linkevent = linkevent;
+    public void setfollowup(boolean followup) {
+        this.followup = followup;
     }
 
-    public String getremark1() {
-        return remark1;
+    public boolean getclosed() {
+        return closed;
     }  
-    public void setremark1(String remark1) {
-        this.remark1 = remark1;
+    public void setclosed(boolean closed) {
+        this.closed = closed;
     }
 
-    public String getremark2() {
-        return remark2;
+    public boolean getlost() {
+        return lost;
     }  
-    public void setremark2(String remark2) {
-        this.remark2 = remark2;
+    public void setlost(boolean lost) {
+        this.lost = lost;
     }
 
-    public String getremark3() {
-        return remark3;
+    public Boolean getdemostatus() {
+        return demostatus;
     }  
-    public void setremark3(String remark3) {
-        this.remark3 = remark3;
+    public void setdemostatus(Boolean demostatus) {
+        this.demostatus = demostatus;
+    }
+
+    public Boolean gettestdrivestatus() {
+        return testdrivestatus;
+    }  
+    public void settestdrivestatus(Boolean testdrivestatus) {
+        this.testdrivestatus = testdrivestatus;
+    }
+
+    public String getfollowupremark() {
+        return followupremark;
+    }  
+    public void setfollowupremark(String followupremark) {
+        this.followupremark = followupremark;
+    }
+
+    public Boolean getfollowupstatus() {
+        return followupstatus;
+    }  
+    public void setfollowupstatus(Boolean followupstatus) {
+        this.followupstatus = followupstatus;
+    }
+    
+    public int getquotationid() {
+        return quotationid;
+    }  
+    public void setquotationid(int quotationid) {
+        this.quotationid = quotationid;
+    }
+
+    public int getclosedid() {
+        return closedid;
+    }  
+    public void setclosedid(int closedid) {
+        this.closedid = closedid;
+    }
+
+    public String getlostremark() {
+        return lostremark;
+    }  
+    public void setlostremark(String lostremark) {
+        this.lostremark = lostremark;
     }
 }

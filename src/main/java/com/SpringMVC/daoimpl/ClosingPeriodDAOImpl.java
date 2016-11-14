@@ -25,18 +25,20 @@ public class ClosingPeriodDAOImpl extends JdbcDaoSupport implements ClosingPerio
 	
     public void save(ClosingPeriod closingPeriod) {
         String sql = "INSERT INTO tblClosingPeriod "
-        		+ "(companyid, controlyear, controlmonth, opendate, closedate) "
+        		+ "(companyid, period, opendate, closedate, closed) "
         		+ "VALUES (?, ?, ?, ?, ?)";
         this.getJdbcTemplate().update(sql, 
-        		closingPeriod.getcompanyid(), closingPeriod.getcontrolyear(), closingPeriod.getcontrolmonth(), 
-        		closingPeriod.getopendate(), closingPeriod.getclosedate());
+        		closingPeriod.getcompanyid(), closingPeriod.getperiod(), 
+        		closingPeriod.getopendate(), closingPeriod.getclosedate(), 
+        		closingPeriod.getclosed());
     }
     
     public void update(ClosingPeriod closingPeriod) {
-        String sql = "UPDATE tblClosingPeriod SET opendate=?, closedate=? "
+        String sql = "UPDATE tblClosingPeriod SET opendate=?, closedate=?, closed=? "
         		+ "WHERE id=?";
         this.getJdbcTemplate().update(sql, 
-        		closingPeriod.getopendate(), closingPeriod.getclosedate(), closingPeriod.getid());
+        		closingPeriod.getopendate(), closingPeriod.getclosedate(), 
+        		closingPeriod.getclosed(), closingPeriod.getid());
     }
 
     public void delete(int id) {
@@ -45,9 +47,8 @@ public class ClosingPeriodDAOImpl extends JdbcDaoSupport implements ClosingPerio
     }
     
     public ClosingPeriod get(int id) {
-	    String sql = "SELECT id, companyid, "
-	    		+ "controlyear, controlmonth, "
-	    		+ "opendate, closedate "
+	    String sql = "SELECT id, companyid, period, "
+	    		+ "opendate, closedate, closed "
 	    		+ "FROM tblClosingPeriod "
 	    		+ "WHERE id="+id;
 	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<ClosingPeriod>() {
@@ -59,10 +60,10 @@ public class ClosingPeriodDAOImpl extends JdbcDaoSupport implements ClosingPerio
 	            	ClosingPeriod closingPeriod = new ClosingPeriod();
 	            	closingPeriod.setid(rs.getInt("id"));
 	            	closingPeriod.setcompanyid(rs.getInt("companyid"));
-	            	closingPeriod.setcontrolyear(rs.getInt("controlyear"));
-	            	closingPeriod.setcontrolmonth(rs.getInt("controlmonth"));
+	            	closingPeriod.setperiod(rs.getString("period"));
 	            	closingPeriod.setopendate(rs.getDate("opendate"));
 	            	closingPeriod.setclosedate(rs.getDate("closedate"));
+	            	closingPeriod.setclosed(rs.getBoolean("closed"));
 	                return closingPeriod;
 	            }	 
 	            return null;
@@ -71,12 +72,11 @@ public class ClosingPeriodDAOImpl extends JdbcDaoSupport implements ClosingPerio
     }
 
     public List<ClosingPeriod> list(int companyid) {
-	    String sql = "SELECT id, companyid, "
-	    		+ "controlyear, controlmonth, "
-	    		+ "opendate, closedate "
+	    String sql = "SELECT id, companyid, period, "
+	    		+ "opendate, closedate, closed "
 	    		+ "FROM tblClosingPeriod "	    
 	    		+ "WHERE companyid=" + companyid + " "
-				+ "ORDER BY controlyear, controlmonth";
+				+ "ORDER BY period";
         ClosingPeriodMapper mapper = new ClosingPeriodMapper();
         List<ClosingPeriod> list = this.getJdbcTemplate().query(sql, mapper);
         return list;

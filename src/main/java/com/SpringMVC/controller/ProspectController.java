@@ -17,11 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import com.SpringMVC.dao.BranchDAO;
 import com.SpringMVC.dao.CodeMasterDAO;
 import com.SpringMVC.dao.ProspectDAO;
+import com.SpringMVC.dao.TeamDAO;
 import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.dao.UserProfileDAO;
+import com.SpringMVC.model.Branch;
 import com.SpringMVC.model.Prospect;
+import com.SpringMVC.model.Team;
 import com.SpringMVC.model.UserLogin;
 import com.SpringMVC.model.UserProfile;
 import com.SpringMVC.uriconstant.ProspectRestURIConstant;
@@ -39,10 +43,20 @@ public class ProspectController {
     private UserProfileDAO userProfileDAO;
 
     @Autowired
+    private TeamDAO teamDAO;
+
+    @Autowired
+    private BranchDAO branchDAO;
+
+    @Autowired
     private ProspectDAO prospectDAO;
 
     @Autowired
     private CodeMasterDAO codeMasterDAO;
+
+    private enum Roles {
+        USER, SA, MD, MA, TL, DEV;
+    }
 
     @RequestMapping(value = ProspectRestURIConstant.Get, method = RequestMethod.GET)
 	public String getProspect(@PathVariable int prospectid) {
@@ -86,18 +100,10 @@ public class ProspectController {
         currentProspect.setfirstname(prospect.getfirstname());
         currentProspect.setlastname(prospect.getlastname());
         currentProspect.setsource(prospect.getsource());
-        currentProspect.sethaddress(prospect.gethaddress());
-        currentProspect.sethzipcode(prospect.gethzipcode());
-        currentProspect.sethcity(prospect.gethcity());
-        currentProspect.sethstate(prospect.gethstate());
-        currentProspect.sethcountry(prospect.gethcountry());
+        currentProspect.sethomeaddress(prospect.gethomeaddress());
         currentProspect.setmobile(prospect.getmobile());
         currentProspect.sethtelno(prospect.gethtelno());
-        currentProspect.setwaddress(prospect.getwaddress());
-        currentProspect.setwzipcode(prospect.getwzipcode());
-        currentProspect.setwcity(prospect.getwcity());
-        currentProspect.setwstate(prospect.getwstate());
-        currentProspect.setwcountry(prospect.getwcountry());
+        currentProspect.setworkaddress(prospect.getworkaddress());
         currentProspect.setwtelno(prospect.getwtelno());
         currentProspect.setemail(prospect.getemail());
         currentProspect.setoccupation(prospect.getoccupation());
@@ -105,6 +111,7 @@ public class ProspectController {
         currentProspect.setgender(prospect.getgender());
         currentProspect.setincome(prospect.getincome());
         currentProspect.setemail(prospect.getemail());
+        currentProspect.setstatus(prospect.getstatus());
 
         prospectDAO.update(currentProspect);
         return new ResponseEntity<Prospect>(prospect, HttpStatus.OK);
@@ -121,14 +128,64 @@ public class ProspectController {
         return new ResponseEntity<Prospect>(HttpStatus.OK);
     }
 
-    @RequestMapping(value="/listProspect", method = RequestMethod.GET)
-    public ModelAndView listProspect(HttpServletRequest request) {
+    @RequestMapping(value="/listProspects", method = RequestMethod.GET)
+    public ModelAndView listProspects(HttpServletRequest request) {
         UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
  	    ModelAndView mav = new ModelAndView("prospectList");
 		UserProfile userProfile = userProfileDAO.get(userLogin.getusername());
-		List<Prospect> listProspect = prospectDAO.list(userLogin.getuserid());
+		mav.addObject("role", userLogin.getrole());
 		mav.addObject("userProfile", userProfile);
-		mav.addObject("listProspect", listProspect);        	
+		Roles role = Roles.valueOf(userLogin.getrole()); 
+		switch (role){
+		case USER:
+			mav.addObject("listProspect", prospectDAO.list(userLogin.getuserid()));
+			break;    	   
+		case TL:
+			Team team = teamDAO.getByUser(userLogin.getuserid());
+			mav.addObject("listProspect", prospectDAO.listByTeam(team.getteamid()));			
+			break;    	   
+		case MA:
+			Branch branch = branchDAO.getByMA(userLogin.getuserid());
+			mav.addObject("listProspect", prospectDAO.listByBranch(branch.getbranchid()));			
+			break;    	   
+		case MD:
+			int companyid = userLoginDAO.getCompanyID(userLogin.getusername());
+			mav.addObject("listProspect", prospectDAO.listByCompany(companyid));			
+			break;
+		default:
+			break;	
+		}		
+		return mav;
+ 	}
+
+    @RequestMapping(value="/listProspect", method = RequestMethod.GET)
+    public ModelAndView listProspect(HttpServletRequest request) {
+        String status = request.getParameter("status"); 
+        UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
+ 	    ModelAndView mav = new ModelAndView("prospectList");
+		UserProfile userProfile = userProfileDAO.get(userLogin.getusername());
+		mav.addObject("role", userLogin.getrole());
+		mav.addObject("userProfile", userProfile);
+		Roles role = Roles.valueOf(userLogin.getrole()); 
+		switch (role){
+		case USER:
+			mav.addObject("listProspect", prospectDAO.listfilter(userLogin.getuserid(), status));
+			break;    	   
+		case TL:
+			Team team = teamDAO.getByUser(userLogin.getuserid());
+			mav.addObject("listProspect", prospectDAO.listByTeamfilter(team.getteamid(), status));			
+			break;    	   
+		case MA:
+			Branch branch = branchDAO.getByMA(userLogin.getuserid());
+			mav.addObject("listProspect", prospectDAO.listByBranchfilter(branch.getbranchid(), status));			
+			break;    	   
+		case MD:
+			int companyid = userLoginDAO.getCompanyID(userLogin.getusername());
+			mav.addObject("listProspect", prospectDAO.listByCompanyfilter(companyid, status));			
+			break;
+		default:
+			break;	
+		}		
  	    return mav;
  	}
 
@@ -137,9 +194,12 @@ public class ProspectController {
         int userid = Integer.parseInt(request.getParameter("userid"));
         Prospect newProspect = new Prospect();
         newProspect.setuserid(userid);
+        newProspect.setstatus("HOT");
         ModelAndView mav = new ModelAndView("prospectForm");
         List<String> sources = codeMasterDAO.getCode("SOURCE");	
         mav.addObject("sourcelist", sources);
+        List<String> status = codeMasterDAO.getCode("STATUS");	
+        mav.addObject("statuslist", status);
         List<String> gender = codeMasterDAO.getCode("GENDER");	
         mav.addObject("genderlist", gender);
         mav.addObject("prospect", newProspect);
@@ -153,6 +213,8 @@ public class ProspectController {
         ModelAndView mav = new ModelAndView("prospectForm");
         List<String> sources = codeMasterDAO.getCode("SOURCE");
         mav.addObject("sourcelist", sources);
+        List<String> status = codeMasterDAO.getCode("STATUS");	
+        mav.addObject("statuslist", status);        
         List<String> gender = codeMasterDAO.getCode("GENDER");	
         mav.addObject("genderlist", gender);
         mav.addObject("prospect", editProspect);

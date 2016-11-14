@@ -2,7 +2,6 @@ package com.SpringMVC.controller;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.sql.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,7 +58,7 @@ public class BranchTargetController {
 	}
 
     @RequestMapping(value = BranchTargetRestURIConstant.GetAll, method = RequestMethod.GET)
-	public String getAllBranchTarget(@PathVariable Date period, Principal principal) {
+	public String getAllBranchTarget(@PathVariable String period, Principal principal) {
     	int companyid = userLoginDAO.getCompanyID(principal.getName());
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";

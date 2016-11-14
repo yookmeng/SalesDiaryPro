@@ -52,10 +52,10 @@ public class QuestionaireController {
     	Questionaire newQuestionaire = new Questionaire();
     	newQuestionaire.setuserid(userProfile.getuserid());
         ModelAndView mav = new ModelAndView("questionaireForm");
-        List<String> brands = brandDAO.getBrands(companyid);
+        List<String> brands = brandDAO.getSellingBrands(companyid);
         mav.addObject("brandlist", brands);
         Brand brand = brandDAO.getByName(brands.get(0));
-        List<String> models = modelDAO.getModels(brand.getbrandid());	
+        List<String> models = modelDAO.getSellingModels(brand.getbrandid());	
         mav.addObject("brandlist", brands);
         mav.addObject("modellist", models);
         mav.addObject("questionaire", newQuestionaire);

@@ -72,7 +72,18 @@ public class ModelController {
             return new ResponseEntity<Model>(HttpStatus.NOT_FOUND);
         }
         currentModel.setmodelname(model.getmodelname());
+        currentModel.setsellingmodel(model.getsellingmodel());        
+        currentModel.setcommission(model.getcommission());
         currentModel.setprice(model.getprice());
+        currentModel.setsuminsured(model.getsuminsured());
+        currentModel.setpremium(model.getpremium());
+        currentModel.setenginetype(model.getenginetype());
+        currentModel.setfuelsupplysystem(model.getfuelsupplysystem());
+        currentModel.setdisplacement(model.getdisplacement());
+        currentModel.setmaxpower(model.getmaxpower());
+        currentModel.setmaxtorque(model.getmaxtorque());
+        currentModel.settransmission(model.gettransmission());
+
         modelDAO.update(currentModel);
         return new ResponseEntity<Model>(model, HttpStatus.OK);
     }

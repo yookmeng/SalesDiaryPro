@@ -1,7 +1,5 @@
 package com.SpringMVC.controller;
 
-import java.sql.Date;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +28,7 @@ public class URIController {
 
     // UserMonthlySummary
     @RequestMapping(value = UserMonthlySummaryRestURIConstant.GET, method = RequestMethod.GET)
-	public String get(@PathVariable Date period, HttpServletRequest request) {
+	public String get(@PathVariable String period, HttpServletRequest request) {
         UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";

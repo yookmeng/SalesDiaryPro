@@ -16,12 +16,12 @@
 				</a>
 			</li>
 			<li>
-				<a href="listProspect">
+				<a href="listProspects">
 					<span>Prospect</span>
 				</a>
 			</li>
 			<li>
-				<a href="listContact">
+				<a href="listContacts">
 					<span>Contact</span>
 				</a>
 			</li>

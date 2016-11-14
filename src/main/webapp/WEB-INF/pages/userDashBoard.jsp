@@ -6,7 +6,18 @@
 	<jsp:include page="_userNavigation.jsp" />
 	<div id="main">
 		<input type="hidden" value="userMonthlySummary" name="userMonthlySummary" /> 
-		<div class="row margin-top">
+		<div class="row margin-top" align="center">
+			<div class="container-fluid" align="center">
+				<ul class="stats">
+					<li class="green long" >
+						<i class="fa fa-money"></i>
+						<div class="details">
+							<span class="big"><fmt:formatNumber value="${userMonthlySummary.commission}"></fmt:formatNumber></span>
+							<span>Commission</span>
+						</div>
+					</li>
+				</ul>
+			</div>
 			<div class="col-sm-3">
 				<ul class="pagestats style-3">
 					<li>
@@ -43,17 +54,12 @@
 					</li>
 				</ul>
 			</div>
-			<br><br><br><br><br><br><br><br><br><br>
+			<br><br><br><br><br>
 			<div class="col-sm-10" align="center">
 				<a href="addQuestionaire" class='btn'>
 					<i class="fa fa-plus-circle"></i>New Prospect</a>
 			</div>
 		</div>
-	</div>
-	<script>
-		function getpercent(x, y) {
-			return x/y*100;
-		}
-	</script>
+	</div>	
 </body>
 </html>

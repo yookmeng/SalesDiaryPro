@@ -1,0 +1,179 @@
+package com.SpringMVC.controller;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import com.SpringMVC.dao.ActivityDAO;
+import com.SpringMVC.dao.CodeMasterDAO;
+import com.SpringMVC.dao.ModelDAO;
+import com.SpringMVC.dao.ProspectDAO;
+import com.SpringMVC.dao.QuotationDAO;
+import com.SpringMVC.dao.UserLoginDAO;
+import com.SpringMVC.model.Activity;
+import com.SpringMVC.model.Model;
+import com.SpringMVC.model.Prospect;
+import com.SpringMVC.model.Quotation;
+import com.SpringMVC.model.UserLogin;
+import com.SpringMVC.uriconstant.QuotationRestURIConstant;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+@EnableWebMvc
+@RestController
+public class QuotationController {
+
+    @Autowired
+    private UserLoginDAO userLoginDAO;
+
+    @Autowired
+    private ActivityDAO activityDAO;
+
+    @Autowired
+    private ProspectDAO prospectDAO;
+
+    @Autowired
+    private ModelDAO modelDAO;
+
+    @Autowired
+    private CodeMasterDAO codeMasterDAO;
+
+    @Autowired
+    private QuotationDAO quotationDAO;
+
+    @RequestMapping(value = QuotationRestURIConstant.Get, method = RequestMethod.GET)
+	public String getQuotation(@PathVariable int quotationid) {
+    	ObjectMapper mapper = new ObjectMapper();
+    	String jsonInString="";
+		try {
+			jsonInString = mapper.writeValueAsString(quotationDAO.get(quotationid));
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return jsonInString;
+	}
+
+    @RequestMapping(value = QuotationRestURIConstant.GetByProspect, method = RequestMethod.GET)
+	public String getQuotationByProspect(int prospectid) {
+    	ObjectMapper mapper = new ObjectMapper();
+    	String jsonInString="";
+		try {
+			jsonInString = mapper.writeValueAsString(quotationDAO.list(prospectid));
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return jsonInString;
+	}
+
+    @RequestMapping(value = QuotationRestURIConstant.Create, method = RequestMethod.POST)
+    public ResponseEntity<Quotation> createQuotation(@RequestBody Quotation quotation) throws IOException {
+    	quotationDAO.save(quotation);
+        return new ResponseEntity<Quotation>(quotation, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = QuotationRestURIConstant.Update, method = RequestMethod.POST)
+    public ResponseEntity<Quotation> updateQuotation(@PathVariable("quotationid") int quotationid, @RequestBody Quotation quotation) {
+    	Quotation currentQuotation = quotationDAO.get(quotationid);
+         
+        if (currentQuotation==null) {
+            return new ResponseEntity<Quotation>(HttpStatus.NOT_FOUND);
+        }
+        
+    	currentQuotation.setquotationdate(quotation.getquotationdate());
+    	currentQuotation.setprospectid(quotation.getprospectid());
+    	currentQuotation.setactivityid(quotation.getactivityid());
+        currentQuotation.setbrandid(quotation.getbrandid());
+        currentQuotation.setmodelid(quotation.getmodelid());
+        currentQuotation.setretailprice(quotation.getretailprice());
+        currentQuotation.setsuminsured(quotation.getsuminsured());
+        currentQuotation.setncd(quotation.getncd());
+        currentQuotation.setpremium(quotation.getpremium());
+        currentQuotation.setregistrationfee(quotation.getregistrationfee());
+        currentQuotation.sethandlingcharges(quotation.gethandlingcharges());
+        currentQuotation.setextendedwarranty(quotation.getextendedwarranty());
+        currentQuotation.setothercharges(quotation.getothercharges());
+        currentQuotation.setdiscount(quotation.getdiscount());
+        currentQuotation.setquoteamount(quotation.getquoteamount());
+        currentQuotation.setterm(quotation.getterm());
+        currentQuotation.setremark(quotation.getremark());
+
+        quotationDAO.update(currentQuotation);
+        return new ResponseEntity<Quotation>(quotation, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = QuotationRestURIConstant.Delete, method = RequestMethod.DELETE)
+    public ResponseEntity<Quotation> deleteQuotation(@PathVariable("quotationid") int quotationid) {
+    	Quotation quotation = quotationDAO.get(quotationid);
+        if (quotation == null) {
+            return new ResponseEntity<Quotation>(HttpStatus.NOT_FOUND);
+        }
+ 
+        quotationDAO.delete(quotationid);
+        return new ResponseEntity<Quotation>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/listQuotation", method = RequestMethod.GET)
+    public ModelAndView listRequest(HttpServletRequest request) {
+        int prospectid = Integer.parseInt(request.getParameter("prospectid"));
+        Prospect prospect = prospectDAO.get(prospectid);
+        UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
+ 	    List<Quotation> listQuotation = quotationDAO.list(prospectid);
+        ModelAndView mav = new ModelAndView("quotationList");
+        mav.addObject("role", userLogin.getrole());        
+        mav.addObject("prospect", prospect);
+ 	    mav.addObject("listQuotation", listQuotation);
+ 	    return mav;
+ 	}
+ 	   
+    @RequestMapping(value = "/addQuotation", method = RequestMethod.GET)
+    public ModelAndView addQuotation(HttpServletRequest request) {
+        int activityid = Integer.parseInt(request.getParameter("activityid"));
+        Activity activity = activityDAO.get(activityid);
+        Model model = modelDAO.get(activity.getmodelid());
+        UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
+        Quotation newQuotation = new Quotation();
+        newQuotation.setquotationdate(activity.getactivitydate());
+        newQuotation.setprospectid(activity.getprospectid());
+        newQuotation.setactivityid(activity.getactivityid());
+        newQuotation.setbrandid(activity.getbrandid());
+        newQuotation.setmodelid(activity.getmodelid());
+        newQuotation.setretailprice(model.getprice());
+        newQuotation.setsuminsured(model.getsuminsured());
+        newQuotation.setpremium(model.getpremium());
+        System.out.println("OK");
+        ModelAndView mav = new ModelAndView("quotationForm");
+        List<String> ncds = codeMasterDAO.getCode("NCD");	
+        mav.addObject("role", userLogin.getrole());
+        mav.addObject("activity", activity);
+        mav.addObject("ncdlist", ncds);
+        mav.addObject("quotation", newQuotation);
+        return mav;
+    }
+            
+    @RequestMapping(value = "/editQuotation", method = RequestMethod.GET)
+    public ModelAndView editQuotation(HttpServletRequest request) {
+        int quotationid = Integer.parseInt(request.getParameter("quotationid"));       	
+        Quotation editQuotation = quotationDAO.get(quotationid);
+        Activity activity = activityDAO.get(editQuotation.getactivityid());
+        UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
+        ModelAndView mav = new ModelAndView("quotationForm");
+        List<String> ncds = codeMasterDAO.getCode("NCD");	
+ 	   	mav.addObject("role", userLogin.getrole());
+        mav.addObject("activity", activity);
+        mav.addObject("ncdlist", ncds);
+        mav.addObject("quotation", editQuotation);
+        return mav;
+    }
+}
