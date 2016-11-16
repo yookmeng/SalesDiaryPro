@@ -22,7 +22,6 @@
 	</c:if>
 	<div id="main">
 	   	<input type="hidden" value="${base}" name="base" id="base"/>	
-        <input type="hidden" value="prospect" name="prospect" /> 
 		<div class="breadcrumbs">
 			<ul>
 				<li>
@@ -30,27 +29,16 @@
 					<i class="fa fa-angle-right"></i>
 				</li>
 				<li>
-					<a href="listProspects">Prospect</a>
-					<i class="fa fa-angle-right"></i>
-				</li>
-				<li>
-					<a href="listActivity?prospectid=${prospect.prospectid}">Activity</a>
+					<a href="listActivities">Activity</a>
 				</li>
 			</ul>
 		</div>
-		<div>
-			<h4>${prospect.firstname} ${prospect.lastname}</h4>
-		</div>
         <div align="center">
-			<c:if test="${role == 'USER'}">
-	   	    	<h5><a href="addActivity?prospectid=${prospect.prospectid}" class='btn'>
-					<i class="fa fa-plus-circle"></i>New Activity</a></h5>
-			</c:if>
 			<div class="box-content nopadding">
 				<table class="table table-hover table-nomargin table-colored-header">
 				<tr>
 				    <th>Date</th>
-				    <th>Model</th>
+				    <th>Prospect</th>
 				    <th>Activities</th>
 				    <th>Action</th>
 				    <th></th>
@@ -60,7 +48,7 @@
 				<c:forEach var="activity" items="${listActivity}" varStatus="status">
 					<tr>
 					    <td>${activity.activitydate}</td>
-						<td>${activity.modelname}</td>
+						<td>${activity.prospectname}</td>
 						<td>
 							<c:if test="${activity.demo==false && activity.demostatus==false}">
 								<a class="btn" title=Demo onclick="window.location='editActivity?activityid=${activity.activityid}&step=2';">D</a>

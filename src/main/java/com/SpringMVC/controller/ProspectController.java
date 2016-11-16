@@ -158,43 +158,12 @@ public class ProspectController {
 		return mav;
  	}
 
-    @RequestMapping(value="/listProspect", method = RequestMethod.GET)
-    public ModelAndView listProspect(HttpServletRequest request) {
-        String status = request.getParameter("status"); 
-        UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
- 	    ModelAndView mav = new ModelAndView("prospectList");
-		UserProfile userProfile = userProfileDAO.get(userLogin.getusername());
-		mav.addObject("role", userLogin.getrole());
-		mav.addObject("userProfile", userProfile);
-		Roles role = Roles.valueOf(userLogin.getrole()); 
-		switch (role){
-		case USER:
-			mav.addObject("listProspect", prospectDAO.listfilter(userLogin.getuserid(), status));
-			break;    	   
-		case TL:
-			Team team = teamDAO.getByUser(userLogin.getuserid());
-			mav.addObject("listProspect", prospectDAO.listByTeamfilter(team.getteamid(), status));			
-			break;    	   
-		case MA:
-			Branch branch = branchDAO.getByMA(userLogin.getuserid());
-			mav.addObject("listProspect", prospectDAO.listByBranchfilter(branch.getbranchid(), status));			
-			break;    	   
-		case MD:
-			int companyid = userLoginDAO.getCompanyID(userLogin.getusername());
-			mav.addObject("listProspect", prospectDAO.listByCompanyfilter(companyid, status));			
-			break;
-		default:
-			break;	
-		}		
- 	    return mav;
- 	}
-
     @RequestMapping(value = "/addProspect", method = RequestMethod.GET)
     public ModelAndView addProspect(HttpServletRequest request) {
         int userid = Integer.parseInt(request.getParameter("userid"));
         Prospect newProspect = new Prospect();
         newProspect.setuserid(userid);
-        newProspect.setstatus("HOT");
+        newProspect.setstatus("Hot");
         ModelAndView mav = new ModelAndView("prospectForm");
         List<String> sources = codeMasterDAO.getCode("SOURCE");	
         mav.addObject("sourcelist", sources);

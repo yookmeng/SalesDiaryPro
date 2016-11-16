@@ -19,21 +19,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @EnableWebMvc
 @RestController
-public class URIController {
+public class UserMonthlySummaryController {
     @Autowired
     private UserLoginDAO userLoginDAO;
 
     @Autowired
     private UserMonthlySummaryDAO userMonthlySummaryDAO;
 
-    // UserMonthlySummary
     @RequestMapping(value = UserMonthlySummaryRestURIConstant.GET, method = RequestMethod.GET)
 	public String get(@PathVariable String period, HttpServletRequest request) {
         UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
-			jsonInString = mapper.writeValueAsString(userMonthlySummaryDAO.get(period, userLogin.getuserid()));
+			jsonInString = mapper.writeValueAsString(userMonthlySummaryDAO.get(period, userLogin.getuserid(), userLogin.getrole()));
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}

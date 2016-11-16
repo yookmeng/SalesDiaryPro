@@ -104,7 +104,7 @@
 						</div>
 					</div>
 					<div class="form-actions">
-						<input type="reset" class="btn" onclick="location.href='listQuotation?prospectid=${prospect.prospectid}'" value="Back" id="back">						
+						<input type="reset" class="btn" onclick="location.href='listActivity?prospectid=${prospect.prospectid}'" value="Back" id="back">						
 						<input id="btnSave" type="submit" class="btn btn-primary" name="Save" value="Save">
 					</div>
 					</form:form>

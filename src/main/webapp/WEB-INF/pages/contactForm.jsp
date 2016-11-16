@@ -29,14 +29,14 @@
 			<div class="span12">
 				<div class="box">
 					<div class="box-content">
-						<form:form action="" method="post" modelAttribute="contact" class='form-horizontal form-wizard'>
+						<form:form id="entry-form" action="" method="post" modelAttribute="contact" class='form-horizontal form-wizard'>
 						    <form:hidden path="contactid"/>
 						    <form:hidden path="userid"/>
 							<div class="step" id="firstStep">
 								<div class="form-group">
 									<label for="firstname" class="control-label col-sm-2">First Name</label>
 									<div class="col-sm-5">
-										<form:input type="text" path="firstname" name="firstname" id="firstname" class="form-control" data-rule-required="true" />
+										<form:input type="text" path="firstname" name="firstname" id="firstname" class="form-control"/>
 									</div>
 								</div>
 								<div class="form-group">
@@ -48,7 +48,7 @@
 								<div class="form-group">
 									<label for="mobile" class="control-label col-sm-2">Mobile</label>
 									<div class="col-sm-3">
-										<form:input type="text" name="mobile" path="mobile" id="mobile" class="form-control" data-rule-required="true" />
+										<form:input type="text" name="mobile" path="mobile" id="mobile" class="form-control"/>
 									</div>
 								</div>
 								<div class="form-group">
@@ -146,7 +146,16 @@
 		</div>
 	</div>
 	<script>
+	$("#entry-form").validate({ 
+		rules: { 
+			firstname: "required",
+			mobile: "required"
+		}
+	});
+	
 	$('#done').click(function (e) {
+		if(!$('#entry-form').valid()) return;
+	
 		var base = $('#base').val();
     	if (window.location.protocol === 'https:') {
     	    base = base.replace("http", "https");
@@ -228,6 +237,8 @@
 		e.preventDefault(); // <------------------ stop default behaviour of button
 		
 		if ($('#next').val()=="Submit"){		
+			if(!$('#entry-form').valid()) return;
+
 			var base = $('#base').val();
 	    	if (window.location.protocol === 'https:') {
 	    	    base = base.replace("http", "https");

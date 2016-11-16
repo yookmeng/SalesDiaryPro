@@ -7,7 +7,7 @@
 	<div id="main">
 		<input type="hidden" value="userMonthlySummary" name="userMonthlySummary" /> 
 		<div class="row margin-top" align="center">
-			<div class="container-fluid" align="center">
+			<div class="container-fluid">
 				<ul class="stats">
 					<li class="green long" >
 						<i class="fa fa-money"></i>
@@ -17,7 +17,18 @@
 						</div>
 					</li>
 				</ul>
+				<button class="btn btn-large btn-lightred " onclick="window.location='listProspects';">
+					<i class="fa fa-user"></i>
+						<span><fmt:formatNumber value="${userMonthlySummary.totalhot}"></fmt:formatNumber></span>
+						<span>Hot</span>
+				</button>
+				<button class="btn btn-large btn-orange" onclick="window.location='listActivities';">
+					<i class="fa fa-bell"></i>
+						<span><fmt:formatNumber value="${userMonthlySummary.pendingactivity}"></fmt:formatNumber></span>
+						<span>Activity</span>
+				</button>
 			</div>
+			<br>
 			<div class="col-sm-3">
 				<ul class="pagestats style-3">
 					<li>

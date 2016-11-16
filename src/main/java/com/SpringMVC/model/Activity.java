@@ -5,6 +5,7 @@ import java.sql.Date;
 public class Activity {
     private int activityid;
     private int prospectid;
+    private String prospectname;
     private Date activitydate;
     private int brandid;
     private String brandname;
@@ -27,7 +28,7 @@ public class Activity {
     public Activity() {
     }
  
-    public Activity(int activityid, int prospectid, Date activitydate, 
+    public Activity(int activityid, int prospectid, String prospectname, Date activitydate, 
     		int brandid, String brandname, int modelid, String modelname, 
     		boolean demo, boolean testdrive, boolean quotation, 
     		boolean followup, boolean closed, boolean lost, 
@@ -36,6 +37,7 @@ public class Activity {
     		int quotationid, int closedid, String lostremark) {
         this.activityid = activityid;
         this.prospectid = prospectid;
+        this.prospectname = prospectname;
         this.activitydate = activitydate;
         this.brandid = brandid;
         this.brandname = brandname;
@@ -68,6 +70,13 @@ public class Activity {
     }  
     public void setprospectid(int prospectid) {
         this.prospectid = prospectid;
+    }
+
+    public String getprospectname() {
+        return prospectname;
+    }  
+    public void setprospectname(String prospectname) {
+        this.prospectname = prospectname;
     }
 
     public Date getactivitydate() {

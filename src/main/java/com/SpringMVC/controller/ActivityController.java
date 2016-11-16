@@ -19,14 +19,18 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.SpringMVC.dao.ActivityDAO;
+import com.SpringMVC.dao.BranchDAO;
 import com.SpringMVC.dao.BrandDAO;
 import com.SpringMVC.dao.ModelDAO;
 import com.SpringMVC.dao.ProspectDAO;
+import com.SpringMVC.dao.TeamDAO;
 import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.model.Activity;
+import com.SpringMVC.model.Branch;
 import com.SpringMVC.model.Brand;
 import com.SpringMVC.model.Model;
 import com.SpringMVC.model.Prospect;
+import com.SpringMVC.model.Team;
 import com.SpringMVC.model.UserLogin;
 import com.SpringMVC.uriconstant.ActivityRestURIConstant;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -43,6 +47,12 @@ public class ActivityController {
     private ProspectDAO prospectDAO;
 
     @Autowired
+    private TeamDAO teamDAO;
+
+    @Autowired
+    private BranchDAO branchDAO;
+
+    @Autowired
     private BrandDAO brandDAO;
 
     @Autowired
@@ -50,6 +60,10 @@ public class ActivityController {
 
     @Autowired
     private ActivityDAO activityDAO;
+
+    private enum Roles {
+        USER, SA, MD, MA, TL, DEV;
+    }
 
     @RequestMapping(value = ActivityRestURIConstant.Get, method = RequestMethod.GET)
 	public String getActivity(@PathVariable int activityid) {
@@ -142,6 +156,34 @@ public class ActivityController {
 		mav.addObject("role", userLogin.getrole());
         mav.addObject("prospect", prospect);
         mav.addObject("listActivity", listActivity);
+ 	    return mav;
+ 	}
+
+    @RequestMapping(value="/listActivities", method = RequestMethod.GET)
+    public ModelAndView listActivities(HttpServletRequest request) {
+        UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
+        ModelAndView mav = new ModelAndView("activitiesList");
+		mav.addObject("role", userLogin.getrole());
+		Roles role = Roles.valueOf(userLogin.getrole()); 
+		switch (role){
+		case USER:
+			mav.addObject("listActivity", activityDAO.listByUser(userLogin.getuserid()));
+			break;    	   
+		case TL:
+			Team team = teamDAO.getByUser(userLogin.getuserid());
+			mav.addObject("listActivity", activityDAO.listByTeam(team.getteamid()));			
+			break;    	   
+		case MA:
+			Branch branch = branchDAO.getByMA(userLogin.getuserid());
+			mav.addObject("listActivity", activityDAO.listByBranch(branch.getbranchid()));			
+			break;    	   
+		case MD:
+			int companyid = userLoginDAO.getCompanyID(userLogin.getusername());
+			mav.addObject("listActivity", activityDAO.listByCompany(companyid));			
+			break;
+		default:
+			break;	
+		}		
  	    return mav;
  	}
 

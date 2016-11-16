@@ -29,14 +29,14 @@
 			<div class="span12">
 				<div class="box">
 					<div class="box-content">
-						<form:form action="" method="post" modelAttribute="prospect" class='form-horizontal form-wizard'>
+						<form:form id="entry-form" action="" method="post" modelAttribute="prospect" class='form-horizontal form-wizard'>
 			            <form:hidden path="prospectid"/>
 			            <form:hidden path="userid"/>
 						<div class="step" id="firstStep">
 							<div class="form-group">
 								<label for="firstname" class="control-label col-sm-2">First Name</label>
 								<div class="col-sm-5">
-									<form:input type="text" path="firstname" name="firstname" id="firstname" class="form-control" data-rule-required="true" />
+									<form:input type="text" path="firstname" name="firstname" id="firstname" class="form-control"/>
 								</div>
 							</div>
 							<div class="form-group">
@@ -54,7 +54,7 @@
 							<div class="form-group">
 								<label for="text" class="control-label col-sm-2">Status</label>
 								<div class="col-sm-1">
-									<form:select name="status" path="status" id="status" items="${statuslist}" data-rule-required="true" />
+									<form:select name="status" path="status" id="status" items="${statuslist}" />
 								</div>
 							</div>
 							<div class="form-group">
@@ -66,7 +66,7 @@
 							<div class="form-group">
 								<label for="age" class="control-label col-sm-2">Age</label>
 								<div class="col-sm-1">
-									<form:input type="text" name="age" path="age" id="age" class="form-control" data-rule-required="true"/>
+									<form:input type="text" name="age" path="age" id="age" class="form-control"/>
 								</div>
 							</div>
 						</div>
@@ -185,7 +185,16 @@
 		</div>
 	</div>
 	<script>
+	$("#entry-form").validate({ 
+		rules: { 
+			firstname: "required",
+			mobile: "required"
+		}
+	});
+	
 	$('#done').click(function (e) {
+		if(!$('#entry-form').valid()) return;
+
 		var base = $('#base').val();
     	if (window.location.protocol === 'https:') {
     	    base = base.replace("http", "https");
@@ -280,7 +289,9 @@
 	$('#next').click(function (e) {
 		e.preventDefault(); // <------------------ stop default behaviour of button
 		
-		if ($('#next').val()=="Submit"){		
+		if ($('#next').val()=="Submit"){
+			if(!$('#entry-form').valid()) return;
+
 			var base = $('#base').val();
 	    	if (window.location.protocol === 'https:') {
 	    	    base = base.replace("http", "https");

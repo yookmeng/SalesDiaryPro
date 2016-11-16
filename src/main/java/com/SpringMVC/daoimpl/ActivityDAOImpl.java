@@ -112,16 +112,111 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
     }
     
     public List<Activity> list(int prospectid) {
-        String sql = "SELECT activityid, prospectid, activitydate, "
+        String sql = "SELECT activityid, a.prospectid, p.firstname AS prospectname, activitydate, "
         		+ "a.brandid AS brandid, a.modelid AS modelid, "
         		+ "b.brandname AS brandname, m.modelname AS modelname, "
         		+ "demo, testdrive, quotation, followup, closed, lost, "
         		+ "demostatus, testdrivestatus, followupremark, followupstatus, "
         		+ "quotationid, closedid, lostremark "
         		+ "FROM tblActivity a "
+        		+ "LEFT JOIN tblProspect p ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
         		+ "LEFT JOIN tblModel m ON m.modelid = a.modelid "
-        		+ "WHERE prospectid = " + prospectid + " "
+        		+ "WHERE a.prospectid = " + prospectid + " "
+        		+ "ORDER BY activitydate ";
+        ActivityMapper mapper = new ActivityMapper();
+        List<Activity> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }
+
+    public List<Activity> listByUser(int userid) {
+        String sql = "SELECT activityid, a.prospectid, p.firstname AS prospectname, activitydate, "
+        		+ "a.brandid AS brandid, a.modelid AS modelid, "
+        		+ "b.brandname AS brandname, m.modelname AS modelname, "
+        		+ "demo, testdrive, quotation, followup, closed, lost, "
+        		+ "demostatus, testdrivestatus, followupremark, followupstatus, "
+        		+ "quotationid, closedid, lostremark "
+        		+ "FROM tblActivity a "
+        		+ "LEFT JOIN tblProspect p ON p.prospectid = a.prospectid "
+        		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
+        		+ "LEFT JOIN tblModel m ON m.modelid = a.modelid "
+        		+ "WHERE p.userid = " + userid + " "
+				+ "AND p.status IN ('Hot', 'Warm') "
+        		+ "AND ((demo = 'TRUE' AND demostatus = 'FALSE') OR "
+        		+ "(testdrive = 'TRUE' AND testdrivestatus = 'FALSE') OR "
+        		+ "(followup = 'TRUE' AND followupstatus = 'FALSE'))"        		
+        		+ "ORDER BY activitydate ";
+        ActivityMapper mapper = new ActivityMapper();
+        List<Activity> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }
+
+    public List<Activity> listByTeam(int teamid) {
+        String sql = "SELECT activityid, a.prospectid, p.firstname AS prospectname, activitydate, "
+        		+ "a.brandid AS brandid, a.modelid AS modelid, "
+        		+ "b.brandname AS brandname, m.modelname AS modelname, "
+        		+ "demo, testdrive, quotation, followup, closed, lost, "
+        		+ "demostatus, testdrivestatus, followupremark, followupstatus, "
+        		+ "quotationid, closedid, lostremark "
+        		+ "FROM tblActivity a "
+        		+ "LEFT JOIN tblProspect p ON p.prospectid = a.prospectid "
+        		+ "LEFT JOIN tblUserProfile up ON up.userid = p.userid "
+        		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
+        		+ "LEFT JOIN tblModel m ON m.modelid = a.modelid "
+        		+ "WHERE up.teamid = " + teamid + " "
+				+ "AND p.status IN ('Hot', 'Warm') "
+        		+ "AND ((demo = 'TRUE' AND demostatus = 'FALSE') OR "
+        		+ "(testdrive = 'TRUE' AND testdrivestatus = 'FALSE') OR "
+        		+ "(followup = 'TRUE' AND followupstatus = 'FALSE'))"        		
+        		+ "ORDER BY activitydate ";
+        ActivityMapper mapper = new ActivityMapper();
+        List<Activity> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }
+
+    public List<Activity> listByBranch(int branchid) {
+        String sql = "SELECT activityid, a.prospectid, p.firstname AS prospectname, activitydate, "
+        		+ "a.brandid AS brandid, a.modelid AS modelid, "
+        		+ "b.brandname AS brandname, m.modelname AS modelname, "
+        		+ "demo, testdrive, quotation, followup, closed, lost, "
+        		+ "demostatus, testdrivestatus, followupremark, followupstatus, "
+        		+ "quotationid, closedid, lostremark "
+        		+ "FROM tblActivity a "
+        		+ "LEFT JOIN tblProspect p ON p.prospectid = a.prospectid "
+        		+ "LEFT JOIN tblUserProfile up ON up.userid = p.userid "
+        		+ "LEFT JOIN tblTeam t ON t.teamid = up.teamid "
+        		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
+        		+ "LEFT JOIN tblModel m ON m.modelid = a.modelid "
+        		+ "WHERE t.branchid = " + branchid + " "
+				+ "AND p.status IN ('Hot', 'Warm') "
+        		+ "AND ((demo = 'TRUE' AND demostatus = 'FALSE') OR "
+        		+ "(testdrive = 'TRUE' AND testdrivestatus = 'FALSE') OR "
+        		+ "(followup = 'TRUE' AND followupstatus = 'FALSE'))"        		
+        		+ "ORDER BY activitydate ";
+        ActivityMapper mapper = new ActivityMapper();
+        List<Activity> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }
+
+    public List<Activity> listByCompany(int companyid) {
+        String sql = "SELECT activityid, a.prospectid, p.firstname AS prospectname, activitydate, "
+        		+ "a.brandid AS brandid, a.modelid AS modelid, "
+        		+ "b.brandname AS brandname, m.modelname AS modelname, "
+        		+ "demo, testdrive, quotation, followup, closed, lost, "
+        		+ "demostatus, testdrivestatus, followupremark, followupstatus, "
+        		+ "quotationid, closedid, lostremark "
+        		+ "FROM tblActivity a "
+        		+ "LEFT JOIN tblProspect p ON p.prospectid = a.prospectid "
+        		+ "LEFT JOIN tblUserProfile up ON up.userid = p.userid "
+        		+ "LEFT JOIN tblTeam t ON t.teamid = up.teamid "
+        		+ "LEFT JOIN tblBranch br ON br.branchid = t.branchid "
+        		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
+        		+ "LEFT JOIN tblModel m ON m.modelid = a.modelid "
+        		+ "WHERE br.companyid = " + companyid + " "
+				+ "AND p.status IN ('Hot', 'Warm') "
+        		+ "AND ((demo = 'TRUE' AND demostatus = 'FALSE') OR "
+        		+ "(testdrive = 'TRUE' AND testdrivestatus = 'FALSE') OR "
+        		+ "(followup = 'TRUE' AND followupstatus = 'FALSE'))"        		
         		+ "ORDER BY activitydate ";
         ActivityMapper mapper = new ActivityMapper();
         List<Activity> list = this.getJdbcTemplate().query(sql, mapper);
@@ -129,13 +224,14 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
     }
 
     public Activity get(int activityid) {
-        String sql = "SELECT activityid, prospectid, activitydate, "
+        String sql = "SELECT activityid, a.prospectid, p.firstname AS prospectname, activitydate, "
         		+ "a.brandid AS brandid, a.modelid AS modelid, "
         		+ "b.brandname AS brandname, m.modelname AS modelname, "
         		+ "demo, testdrive, quotation, followup, closed, lost, "
         		+ "demostatus, testdrivestatus, followupremark, followupstatus, "
         		+ "quotationid, closedid, lostremark "
         		+ "FROM tblActivity a "
+        		+ "LEFT JOIN tblProspect p ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
         		+ "LEFT JOIN tblModel m ON m.modelid = a.modelid "
 	    		+ "WHERE activityid=" + activityid;
@@ -148,6 +244,7 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 	                Activity activity = new Activity();
 	                activity.setactivityid(rs.getInt("activityid"));
 	                activity.setprospectid(rs.getInt("prospectid"));
+	                activity.setprospectname(rs.getString("prospectname"));
 	                activity.setactivitydate(rs.getDate("activitydate"));
 	                activity.setbrandid(rs.getInt("brandid"));
 	                activity.setbrandname(rs.getString("brandname"));

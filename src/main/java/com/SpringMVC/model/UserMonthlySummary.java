@@ -4,6 +4,12 @@ public class UserMonthlySummary {
     private String period;
     private int userid;
     private String username;
+    private int teamid;
+    private String teamname;
+    private int branchid;
+    private String branchname;
+    private int companyid;
+    private String companyname;
     private int targetprospect;
     private int targettestdrive;
     private int targetclosed;
@@ -14,18 +20,28 @@ public class UserMonthlySummary {
     private float percenttestdrive;
     private float percentclosed;
     private float commission;
-    
+    private int totalhot;
+    private int pendingactivity;
+
     public UserMonthlySummary() {
     }
  
     public UserMonthlySummary(String period, int userid, String username, 
+    		int teamid, String teamname, int branchid, String branchname, 
+    		int companyid, String companyname,
     		int targetprospect, int targettestdrive, int targetclosed,
     		int actualprospect, int actualtestdrive, int actualclosed,
     		float percentprospect, float percenttestdrive, float percentclosed,
-    		float commission) {
+    		float commission, int totalhot, int pendingactivity) {
         this.period = period;
         this.userid = userid;
         this.username = username;
+        this.teamid = teamid;
+        this.teamname = teamname;
+        this.branchid = branchid;
+        this.branchname = branchname;
+        this.companyid = companyid;
+        this.companyname = companyname;
         this.targetprospect = targetprospect;
         this.targettestdrive = targettestdrive;
         this.targetclosed = targetclosed;
@@ -36,6 +52,8 @@ public class UserMonthlySummary {
         this.percenttestdrive = percenttestdrive;
         this.percentclosed = percentclosed;
         this.commission = commission;
+        this.totalhot = totalhot;
+        this.pendingactivity = pendingactivity;
     }
  
     public String getperiod() {
@@ -57,6 +75,48 @@ public class UserMonthlySummary {
     }  
     public void setusername(String username) {
         this.username = username;
+    }
+
+    public int getteamid() {
+        return teamid;
+    }  
+    public void setteamid(int teamid) {
+        this.teamid = teamid;
+    }
+
+    public String getteamname() {
+        return teamname;
+    }  
+    public void setteamname(String teamname) {
+        this.teamname = teamname;
+    }
+
+    public int getbranchid() {
+        return branchid;
+    }  
+    public void setbranchid(int branchid) {
+        this.branchid = branchid;
+    }
+
+    public String getbranchname() {
+        return branchname;
+    }  
+    public void setbranchname(String branchname) {
+        this.branchname = branchname;
+    }
+
+    public int getcompanyid() {
+        return companyid;
+    }  
+    public void setcompanyid(int companyid) {
+        this.companyid = companyid;
+    }
+
+    public String getcompanyname() {
+        return companyname;
+    }  
+    public void setcompanyname(String companyname) {
+        this.companyname = companyname;
     }
 
     public int gettargetprospect() {
@@ -127,5 +187,19 @@ public class UserMonthlySummary {
     }  
     public void setcommission(float commission) {
         this.commission = commission;
+    }
+
+    public int gettotalhot() {
+        return totalhot;
+    }  
+    public void settotalhot(int totalhot) {
+        this.totalhot = totalhot;
+    }
+
+    public int getpendingactivity() {
+        return pendingactivity;
+    }  
+    public void setpendingactivity(int pendingactivity) {
+        this.pendingactivity = pendingactivity;
     }
 }

@@ -86,7 +86,7 @@
 
 	    	jQuery.ajax({
 	            type: "DELETE",
-	            url: base+"/quotation/delete/"+requestid,
+	            url: base+"/quotation/delete/"+quotationid,
 	            contentType: "application/json",
 	            data: "",
 	            dataType: "",

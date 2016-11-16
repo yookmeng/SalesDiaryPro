@@ -13,6 +13,12 @@ public class UserMonthlySummaryMapper implements RowMapper<UserMonthlySummary> {
         String period = rs.getString("period");
         int userid = rs.getInt("userid");
         String username = rs.getString("username");
+        int teamid = rs.getInt("teamid");
+        String teamname = rs.getString("teamname");
+        int branchid = rs.getInt("branchid");
+        String branchname = rs.getString("branchname");
+        int companyid = rs.getInt("companyid");
+        String companyname = rs.getString("companyname");
         int targetprospect = rs.getInt("targetprospect");
         int targettestdrive = rs.getInt("targettestdrive");
         int targetclosed = rs.getInt("targetclosed");
@@ -23,11 +29,14 @@ public class UserMonthlySummaryMapper implements RowMapper<UserMonthlySummary> {
         float percenttestdrive = rs.getFloat("percenttestdrive");
         float percentclosed = rs.getFloat("percentclosed");
         float commission = rs.getFloat("commission");
+        int totalhot = rs.getInt("totalhot");
+        int pendingactivity = rs.getInt("pendingactivity");
         
         return new UserMonthlySummary(period, userid, username, 
+        		teamid, teamname, branchid, branchname, companyid, companyname,
         		targetprospect, targettestdrive, targetclosed,
         		actualprospect, actualtestdrive, actualclosed,
         		percentprospect, percenttestdrive, percentclosed,
-        		commission);
+        		commission, totalhot, pendingactivity);
     }
 }

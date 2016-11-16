@@ -35,18 +35,21 @@
 		</div>
         <input type="hidden" value="userProfile" name="userProfile" /> 
    	    <div align="center">
-   	    	<a href="listProspects">All</a>
-			<a href="listProspect?status=Hot">Hot</a>
-			<a href="listProspect?status=Cold">Cold</a>
-			<a href="listProspect?status=Closed">Closed</a>
-			<a href="listProspect?status=Warm">Warm</a>
-			<a href="listProspect?status=Lost">Lost</a>
+			<label for="text" class="control-label">Filter</label>
+			<select name="status" id="status">
+				<option value="All">All</option>
+				<option selected="selected" value="Hot">Hot</option>
+				<option value="Cold">Cold</option>
+				<option value="Closed">Closed</option>
+				<option value="Warm">Warm</option>
+				<option value="Lost">Lost</option>
+			</select>
 			<c:if test="${role == 'USER'}">
    	    	<h5><a href="addProspect?userid=${userProfile.userid}" class='btn'>
 				<i class="fa fa-plus-circle"></i>New Prospect</a></h5>
 			</c:if>
 		</div>
-		<div class="box-content nopadding">
+		<div id="list" class="box-content nopadding">
 			<table class="table table-hover table-nomargin table-colored-header">
 			<tr>
 			    <th>Prospect</th>
@@ -75,6 +78,28 @@
 		</div>
 	</div>
 	<script>
+    	var search = $("#status").val();	        
+        if (search=="All") {
+        	$("#list tr").css("display", "");
+        }
+        else{
+        	$("#list tbody tr:not(:contains('"+search+"'))").css("display", "none");
+            $("#list tbody tr:contains('"+search+"')").css("display", "");
+            $("#list tbody tr:contains('Action')").css("display", "");
+        }			
+		
+	    $("#status").change(function() {
+	    	var search = $(this).val();	        
+	        if (search=="All") {
+	        	$("#list tr").css("display", "");
+	        }
+	        else{
+	        	$("#list tbody tr:not(:contains('"+search+"'))").css("display", "none");
+	            $("#list tbody tr:contains('"+search+"')").css("display", "");
+	            $("#list tbody tr:contains('Action')").css("display", "");
+	        }
+	    });
+    
 	    function deleteProspect(prospectid) {
 			var base = $('#base').val();
 	    	if (window.location.protocol === 'https:') {

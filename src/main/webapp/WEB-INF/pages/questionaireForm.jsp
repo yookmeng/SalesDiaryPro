@@ -19,19 +19,19 @@
 			<div class="span12">
 				<div class="box">			
 					<div class="box-content nopadding">
-					<form:form action="" method="post" modelAttribute="questionaire" class='form-horizontal form-wizard'>
+					<form:form id="entry-form" action="" method="post" modelAttribute="questionaire" class='form-horizontal form-wizard'>
 		            <form:hidden path="userid"/>
 					<div class="step" id="firstStep">
 						<div class="form-group">
 							<label for="prospectname" class="control-label col-sm-2">Prospect Name</label>
 							<div class="col-sm-5">
-								<form:input type="text" path="prospectname" name="prospectname" id="prospectname" data-rule-required="true" class="form-control" />				
+								<form:input type="text" path="prospectname" name="prospectname" id="prospectname" class="form-control" />				
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="mobile" class="control-label col-sm-2">Mobile</label>
 							<div class="col-sm-5">
-								<form:input type="text" path="mobile" name="mobile" id="mobile" data-rule-required="true" class="form-control" />
+								<form:input type="text" path="mobile" name="mobile" id="mobile" class="form-control" />
 							</div>
 						</div>
 					</div>
@@ -39,13 +39,13 @@
 						<div class="form-group">
 							<label for="text" class="control-label col-sm-2">Brand</label>
 							<div class="col-sm-5">
-								<form:select name="brandname" path="brandname" id="brandname" items="${brandlist}" data-rule-required="true" />
+								<form:select name="brandname" path="brandname" id="brandname" items="${brandlist}" />
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="text" class="control-label col-sm-2">Model</label>
 							<div class="col-sm-5">
-								<form:select name="modelname" path="modelname" id="modelname" items="${modellist}" data-rule-required="true" />
+								<form:select name="modelname" path="modelname" id="modelname" items="${modellist}" />
 							</div>
 						</div>
 					</div>
@@ -104,63 +104,23 @@
 			</div>
 		</div>
 	</div>	
-<script>
-$('#done').click(function (e) {
-	var base = $('#base').val();
-   	if (window.location.protocol === 'https:') {
-   	    base = base.replace("http", "https");
-   	}	    	
-
-   	var userid = $('#userid').val(); 
-    var prospectname = $('#prospectname').val(); 
-    var mobile = $('#mobile').val(); 
-    var brandname = $('#brandname').val(); 
-    var modelname = $('#modelname').val(); 
-    var demo = $('#demo').prop('checked');
-    var testdrive = $('#testdrive').prop('checked');
-    var quotation = $('#quotation').prop('checked');
-    var tradein = $('#tradein').prop('checked');
-    var currentbrand = $('#currentbrand').val(); 
-    var currentmodel = $('#currentmodel').val(); 
-
-    var json = {
-    		"userid" : userid,
-    		"prospectname" : prospectname,
-	   		"mobile" : mobile,
-    		"brandname" : brandname,
-    		"modelname" : modelname,
-    		"demo" : demo,
-    		"testdrive" : testdrive,
-    		"quotation" : quotation,
-    		"tradein" : tradein,
-    		"currentbrand" : currentbrand,
-    		"currentmodel" : currentmodel
-	};
-	$.ajax({
-	    url: base+"/questionaire",
-	    type: 'POST',
-	    contentType: "application/json",
-	    dataType: "json",
-	    data: JSON.stringify(json), 
-	    success:function(data, Textstatus, jqXHR){
-	        window.location.href = base+"/home";
-	    },
-	    error:function(jqXhr, Textstatus){
-	    }
-	});    	
-    return true;
-});
-
-$('#next').click(function (e) {
-	e.preventDefault(); // <------------------ stop default behaviour of button
-
-	if ($('#next').val()=="Submit"){		
+	<script>
+	$("#entry-form").validate({ 
+		rules: { 
+			prospectname: "required",
+			mobile: "required"
+		}
+	});
+	
+	$('#done').click(function (e) {
+		if(!$('#entry-form').valid()) return;
+	
 		var base = $('#base').val();
-    	if (window.location.protocol === 'https:') {
-    	    base = base.replace("http", "https");
-    	}	    	
-
-    	var userid = $('#userid').val(); 
+	   	if (window.location.protocol === 'https:') {
+	   	    base = base.replace("http", "https");
+	   	}	    	
+	
+	   	var userid = $('#userid').val(); 
 	    var prospectname = $('#prospectname').val(); 
 	    var mobile = $('#mobile').val(); 
 	    var brandname = $('#brandname').val(); 
@@ -198,8 +158,59 @@ $('#next').click(function (e) {
 		    }
 		});    	
 	    return true;
-	}
-});
-</script>
+	});
+	
+	$('#next').click(function (e) {
+		e.preventDefault(); // <------------------ stop default behaviour of button
+	
+		if ($('#next').val()=="Submit"){
+			if(!$('#entry-form').valid()) return;
+			
+			var base = $('#base').val();
+	    	if (window.location.protocol === 'https:') {
+	    	    base = base.replace("http", "https");
+	    	}	    	
+	
+	    	var userid = $('#userid').val(); 
+		    var prospectname = $('#prospectname').val(); 
+		    var mobile = $('#mobile').val(); 
+		    var brandname = $('#brandname').val(); 
+		    var modelname = $('#modelname').val(); 
+		    var demo = $('#demo').prop('checked');
+		    var testdrive = $('#testdrive').prop('checked');
+		    var quotation = $('#quotation').prop('checked');
+		    var tradein = $('#tradein').prop('checked');
+		    var currentbrand = $('#currentbrand').val(); 
+		    var currentmodel = $('#currentmodel').val(); 
+		
+		    var json = {
+		    		"userid" : userid,
+		    		"prospectname" : prospectname,
+			   		"mobile" : mobile,
+		    		"brandname" : brandname,
+		    		"modelname" : modelname,
+		    		"demo" : demo,
+		    		"testdrive" : testdrive,
+		    		"quotation" : quotation,
+		    		"tradein" : tradein,
+		    		"currentbrand" : currentbrand,
+		    		"currentmodel" : currentmodel
+			};
+			$.ajax({
+			    url: base+"/questionaire",
+			    type: 'POST',
+			    contentType: "application/json",
+			    dataType: "json",
+			    data: JSON.stringify(json), 
+			    success:function(data, Textstatus, jqXHR){
+			        window.location.href = base+"/home";
+			    },
+			    error:function(jqXhr, Textstatus){
+			    }
+			});    	
+		    return true;
+		}
+	});
+	</script>
 </body>
 </html>

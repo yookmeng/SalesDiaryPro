@@ -141,6 +141,7 @@ public class QuotationController {
     public ModelAndView addQuotation(HttpServletRequest request) {
         int activityid = Integer.parseInt(request.getParameter("activityid"));
         Activity activity = activityDAO.get(activityid);
+        Prospect prospect = prospectDAO.get(activity.getprospectid());
         Model model = modelDAO.get(activity.getmodelid());
         UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
         Quotation newQuotation = new Quotation();
@@ -152,10 +153,10 @@ public class QuotationController {
         newQuotation.setretailprice(model.getprice());
         newQuotation.setsuminsured(model.getsuminsured());
         newQuotation.setpremium(model.getpremium());
-        System.out.println("OK");
         ModelAndView mav = new ModelAndView("quotationForm");
         List<String> ncds = codeMasterDAO.getCode("NCD");	
         mav.addObject("role", userLogin.getrole());
+        mav.addObject("prospect", prospect);
         mav.addObject("activity", activity);
         mav.addObject("ncdlist", ncds);
         mav.addObject("quotation", newQuotation);
@@ -167,10 +168,12 @@ public class QuotationController {
         int quotationid = Integer.parseInt(request.getParameter("quotationid"));       	
         Quotation editQuotation = quotationDAO.get(quotationid);
         Activity activity = activityDAO.get(editQuotation.getactivityid());
+        Prospect prospect = prospectDAO.get(activity.getprospectid());
         UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
         ModelAndView mav = new ModelAndView("quotationForm");
         List<String> ncds = codeMasterDAO.getCode("NCD");	
  	   	mav.addObject("role", userLogin.getrole());
+        mav.addObject("prospect", prospect);
         mav.addObject("activity", activity);
         mav.addObject("ncdlist", ncds);
         mav.addObject("quotation", editQuotation);

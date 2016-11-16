@@ -46,7 +46,7 @@
 			<div class="span12">
 				<div class="box">
 					<div class="box-content">
-				        <form:form id="activity-form" action="" method="post" modelAttribute="activity" class='form-horizontal form-wizard'>
+				        <form:form id="entry-form" action="" method="post" modelAttribute="activity" class='form-horizontal form-wizard'>
 			            <form:hidden path="prospectid"/>        
 			            <form:hidden path="activityid"/>
 					    <div class="step" id="firstStep">
@@ -161,28 +161,28 @@
 	<script>
 	$(function(){
 		if ($("#step").val()==2){
-			$("#activity-form").formwizard('show', 'secondStep');
+			$("#entry-form").formwizard('show', 'secondStep');
 			return false;
 		}; 
 		if ($("#step").val()==3){
-			$("#activity-form").formwizard('show', 'thirdStep');
+			$("#entry-form").formwizard('show', 'thirdStep');
 			return false;
 		}; 
 		if ($("#step").val()==5){
-			$("#activity-form").formwizard('show', 'fifthStep');
+			$("#entry-form").formwizard('show', 'fifthStep');
 			return false;
 		}; 
 		if ($("#step").val()==6){
-			$("#activity-form").formwizard('show', 'sixthStep');
+			$("#entry-form").formwizard('show', 'sixthStep');
 			return false;
 		}; 
 		if ($("#step").val()==7){
-			$("#activity-form").formwizard('show', 'seventhStep');
+			$("#entry-form").formwizard('show', 'seventhStep');
 			return false;
 		}; 
 	});
 	
-	$("#activity-form").validate({ 
+	$("#entry-form").validate({ 
 		rules: { 
 			activitydate: "required",
 			brandname: "required",
@@ -201,7 +201,7 @@
 	});
 
 	$('#done').click(function (e) {
-		if(!$('#activity-form').valid()) return;
+		if(!$('#entry-form').valid()) return;
 
 		var base = $('#base').val();
     	if (window.location.protocol === 'https:') {
@@ -288,7 +288,7 @@
 		e.preventDefault(); // <------------------ stop default behaviour of button
 		
 		if ($('#next').val()=="Submit"){		
-			if(!$('#activity-form').valid()) return;
+			if(!$('#entry-form').valid()) return;
 
 			var base = $('#base').val();
 	    	if (window.location.protocol === 'https:') {

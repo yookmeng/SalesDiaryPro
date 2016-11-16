@@ -118,14 +118,15 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "(workaddress).state as wstate, (workaddress).city AS wcity, "
         		+ "(workaddress).street AS wstreet, wtelno, "
         		+ "occupation, age, gender, income, email, status "
-        		+ "FROM tblProspect WHERE userid = " + userid;
+        		+ "FROM tblProspect WHERE userid = " + userid + " "
+				+ "ORDER BY firstname, lastname";
         ProspectMapper mapper = new ProspectMapper();
         List<Prospect> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
     }
     
     public List<Prospect> listByTeam(int teamid) {
-        String sql = "SELECT prospectid, firstname, lastname, userid, source, "
+        String sql = "SELECT prospectid, firstname, lastname, p.userid, source, "
         		+ "(homeaddress).country AS hcountry, (homeaddress).zipcode AS hzipcode, "
         		+ "(homeaddress).state as hstate, (homeaddress).city AS hcity, "
         		+ "(homeaddress).street AS hstreet, mobile, htelno, contactid, "
@@ -133,15 +134,17 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "(workaddress).state as wstate, (workaddress).city AS wcity, "
         		+ "(workaddress).street AS wstreet, wtelno, "
         		+ "occupation, age, gender, income, email, status "
-        		+ "FROM tblProspect WHERE userid IN ("
-        		+ "SELECT userid FROM tblUserProfile WHERE teamid = " + teamid + ")";
+        		+ "FROM tblProspect p"
+        		+ "LEFT JOIN tblUserProfile up ON up.userid = p.userid "
+        		+ "WHERE up.teamid = " + teamid + " "
+				+ "ORDER BY firstname, lastname";
         ProspectMapper mapper = new ProspectMapper();
         List<Prospect> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
     }
 
     public List<Prospect> listByBranch(int branchid) {
-        String sql = "SELECT prospectid, firstname, lastname, userid, source, "
+        String sql = "SELECT prospectid, firstname, lastname, p.userid, source, "
         		+ "(homeaddress).country AS hcountry, (homeaddress).zipcode AS hzipcode, "
         		+ "(homeaddress).state as hstate, (homeaddress).city AS hcity, "
         		+ "(homeaddress).street AS hstreet, mobile, htelno, contactid, "
@@ -149,16 +152,18 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "(workaddress).state as wstate, (workaddress).city AS wcity, "
         		+ "(workaddress).street AS wstreet, wtelno, "
         		+ "occupation, age, gender, income, email, status "
-        		+ "FROM tblProspect WHERE userid IN ("
-        		+ "SELECT userid FROM tblUserProfile WHERE teamid IN ("
-        		+ "SELECT teamid FROM tblTeam WHERE branchid = " + branchid + ")";
+        		+ "FROM tblProspect "
+        		+ "LEFT JOIN tblUserProfile up ON up.userid = p.userid "
+        		+ "LEFT JOIN tblTeam t ON t.teamid = up.teamid "
+        		+ "WHERE t.branchid = " + branchid + " "
+        		+ "ORDER BY firstname, lastname";
         ProspectMapper mapper = new ProspectMapper();
         List<Prospect> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
     }
 
     public List<Prospect> listByCompany(int companyid) {
-        String sql = "SELECT prospectid, firstname, lastname, userid, source, "
+        String sql = "SELECT prospectid, firstname, lastname, p.userid, source, "
         		+ "(homeaddress).country AS hcountry, (homeaddress).zipcode AS hzipcode, "
         		+ "(homeaddress).state as hstate, (homeaddress).city AS hcity, "
         		+ "(homeaddress).street AS hstreet, mobile, htelno, contactid, "
@@ -166,80 +171,12 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "(workaddress).state as wstate, (workaddress).city AS wcity, "
         		+ "(workaddress).street AS wstreet, wtelno, "
         		+ "occupation, age, gender, income, email, status "
-        		+ "FROM tblProspect WHERE userid IN ("
-        		+ "SELECT userid FROM tblUserProfile WHERE teamid IN ("
-        		+ "SELECT teamid FROM tblTeam WHERE branchid IN ("
-        		+ "SELECT branchid FROM tblBranch WHERE companyid = " + companyid + ")";
-        ProspectMapper mapper = new ProspectMapper();
-        List<Prospect> list = this.getJdbcTemplate().query(sql, mapper);
-        return list;
-    }
-
-    public List<Prospect> listfilter(int userid, String status) {
-        String sql = "SELECT prospectid, firstname, lastname, userid, source, "
-        		+ "(homeaddress).country AS hcountry, (homeaddress).zipcode AS hzipcode, "
-        		+ "(homeaddress).state as hstate, (homeaddress).city AS hcity, "
-        		+ "(homeaddress).street AS hstreet, mobile, htelno, contactid, "
-        		+ "(workaddress).country AS wcountry, (workaddress).zipcode AS wzipcode, "
-        		+ "(workaddress).state as wstate, (workaddress).city AS wcity, "
-        		+ "(workaddress).street AS wstreet, wtelno, "
-        		+ "occupation, age, gender, income, email, status "
-        		+ "FROM tblProspect WHERE userid = " + userid + " "
-        		+ "AND status = '" + status + "'";
-        ProspectMapper mapper = new ProspectMapper();
-        List<Prospect> list = this.getJdbcTemplate().query(sql, mapper);
-        return list;
-    }
-
-    public List<Prospect> listByTeamfilter(int teamid, String status) {
-        String sql = "SELECT prospectid, firstname, lastname, userid, source, "
-        		+ "(homeaddress).country AS hcountry, (homeaddress).zipcode AS hzipcode, "
-        		+ "(homeaddress).state as hstate, (homeaddress).city AS hcity, "
-        		+ "(homeaddress).street AS hstreet, mobile, htelno, contactid, "
-        		+ "(workaddress).country AS wcountry, (workaddress).zipcode AS wzipcode, "
-        		+ "(workaddress).state as wstate, (workaddress).city AS wcity, "
-        		+ "(workaddress).street AS wstreet, wtelno, "
-        		+ "occupation, age, gender, income, email, status "
-        		+ "FROM tblProspect WHERE userid IN ("
-        		+ "SELECT userid FROM tblUserProfile WHERE teamid = " + teamid + ") "
-        		+ "AND status = '" + status + "'";
-        ProspectMapper mapper = new ProspectMapper();
-        List<Prospect> list = this.getJdbcTemplate().query(sql, mapper);
-        return list;
-    }
-
-    public List<Prospect> listByBranchfilter(int branchid, String status) {
-        String sql = "SELECT prospectid, firstname, lastname, userid, source, "
-        		+ "(homeaddress).country AS hcountry, (homeaddress).zipcode AS hzipcode, "
-        		+ "(homeaddress).state as hstate, (homeaddress).city AS hcity, "
-        		+ "(homeaddress).street AS hstreet, mobile, htelno, contactid, "
-        		+ "(workaddress).country AS wcountry, (workaddress).zipcode AS wzipcode, "
-        		+ "(workaddress).state as wstate, (workaddress).city AS wcity, "
-        		+ "(workaddress).street AS wstreet, wtelno, "
-        		+ "occupation, age, gender, income, email, status "
-        		+ "FROM tblProspect WHERE userid IN ("
-        		+ "SELECT userid FROM tblUserProfile WHERE teamid IN ("
-        		+ "SELECT teamid FROM tblTeam WHERE branchid = " + branchid + ") "
-        		+ "AND status = '" + status + "'";
-        ProspectMapper mapper = new ProspectMapper();
-        List<Prospect> list = this.getJdbcTemplate().query(sql, mapper);
-        return list;
-    }
-
-    public List<Prospect> listByCompanyfilter(int companyid, String status) {
-        String sql = "SELECT prospectid, firstname, lastname, userid, source, "
-        		+ "(homeaddress).country AS hcountry, (homeaddress).zipcode AS hzipcode, "
-        		+ "(homeaddress).state as hstate, (homeaddress).city AS hcity, "
-        		+ "(homeaddress).street AS hstreet, mobile, htelno, contactid, "
-        		+ "(workaddress).country AS wcountry, (workaddress).zipcode AS wzipcode, "
-        		+ "(workaddress).state as wstate, (workaddress).city AS wcity, "
-        		+ "(workaddress).street AS wstreet, wtelno, "
-        		+ "occupation, age, gender, income, email, status "
-        		+ "FROM tblProspect WHERE userid IN ("
-        		+ "SELECT userid FROM tblUserProfile WHERE teamid IN ("
-        		+ "SELECT teamid FROM tblTeam WHERE branchid IN ("
-        		+ "SELECT branchid FROM tblBranch WHERE companyid = " + companyid + ") "
-        		+ "AND status = '" + status + "'";
+        		+ "FROM tblProspect "
+        		+ "LEFT JOIN tblUserProfile up ON up.userid = p.userid "
+        		+ "LEFT JOIN tblTeam t ON t.teamid = up.teamid "
+        		+ "LEFT JOIN tblBranch b ON b.branchid = t.branchid "
+        		+ "WHERE b.companyid = " + companyid + " "
+        		+ "ORDER BY firstname, lastname";
         ProspectMapper mapper = new ProspectMapper();
         List<Prospect> list = this.getJdbcTemplate().query(sql, mapper);
         return list;

@@ -24,13 +24,5 @@ public interface ProspectDAO {
 
     public List<Prospect> listByCompany(int companyid);
 
-    public List<Prospect> listfilter(int userid, String status);
-
-    public List<Prospect> listByTeamfilter(int teamid, String status);
-
-    public List<Prospect> listByBranchfilter(int branchid, String status);
-
-    public List<Prospect> listByCompanyfilter(int companyid, String status);
-
     public List<String> prospectList();
 }

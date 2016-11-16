@@ -1,32 +1,23 @@
 package com.SpringMVC.model;
 
-public class Event {
+public class Calendar {
     private int id;
-    private int userid;    
-    private String period;
     private String title;
-    private String remark;    
     private String start;
     private String end;
     private String url;    
     private boolean allDay;
-    private int activityid;        
     
-    public Event() {
+    public Calendar() {
     }
  
-    public Event(int id, int userid, String period, String title, String remark, 
-    		String start, String end, String url, boolean allDay, int activityid) {
+    public Calendar(int id, String title, String start, String end, String url, boolean allDay) {
         this.id = id;
-        this.userid = userid;
-        this.period = period;
         this.title = title;
-        this.remark = remark;
         this.start= start;
         this.end = end;
         this.url = url;
         this.allDay = allDay;
-        this.activityid = activityid;
     }
  
     public int getid() {
@@ -36,32 +27,11 @@ public class Event {
         this.id = id;
     }
 
-    public int getuserid() {
-        return userid;
-    }  
-    public void setuserid(int userid) {
-        this.userid = userid;
-    }
-
-    public String getperiod() {
-        return period;
-    }  
-    public void setperiod(String period) {
-        this.period = period;
-    }
-
     public String gettitle() {
         return title;
     }  
     public void settitle(String title) {
         this.title = title;
-    }
-
-    public String getremark() {
-        return remark;
-    }  
-    public void setremark(String remark) {
-        this.remark = remark;
     }
 
     public String getstart() {
@@ -90,11 +60,5 @@ public class Event {
     }  
     public void setallDay(boolean allDay) {
         this.allDay = allDay;
-    }
-    public int getactivityid() {
-        return activityid;
-    }  
-    public void setactivityid(int activityid) {
-        this.activityid = activityid;
     }
 }

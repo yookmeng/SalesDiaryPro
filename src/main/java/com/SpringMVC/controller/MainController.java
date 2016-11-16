@@ -19,9 +19,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.SpringMVC.model.Branch;
 import com.SpringMVC.model.Team;
+import com.SpringMVC.model.TeamTarget;
 import com.SpringMVC.model.UserLogin;
 import com.SpringMVC.dao.BranchDAO;
 import com.SpringMVC.dao.TeamDAO;
+import com.SpringMVC.dao.TeamTargetDAO;
 import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.model.UserMonthlySummary;
 import com.SpringMVC.dao.UserMonthlySummaryDAO;
@@ -36,6 +38,9 @@ public class MainController {
 
     @Autowired
     private TeamDAO teamDAO;
+
+    @Autowired
+    private TeamTargetDAO teamTargetDAO;
 
     @Autowired
     private UserMonthlySummaryDAO userMonthlySummaryDAO;
@@ -59,19 +64,22 @@ public class MainController {
 	public String home(Model model, Principal principal) throws ParseException {
 	   model.addAttribute("username", principal.getName());
 	   UserLogin userLogin = userLoginDAO.findUserLogin(principal.getName());
+       int currentyear = Calendar.getInstance().get(Calendar.YEAR);
+       int currentmonth = Calendar.getInstance().get(Calendar.MONTH)+1;
+	   String period = String.valueOf(currentyear)+"/"+String.valueOf(currentmonth);
 	   model.addAttribute("role", userLogin.getrole());
 	   Roles role = Roles.valueOf(userLogin.getrole()); 
        switch (role){
        case USER:
-           int currentyear = Calendar.getInstance().get(Calendar.YEAR);
-           int currentmonth = Calendar.getInstance().get(Calendar.MONTH)+1;
-    	   String period = String.valueOf(currentyear)+"/"+String.valueOf(currentmonth);
-    	   UserMonthlySummary userMonthlySummary = userMonthlySummaryDAO.get(period, userLogin.getuserid());
+    	   UserMonthlySummary userMonthlySummary = userMonthlySummaryDAO.get(period, userLogin.getuserid(), userLogin.getrole());
     	   model.addAttribute("userMonthlySummary", userMonthlySummary);    	   
     	   return "userDashBoard";    	   
        case TL:
+    	   List<UserMonthlySummary> listUserMonthlySummary = userMonthlySummaryDAO.list(period, userLogin.getuserid(), userLogin.getrole());
     	   Team team = teamDAO.getByUser(userLogin.getuserid());
-    	   model.addAttribute("team", team);    	   
+    	   TeamTarget teamTarget = teamTargetDAO.getByPeriod(period, team.getteamid());
+    	   model.addAttribute("listUserMonthlySummary", listUserMonthlySummary);    	   
+    	   model.addAttribute("teamTarget", teamTarget);    	   
            return "tlDashBoard";    	   
        case MA:
     	   Branch branch = branchDAO.getByMA(userLogin.getuserid());
@@ -86,10 +94,13 @@ public class MainController {
        }
    }
 
-   @RequestMapping(value = "/calendar", method = RequestMethod.GET)
-   public String calendar(Model model, Principal principal) {
-       return "calendar";
-   }
+   @RequestMapping(value = "/calendar")
+	public ModelAndView calendar(ModelAndView model, Principal principal) throws IOException{
+	   UserLogin userLogin = userLoginDAO.get(principal.getName());
+	   model.addObject("userid", userLogin.getuserid());
+	   model.setViewName("calendar");	 	    
+	   return model;
+	}
  
 	@RequestMapping(value="/listUser")
 	public ModelAndView listUser(ModelAndView model, Principal principal) throws IOException{

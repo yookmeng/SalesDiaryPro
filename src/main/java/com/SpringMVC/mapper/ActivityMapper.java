@@ -13,6 +13,7 @@ public class ActivityMapper implements RowMapper<Activity> {
     public Activity mapRow(ResultSet rs, int rowNum) throws SQLException { 
         int activityid = rs.getInt("activityid");
         int prospectid = rs.getInt("prospectid");        
+        String prospectname = rs.getString("prospectname");        
         Date activitydate = rs.getDate("activitydate");
         int brandid = rs.getInt("brandid");
         String brandname = rs.getString("brandname");
@@ -32,7 +33,7 @@ public class ActivityMapper implements RowMapper<Activity> {
         int closedid = rs.getInt("closedid");
         String lostremark = rs.getString("lostremark");
         
-        return new Activity(activityid, prospectid, activitydate, 
+        return new Activity(activityid, prospectid, prospectname, activitydate, 
         		brandid, brandname, modelid, modelname,
         		demo, testdrive, quotation, followup, closed, lost, 
         		demostatus, testdrivestatus, followupremark, followupstatus,        		
