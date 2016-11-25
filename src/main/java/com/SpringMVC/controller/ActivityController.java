@@ -211,7 +211,6 @@ public class ActivityController {
     @RequestMapping(value = "/editActivity", method = RequestMethod.GET)
     public ModelAndView editActivity(HttpServletRequest request) {
         int activityid = Integer.parseInt(request.getParameter("activityid")); 
-        int step = Integer.parseInt(request.getParameter("step")); 
         Activity editActivity = activityDAO.get(activityid);
         Prospect prospect = prospectDAO.get(editActivity.getprospectid());
         UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
@@ -221,7 +220,6 @@ public class ActivityController {
         Brand brand = brandDAO.getByName(brands.get(0));
         List<String> models = modelDAO.getSellingModels(brand.getbrandid());	
 		mav.addObject("role", userLogin.getrole());
-		mav.addObject("step", step);		
         mav.addObject("prospect", prospect);
         mav.addObject("modellist", models);
         mav.addObject("activity", editActivity);

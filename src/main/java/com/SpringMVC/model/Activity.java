@@ -22,6 +22,7 @@ public class Activity {
     private String followupremark;
     private Boolean followupstatus;
     private int quotationid;
+    private String quotationpdflink;
     private int closedid;
     private String lostremark;
     
@@ -34,7 +35,7 @@ public class Activity {
     		boolean followup, boolean closed, boolean lost, 
     		boolean demostatus, boolean testdrivestatus, 
     		String followupremark, boolean followupstatus,    		
-    		int quotationid, int closedid, String lostremark) {
+    		int quotationid, String quotationpdflink, int closedid, String lostremark) {
         this.activityid = activityid;
         this.prospectid = prospectid;
         this.prospectname = prospectname;
@@ -54,6 +55,7 @@ public class Activity {
         this.followupremark = followupremark;
         this.followupstatus = followupstatus;
         this.quotationid = quotationid;
+        this.quotationpdflink = quotationpdflink;
         this.closedid = closedid;
         this.lostremark = lostremark;
     }
@@ -189,6 +191,13 @@ public class Activity {
     }  
     public void setquotationid(int quotationid) {
         this.quotationid = quotationid;
+    }
+
+    public String getquotationpdflink() {
+        return quotationpdflink;
+    }  
+    public void setquotationpdflink(String quotationpdflink) {
+        this.quotationpdflink = quotationpdflink;
     }
 
     public int getclosedid() {

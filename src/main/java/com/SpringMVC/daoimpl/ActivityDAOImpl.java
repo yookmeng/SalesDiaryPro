@@ -117,7 +117,7 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
         		+ "b.brandname AS brandname, m.modelname AS modelname, "
         		+ "demo, testdrive, quotation, followup, closed, lost, "
         		+ "demostatus, testdrivestatus, followupremark, followupstatus, "
-        		+ "quotationid, closedid, lostremark "
+        		+ "quotationid, quotationpdflink, closedid, lostremark "
         		+ "FROM tblActivity a "
         		+ "LEFT JOIN tblProspect p ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
@@ -135,7 +135,7 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
         		+ "b.brandname AS brandname, m.modelname AS modelname, "
         		+ "demo, testdrive, quotation, followup, closed, lost, "
         		+ "demostatus, testdrivestatus, followupremark, followupstatus, "
-        		+ "quotationid, closedid, lostremark "
+        		+ "quotationid, quotationpdflink, closedid, lostremark "
         		+ "FROM tblActivity a "
         		+ "LEFT JOIN tblProspect p ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
@@ -157,7 +157,7 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
         		+ "b.brandname AS brandname, m.modelname AS modelname, "
         		+ "demo, testdrive, quotation, followup, closed, lost, "
         		+ "demostatus, testdrivestatus, followupremark, followupstatus, "
-        		+ "quotationid, closedid, lostremark "
+        		+ "quotationid, quotationpdflink, closedid, lostremark "
         		+ "FROM tblActivity a "
         		+ "LEFT JOIN tblProspect p ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblUserProfile up ON up.userid = p.userid "
@@ -180,7 +180,7 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
         		+ "b.brandname AS brandname, m.modelname AS modelname, "
         		+ "demo, testdrive, quotation, followup, closed, lost, "
         		+ "demostatus, testdrivestatus, followupremark, followupstatus, "
-        		+ "quotationid, closedid, lostremark "
+        		+ "quotationid, quotationpdflink, closedid, lostremark "
         		+ "FROM tblActivity a "
         		+ "LEFT JOIN tblProspect p ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblUserProfile up ON up.userid = p.userid "
@@ -204,7 +204,7 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
         		+ "b.brandname AS brandname, m.modelname AS modelname, "
         		+ "demo, testdrive, quotation, followup, closed, lost, "
         		+ "demostatus, testdrivestatus, followupremark, followupstatus, "
-        		+ "quotationid, closedid, lostremark "
+        		+ "quotationid, quotationpdflink, closedid, lostremark "
         		+ "FROM tblActivity a "
         		+ "LEFT JOIN tblProspect p ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblUserProfile up ON up.userid = p.userid "
@@ -229,7 +229,7 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
         		+ "b.brandname AS brandname, m.modelname AS modelname, "
         		+ "demo, testdrive, quotation, followup, closed, lost, "
         		+ "demostatus, testdrivestatus, followupremark, followupstatus, "
-        		+ "quotationid, closedid, lostremark "
+        		+ "quotationid, quotationpdflink, closedid, lostremark "
         		+ "FROM tblActivity a "
         		+ "LEFT JOIN tblProspect p ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
@@ -261,6 +261,7 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 	                activity.setfollowupremark(rs.getString("followupremark"));
 	                activity.setfollowupstatus(rs.getBoolean("followupstatus"));
 	                activity.setquotationid(rs.getInt("quotationid"));
+	                activity.setquotationpdflink(rs.getString("quotationpdflink"));
 	                activity.setclosedid(rs.getInt("closedid"));
 	                activity.setlostremark(rs.getString("lostremark"));
 	                return activity;
@@ -268,5 +269,11 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 	            return null;
 	        }
         });
+    }
+
+    public int getlastactivityid(int prospectid) {
+    	String sql = "SELECT MAX(activityid) FROM tblActivity WHERE prospectid = ?";
+        int activityid = (int)getJdbcTemplate().queryForObject(sql, new Object[] {prospectid}, int.class);
+        return activityid;
     }
 }

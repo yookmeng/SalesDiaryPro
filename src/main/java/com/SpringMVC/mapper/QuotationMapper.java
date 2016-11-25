@@ -20,10 +20,13 @@ public class QuotationMapper implements RowMapper<Quotation> {
         String brandname = rs.getString("brandname");
         int modelid = rs.getInt("modelid");
         String modelname = rs.getString("modelname");
+        String colour = rs.getString("colour");
         float retailprice = rs.getFloat("retailprice");
         float suminsured = rs.getFloat("suminsured");
         String ncd = rs.getString("ncd");
         float premium = rs.getFloat("premium");
+        float premiumafterncd = rs.getFloat("premiumafterncd");
+        float roadtax = rs.getFloat("roadtax");
         float registrationfee = rs.getFloat("registrationfee");
         float handlingcharges = rs.getFloat("handlingcharges");
         float extendedwarranty = rs.getFloat("extendedwarranty");
@@ -34,8 +37,8 @@ public class QuotationMapper implements RowMapper<Quotation> {
         String remark = rs.getString("remark");
 
         return new Quotation(quotationid, quotationdate, prospectid, prospectname,
-        		activityid, brandid, brandname, modelid, modelname,
-        		retailprice, suminsured, ncd, premium,
+        		activityid, brandid, brandname, modelid, modelname, colour,
+        		retailprice, suminsured, ncd, premium, premiumafterncd, roadtax,
         		registrationfee, handlingcharges, extendedwarranty,
         		othercharges, discount, quoteamount, term, remark);        
     }

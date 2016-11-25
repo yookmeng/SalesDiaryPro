@@ -22,5 +22,7 @@ public interface TeamTargetDAO {
 
     public List<TeamTarget> list(String period, int branchid);
 
+    public List<TeamTarget> listAll(String period, int companyid);
+
     public List<TeamTarget> listByTeam(int teamid);
 }

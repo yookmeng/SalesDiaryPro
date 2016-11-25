@@ -78,13 +78,18 @@ public class QuotationController {
 	}
 
     @RequestMapping(value = QuotationRestURIConstant.Create, method = RequestMethod.POST)
-    public ResponseEntity<Quotation> createQuotation(@RequestBody Quotation quotation) throws IOException {
+    public ResponseEntity<Quotation> createQuotation(@RequestBody Quotation quotation, 
+    		HttpServletRequest request) throws IOException {
     	quotationDAO.save(quotation);
+        int quotationid = quotationDAO.getlastquotationid(quotation.getprospectid());
+        Quotation newQuotation = quotationDAO.get(quotationid);
+    	quotationDAO.createpdf(newQuotation, request);
         return new ResponseEntity<Quotation>(quotation, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = QuotationRestURIConstant.Update, method = RequestMethod.POST)
-    public ResponseEntity<Quotation> updateQuotation(@PathVariable("quotationid") int quotationid, @RequestBody Quotation quotation) {
+    public ResponseEntity<Quotation> updateQuotation(@PathVariable("quotationid") int quotationid, 
+    		@RequestBody Quotation quotation, HttpServletRequest request) {
     	Quotation currentQuotation = quotationDAO.get(quotationid);
          
         if (currentQuotation==null) {
@@ -96,10 +101,12 @@ public class QuotationController {
     	currentQuotation.setactivityid(quotation.getactivityid());
         currentQuotation.setbrandid(quotation.getbrandid());
         currentQuotation.setmodelid(quotation.getmodelid());
+        currentQuotation.setcolour(quotation.getcolour());
         currentQuotation.setretailprice(quotation.getretailprice());
         currentQuotation.setsuminsured(quotation.getsuminsured());
         currentQuotation.setncd(quotation.getncd());
         currentQuotation.setpremium(quotation.getpremium());
+        currentQuotation.setroadtax(quotation.getroadtax());
         currentQuotation.setregistrationfee(quotation.getregistrationfee());
         currentQuotation.sethandlingcharges(quotation.gethandlingcharges());
         currentQuotation.setextendedwarranty(quotation.getextendedwarranty());
@@ -110,6 +117,7 @@ public class QuotationController {
         currentQuotation.setremark(quotation.getremark());
 
         quotationDAO.update(currentQuotation);
+    	quotationDAO.createpdf(currentQuotation, request);
         return new ResponseEntity<Quotation>(quotation, HttpStatus.OK);
     }
 
@@ -139,7 +147,8 @@ public class QuotationController {
  	   
     @RequestMapping(value = "/addQuotation", method = RequestMethod.GET)
     public ModelAndView addQuotation(HttpServletRequest request) {
-        int activityid = Integer.parseInt(request.getParameter("activityid"));
+        int prospectid = Integer.parseInt(request.getParameter("prospectid"));
+        int activityid = activityDAO.getlastactivityid(prospectid);
         Activity activity = activityDAO.get(activityid);
         Prospect prospect = prospectDAO.get(activity.getprospectid());
         Model model = modelDAO.get(activity.getmodelid());
@@ -153,6 +162,8 @@ public class QuotationController {
         newQuotation.setretailprice(model.getprice());
         newQuotation.setsuminsured(model.getsuminsured());
         newQuotation.setpremium(model.getpremium());
+        newQuotation.setroadtax(model.getroadtax());
+        newQuotation.setcolour(model.getcolour());
         ModelAndView mav = new ModelAndView("quotationForm");
         List<String> ncds = codeMasterDAO.getCode("NCD");	
         mav.addObject("role", userLogin.getrole());

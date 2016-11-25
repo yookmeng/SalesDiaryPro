@@ -160,7 +160,28 @@ public class TeamTargetDAOImpl extends JdbcDaoSupport implements TeamTargetDAO {
 	    		+ "FROM tblTeamTarget tt "
         		+ "LEFT JOIN tblTeam t ON t.teamid = tt.teamid "	    		
         		+ "WHERE tt.period = '" + period + "' "
-        		+ "AND t.branchid = " + branchid;
+        		+ "AND t.branchid = " + branchid + " "
+        		+ "ORDER BY t.teamname";
+        TeamTargetMapper mapper = new TeamTargetMapper();
+        List<TeamTarget> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }
+
+    public List<TeamTarget> listAll(String period, int companyid) {
+	    String sql = "SELECT tt.targetid AS targetid, "
+	    		+ "tt.teamid AS teamid, "
+	    		+ "t.teamname AS teamname, "
+	    		+ "tt.period AS period, "
+	    		+ "tt.branchtargetid AS branchtargetid, "
+	    		+ "tt.prospect AS prospect, "
+	    		+ "tt.testdrive AS testdrive, "
+	    		+ "tt.closed AS closed "
+	    		+ "FROM tblTeamTarget tt "
+        		+ "LEFT JOIN tblTeam t ON t.teamid = tt.teamid "	    		
+        		+ "LEFT JOIN tblBranch b ON b.branchid = t.branchid "	    		
+        		+ "WHERE tt.period = '" + period + "' "
+        		+ "AND b.companyid = " + companyid + " "
+        		+ "ORDER BY b.branchname, t.teamname";
         TeamTargetMapper mapper = new TeamTargetMapper();
         List<TeamTarget> list = this.getJdbcTemplate().query(sql, mapper);
         return list;

@@ -6,66 +6,76 @@
 	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
 	<!-- Bootstrap -->
-	<link rel="stylesheet" href="resources/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<!-- jQuery UI -->
-	<link rel="stylesheet" href="resources/css/plugins/jquery-ui/smoothness/jquery-ui.css">
-	<link rel="stylesheet" href="resources/css/plugins/jquery-ui/smoothness/jquery.ui.theme.css">
+	<link rel="stylesheet" href="css/plugins/jquery-ui/smoothness/jquery-ui.css">
+	<link rel="stylesheet" href="css/plugins/jquery-ui/smoothness/jquery.ui.theme.css">
+	<!-- dataTables -->
+	<link rel="stylesheet" href="css/plugins/datatable/TableTools.css">
 	<!-- Fullcalendar -->
-	<link rel="stylesheet" href="resources/css/plugins/fullcalendar/fullcalendar.css">
-	<link rel="stylesheet" href="resources/css/plugins/fullcalendar/fullcalendar.print.css" media="print">	
+	<link rel="stylesheet" href="css/plugins/fullcalendar/fullcalendar.css">
+	<link rel="stylesheet" href="css/plugins/fullcalendar/fullcalendar.print.css" media="print">	
 	<!-- Easy pie  -->
-	<link rel="stylesheet" href="resources/css/plugins/easy-pie-chart/jquery.easy-pie-chart.css">
+	<link rel="stylesheet" href="css/plugins/easy-pie-chart/jquery.easy-pie-chart.css">
 	<!-- chosen -->
-	<link rel="stylesheet" href="resources/css/plugins/chosen/chosen.css">
+	<link rel="stylesheet" href="css/plugins/chosen/chosen.css">
 	<!-- Theme CSS -->
-	<link rel="stylesheet" href="resources/css/style.css">
+	<link rel="stylesheet" href="css/style.css">
 	<!-- Color CSS -->
-	<link rel="stylesheet" href="resources/css/themes.css">
+	<link rel="stylesheet" href="css/themes.css">
 
 
 	<!-- jQuery -->
-	<script src="resources/js/jquery.min.js"></script>
+	<script src="js/jquery.min.js"></script>
 	<!-- Mobile nav swipe -->
-	<script src="resources/js/plugins/touchwipe/touchwipe.min.js"></script>
+	<script src="js/plugins/touchwipe/touchwipe.min.js"></script>
 	<!-- Nice Scroll -->
-	<script src="resources/js/plugins/nicescroll/jquery.nicescroll.min.js"></script>
+	<script src="js/plugins/nicescroll/jquery.nicescroll.min.js"></script>
 	<!-- imagesLoaded -->
-	<script src="resources/js/plugins/imagesLoaded/jquery.imagesloaded.min.js"></script>
+	<script src="js/plugins/imagesLoaded/jquery.imagesloaded.min.js"></script>
 	<!-- jQuery UI -->
-	<script src="resources/js/plugins/jquery-ui/jquery.ui.core.min.js"></script>
-	<script src="resources/js/plugins/jquery-ui/jquery.ui.widget.min.js"></script>
-	<script src="resources/js/plugins/jquery-ui/jquery.ui.mouse.min.js"></script>
-	<script src="resources/js/plugins/jquery-ui/jquery.ui.resizable.min.js"></script>
-	<script src="resources/js/plugins/jquery-ui/jquery.ui.sortable.min.js"></script>
+	<script src="js/plugins/jquery-ui/jquery.ui.core.min.js"></script>
+	<script src="js/plugins/jquery-ui/jquery.ui.widget.min.js"></script>
+	<script src="js/plugins/jquery-ui/jquery.ui.mouse.min.js"></script>
+	<script src="js/plugins/jquery-ui/jquery.ui.resizable.min.js"></script>
+	<script src="js/plugins/jquery-ui/jquery.ui.sortable.min.js"></script>
+	<script src="js/plugins/jquery-ui/jquery.ui.datepicker.min.js"></script>
 	<!-- slimScroll -->
-	<script src="resources/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+	<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 	<!-- Bootstrap -->
-	<script src="resources/js/bootstrap.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>	
+	<!-- dataTables -->
+	<script src="js/plugins/datatable/jquery.dataTables.min.js"></script>
+	<script src="js/plugins/datatable/TableTools.min.js"></script>
+	<script src="js/plugins/datatable/ColReorderWithResize.js"></script>
+	<script src="js/plugins/datatable/ColVis.min.js"></script>
+	<script src="js/plugins/datatable/jquery.dataTables.columnFilter.js"></script>
+	<script src="js/plugins/datatable/jquery.dataTables.grouping.js"></script>
 	<!-- Chosen -->
-	<script src="resources/js/plugins/chosen/chosen.jquery.min.js"></script>
+	<script src="js/plugins/chosen/chosen.jquery.min.js"></script>
 	<!-- Bootbox -->
-	<script src="resources/js/plugins/bootbox/jquery.bootbox.js"></script>
+	<script src="js/plugins/bootbox/jquery.bootbox.js"></script>
 	<!-- FullCalendar -->
-	<script src="resources/js/plugins/fullcalendar/fullcalendar.min.js"></script>
+	<script src="js/plugins/fullcalendar/fullcalendar.min.js"></script>
 	<!-- Bootbox -->
-	<script src="resources/js/plugins/form/jquery.form.min.js"></script>
+	<script src="js/plugins/form/jquery.form.min.js"></script>
 	<!-- Validation -->
-	<script src="resources/js/plugins/validation/jquery.validate.min.js"></script>
-	<script src="resources/js/plugins/validation/additional-methods.min.js"></script>
+	<script src="js/plugins/validation/jquery.validate.min.js"></script>
+	<script src="js/plugins/validation/additional-methods.min.js"></script>
 	<!-- Sparkline -->
-	<script src="resources/js/plugins/sparklines/jquery.sparklines.min.js"></script>
+	<script src="js/plugins/sparklines/jquery.sparklines.min.js"></script>
 	<!-- Easy pie -->
-	<script src="resources/js/plugins/easy-pie-chart/jquery.easy-pie-chart.min.js"></script>
+	<script src="js/plugins/easy-pie-chart/jquery.easy-pie-chart.min.js"></script>
 	<!-- Flot -->
-	<script src="resources/js/plugins/flot/jquery.flot.min.js"></script>
-	<script src="resources/js/plugins/flot/jquery.flot.resize.min.js"></script>
+	<script src="js/plugins/flot/jquery.flot.min.js"></script>
+	<script src="js/plugins/flot/jquery.flot.resize.min.js"></script>
 
-	<script src="resources/js/jquery.serializejson.min.js"></script>
+	<script src="js/jquery.serializejson.min.js"></script>
 
 
-	<script src="resources/js/eakroko.min.js"></script>
-	<script src="resources/js/application.min.js"></script>
+	<script src="js/eakroko.min.js"></script>
+	<script src="js/application.min.js"></script>
 	
-	<link rel="shortcut icon" href="resources/img/favicon.ico" />
-	<link rel="apple-touch-icon-precomposed" href="resources/img/apple-touch-icon-precomposed.png" />
+	<link rel="shortcut icon" href="img/favicon.ico" />
+	<link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-precomposed.png" />
 	

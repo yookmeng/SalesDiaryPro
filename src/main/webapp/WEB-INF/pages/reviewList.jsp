@@ -13,15 +13,17 @@
 		<jsp:include page="_mdNavigation.jsp" />
 	</c:if>
 	<c:if test="${role == 'MA'}">
-		<jsp:include page="_mdNavigation.jsp" />
+		<jsp:include page="_maNavigation.jsp" />
+	</c:if>
+	<c:if test="${role == 'TL'}">
+		<jsp:include page="_tlNavigation.jsp" />
 	</c:if>
 	<c:if test="${role == 'USER'}">
 		<jsp:include page="_userNavigation.jsp" />
 	</c:if>
 	<div id="main">
 		<div class="container-fluid">
-		   	<input type="hidden" value="${base}" name="base" id="base"/>	
-		    <input type="hidden" value="userProfile" name="userProfile" /> 
+		   	<input type="hidden" value="${base}" name="base" id="base"/>
 			<div class="breadcrumbs">
 				<ul>
 					<li>
@@ -29,67 +31,117 @@
 						<i class="fa fa-angle-right"></i>
 					</li>
 					<li>
-						<a href="listReview">Review</a>
+						<a href="listReview?userid=0">Notes</a>
 					</li>
 				</ul>
 			</div>
 		    <div align="center">
-				<c:if test="${role != 'USER'}">			    
-	        		<h5><a href="addReview">Add Review</a></h5>
-				</c:if>
-				<table class="table table-hover table-nomargin table-colored-header">
-	            <tr>
-	                <th>Review Date</th>
-	                <th>Member</th>
-	                <th>Prospect</th>
-	                <th>Test Drive</th>
-	                <th>Closed</th>
-	                <th>Minute</th>
-	                <th>Action</th>
-	            </tr>
-                <c:forEach var="review" items="${listReview}" varStatus="status">
-                <tr>
-                    <td>${review.reviewdate}</td>
-                    <td>${review.username}</td>
-                    <td><fmt:formatNumber value="${review.prospect}"/></td>
-                    <td><fmt:formatNumber value="${review.testdrive}"/></td>
-                    <td><fmt:formatNumber value="${review.closed}"/></td>
-                    <td>${review.minute}</td>
-                    <td>
-						<c:if test="${role != 'USER'}">
-							<button class="btn btn-small" onclick="window.location='editReview?reviewid=${review.reviewid}';" >
-						    	<i class="fa fa-edit"></i></button>
-							&nbsp;&nbsp;&nbsp;&nbsp;
-							<button class="btn btn-small" onclick="deleteReview(${review.reviewid})">
-								<i class="fa fa-trash-o"></i></button>
-                    	</c:if>
-                    </td>
-                </tr>
-                </c:forEach>             
-	            </table>
+				<div class="box box-color box-bordered">
+					<div class="box-title">
+						<h3>Notes</h3>
+					</div>
+					<div class="box-content nopadding">
+						<table class="table table-hover table-nomargin table-bordered usertable">
+							<thead>
+								<tr class="thefilter">
+									<th class="with-checkbox"></th>
+								    <th>Date</th>
+								    <th>Member</th>
+								    <th>Team</th>
+								    <th>Branch</th>
+								    <th>Minute</th>	
+								    <th>Action</th>	
+								</tr>
+								<tr>
+									<th class="with-checkbox">
+										<input type="checkbox" name="check_all" id="check_all">
+									</th>
+								    <th>Date</th>
+								    <th>Member</th>
+								    <th>Team</th>
+								    <th>Branch</th>
+								    <th>Minute</th>	
+								    <th>Action</th>	
+								</tr>						
+							</thead>
+			            	<tbody>
+				                <c:forEach var="review" items="${listReview}" varStatus="status">
+				                <tr>
+									<td class="with-checkbox">
+										<input type="checkbox" name="check" value="1">
+									</td>
+								    <td>${review.reviewdate}</td>
+				                    <td>${review.username}</td>
+				                    <td>${review.teamname}</td>
+				                    <td>${review.branchname}</td>
+				                    <td>${review.minute}</td>
+				                    <td>
+											<button class="btn btn-small" onclick="window.location='editReview?reviewid=${review.reviewid}';">
+										    	<i class="fa fa-edit"></i></button>
+										<c:if test="${role != 'USER'}">
+											<button class="btn btn-small" onclick="deleteReview(${review.reviewid})" >
+												<i class="fa fa-trash-o"></i></button>
+				                    	</c:if>
+				                    </td>
+				                </tr>
+				                </c:forEach>             
+			            	</tbody>
+			            </table>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 	<script>
-	    function deleteReview(reviewid) {
-			var base = $('#base').val();
-	    	if (window.location.protocol === 'https:') {
-	    	    base = base.replace("http", "https");
-	    	}	    	
+	$(document).ready(function() {
+		if ($(".usertable").length > 0) {
+			var l = {
+	            sPaginationType: "full_numbers",
+	            oLanguage: {
+	                sSearch: "<span>Search:</span> ",
+	                sInfo: "Showing <span>_START_</span> to <span>_END_</span> of <span>_TOTAL_</span> entries",
+	                sLengthMenu: "_MENU_ <span>entries per page</span>"
+	            },
+	            sDom: "lfrtip",
+	            aoColumnDefs: [{ bSortable: !1, aTargets: [0, 6]}]
+			};
+			
+			l.sDom = "T" + l.sDom;
+			l.oTableTools = { sSwfPath: "js/plugins/datatable/swf/copy_csv_xls_pdf.swf"};
+			
+	 		d = $(".usertable").dataTable(l);
+	        $(".usertable").css("width", "100%");	
+	        $(".dataTables_filter input").attr("placeholder", "Search here...");
+	        $(".dataTables_length select").wrap("<div class='input-mini'></div>").chosen({ disable_search_threshold: 9999999 }),
+	        $("#check_all").click(function (e) { $("input", d.fnGetNodes()).prop("checked", this.checked) });
+	        $.datepicker.setDefaults({dateFormat: "yy-mm-dd"});        
+	        d.columnFilter({
+	            sPlaceHolder: "head:after",
+	            sRangeFormat: "{from}{to}",
+	            aoColumns: [null, {type: "date-range" }, { type: "text" }, { type: "text" }, {type: "text" }, {type: "text" }, null]
+	        });
+		};
+	});
+	
+    function deleteReview(reviewid) {
+		var base = $('#base').val();
+    	if (window.location.protocol === 'https:') {
+    	    base = base.replace("http", "https");
+    	}	    	
 
-	    	jQuery.ajax({
-	            type: "DELETE",
-	            url: base+"/review/delete/"+reviewid,
-	            contentType: "application/json",
-	            data: "",
-	            dataType: "",
-	            success: function (data, status, jqXHR) {
-					location.replace(location);
-	            },	        
-	            error: function (jqXHR, status) {
-	            }
-	        });	
-	    }
+    	jQuery.ajax({
+            type: "DELETE",
+            url: base+"/review/delete/"+reviewid,
+            contentType: "application/json",
+            data: "",
+            dataType: "",
+            success: function (data, status, jqXHR) {
+				location.replace(location);
+            },	        
+            error: function (jqXHR, status) {
+            }
+        });	
+    }
 	</script>	
 </body>
 </html>

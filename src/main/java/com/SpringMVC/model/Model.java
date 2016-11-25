@@ -9,6 +9,8 @@ public class Model {
     private float price;
     private float suminsured;
     private float premium;
+    private float roadtax;    
+    private String colour;
     private String enginetype;
     private String fuelsupplysystem;
     private String displacement;
@@ -20,8 +22,8 @@ public class Model {
     }
  
     public Model(int modelid, String modelname, int brandid, boolean sellingmodel, 
-    		float commission, float price, float suminsured, float premium,
-    		String enginetype, String fuelsupplysystem, String displacement,
+    		float commission, float price, float suminsured, float premium, float roadtax,
+    		String colour, String enginetype, String fuelsupplysystem, String displacement,
     		String maxpower, String maxtorque, String transmission) {
         this.modelid = modelid;
         this.modelname = modelname;
@@ -31,6 +33,8 @@ public class Model {
         this.price = price;
         this.suminsured = suminsured;
         this.premium = premium;
+        this.roadtax = roadtax;
+        this.colour = colour;
         this.enginetype = enginetype;
         this.fuelsupplysystem = fuelsupplysystem;
         this.displacement = displacement;
@@ -93,6 +97,20 @@ public class Model {
     }  
     public void setpremium(float premium) {
         this.premium = premium;
+    }
+
+    public float getroadtax() {
+        return roadtax;
+    }  
+    public void setroadtax(float roadtax) {
+        this.roadtax = roadtax;
+    }
+
+    public String getcolour() {
+        return colour;
+    }  
+    public void setcolour(String colour) {
+        this.colour = colour;
     }
 
     public String getenginetype() {

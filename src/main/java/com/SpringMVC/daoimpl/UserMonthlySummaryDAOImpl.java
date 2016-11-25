@@ -50,7 +50,7 @@ public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMon
 			case USER:
 			    sql = "SELECT period, userid, username, ms.teamid, t.teamname, "
 			    		+ "ms.branchid, b.branchname, ms.companyid, c.companyname, "
-			    		+ "targetprospect, targettestdrive, targetclosed, "
+			    		+ "targetid, targetprospect, targettestdrive, targetclosed, "
 			    		+ "actualprospect, actualtestdrive, actualclosed, "
 			    		+ "percentprospect, percenttestdrive, percentclosed, "
 			    		+ "commission, totalhot, pendingactivity "
@@ -67,7 +67,7 @@ public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMon
 
 			    sql = "SELECT period, ms.userid, ms.username, ms.teamid, t.teamname, "
 			    		+ "ms.branchid, b.branchname, ms.companyid, c.companyname, "
-			    		+ "targetprospect, targettestdrive, targetclosed, "
+			    		+ "targetid, targetprospect, targettestdrive, targetclosed, "
 			    		+ "actualprospect, actualtestdrive, actualclosed, "
 			    		+ "percentprospect, percenttestdrive, percentclosed, "
 			    		+ "commission, totalhot, pendingactivity "
@@ -77,14 +77,15 @@ public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMon
 			    		+ "LEFT JOIN tblBranch b ON ms.branchid = b.branchid "
 			    		+ "LEFT JOIN tblCompany c ON ms.companyid = c.companyid "
 			    		+ "WHERE period = '" + period + "' "
-						+ "AND up.teamid = " + teamid;
+						+ "AND up.teamid = " + teamid + " "
+						+ "ORDER BY ms.username";
 				break;
 			case MA:
 		        sql = "Select branchid from tblBranch where maid = ? ";
 		        int branchid = (int)getJdbcTemplate().queryForObject(sql, new Object[] {userid}, int.class);         
 			    sql = "SELECT period, ms.userid, ms.username, ms.teamid, t.teamname, "
 			    		+ "ms.branchid, b.branchname, ms.companyid, c.companyname, "
-			    		+ "targetprospect, targettestdrive, targetclosed, "
+			    		+ "targetid, targetprospect, targettestdrive, targetclosed, "
 			    		+ "actualprospect, actualtestdrive, actualclosed, "
 			    		+ "percentprospect, percenttestdrive, percentclosed, "
 			    		+ "commission, totalhot, pendingactivity "
@@ -94,14 +95,15 @@ public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMon
 			    		+ "LEFT JOIN tblBranch b ON ms.branchid = b.branchid "
 			    		+ "LEFT JOIN tblCompany c ON ms.companyid = c.companyid "
 			    		+ "WHERE period = '" + period + "' "
-						+ "AND ms.branchid = " + branchid;
+						+ "AND ms.branchid = " + branchid + " "
+						+ "ORDER BY t.teamname, ms.username";
 				break;
 			case MD:
 		        sql = "Select companyid from tblCompany where mdid = ? ";
 		        int companyid = (int)getJdbcTemplate().queryForObject(sql, new Object[] {userid}, int.class);         
 			    sql = "SELECT period, ms.userid, ms.username, ms.teamid, t.teamname, "
 			    		+ "ms.branchid, b.branchname, ms.companyid, c.companyname, "
-			    		+ "targetprospect, targettestdrive, targetclosed, "
+			    		+ "targetid, targetprospect, targettestdrive, targetclosed, "
 			    		+ "actualprospect, actualtestdrive, actualclosed, "
 			    		+ "percentprospect, percenttestdrive, percentclosed, "
 			    		+ "commission, totalhot, pendingactivity "
@@ -111,7 +113,8 @@ public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMon
 			    		+ "LEFT JOIN tblBranch b ON ms.branchid = b.branchid "
 			    		+ "LEFT JOIN tblCompany c ON ms.companyid = c.companyid "
 			    		+ "WHERE period = '" + period + "' "
-						+ "AND ms.companyid = " + companyid;
+						+ "AND ms.companyid = " + companyid + " "
+						+ "ORDER BY b.branchname, t.teamname, ms.username";
 				break;
 			default:
 		}
@@ -132,6 +135,7 @@ public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMon
 	            	userMonthlySummary.setbranchname(rs.getString("branchname"));
 	            	userMonthlySummary.setcompanyid(rs.getInt("companyid"));
 	            	userMonthlySummary.setcompanyname(rs.getString("companyname"));
+	            	userMonthlySummary.settargetid(rs.getInt("targetid"));
 	            	userMonthlySummary.settargetprospect(rs.getInt("targetprospect"));
 	            	userMonthlySummary.settargettestdrive(rs.getInt("targettestdrive"));
 	            	userMonthlySummary.settargetclosed(rs.getInt("targetclosed"));
@@ -171,7 +175,7 @@ public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMon
 			case USER:
 			    sql = "SELECT period, userid, username, ms.teamid, t.teamname, "
 			    		+ "ms.branchid, b.branchname, ms.companyid, c.companyname, "
-			    		+ "targetprospect, targettestdrive, targetclosed, "
+			    		+ "targetid, targetprospect, targettestdrive, targetclosed, "
 			    		+ "actualprospect, actualtestdrive, actualclosed, "
 			    		+ "percentprospect, percenttestdrive, percentclosed, "
 			    		+ "commission, totalhot, pendingactivity "
@@ -188,7 +192,7 @@ public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMon
 
 			    sql = "SELECT period, ms.userid, ms.username, ms.teamid, t.teamname, "
 			    		+ "ms.branchid, b.branchname, ms.companyid, c.companyname, "
-			    		+ "targetprospect, targettestdrive, targetclosed, "
+			    		+ "targetid, targetprospect, targettestdrive, targetclosed, "
 			    		+ "actualprospect, actualtestdrive, actualclosed, "
 			    		+ "percentprospect, percenttestdrive, percentclosed, "
 			    		+ "commission, totalhot, pendingactivity "
@@ -198,14 +202,15 @@ public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMon
 			    		+ "LEFT JOIN tblBranch b ON ms.branchid = b.branchid "
 			    		+ "LEFT JOIN tblCompany c ON ms.companyid = c.companyid "
 			    		+ "WHERE period = '" + period + "' "
-						+ "AND up.teamid = " + teamid;
+						+ "AND up.teamid = " + teamid + " "
+						+ "ORDER BY ms.username";
 				break;
 			case MA:
 		        sql = "Select branchid from tblBranch where maid = ? ";
 		        int branchid = (int)getJdbcTemplate().queryForObject(sql, new Object[] {userid}, int.class);         
 			    sql = "SELECT period, ms.userid, ms.username, ms.teamid, t.teamname, "
 			    		+ "ms.branchid, b.branchname, ms.companyid, c.companyname, "
-			    		+ "targetprospect, targettestdrive, targetclosed, "
+			    		+ "targetid, targetprospect, targettestdrive, targetclosed, "
 			    		+ "actualprospect, actualtestdrive, actualclosed, "
 			    		+ "percentprospect, percenttestdrive, percentclosed, "
 			    		+ "commission, totalhot, pendingactivity "
@@ -215,14 +220,15 @@ public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMon
 			    		+ "LEFT JOIN tblBranch b ON ms.branchid = b.branchid "
 			    		+ "LEFT JOIN tblCompany c ON ms.companyid = c.companyid "
 			    		+ "WHERE period = '" + period + "' "
-						+ "AND ms.branchid = " + branchid;
+						+ "AND ms.branchid = " + branchid + " "
+						+ "ORDER BY t.teamname, ms.username";
 				break;
 			case MD:
 		        sql = "Select companyid from tblCompany where mdid = ? ";
 		        int companyid = (int)getJdbcTemplate().queryForObject(sql, new Object[] {userid}, int.class);         
 			    sql = "SELECT period, ms.userid, ms.username, ms.teamid, t.teamname, "
 			    		+ "ms.branchid, b.branchname, ms.companyid, c.companyname, "
-			    		+ "targetprospect, targettestdrive, targetclosed, "
+			    		+ "targetid, targetprospect, targettestdrive, targetclosed, "
 			    		+ "actualprospect, actualtestdrive, actualclosed, "
 			    		+ "percentprospect, percenttestdrive, percentclosed, "
 			    		+ "commission, totalhot, pendingactivity "
@@ -232,7 +238,8 @@ public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMon
 			    		+ "LEFT JOIN tblBranch b ON ms.branchid = b.branchid "
 			    		+ "LEFT JOIN tblCompany c ON ms.companyid = c.companyid "
 			    		+ "WHERE period = '" + period + "' "
-						+ "AND ms.companyid = " + companyid;
+						+ "AND ms.companyid = " + companyid + " "
+						+ "ORDER BY b.branchname, t.teamname, ms.username";
 				break;
 			default:
 		}    	

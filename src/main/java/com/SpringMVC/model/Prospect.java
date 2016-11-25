@@ -1,11 +1,16 @@
 package com.SpringMVC.model;
 
+import java.sql.Date;
+
 public class Prospect {
     private int prospectid;
     private String firstname;
     private String lastname;
     private int userid;
     private String source;
+    private Date datecreated;
+    private int modelid;
+    private String modelname;
     private Address homeaddress;
     private String mobile;
     private String htelno;
@@ -23,6 +28,7 @@ public class Prospect {
     }
  
     public Prospect(int prospectid, String firstname, String lastname, int userid, String source,  
+    		Date datecreated, int modelid, String modelname,
     		Address homeaddress, String mobile, String htelno, int contactid,
     		Address workaddress, String wtelno, 
     		String occupation, int age, String gender, String income, String email, String status) {
@@ -31,6 +37,9 @@ public class Prospect {
         this.lastname = lastname;
         this.userid = userid;
         this.source = source;
+        this.datecreated = datecreated;
+        this.modelid = modelid;
+        this.modelname = modelname;
         this.homeaddress = homeaddress;
         this.mobile = mobile;
         this.htelno = htelno;
@@ -78,6 +87,27 @@ public class Prospect {
     }
     public void setsource(String source) {
         this.source = source;
+    }
+
+    public Date getdatecreated() {
+        return datecreated;
+    }
+    public void setdatecreated(Date datecreated) {
+        this.datecreated = datecreated;
+    }
+
+    public int getmodelid() {
+        return modelid;
+    }
+    public void setmodelid(int modelid) {
+        this.modelid = modelid;
+    }
+
+    public String getmodelname() {
+        return modelname;
+    }
+    public void setmodelname(String modelname) {
+        this.modelname = modelname;
     }
 
     public Address gethomeaddress() {

@@ -16,8 +16,10 @@ public class ModelMapper implements RowMapper<Model> {
         boolean sellingmodel = rs.getBoolean("sellingmodel"); 
         float commission = rs.getFloat("commission");
         float price = rs.getFloat("price");
-        float suminsured = rs.getFloat("suminsured");        
+        float suminsured = rs.getFloat("suminsured");
         float premium = rs.getFloat("premium");        
+        float roadtax = rs.getFloat("roadtax");        
+        String colour = rs.getString("colour");
         String enginetype = rs.getString("enginetype");
         String fuelsupplysystem = rs.getString("fuelsupplysystem");
         String displacement = rs.getString("displacement");
@@ -25,8 +27,9 @@ public class ModelMapper implements RowMapper<Model> {
         String maxtorque = rs.getString("maxtorque");
         String transmission = rs.getString("transmission");
 
-        return new Model(modelid, modelname, brandid, sellingmodel, commission, price, suminsured,
-        		premium, enginetype, fuelsupplysystem, displacement, maxpower, maxtorque, transmission);
+        return new Model(modelid, modelname, brandid, sellingmodel, commission, price,
+        		suminsured, premium, roadtax, colour, enginetype, fuelsupplysystem, 
+        		displacement, maxpower, maxtorque, transmission);
         
     }
 }

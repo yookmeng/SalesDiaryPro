@@ -16,6 +16,8 @@ public interface ActivityDAO {
      
     public Activity get(int activityid);
      
+    public int getlastactivityid(int prospectid);
+
     public List<Activity> list(int prospectid);
     
     public List<Activity> listByUser(int userid);

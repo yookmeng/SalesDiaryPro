@@ -16,5 +16,7 @@ public interface CompanyTargetDAO {
      
     public CompanyTarget get(int targetid);
 
+    public CompanyTarget getByPeriod(String period, int companyid);
+
     public List<CompanyTarget> list(int companyid);
 }

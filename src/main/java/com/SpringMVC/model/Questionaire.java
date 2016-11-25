@@ -8,12 +8,7 @@ public class Questionaire {
     private String brandname;
     private int modelid;
     private String modelname;
-    private boolean demo;
-    private boolean testdrive;
-    private boolean quotation;
-    private boolean tradein;
-    private String currentbrand;
-    private String currentmodel;
+    private String source;
 
     public int getuserid() {
         return userid;
@@ -64,45 +59,10 @@ public class Questionaire {
         this.modelname = modelname;
     }
 
-    public boolean getdemo() {
-        return demo;
+    public String getsource() {
+        return source;
     }  
-    public void setdemo(boolean demo) {
-        this.demo = demo;
-    }
-
-    public boolean gettestdrive() {
-        return testdrive;
-    }  
-    public void settestdrive(boolean testdrive) {
-        this.testdrive = testdrive;
-    }
-
-    public boolean getquotation() {
-        return quotation;
-    }  
-    public void setquotation(boolean quotation) {
-        this.quotation = quotation;
-    }
-
-    public boolean gettradein() {
-        return tradein;
-    }  
-    public void settradein(boolean tradein) {
-        this.tradein = tradein;
-    }
-
-    public String getcurrentbrand() {
-        return currentbrand;
-    }  
-    public void setcurrentbrand(String currentbrand) {
-        this.currentbrand = currentbrand;
-    }
-
-    public String getcurrentmodel() {
-        return currentmodel;
-    }  
-    public void setcurrentmodel(String currentmodel) {
-        this.currentmodel = currentmodel;
+    public void setsource(String source) {
+        this.source = source;
     }
 }

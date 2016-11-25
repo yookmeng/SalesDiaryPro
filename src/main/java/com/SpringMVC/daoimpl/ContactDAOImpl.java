@@ -73,18 +73,6 @@ public class ContactDAOImpl extends JdbcDaoSupport implements ContactDAO {
         return list;
     }
 
-	public List<Contact> listfilter(int userid, String filter) {
-        String sql = "SELECT contactid, userid, firstname, lastname, "
-        		+ "mobile, home, work, email, birthday, (address).country AS country, "
-        		+ "(address).zipcode AS zipcode, (address).state AS state, (address).city AS city, "
-        		+ "(address).street AS street, company, title, note, website "
-        		+ "FROM tblContact WHERE userid = " + userid + " "
-        		+ "AND UPPER(firstname) like '" + filter + "%'";
-        ContactMapper mapper = new ContactMapper();
-        List<Contact> list = this.getJdbcTemplate().query(sql, mapper);
-        return list;
-    }
-
 	public Contact get(int contactid) {
         String sql = "SELECT contactid, userid, firstname, lastname, "
         		+ "mobile, home, work, email, birthday, (address).country AS country, "

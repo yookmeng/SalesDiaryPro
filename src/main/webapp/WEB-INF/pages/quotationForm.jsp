@@ -50,6 +50,7 @@
 		            <form:hidden path="activityid"/>
 		            <form:hidden path="brandid"/>
 		            <form:hidden path="modelid"/>
+		            <form:hidden path="colour"/>
 		            <form:hidden path="quotationdate"/>
 		            <form:hidden path="retailprice"/>
 		            <form:hidden path="registrationfee"/>
@@ -68,9 +69,21 @@
 						</div>
 					</div>
 					<div class="form-group">
-					<label for="ncd" class="control-label col-sm-2">NCD</label>
+						<label for="ncd" class="control-label col-sm-2">NCD</label>
 						<div class="col-sm-1">
 							<form:select type="text" path="ncd" name="ncd" id="ncd" items="${ncdlist}" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="premiumafterncd" class="control-label col-sm-2">Premium After NCD</label>
+						<div class="col-sm-1">
+							<form:input type="text" path="premiumafterncd" name="premiumafterncd" id="premiumafterncd" items="${ncdlist}" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="roadtax" class="control-label col-sm-2">Road Tax</label>
+						<div class="col-sm-1">
+							<form:input type="text" path="roadtax" name="roadtax" id="roadtax" class="form-control" />
 						</div>
 					</div>
 					<div class="form-group">
@@ -123,9 +136,11 @@
 		var premium = parseFloat($('#premium').val());
 		var ncd = parseFloat($('#ncd').val());	
 		var newpremium = premium - ((ncd /100) * premium);
+		$('#premiumafterncd').val(newpremium);		
 		var othercharges = parseFloat($('#othercharges').val());
+		var roadtax = parseFloat($('#roadtax').val());
 		var discount = parseFloat($('#discount').val());
-		var quote = Math.round((retailprice + newpremium + othercharges - discount)*100)/100;
+		var quote = Math.round((retailprice + newpremium + roadtax + othercharges - discount)*100)/100;
 		$('#quoteamount').val(quote);		
 	};
 	
@@ -145,11 +160,14 @@
     	var brandid = $('#brandid').val();
     	var brandname = "";    	
 	    var modelid = $('#modelid').val(); 
-    	var modelname = "";    	
+    	var modelname = "";    
+    	var colour = $('#colour').val();	
 	    var retailprice = $('#retailprice').val(); 	    
 	    var suminsured = $('#suminsured').val(); 
 	    var ncd = $('#ncd').val(); 
 		var premium = $('#premium').val();	
+		var premiumafterncd = $('#premiumafterncd').val();	
+		var roadtax = $('#roadtax').val();	
 		var registrationfee = $('#registrationfee').val();	
 		var handlingcharges = $('#handlingcharges').val();	
 		var extendedwarranty = $('#extendedwarranty').val();	
@@ -169,10 +187,13 @@
 	    		"brandname" : brandname,
 	    		"modelid" : modelid,	    		
 	    		"modelname" : modelname,
+	    		"colour" : colour,
 	    		"retailprice" : retailprice,
 	    		"suminsured" : suminsured,
 	    		"ncd" : ncd,
 	    		"premium" : premium,
+	    		"premiumafterncd" : premiumafterncd,
+	    		"roadtax" : roadtax,
 	    		"registrationfee" : registrationfee,
 	    		"handlingcharges" : handlingcharges,
 	    		"extendedwarranty" : extendedwarranty,

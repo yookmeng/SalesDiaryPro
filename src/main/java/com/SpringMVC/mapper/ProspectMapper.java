@@ -1,5 +1,6 @@
 package com.SpringMVC.mapper;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -16,6 +17,9 @@ public class ProspectMapper implements RowMapper<Prospect> {
         String lastname = rs.getString("lastname");
         int userid = rs.getInt("userid");
         String source = rs.getString("source");
+        Date datecreated = rs.getDate("datecreated");
+        int modelid = rs.getInt("modelid");
+        String modelname = rs.getString("modelname");
         Address homeaddress = new Address();
         homeaddress.setcountry(rs.getString("hcountry"));
         homeaddress.setzipcode(rs.getString("hzipcode"));
@@ -40,6 +44,7 @@ public class ProspectMapper implements RowMapper<Prospect> {
         String status = rs.getString("status");
         
         return new Prospect(prospectid, firstname, lastname, userid, source, 
+        		datecreated, modelid, modelname, 
         		homeaddress, mobile, htelno, contactid,
         		workaddress, wtelno, 
         		occupation, age, gender, income, email, status);

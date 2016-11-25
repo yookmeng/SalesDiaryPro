@@ -10,6 +10,7 @@ public class UserMonthlySummary {
     private String branchname;
     private int companyid;
     private String companyname;
+    private int targetid;
     private int targetprospect;
     private int targettestdrive;
     private int targetclosed;
@@ -28,7 +29,7 @@ public class UserMonthlySummary {
  
     public UserMonthlySummary(String period, int userid, String username, 
     		int teamid, String teamname, int branchid, String branchname, 
-    		int companyid, String companyname,
+    		int companyid, String companyname, int targetid,
     		int targetprospect, int targettestdrive, int targetclosed,
     		int actualprospect, int actualtestdrive, int actualclosed,
     		float percentprospect, float percenttestdrive, float percentclosed,
@@ -42,6 +43,7 @@ public class UserMonthlySummary {
         this.branchname = branchname;
         this.companyid = companyid;
         this.companyname = companyname;
+        this.targetid = targetid;
         this.targetprospect = targetprospect;
         this.targettestdrive = targettestdrive;
         this.targetclosed = targetclosed;
@@ -117,6 +119,13 @@ public class UserMonthlySummary {
     }  
     public void setcompanyname(String companyname) {
         this.companyname = companyname;
+    }
+
+    public int gettargetid() {
+        return targetid;
+    }  
+    public void settargetid(int targetid) {
+        this.targetid = targetid;
     }
 
     public int gettargetprospect() {

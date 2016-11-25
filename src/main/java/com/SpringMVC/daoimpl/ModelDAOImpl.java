@@ -41,26 +41,27 @@ public class ModelDAOImpl extends JdbcDaoSupport implements ModelDAO {
     public void save(Model model) {
         // insert
         String sql = "INSERT INTO tblModel ("
-        		+ "brandid, modelname, sellingmodel, commission, price, suminsured, premium, "
-        		+ "enginetype, fuelsupplysystem, displacement, maxpower, maxtorque, transmission) "
-        		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        		+ "brandid, modelname, sellingmodel, commission, price, suminsured, premium, roadtax, "
+        		+ "colour, enginetype, fuelsupplysystem, displacement, maxpower, maxtorque, transmission) "
+        		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         this.getJdbcTemplate().update(sql, 
         		model.getbrandid(), model.getmodelname(), model.getsellingmodel(),
         		model.getcommission(), model.getprice(), model.getsuminsured(), model.getpremium(),
-        		model.getenginetype(), model.getfuelsupplysystem(), model.getdisplacement(), 
-        		model.getmaxpower(), model.getmaxtorque(), model.gettransmission());
+        		model.getroadtax(), model.getcolour(), model.getenginetype(), model.getfuelsupplysystem(), 
+        		model.getdisplacement(), model.getmaxpower(), model.getmaxtorque(), model.gettransmission());
     }
     
     public void update(Model model) {
         // update
         String sql = "UPDATE tblModel SET modelname=?, sellingmodel=?, commission=?, price=?, "
-        		+ "suminsured=?, premium=?, enginetype=?, fuelsupplysystem=?, displacement=?, maxpower=?, "
-        		+ "maxtorque=?, transmission=? WHERE modelid=?";
+        		+ "suminsured=?, premium=?, roadtax=?, colour=?, enginetype=?, fuelsupplysystem=?, "
+        		+ "displacement=?, maxpower=?, maxtorque=?, transmission=? WHERE modelid=?";
         this.getJdbcTemplate().update(sql, 
         		model.getmodelname(), model.getsellingmodel(), model.getcommission(), 
-        		model.getprice(), model.getsuminsured(), model.getpremium(), model.getenginetype(), 
-        		model.getfuelsupplysystem(), model.getdisplacement(), model.getmaxpower(), 
-        		model.getmaxtorque(), model.gettransmission(), model.getmodelid());
+        		model.getprice(), model.getsuminsured(), model.getpremium(), model.getroadtax(), 
+        		model.getcolour(), model.getenginetype(), model.getfuelsupplysystem(), 
+        		model.getdisplacement(), model.getmaxpower(), model.getmaxtorque(), 
+        		model.gettransmission(), model.getmodelid());
     }
 
     public void delete(int modelid) {
@@ -92,6 +93,8 @@ public class ModelDAOImpl extends JdbcDaoSupport implements ModelDAO {
 	                model.setprice(rs.getFloat("price"));
 	                model.setsuminsured(rs.getFloat("suminsured"));
 	                model.setpremium(rs.getFloat("premium"));
+	                model.setroadtax(rs.getFloat("roadtax"));
+	                model.setcolour(rs.getString("colour"));
 	                model.setenginetype(rs.getString("enginetype"));
 	                model.setfuelsupplysystem(rs.getString("fuelsupplysystem"));
 	                model.setdisplacement(rs.getString("displacement"));
@@ -122,6 +125,8 @@ public class ModelDAOImpl extends JdbcDaoSupport implements ModelDAO {
 	                model.setprice(rs.getFloat("price"));
 	                model.setsuminsured(rs.getFloat("suminsured"));
 	                model.setpremium(rs.getFloat("premium"));
+	                model.setroadtax(rs.getFloat("roadtax"));
+	                model.setcolour(rs.getString("colour"));
 	                model.setenginetype(rs.getString("enginetype"));
 	                model.setfuelsupplysystem(rs.getString("fuelsupplysystem"));
 	                model.setdisplacement(rs.getString("displacement"));

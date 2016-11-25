@@ -18,10 +18,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.SpringMVC.model.Branch;
+import com.SpringMVC.model.BranchTarget;
+import com.SpringMVC.model.Company;
+import com.SpringMVC.model.CompanyTarget;
 import com.SpringMVC.model.Team;
 import com.SpringMVC.model.TeamTarget;
 import com.SpringMVC.model.UserLogin;
 import com.SpringMVC.dao.BranchDAO;
+import com.SpringMVC.dao.BranchTargetDAO;
+import com.SpringMVC.dao.CompanyDAO;
+import com.SpringMVC.dao.CompanyTargetDAO;
 import com.SpringMVC.dao.TeamDAO;
 import com.SpringMVC.dao.TeamTargetDAO;
 import com.SpringMVC.dao.UserLoginDAO;
@@ -34,7 +40,16 @@ public class MainController {
     private UserLoginDAO userLoginDAO;
 
     @Autowired
+    private CompanyDAO companyDAO;
+
+    @Autowired
+    private CompanyTargetDAO companyTargetDAO;
+
+    @Autowired
     private BranchDAO branchDAO;
+
+    @Autowired
+    private BranchTargetDAO branchTargetDAO;
 
     @Autowired
     private TeamDAO teamDAO;
@@ -66,7 +81,7 @@ public class MainController {
 	   UserLogin userLogin = userLoginDAO.findUserLogin(principal.getName());
        int currentyear = Calendar.getInstance().get(Calendar.YEAR);
        int currentmonth = Calendar.getInstance().get(Calendar.MONTH)+1;
-	   String period = String.valueOf(currentyear)+"/"+String.valueOf(currentmonth);
+	   String period = String.valueOf(currentyear)+"-"+String.valueOf(currentmonth);
 	   model.addAttribute("role", userLogin.getrole());
 	   Roles role = Roles.valueOf(userLogin.getrole()); 
        switch (role){
@@ -75,17 +90,28 @@ public class MainController {
     	   model.addAttribute("userMonthlySummary", userMonthlySummary);    	   
     	   return "userDashBoard";    	   
        case TL:
-    	   List<UserMonthlySummary> listUserMonthlySummary = userMonthlySummaryDAO.list(period, userLogin.getuserid(), userLogin.getrole());
     	   Team team = teamDAO.getByUser(userLogin.getuserid());
     	   TeamTarget teamTarget = teamTargetDAO.getByPeriod(period, team.getteamid());
-    	   model.addAttribute("listUserMonthlySummary", listUserMonthlySummary);    	   
+    	   model.addAttribute("listUserMonthlySummary", userMonthlySummaryDAO.list(period, userLogin.getuserid(), userLogin.getrole()));    	   
+    	   model.addAttribute("team", team);
     	   model.addAttribute("teamTarget", teamTarget);    	   
            return "tlDashBoard";    	   
        case MA:
     	   Branch branch = branchDAO.getByMA(userLogin.getuserid());
-    	   model.addAttribute("branch", branch);    	   
+    	   BranchTarget branchTarget = branchTargetDAO.getByPeriod(period, branch.getbranchid());
+    	   model.addAttribute("listUserMonthlySummary", userMonthlySummaryDAO.list(period, userLogin.getuserid(), userLogin.getrole()));    	   
+    	   model.addAttribute("branch", branch);
+    	   model.addAttribute("teamTarget", teamTargetDAO.list(period, branch.getbranchid()));
+    	   model.addAttribute("branchTarget", branchTarget);
            return "maDashBoard";    	   
        case MD:
+    	   Company company = companyDAO.get(userLogin.getcompanyid());
+    	   CompanyTarget companyTarget = companyTargetDAO.getByPeriod(period, company.getcompanyid());
+    	   model.addAttribute("listUserMonthlySummary", userMonthlySummaryDAO.list(period, userLogin.getuserid(), userLogin.getrole()));    	   
+    	   model.addAttribute("company", company);
+    	   model.addAttribute("teamTarget", teamTargetDAO.listAll(period, company.getcompanyid()));
+    	   model.addAttribute("branchTarget", branchTargetDAO.list(period, company.getcompanyid()));
+    	   model.addAttribute("companyTarget", companyTarget);
            return "mdDashBoard";    	   
        case SA:
            return "saDashBoard";    	   

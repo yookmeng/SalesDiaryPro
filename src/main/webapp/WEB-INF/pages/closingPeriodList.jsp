@@ -30,58 +30,29 @@
         <br>
         <div align="center">
 			<c:if test="${role == 'SA'}">
-				<h5><a href="addClosingPeriod">Add New</a></h5>
+   	    	<h5>
+   				<a href="addClosingPeriod" class='btn'>
+				<i class="fa fa-plus-circle"></i>New Closing</a></h5>
 			</c:if>
 			<div class="box-content nopadding">
-				<table class="table table-hover table-nomargin table-colored-header">
+				<table class="table table-hover table-nomargin table-bordered">
 				<tr>
 				    <th>Period</th>
 				    <th>Opening Date</th>
 				    <th>Closing Date</th>
 				    <th>Closed</th>
-				    <th>Action</th>
 				</tr>
 				<c:forEach var="closingPeriod" items="${listClosingPeriod}" varStatus="status">
 					<tr>
-					    <td>${closingPeriod.period}</td>
+					    <td><a href="editClosingPeriod?id=${closingPeriod.id}">${closingPeriod.period}</a></td>
 					    <td>${closingPeriod.opendate}</td>
 					    <td>${closingPeriod.closedate}</td>
 					    <td>${closingPeriod.closed}</td>
-						<td>
-							<button class="btn btn-small" onclick="window.location='editClosingPeriod?id=${closingPeriod.id}';" >
-						    	<i class="fa fa-edit"></i></button>
-							<c:if test="${role == 'SA'}">
-								&nbsp;&nbsp;&nbsp;&nbsp;
-								<button class="btn btn-small" onclick="deleteClosingPeriod(${closingPeriod.id})">
-									<i class="fa fa-trash-o"></i></button>
-							</c:if>
-					    </td>		                 
 					</tr>
 				</c:forEach>             
 				</table>
 			</div>
 		</div>
 	</div>
-	<script>
-	    function deleteClosingPeriod(id) {
-			var base = $('#base').val();
-	    	if (window.location.protocol === 'https:') {
-	    	    base = base.replace("http", "https");
-	    	}	    	
-
-	    	jQuery.ajax({
-	            type: "DELETE",
-	            url: base+"/closingperiod/delete/"+id,
-	            contentType: "application/json",
-	            data: "",
-	            dataType: "",
-	            success: function (data, status, jqXHR) {
-					location.replace(location);
-	            },	        
-	            error: function (jqXHR, status) {
-	            }
-	        });	
-	    }
-	</script>		
 </body>
 </html>

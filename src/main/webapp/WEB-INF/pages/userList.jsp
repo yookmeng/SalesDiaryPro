@@ -4,9 +4,6 @@
 <html>
 <jsp:include page="_menu.jsp" />
 <body>
-	<c:if test="${role == 'MA'}">
-		<jsp:include page="_maNavigation.jsp" />
-	</c:if>
 	<c:if test="${role == 'SA'}">
 		<jsp:include page="_saNavigation.jsp" />
 	</c:if>

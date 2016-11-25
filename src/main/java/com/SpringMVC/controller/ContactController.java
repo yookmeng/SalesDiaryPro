@@ -120,18 +120,6 @@ public class ContactController {
  	    return mav;
  	}
     
-    @RequestMapping(value="/listContact", method = RequestMethod.GET)
-    public ModelAndView listContact(HttpServletRequest request) {
-        String filter = request.getParameter("filter"); 
-        UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
- 	    ModelAndView mav = new ModelAndView("contactList");
-		UserProfile userProfile = userProfileDAO.get(userLogin.getusername());
-		List<Contact> listContact = contactDAO.listfilter(userLogin.getuserid(), filter);
-		mav.addObject("userProfile", userProfile);
-		mav.addObject("listContact", listContact);        	
- 	    return mav;
- 	}
-
     @RequestMapping(value = "/addContact", method = RequestMethod.GET)
     public ModelAndView addContact(HttpServletRequest request) {
     	UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());

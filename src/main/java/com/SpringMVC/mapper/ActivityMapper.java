@@ -30,6 +30,7 @@ public class ActivityMapper implements RowMapper<Activity> {
         String followupremark = rs.getString("followupremark");
         boolean followupstatus = rs.getBoolean("followupstatus");
         int quotationid = rs.getInt("quotationid");
+        String quotationpdflink = rs.getString("quotationpdflink");
         int closedid = rs.getInt("closedid");
         String lostremark = rs.getString("lostremark");
         
@@ -37,6 +38,6 @@ public class ActivityMapper implements RowMapper<Activity> {
         		brandid, brandname, modelid, modelname,
         		demo, testdrive, quotation, followup, closed, lost, 
         		demostatus, testdrivestatus, followupremark, followupstatus,        		
-        		quotationid, closedid, lostremark);
+        		quotationid, quotationpdflink, closedid, lostremark);
     }
 }

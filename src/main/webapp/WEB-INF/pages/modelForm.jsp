@@ -73,6 +73,18 @@
 						</div>
 					</div>
 					<div class="form-group">
+						<label for="roadtax" class="control-label col-sm-2">Road Tax</label>
+						<div class="col-sm-5">
+							<form:input type="text" path="roadtax" name="roadtax" id="roadtax" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="colour" class="control-label col-sm-2">Colour</label>
+						<div class="col-sm-5">
+							<form:input type="text" path="colour" name="colour" id="colour" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
 						<label for="enginetype" class="control-label col-sm-2">Engine Type</label>
 						<div class="col-sm-5">
 							<form:input type="text" path="enginetype" name="enginetype" id="enginetype" class="form-control" />
@@ -130,11 +142,13 @@
     	var brandid = $('#brandid').val(); 
 	    var modelid = $('#modelid').val(); 
 	    var modelname = $('#modelname').val(); 	    
+	    var colour = $('#colour').val(); 	    
 	    var sellingmodel = $('#sellingmodel').prop('checked');
 	    var commission = $('#commission').val(); 
 	    var price = $('#price').val(); 
 	    var suminsured = $('#suminsured').val(); 
 	    var premium = $('#premium').val(); 
+	    var roadtax = $('#roadtax').val(); 
 		var enginetype = $('#enginetype').val();	
 		var fuelsupplysystem = $('#fuelsupplysystem').val();	
 		var displacement = $('#displacement').val();	
@@ -151,6 +165,8 @@
 	    		"price" : price,
 	    		"suminsured" : suminsured,
 	    		"premium" : premium,
+	    		"roadtax" : roadtax,
+	    		"colour" : colour,
 	    		"enginetype" : enginetype,
 	    		"fuelsupplysystem" : fuelsupplysystem,
 	    		"displacement" : displacement,

@@ -77,6 +77,8 @@ public class ModelController {
         currentModel.setprice(model.getprice());
         currentModel.setsuminsured(model.getsuminsured());
         currentModel.setpremium(model.getpremium());
+        currentModel.setroadtax(model.getroadtax());
+        currentModel.setcolour(model.getcolour());
         currentModel.setenginetype(model.getenginetype());
         currentModel.setfuelsupplysystem(model.getfuelsupplysystem());
         currentModel.setdisplacement(model.getdisplacement());

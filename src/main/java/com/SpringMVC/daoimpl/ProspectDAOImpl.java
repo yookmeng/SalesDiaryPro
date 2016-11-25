@@ -110,7 +110,8 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
     }
     
     public List<Prospect> list(int userid) {
-        String sql = "SELECT prospectid, firstname, lastname, userid, source, "
+        String sql = "SELECT p.prospectid, firstname, lastname, userid, source, "
+        		+ "a.activitydate AS datecreated, a.modelid, m.modelname, "
         		+ "(homeaddress).country AS hcountry, (homeaddress).zipcode AS hzipcode, "
         		+ "(homeaddress).state as hstate, (homeaddress).city AS hcity, "
         		+ "(homeaddress).street AS hstreet, mobile, htelno, contactid, "
@@ -118,7 +119,11 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "(workaddress).state as wstate, (workaddress).city AS wcity, "
         		+ "(workaddress).street AS wstreet, wtelno, "
         		+ "occupation, age, gender, income, email, status "
-        		+ "FROM tblProspect WHERE userid = " + userid + " "
+        		+ "FROM tblProspect p "
+        		+ "LEFT JOIN tblActivity a ON p.prospectid = a.prospectid "
+        		+ "LEFT JOIN tblModel m ON a.modelid = m.modelid "
+        		+ "WHERE userid = " + userid + " "
+				+ "AND (a.activitydate = (SELECT MIN(c.activitydate) FROM tblActivity c WHERE c.prospectid = p.prospectid) OR a.activitydate IS NULL) "
 				+ "ORDER BY firstname, lastname";
         ProspectMapper mapper = new ProspectMapper();
         List<Prospect> list = this.getJdbcTemplate().query(sql, mapper);
@@ -126,7 +131,8 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
     }
     
     public List<Prospect> listByTeam(int teamid) {
-        String sql = "SELECT prospectid, firstname, lastname, p.userid, source, "
+        String sql = "SELECT p.prospectid, firstname, lastname, p.userid, source, "
+        		+ "a.activitydate AS datecreated, a.modelid, m.modelname, "
         		+ "(homeaddress).country AS hcountry, (homeaddress).zipcode AS hzipcode, "
         		+ "(homeaddress).state as hstate, (homeaddress).city AS hcity, "
         		+ "(homeaddress).street AS hstreet, mobile, htelno, contactid, "
@@ -134,9 +140,12 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "(workaddress).state as wstate, (workaddress).city AS wcity, "
         		+ "(workaddress).street AS wstreet, wtelno, "
         		+ "occupation, age, gender, income, email, status "
-        		+ "FROM tblProspect p"
+        		+ "FROM tblProspect p "
+        		+ "LEFT JOIN tblActivity a ON p.prospectid = a.prospectid "
+        		+ "LEFT JOIN tblModel m ON a.modelid = m.modelid "
         		+ "LEFT JOIN tblUserProfile up ON up.userid = p.userid "
         		+ "WHERE up.teamid = " + teamid + " "
+				+ "AND (a.activitydate = (SELECT MIN(c.activitydate) FROM tblActivity c WHERE c.prospectid = p.prospectid) OR a.activitydate IS NULL) "
 				+ "ORDER BY firstname, lastname";
         ProspectMapper mapper = new ProspectMapper();
         List<Prospect> list = this.getJdbcTemplate().query(sql, mapper);
@@ -144,7 +153,8 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
     }
 
     public List<Prospect> listByBranch(int branchid) {
-        String sql = "SELECT prospectid, firstname, lastname, p.userid, source, "
+        String sql = "SELECT p.prospectid, firstname, lastname, p.userid, source, "
+        		+ "a.activitydate AS datecreated, a.modelid, m.modelname, "
         		+ "(homeaddress).country AS hcountry, (homeaddress).zipcode AS hzipcode, "
         		+ "(homeaddress).state as hstate, (homeaddress).city AS hcity, "
         		+ "(homeaddress).street AS hstreet, mobile, htelno, contactid, "
@@ -152,10 +162,13 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "(workaddress).state as wstate, (workaddress).city AS wcity, "
         		+ "(workaddress).street AS wstreet, wtelno, "
         		+ "occupation, age, gender, income, email, status "
-        		+ "FROM tblProspect "
+        		+ "FROM tblProspect p "
+        		+ "LEFT JOIN tblActivity a ON p.prospectid = a.prospectid "
+        		+ "LEFT JOIN tblModel m ON a.modelid = m.modelid "
         		+ "LEFT JOIN tblUserProfile up ON up.userid = p.userid "
         		+ "LEFT JOIN tblTeam t ON t.teamid = up.teamid "
         		+ "WHERE t.branchid = " + branchid + " "
+				+ "AND (a.activitydate = (SELECT MIN(c.activitydate) FROM tblActivity c WHERE c.prospectid = p.prospectid) OR a.activitydate IS NULL) "
         		+ "ORDER BY firstname, lastname";
         ProspectMapper mapper = new ProspectMapper();
         List<Prospect> list = this.getJdbcTemplate().query(sql, mapper);
@@ -163,7 +176,8 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
     }
 
     public List<Prospect> listByCompany(int companyid) {
-        String sql = "SELECT prospectid, firstname, lastname, p.userid, source, "
+        String sql = "SELECT p.prospectid, firstname, lastname, p.userid, source, "
+        		+ "a.activitydate AS datecreated, a.modelid, m.modelname, "
         		+ "(homeaddress).country AS hcountry, (homeaddress).zipcode AS hzipcode, "
         		+ "(homeaddress).state as hstate, (homeaddress).city AS hcity, "
         		+ "(homeaddress).street AS hstreet, mobile, htelno, contactid, "
@@ -171,11 +185,14 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "(workaddress).state as wstate, (workaddress).city AS wcity, "
         		+ "(workaddress).street AS wstreet, wtelno, "
         		+ "occupation, age, gender, income, email, status "
-        		+ "FROM tblProspect "
+        		+ "FROM tblProspect p "
+        		+ "LEFT JOIN tblActivity a ON p.prospectid = a.prospectid "
+        		+ "LEFT JOIN tblModel m ON a.modelid = m.modelid "
         		+ "LEFT JOIN tblUserProfile up ON up.userid = p.userid "
         		+ "LEFT JOIN tblTeam t ON t.teamid = up.teamid "
         		+ "LEFT JOIN tblBranch b ON b.branchid = t.branchid "
         		+ "WHERE b.companyid = " + companyid + " "
+				+ "AND a.activitydate = (SELECT MIN(c.activitydate) FROM tblActivity c WHERE c.prospectid = p.prospectid) "
         		+ "ORDER BY firstname, lastname";
         ProspectMapper mapper = new ProspectMapper();
         List<Prospect> list = this.getJdbcTemplate().query(sql, mapper);
@@ -189,7 +206,8 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
     }
 
     public Prospect get(int prospectid) {
-        String sql = "SELECT prospectid, firstname, lastname, userid, source, "
+        String sql = "SELECT p.prospectid, firstname, lastname, userid, source, "
+        		+ "a.activitydate AS datecreated, a.modelid, m.modelname, "
         		+ "(homeaddress).country AS hcountry, (homeaddress).zipcode AS hzipcode, "
         		+ "(homeaddress).state as hstate, (homeaddress).city AS hcity, "
         		+ "(homeaddress).street AS hstreet, mobile, htelno, contactid, "
@@ -197,7 +215,11 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "(workaddress).state as wstate, (workaddress).city AS wcity, "
         		+ "(workaddress).street AS wstreet, wtelno, "
         		+ "occupation, age, gender, income, email, status "
-        		+ "FROM tblProspect WHERE prospectid=" + prospectid;
+        		+ "FROM tblProspect p "
+        		+ "LEFT JOIN tblActivity a ON p.prospectid = a.prospectid "
+        		+ "LEFT JOIN tblModel m ON a.modelid = m.modelid "
+        		+ "WHERE p.prospectid=" + prospectid + " "
+        		+ "AND (a.activitydate = (SELECT MIN(c.activitydate) FROM tblActivity c WHERE c.prospectid = p.prospectid) OR a.activitydate IS NULL) ";
 	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<Prospect>() {
 	 
 	        @Override
@@ -210,6 +232,9 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
 	            	prospect.setlastname(rs.getString("lastname"));
 	            	prospect.setuserid(rs.getInt("userid"));
 	            	prospect.setsource(rs.getString("source"));
+	            	prospect.setdatecreated(rs.getDate("datecreated"));
+	            	prospect.setmodelid(rs.getInt("modelid"));
+	            	prospect.setmodelname(rs.getString("modelname"));
 	                Address homeaddress = new Address();
 	                homeaddress.setcountry(rs.getString("hcountry"));
 	                homeaddress.setzipcode(rs.getString("hzipcode"));

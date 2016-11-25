@@ -12,10 +12,13 @@ public class Quotation {
     private String brandname;
     private int modelid;
     private String modelname;
+    private String colour;
     private float retailprice;
     private float suminsured;
     private String ncd;
     private float premium;
+    private float premiumafterncd;
+    private float roadtax;
     private float registrationfee;
     private float handlingcharges;
     private float extendedwarranty;
@@ -29,9 +32,9 @@ public class Quotation {
     }
  
     public Quotation(int quotationid, Date quotationdate, int prospectid, String prospectname, 
-    		int activityid, int brandid, String brandname, int modelid, String modelname,
-    		float retailprice, float suminsured, String ncd, float premium,
-    		float registrationfee, float handlingcharges, float extendedwarranty,
+    		int activityid, int brandid, String brandname, int modelid, String modelname, String colour,
+    		float retailprice, float suminsured, String ncd, float premium, float premiumafterncd,
+    		float roadtax, float registrationfee, float handlingcharges, float extendedwarranty,
     		float othercharges, float discount, float quoteamount, 
     		String term, String remark) {
 
@@ -44,10 +47,13 @@ public class Quotation {
         this.brandname = brandname;
         this.modelid = modelid;
         this.modelname = modelname;
+        this.colour = colour;
         this.retailprice = retailprice;
         this.suminsured = suminsured;
         this.ncd = ncd;
         this.premium = premium;
+        this.premiumafterncd = premiumafterncd;
+        this.roadtax = roadtax;
         this.registrationfee = registrationfee;
         this.handlingcharges = handlingcharges;
         this.extendedwarranty = extendedwarranty;
@@ -121,6 +127,13 @@ public class Quotation {
         this.modelname = modelname;
     }
 
+    public String getcolour() {
+        return colour;
+    }  
+    public void setcolour(String colour) {
+        this.colour = colour;
+    }
+
     public float getretailprice() {
         return retailprice;
     }  
@@ -147,6 +160,20 @@ public class Quotation {
     }  
     public void setpremium(float premium) {
         this.premium = premium;
+    }
+
+    public float getpremiumafterncd() {
+        return premiumafterncd;
+    }  
+    public void setpremiumafterncd(float premiumafterncd) {
+        this.premiumafterncd = premiumafterncd;
+    }
+    
+    public float getroadtax() {
+        return roadtax;
+    }  
+    public void setroadtax(float roadtax) {
+        this.roadtax = roadtax;
     }
 
     public float getregistrationfee() {

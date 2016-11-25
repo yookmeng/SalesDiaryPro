@@ -77,6 +77,39 @@ public class CompanyTargetDAOImpl extends JdbcDaoSupport implements CompanyTarge
         });
     }
 
+    public CompanyTarget getByPeriod(String period, int companyid) {
+	    String sql = "SELECT ct.targetid AS targetid, "
+	    		+ "ct.companyid AS companyid, "
+	    		+ "c.companyname AS companyname, "
+	    		+ "ct.period AS period, "
+	    		+ "ct.prospect AS prospect, "
+	    		+ "ct.testdrive AS testdrive, "
+	    		+ "ct.closed AS closed "
+	    		+ "FROM tblCompanyTarget ct "
+	    		+ "LEFT JOIN tblCompany c ON c.companyid = ct.companyid "
+	    		+ "WHERE ct.period = '" + period + "' "
+				+ "AND ct.companyid = " + companyid;
+	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<CompanyTarget>() {
+	 
+			@Override
+	        public CompanyTarget extractData(ResultSet rs) throws SQLException,
+	                DataAccessException {
+	            if (rs.next()) {
+	                CompanyTarget companyTarget = new CompanyTarget();
+	                companyTarget.settargetid(rs.getInt("targetid"));
+	                companyTarget.setcompanyid(rs.getInt("companyid"));
+	                companyTarget.setcompanyname(rs.getString("companyname"));
+	                companyTarget.setperiod(rs.getString("period"));
+	                companyTarget.setprospect(rs.getInt("prospect"));
+	                companyTarget.settestdrive(rs.getInt("testdrive"));
+	                companyTarget.setclosed(rs.getInt("closed"));
+	                return companyTarget;
+	            }	 
+	            return null;
+	        }
+        });
+    }
+
     public List<CompanyTarget> list(int companyid) {
 	    String sql = "SELECT ct.targetid AS targetid, "
 	    		+ "ct.companyid AS companyid, "

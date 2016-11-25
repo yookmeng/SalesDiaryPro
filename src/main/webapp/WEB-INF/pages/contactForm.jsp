@@ -9,7 +9,7 @@
 <html>
 <jsp:include page="_menu.jsp" />
 <!-- Wizard -->
-<script src="resources/js/plugins/wizard/jquery.form.wizard.min.js"></script>
+<script src="js/plugins/wizard/jquery.form.wizard.min.js"></script>
 <body>
 	<jsp:include page="_userNavigation.jsp" />
 	<div id="main">
@@ -135,7 +135,7 @@
 								</div>
 							</div>
 							<div>
-								<input type="reset" class="btn" name="Back" value="Back" onclick="location.href='listContact'">
+								<input type="reset" class="btn" name="Back" value="Back" onclick="location.href='listContacts'">
 								<input type="submit" class="btn btn-primary" value="Save" id="next">
 								<input type="button" class="btn" value="Done" id="done">
 							</div>
@@ -179,7 +179,6 @@
 	    var company = $('#company').val(); 
 	    var title = $('#title').val(); 
 	    var note = $('#note').val(); 
-		var singlechar = firstname.substring(0,1);
 	    var json = {
 	    		"contactid" : contactid,
 	    		"userid" : userid,
@@ -210,7 +209,7 @@
 	            dataType: "json",
 	            data: JSON.stringify(json), 
 	            success:function(data, Textstatus, jqXHR){
-	                window.location.href = base+"/listContact?filter="+singlechar;
+	                window.location.href = base+"/listContacts";
 	            },
 	            error:function(jqXhr, Textstatus){
 	            }
@@ -224,7 +223,7 @@
 	            dataType: "json",
 	            data: JSON.stringify(json),
 	            success:function(data, Textstatus, jqXHR){
-	                window.location.href = base+"/listContact?filter="+singlechar;
+	                window.location.href = base+"/listContacts";
 	            },
 	            error:function(jqXhr, Textstatus){
 	            }
@@ -262,7 +261,6 @@
 		    var company = $('#company').val(); 
 		    var title = $('#title').val(); 
 		    var note = $('#note').val(); 
-			var singlechar = firstname.substring(0,1);
 		    var json = {
 		    		"contactid" : contactid,
 		    		"userid" : userid,
@@ -293,7 +291,7 @@
 		            dataType: "json",
 		            data: JSON.stringify(json), 
 		            success:function(data, Textstatus, jqXHR){
-		                window.location.href = base+"/listContact?filter="+singlechar;
+		                window.location.href = base+"/listContacts";
 		            },
 		            error:function(jqXhr, Textstatus){
 		            }
@@ -307,7 +305,7 @@
 		            dataType: "json",
 		            data: JSON.stringify(json),
 		            success:function(data, Textstatus, jqXHR){
-		                window.location.href = base+"/listContact?filter="+singlechar;
+		                window.location.href = base+"/listContacts";
 		            },
 		            error:function(jqXhr, Textstatus){
 		            }

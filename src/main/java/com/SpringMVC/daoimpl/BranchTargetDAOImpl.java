@@ -79,6 +79,34 @@ public class BranchTargetDAOImpl extends JdbcDaoSupport implements BranchTargetD
         });
     }
 
+    public BranchTarget getByPeriod(String period, int branchid) {
+	    String sql = "SELECT targetid, bt.branchid, b.branchname, period, "
+        		+ "companytargetid, prospect, testdrive, closed "
+	    		+ "FROM tblBranchTarget bt "
+        		+ "LEFT JOIN tblBranch b ON b.branchid = bt.branchid "
+	    		+ "WHERE period = '" + period + "' "
+	    		+ "AND bt.branchid=" + branchid;
+	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<BranchTarget>() {
+	        @Override
+	        public BranchTarget extractData(ResultSet rs) throws SQLException,
+	                DataAccessException {
+	            if (rs.next()) {
+	                BranchTarget branchTarget = new BranchTarget();
+	                branchTarget.settargetid(rs.getInt("targetid"));
+	                branchTarget.setbranchid(rs.getInt("branchid"));
+	                branchTarget.setbranchname(rs.getString("branchname"));
+	                branchTarget.setcompanytargetid(rs.getInt("companytargetid"));
+	                branchTarget.setperiod(rs.getString("period"));
+	                branchTarget.setprospect(rs.getInt("prospect"));
+	                branchTarget.settestdrive(rs.getInt("testdrive"));
+	                branchTarget.setclosed(rs.getInt("closed"));
+	                return branchTarget;
+	            }	 
+	            return null;
+	        }
+        });
+    }
+
     public List<BranchTarget> list(String period, int companyid) {
         String sql = "SELECT bt.targetid AS targetid, "
         		+ "bt.branchid AS branchid, "

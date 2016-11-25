@@ -24,61 +24,84 @@
 		</div>
         <input type="hidden" value="userProfile" name="userProfile" /> 
 		<div align="center">
-			<a href="listContacts">All</a>
-			<a href="listContact?filter=A">A</a>
-			<a href="listContact?filter=B">B</a>
-			<a href="listContact?filter=C">C</a>
-			<a href="listContact?filter=D">D</a>
-			<a href="listContact?filter=E">E</a>
-			<a href="listContact?filter=F">F</a>
-			<a href="listContact?filter=G">G</a>
-			<a href="listContact?filter=H">H</a>
-			<a href="listContact?filter=I">I</a>
-			<a href="listContact?filter=J">J</a>
-			<a href="listContact?filter=K">K</a>
-			<a href="listContact?filter=L">L</a>
-			<a href="listContact?filter=M">M</a>
-			<a href="listContact?filter=N">N</a>
-			<a href="listContact?filter=O">O</a>
-			<a href="listContact?filter=P">P</a>
-			<a href="listContact?filter=Q">Q</a>
-			<a href="listContact?filter=R">R</a>
-			<a href="listContact?filter=S">S</a>
-			<a href="listContact?filter=T">T</a>
-			<a href="listContact?filter=U">U</a>
-			<a href="listContact?filter=V">V</a>
-			<a href="listContact?filter=W">W</a>
-			<a href="listContact?filter=X">X</a>
-			<a href="listContact?filter=Y">Y</a>
-			<a href="listContact?filter=Z">Z</a>
    	    	<h5>
    				<a href="addContact?userid=${userProfile.userid}" class='btn'>
 				<i class="fa fa-plus-circle"></i>New Contact</a></h5>
 		</div>
-		<div align="center" class="box-content nopadding">
-			<table class="table table-hover table-nomargin table-colored-header">
-			<tr>
-			    <th>Contact Name</th>
-			    <th>Mobile</th>
-			    <th>Action</th>
-			</tr>
-			<c:forEach var="contact" items="${listContact}" varStatus="status">
-				<tr>
-				    <td>${contact.firstname} ${contact.lastname}</td>
-					<td>${contact.mobile}</td>
-					<td>
-						<button class="btn btn-small" onclick="window.location='editContact?contactid=${contact.contactid}';" >
-							<i class="fa fa-edit"></i></button>
-						&nbsp;&nbsp;&nbsp;&nbsp;
-						<button class="btn btn-small" onclick="deleteContact(${contact.contactid})">
-							<i class="fa fa-trash-o"></i></button>
-				    </td>		                 
-				</tr>
-			</c:forEach>             
-			</table>
+		<div class="box box-color box-bordered">
+			<div class="box-title">
+				<h3>Contact</h3>
+			</div>
+			<div class="box-content nopadding">
+				<table class="table table-hover table-nomargin table-bordered usertable">
+					<thead>
+							<tr class="thefilter">
+								<th class="with-checkbox"></th>
+							    <th>Name</th>
+							    <th>Mobile</th>
+							    <th>Action</th>	
+							</tr>
+							<tr>
+								<th class="with-checkbox">
+									<input type="checkbox" name="check_all" id="check_all">
+								</th>
+							    <th>Name</th>
+							    <th>Mobile</th>
+							    <th>Action</th>	
+							</tr>
+					</thead>
+					<tbody>				
+						<c:forEach var="contact" items="${listContact}" varStatus="status">
+							<tr>
+								<td class="with-checkbox">
+									<input type="checkbox" name="check" value="1">
+								</td>
+							    <td>${contact.firstname} ${contact.lastname}</td>
+								<td>${contact.mobile}</td>
+								<td>
+									<button class="btn btn-small" onclick="window.location='editContact?contactid=${contact.contactid}';" >
+										<i class="fa fa-edit"></i></button>
+									<button class="btn btn-small" onclick="deleteContact(${contact.contactid})">
+										<i class="fa fa-trash-o"></i></button>
+							    </td>		                 
+							</tr>
+						</c:forEach>             
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 	<script>
+	$(document).ready(function() {
+		if ($(".usertable").length > 0) {
+			var l = {
+	            sPaginationType: "full_numbers",
+	            oLanguage: {
+	                sSearch: "<span>Search:</span> ",
+	                sInfo: "Showing <span>_START_</span> to <span>_END_</span> of <span>_TOTAL_</span> entries",
+	                sLengthMenu: "_MENU_ <span>entries per page</span>"
+	            },
+	            sDom: "lfrtip",
+	            aoColumnDefs: [{ bSortable: !1, aTargets: [0, 3]}]
+			};
+			
+			l.sDom = "T" + l.sDom;
+			l.oTableTools = { sSwfPath: "js/plugins/datatable/swf/copy_csv_xls_pdf.swf"};
+			
+	 		d = $(".usertable").dataTable(l);
+	        $(".usertable").css("width", "100%");	
+	        $(".dataTables_filter input").attr("placeholder", "Search here...");
+	        $(".dataTables_length select").wrap("<div class='input-mini'></div>").chosen({ disable_search_threshold: 9999999 }),
+	        $("#check_all").click(function (e) { $("input", d.fnGetNodes()).prop("checked", this.checked) });
+	        $.datepicker.setDefaults({ dateFormat: "yy-mm-dd" });        
+	        d.columnFilter({
+	            sPlaceHolder: "head:after",
+	            sRangeFormat: "{from}{to}",
+	            aoColumns: [null, { type: "text" }, { type: "text" }, null]
+	        });
+		};		
+	})
+	
     function deleteContact(contactid) {
 		var base = $('#base').val();
     	if (window.location.protocol === 'https:') {
@@ -97,7 +120,7 @@
             error: function (jqXHR, status) {
             }
         });	
-    }
+    }	
 	</script>
 </body>
 </html>

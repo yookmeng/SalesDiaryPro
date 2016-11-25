@@ -40,6 +40,7 @@
 				    <th>Date</th>
 				    <th>Prospect</th>
 				    <th>Activities</th>
+				    <th>Links</th>
 				    <th>Action</th>
 				    <th></th>
 				    <th></th>
@@ -50,54 +51,73 @@
 					    <td>${activity.activitydate}</td>
 						<td>${activity.prospectname}</td>
 						<td>
-							<c:if test="${activity.demo==false && activity.demostatus==false}">
-								<a class="btn" title=Demo onclick="window.location='editActivity?activityid=${activity.activityid}&step=2';">D</a>
-							</c:if>
-							<c:if test="${activity.demo==true && activity.demostatus==false}">
-								<a class="btn btn-orange" title="Demo" onclick="window.location='editActivity?activityid=${activity.activityid}&step=2';">D</a>
-							</c:if>
-							<c:if test="${activity.demo==true && activity.demostatus==true}">
-								<a class="btn btn-green" title="Demo" onclick="window.location='editActivity?activityid=${activity.activityid}&step=2';">D</a>
-							</c:if>
-							<c:if test="${activity.testdrive==false && activity.testdrivestatus==false}">
-								<a class="btn" title="Test Drive" onclick="window.location='editActivity?activityid=${activity.activityid}&step=3';">T</a>
-							</c:if>
-							<c:if test="${activity.testdrive==true && activity.testdrivestatus==false}">
-								<a class="btn btn-orange" title="Test Drive" onclick="window.location='editActivity?activityid=${activity.activityid}&step=3';">T</a>
-							</c:if>
-							<c:if test="${activity.testdrive==true && activity.testdrivestatus==true}">
-								<a class="btn btn-green" title="Test Drive" onclick="window.location='editActivity?activityid=${activity.activityid}&step=3';">T</a>
-							</c:if>
-							<c:if test="${activity.quotation==false && activity.quotationid==0}">
-								<a class="btn" title="Quotation">Q</a>
-							</c:if>
-							<c:if test="${activity.quotation==true && activity.quotationid==0}">
-								<a class="btn btn-orange" title="Quotation" onclick="window.location='addQuotation?activityid=${activity.activityid}';">Q</a>
-							</c:if>
+							<ul class="minitiles">
+								<c:if test="${activity.demo==true && activity.demostatus==false}">
+									<li class="lightred">
+										<i class="fa glyphicon-display"></i>
+										<span>Presentation</span>
+									</li>
+								</c:if>
+								<c:if test="${activity.demo==true && activity.demostatus==true}">
+									<li class="satgreen">
+										<i class="fa glyphicon-display"></i>
+										<span>Presentation</span>
+									</li>
+								</c:if>
+								<c:if test="${activity.testdrive==true && activity.testdrivestatus==false}">
+									<li class="lightred">
+										<i class="fa glyphicon-car"></i>
+										<span>Test Drive</span>
+									</li>
+								</c:if>
+								<c:if test="${activity.testdrive==true && activity.testdrivestatus==true}">
+									<li class="satgreen">
+										<i class="fa glyphicon-car"></i>
+										<span>Test Drive</span>
+									</li>
+								</c:if>
+								<c:if test="${activity.quotation==true && activity.quotationid==0}">
+									<li class="lightred">
+										<i class="fa glyphicon-calculator"></i>
+										<span>Quotation</span>
+									</li>
+								</c:if>
+								<c:if test="${activity.quotation==true && activity.quotationid!=0}">
+									<li class="satgreen">
+										<i class="fa glyphicon-calculator"></i>
+										<span>Quotation</span>
+									</li>
+								</c:if>
+								<c:if test="${activity.followup==true && activity.followupstatus==false}">
+									<li class="lightred">
+										<i class="fa glyphicon-calendar"></i>
+										<span>Follow Up</span>
+									</li>
+								</c:if>
+								<c:if test="${activity.followup==true && activity.followupstatus==true}">
+									<li class="satgreen">
+										<i class="fa glyphicon-calendar"></i>
+										<span>Follow Up</span>
+									</li>
+								</c:if>
+								<c:if test="${activity.closed==true}">
+									<li class="satgreen">
+										<i class="fa glyphicon-ok_2"></i>
+										<span>Close</span>
+									</li>
+								</c:if>
+								<c:if test="${activity.lost==true}">
+									<li class="satgreen">
+										<i class="fa glyphicon-remove_2"></i>
+										<span>Close</span>
+									</li>
+								</c:if>					
+							</ul>			
+						</td>
+						<td>
 							<c:if test="${activity.quotation==true && activity.quotationid!=0}">
-								<a class="btn btn-green" title="Quotation" onclick="window.location='editQuotation?quotationid=${activity.quotationid}';">Q</a>
+								<a href="${activity.quotationpdflink}">${activity.quotationpdflink}</a>
 							</c:if>
-							<c:if test="${activity.followup==false && activity.followupstatus==false}">
-								<a class="btn" title="Follow Up" onclick="window.location='editActivity?activityid=${activity.activityid}&step=5';">F</a>
-							</c:if>
-							<c:if test="${activity.followup==true && activity.followupstatus==false}">
-								<a class="btn btn-orange" title="Follow Up" onclick="window.location='editActivity?activityid=${activity.activityid}&step=5';">F</a>
-							</c:if>
-							<c:if test="${activity.followup==true && activity.followupstatus==true}">
-								<a class="btn btn-green" title="Follow Up" onclick="window.location='editActivity?activityid=${activity.activityid}&step=5';">F</a>
-							</c:if>
-							<c:if test="${activity.closed==false}">
-								<a class="btn" title="Closed" onclick="window.location='editActivity?activityid=${activity.activityid}&step=6';">C</a>
-							</c:if>
-							<c:if test="${activity.closed==true}">
-								<a class="btn btn-green" title="Closed" onclick="window.location='editActivity?activityid=${activity.activityid}&step=6';">C</a>
-							</c:if>
-							<c:if test="${activity.lost==false}">
-								<a class="btn" title="Lost" onclick="window.location='editActivity?activityid=${activity.activityid}&step=7';">L</a>
-							</c:if>
-							<c:if test="${activity.lost==true}">
-								<a class="btn btn-green" title="Lost" onclick="window.location='editActivity?activityid=${activity.activityid}&step=7';">L</a>
-							</c:if>					
 						</td>
 						<td>
 							<button class="btn btn-small" onclick="window.location='editActivity?activityid=${activity.activityid}&step=1';" >

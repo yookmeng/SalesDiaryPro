@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.SpringMVC.dao.BrandDAO;
+import com.SpringMVC.dao.CodeMasterDAO;
 import com.SpringMVC.dao.ModelDAO;
 import com.SpringMVC.dao.QuestionaireDAO;
 import com.SpringMVC.dao.UserLoginDAO;
@@ -37,6 +38,9 @@ public class QuestionaireController {
     private UserProfileDAO userProfileDAO;
 
     @Autowired
+    private CodeMasterDAO codeMasterDAO;
+
+    @Autowired
     private BrandDAO brandDAO;
 
     @Autowired
@@ -52,11 +56,12 @@ public class QuestionaireController {
     	Questionaire newQuestionaire = new Questionaire();
     	newQuestionaire.setuserid(userProfile.getuserid());
         ModelAndView mav = new ModelAndView("questionaireForm");
+        List<String> sources = codeMasterDAO.getCode("SOURCE");	
+        mav.addObject("sourcelist", sources);
         List<String> brands = brandDAO.getSellingBrands(companyid);
         mav.addObject("brandlist", brands);
         Brand brand = brandDAO.getByName(brands.get(0));
         List<String> models = modelDAO.getSellingModels(brand.getbrandid());	
-        mav.addObject("brandlist", brands);
         mav.addObject("modellist", models);
         mav.addObject("questionaire", newQuestionaire);
         return mav;

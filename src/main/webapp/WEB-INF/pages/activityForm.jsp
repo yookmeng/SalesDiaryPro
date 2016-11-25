@@ -9,7 +9,7 @@
 <html>
 <jsp:include page="_menu.jsp" />
 <!-- Wizard -->
-<script src="resources/js/plugins/wizard/jquery.form.wizard.min.js"></script>
+<script src="js/plugins/wizard/jquery.form.wizard.min.js"></script>
 <body>
 	<c:if test="${role == 'MD'}">
 		<jsp:include page="_mdNavigation.jsp" />
@@ -26,7 +26,6 @@
 	<div id="main">
 	   	<input type="hidden" value="${base}" name="base" id="base"/>	
         <input type="hidden" value="prospect" name="prospect" /> 
-	    <input type="hidden" value="${step}" name="step" id="step"/> 
 		<div class="breadcrumbs">
 			<ul>
 				<li>
@@ -49,6 +48,8 @@
 				        <form:form id="entry-form" action="" method="post" modelAttribute="activity" class='form-horizontal form-wizard'>
 			            <form:hidden path="prospectid"/>        
 			            <form:hidden path="activityid"/>
+			            <form:hidden path="quotationid"/>
+			            <form:hidden path="closedid"/>
 					    <div class="step" id="firstStep">
 							<div class="form-group">
 								<label for="requestdate" class="control-label col-sm-2">Activity Date</label>
@@ -71,41 +72,39 @@
 					    </div>
 					    <div class="step" id="secondStep">
 							<div class="form-group">
-								<label for="demo" class="control-label col-sm-2">Demo</label>
+								<label for="demo" class="control-label col-sm-1">Presentation</label>
 								<div class="col-sm-1">
 									<form:checkbox name="demo" path="demo" id="demo" class="form-control"/>
 								</div>
-							</div>					    
-							<div class="form-group">
-								<label for="demostatus" class="control-label col-sm-2">Performed</label>
+								<label for="demostatus" class="control-label col-sm-1">Done</label>
 								<div class="col-sm-1">
 									<form:checkbox path="demostatus" id="demostatus" class="form-control"/>
 								</div>
-							</div>
-					    </div>
-					    <div class="step" id="thirdStep">
+							</div>					    
 							<div class="form-group">
-								<label for="testdrive" class="control-label col-sm-2">Test Drive</label>
+								<label for="testdrive" class="control-label col-sm-1">Test Drive</label>
 								<div class="col-sm-1">
 									<form:checkbox name="testdrive" path="testdrive" id="testdrive" class="form-control"/>
 								</div>
-							</div>
-							<div class="form-group">
-								<label for="testdrivestatus" class="control-label col-sm-2">Performed</label>
+								<label for="testdrivestatus" class="control-label col-sm-1">Done</label>
 								<div class="col-sm-1">
 									<form:checkbox path="testdrivestatus" id="testdrivestatus" class="form-control"/>
 								</div>
 							</div>
-					    </div>
-					    <div class="step" id="fourthStep">
 							<div class="form-group">
-								<label for="quotation" class="control-label col-sm-2">Quotation</label>
+								<label for="quotation" class="control-label col-sm-1">Quotation</label>
 								<div class="col-sm-1">
 									<form:checkbox name="quotation" path="quotation" id="quotation" class="form-control"/>
 								</div>
 							</div>					    
+							<div class="form-group">
+								<label for="closed" class="control-label col-sm-1">Closed</label>
+								<div class="col-sm-1">
+									<form:checkbox name="closed" path="closed" id="closed" class="form-control" />
+								</div>
+							</div>					    							
 					    </div>
-					    <div class="step" id="fifthStep">
+					    <div class="step" id="thirdStep">
 							<div class="form-group">
 								<label for="followup" class="control-label col-sm-2">Follow Up</label>
 								<div class="col-sm-1">
@@ -119,31 +118,23 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="followupstatus" class="control-label col-sm-2">Performed</label>
+								<label for="followupstatus" class="control-label col-sm-2">Done</label>
 								<div class="col-sm-1">
 									<form:checkbox path="followupstatus" id="followupstatus" class="form-control"/>
 								</div>
 							</div>
 					    </div>
-					    <div class="step" id="sixthStep">
+					    <div class="step" id="fourthStep">
 							<div class="form-group">
-								<label for="closed" class="control-label col-sm-2">Closed</label>
-								<div class="col-sm-1">
-									<form:checkbox name="closed" path="closed" id="closed" class="form-control" />
-								</div>
-							</div>					    
-					    </div>
-					    <div class="step" id="seventhStep">
-							<div class="form-group">
-								<label for="lost" class="control-label col-sm-2">Lost</label>
+								<label for="lost" class="control-label col-sm-1">Lost</label>
 								<div class="col-sm-1">
 									<form:checkbox name="lost" path="lost" id="lost" class="form-control"/>
 								</div>
 							</div>					    
 							<div class="form-group">
-								<label for="lostremark" class="control-label col-sm-2">Remark</label>
+								<label for="lostremark" class="control-label col-sm-1">Remark</label>
 								<div class="col-sm-5">
-									<form:input type="text" path="lostremark" name="lostremark" id="lostremark" class="form-control"/>
+									<form:textarea type="textarea" rows="5" path="lostremark" name="lostremark" id="lostremark" class="form-control"/>
 								</div>
 							</div>						
 					    </div>
@@ -159,29 +150,6 @@
 		</div>
 	</div>
 	<script>
-	$(function(){
-		if ($("#step").val()==2){
-			$("#entry-form").formwizard('show', 'secondStep');
-			return false;
-		}; 
-		if ($("#step").val()==3){
-			$("#entry-form").formwizard('show', 'thirdStep');
-			return false;
-		}; 
-		if ($("#step").val()==5){
-			$("#entry-form").formwizard('show', 'fifthStep');
-			return false;
-		}; 
-		if ($("#step").val()==6){
-			$("#entry-form").formwizard('show', 'sixthStep');
-			return false;
-		}; 
-		if ($("#step").val()==7){
-			$("#entry-form").formwizard('show', 'seventhStep');
-			return false;
-		}; 
-	});
-	
 	$("#entry-form").validate({ 
 		rules: { 
 			activitydate: "required",
@@ -260,7 +228,15 @@
 	            dataType: "json",
 	            data: JSON.stringify(json), 
 	            success:function(data, Textstatus, jqXHR){
-	                window.location.href = base+"/listActivity?prospectid="+prospectid;
+	            	if (quotation==true){
+	            		window.location.href = base+"/addQuotation?prospectid="+prospectid;	            		
+	            	}
+	            	else if(closed==true){
+	            		window.location.href = base+"/addClosed?prospectid="+prospectid;	            			            		
+	            	}
+	            	else {
+		                window.location.href = base+"/listActivity?prospectid="+prospectid;	            		
+	            	}
 	            },
 	            error:function(jqXhr, Textstatus){
 		            alert(JSON.stringify(jqXhr));
@@ -275,7 +251,25 @@
 	            dataType: "json",
 	            data: JSON.stringify(json),
 	            success:function(data, Textstatus, jqXHR){
-	                window.location.href = base+"/listActivity?prospectid="+prospectid;
+	            	if (quotation==true){
+	            		if (quotationid==0){
+		            		window.location.href = base+"/addQuotation?prospectid="+prospectid;	            			            			
+	            		}
+	            		else {
+		            		window.location.href = base+"/editQuotation?quotationid="+quotationid;	            			            			
+	            		}
+	            	}
+	            	else if(closed==true){
+	            		if (closedid==0){
+		            		window.location.href = base+"/addClosed?prospectid="+prospectid;	            			            			            			
+	            		}
+	            		else {
+		            		window.location.href = base+"/editClosed?closedid="+closedid;	            			            			            			
+	            		}
+	            	}
+	            	else {
+		                window.location.href = base+"/listActivity?prospectid="+prospectid;	            		
+	            	}
 	            },
 	            error:function(jqXhr, Textstatus){
 	            }

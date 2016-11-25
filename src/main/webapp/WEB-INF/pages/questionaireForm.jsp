@@ -9,7 +9,7 @@
 <html>
 	<jsp:include page="_menu.jsp" />
 	<!-- Wizard -->
-	<script src="resources/js/plugins/wizard/jquery.form.wizard.min.js"></script>
+	<script src="js/plugins/wizard/jquery.form.wizard.min.js"></script>
 <body>
 	<jsp:include page="_userNavigation.jsp" />
 	<div id="main">
@@ -51,45 +51,9 @@
 					</div>
 					<div class="step" id="thirdStep">
 						<div class="form-group" align="center">
-							<label for="demo" class="control-label col-sm-2">Presentation</label>
+							<label for="source" class="control-label col-sm-2">Source</label>
 							<div class="col-sm-1">
-								<form:checkbox path="demo" id="demo" class="form-control"/>
-							</div>
-						</div>
-					</div>
-					<div class="step" id="fourthStep">
-						<div class="form-group" align="center">
-							<label for="testdrive" class="control-label col-sm-2">Test Drive</label>
-							<div class="col-sm-1">
-								<form:checkbox path="testdrive" id="testdrive" class="form-control"/>
-							</div>
-						</div>
-					</div>
-					<div class="step" id="fifthStep">
-						<label for="quotation" class="control-label col-sm-2">Quotation</label>
-						<div class="form-group" align="center">
-							<div class="col-sm-1">
-								<form:checkbox path="quotation" id="quotation" class="form-control"/>
-							</div>
-						</div>
-					</div>
-					<div class="step" id="sixthStep">
-						<div class="form-group" align="center">
-							<label for="currentmodel" class="control-label col-sm-2">Trade In</label>
-							<div class="col-sm-1">
-								<form:checkbox path="tradein" id="tradein" class="form-control"/>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="currentbrand" class="control-label col-sm-2">Brand</label>
-							<div class="col-sm-5">
-								<form:input type="text" path="currentbrand" name="currentbrand" id="currentbrand" class="form-control" />
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="currentmodel" class="control-label col-sm-2">Model</label>
-							<div class="col-sm-5">
-								<form:input type="text" path="currentmodel" name="currentmodel" id="currentmodel" class="form-control" />
+								<form:select name="source" path="source" id="source" items="${sourcelist}" />
 							</div>
 						</div>
 					</div>
@@ -125,12 +89,7 @@
 	    var mobile = $('#mobile').val(); 
 	    var brandname = $('#brandname').val(); 
 	    var modelname = $('#modelname').val(); 
-	    var demo = $('#demo').prop('checked');
-	    var testdrive = $('#testdrive').prop('checked');
-	    var quotation = $('#quotation').prop('checked');
-	    var tradein = $('#tradein').prop('checked');
-	    var currentbrand = $('#currentbrand').val(); 
-	    var currentmodel = $('#currentmodel').val(); 
+	    var source = $('#source').val(); 
 	
 	    var json = {
 	    		"userid" : userid,
@@ -138,12 +97,7 @@
 		   		"mobile" : mobile,
 	    		"brandname" : brandname,
 	    		"modelname" : modelname,
-	    		"demo" : demo,
-	    		"testdrive" : testdrive,
-	    		"quotation" : quotation,
-	    		"tradein" : tradein,
-	    		"currentbrand" : currentbrand,
-	    		"currentmodel" : currentmodel
+	    		"source" : source
 		};
 		$.ajax({
 		    url: base+"/questionaire",
@@ -176,12 +130,7 @@
 		    var mobile = $('#mobile').val(); 
 		    var brandname = $('#brandname').val(); 
 		    var modelname = $('#modelname').val(); 
-		    var demo = $('#demo').prop('checked');
-		    var testdrive = $('#testdrive').prop('checked');
-		    var quotation = $('#quotation').prop('checked');
-		    var tradein = $('#tradein').prop('checked');
-		    var currentbrand = $('#currentbrand').val(); 
-		    var currentmodel = $('#currentmodel').val(); 
+		    var source = $('#source').val(); 
 		
 		    var json = {
 		    		"userid" : userid,
@@ -189,12 +138,7 @@
 			   		"mobile" : mobile,
 		    		"brandname" : brandname,
 		    		"modelname" : modelname,
-		    		"demo" : demo,
-		    		"testdrive" : testdrive,
-		    		"quotation" : quotation,
-		    		"tradein" : tradein,
-		    		"currentbrand" : currentbrand,
-		    		"currentmodel" : currentmodel
+		    		"source" : source
 			};
 			$.ajax({
 			    url: base+"/questionaire",

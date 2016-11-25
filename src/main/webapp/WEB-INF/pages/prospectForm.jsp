@@ -9,7 +9,7 @@
 <html>
 <jsp:include page="_menu.jsp" />
 <!-- Wizard -->
-<script src="resources/js/plugins/wizard/jquery.form.wizard.min.js"></script>
+<script src="js/plugins/wizard/jquery.form.wizard.min.js"></script>
 <body>
 	<jsp:include page="_userNavigation.jsp" />
 	<div id="main">
@@ -174,7 +174,7 @@
 						</div>
 						
 						<div class="form-actions">
-							<input type="reset" class="btn" onclick="location.href='listProspect'" value="Back" id="back">
+							<input type="reset" class="btn" onclick="location.href='listProspects'" value="Back" id="back">
 							<input type="submit" class="btn btn-primary" value="Save" id="next">
 							<input type="button" class="btn" value="Done" id="done">
 						</div>

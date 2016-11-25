@@ -12,8 +12,15 @@ public class ReviewMapper implements RowMapper<Review> {
     @Override
     public Review mapRow(ResultSet rs, int rowNum) throws SQLException { 
         int reviewid = rs.getInt("reviewid");
+        String period = rs.getString("period");        
         int userid = rs.getInt("userid");        
         String username = rs.getString("username");        
+        int teamid = rs.getInt("teamid");        
+        String teamname = rs.getString("teamname");        
+        int branchid = rs.getInt("branchid");        
+        String branchname = rs.getString("branchname");        
+        int companyid = rs.getInt("companyid");        
+        String companyname = rs.getString("companyname");        
         int targetid = rs.getInt("targetid");        
         int teamtargetid = rs.getInt("teamtargetid");        
         Date reviewdate = rs.getDate("reviewdate");
@@ -23,7 +30,9 @@ public class ReviewMapper implements RowMapper<Review> {
         String minute = rs.getString("minute");
         int reviewby = rs.getInt("reviewby");
         
-        return new Review(reviewid, userid, username, targetid, teamtargetid, reviewdate, 
+        return new Review(reviewid, period, userid, username, teamid, teamname, 
+        		branchid, branchname, companyid, companyname, 
+        		targetid, teamtargetid, reviewdate, 
         		prospect, testdrive, closed, minute, reviewby);
     }
 }
