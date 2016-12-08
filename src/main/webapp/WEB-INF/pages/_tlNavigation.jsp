@@ -21,7 +21,13 @@
 				<a href="listTeamTargetTL">Target</a>
 			</li>
 			<li>
-				<a href="listReview">Notes</a>
+				<a href="listProspects">Prospect</a>
+			</li>
+			<li>
+				<a href="listNotes">Notes</a>
+			</li>
+			<li>
+				<a href="listReview">Review</a>
 			</li>
 		</ul>
 		<div class="user">

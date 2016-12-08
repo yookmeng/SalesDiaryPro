@@ -107,7 +107,7 @@ public class CompanyController {
         return new ResponseEntity<Company>(HttpStatus.OK);
     }
 
-    @RequestMapping(value="/listCompany")
+    @RequestMapping(value="/listCompany", method = RequestMethod.GET)
     public ModelAndView listCompany(ModelAndView mav) throws IOException{
  	    List<Company> listCompany = companyDAO.list();
  	    mav.addObject("listCompany", listCompany);

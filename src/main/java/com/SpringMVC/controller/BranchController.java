@@ -106,9 +106,9 @@ public class BranchController {
     }
 
     @RequestMapping(value="/listBranch", method = RequestMethod.GET)
-    public ModelAndView listBranch(HttpServletRequest request) {
-    	UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
-    	List<Branch> listBranch = branchDAO.list(userLoginDAO.getCompanyID(request.getUserPrincipal().getName()));
+    public ModelAndView listBranch(Principal principal) {
+    	UserLogin userLogin = userLoginDAO.get(principal.getName());
+    	List<Branch> listBranch = branchDAO.list(userLoginDAO.getCompanyID(principal.getName()));
         ModelAndView mav = new ModelAndView("branchList");        
         mav.addObject("role", userLogin.getrole());
         mav.addObject("listBranch", listBranch);

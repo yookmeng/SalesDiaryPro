@@ -134,26 +134,5 @@
 			</div>
 		</div>
 	</div>
-	<script>
-	    function deleteActivity(activityid) {
-			var base = $('#base').val();
-	    	if (window.location.protocol === 'https:') {
-	    	    base = base.replace("http", "https");
-	    	}	    	
-
-	    	jQuery.ajax({
-	            type: "DELETE",
-	            url: base+"/activity/delete/"+activityid,
-	            contentType: "application/json",
-	            data: "",
-	            dataType: "",
-	            success: function (data, status, jqXHR) {
-					location.replace(location);
-	            },	        
-	            error: function (jqXHR, status) {
-	            }
-	        });	
-	    }
-	</script>	
 </body>
 </html>

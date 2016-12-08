@@ -26,7 +26,8 @@
 		<div align="center">
    	    	<h5>
    				<a href="addContact?userid=${userProfile.userid}" class='btn'>
-				<i class="fa fa-plus-circle"></i>New Contact</a></h5>
+				<i class="fa fa-plus-circle"></i>New Contact</a>
+			</h5>
 		</div>
 		<div class="box box-color box-bordered">
 			<div class="box-title">
@@ -35,20 +36,20 @@
 			<div class="box-content nopadding">
 				<table class="table table-hover table-nomargin table-bordered usertable">
 					<thead>
-							<tr class="thefilter">
-								<th class="with-checkbox"></th>
-							    <th>Name</th>
-							    <th>Mobile</th>
-							    <th>Action</th>	
-							</tr>
-							<tr>
-								<th class="with-checkbox">
-									<input type="checkbox" name="check_all" id="check_all">
-								</th>
-							    <th>Name</th>
-							    <th>Mobile</th>
-							    <th>Action</th>	
-							</tr>
+						<tr class="thefilter">
+							<th class="with-checkbox"></th>
+						    <th>Name</th>
+						    <th>Mobile</th>
+						    <th>Action</th>	
+						</tr>
+						<tr>
+							<th class="with-checkbox">
+								<input type="checkbox" name="check_all" id="check_all">
+							</th>
+						    <th>Name</th>
+						    <th>Mobile</th>
+						    <th>Action</th>	
+						</tr>
 					</thead>
 					<tbody>				
 						<c:forEach var="contact" items="${listContact}" varStatus="status">

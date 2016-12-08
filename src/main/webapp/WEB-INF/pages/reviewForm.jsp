@@ -23,6 +23,7 @@
 	</c:if>
 	<div id="main" class="container-fluid">
 	   	<input type="hidden" value="${base}" name="base" id="base"/>	
+	   	<input type="hidden" value="${currentPeriod}" name="currentPeriod" id="currentPeriod"/>		   	
 		<div class="breadcrumbs">
 			<ul>
 				<li>
@@ -91,7 +92,9 @@
 							<div class="form-actions">
 								<input type="reset" class="btn" onclick="history.back(-1);" value="Back" id="back">
 								<c:if test="${role != 'USER'}">
-									<input id="btnSave" type="submit" class="btn btn-primary" name="Save" value="Save">
+									<c:if test="${review.period == currentPeriod}">
+										<input id="btnSave" type="submit" class="btn btn-primary" name="Save" value="Save">
+			                    	</c:if>
 		                    	</c:if>
 							</div>
 							</form:form>

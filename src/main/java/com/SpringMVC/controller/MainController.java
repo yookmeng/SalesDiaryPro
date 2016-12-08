@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +25,7 @@ import com.SpringMVC.model.TeamTarget;
 import com.SpringMVC.model.UserLogin;
 import com.SpringMVC.dao.BranchDAO;
 import com.SpringMVC.dao.BranchTargetDAO;
+import com.SpringMVC.dao.ClosingPeriodDAO;
 import com.SpringMVC.dao.CompanyDAO;
 import com.SpringMVC.dao.CompanyTargetDAO;
 import com.SpringMVC.dao.TeamDAO;
@@ -58,6 +58,9 @@ public class MainController {
     private TeamTargetDAO teamTargetDAO;
 
     @Autowired
+    private ClosingPeriodDAO closingPeriodDAO;
+
+    @Autowired
     private UserMonthlySummaryDAO userMonthlySummaryDAO;
 
     private enum Roles {
@@ -79,9 +82,7 @@ public class MainController {
 	public String home(Model model, Principal principal) throws ParseException {
 	   model.addAttribute("username", principal.getName());
 	   UserLogin userLogin = userLoginDAO.findUserLogin(principal.getName());
-       int currentyear = Calendar.getInstance().get(Calendar.YEAR);
-       int currentmonth = Calendar.getInstance().get(Calendar.MONTH)+1;
-	   String period = String.valueOf(currentyear)+"-"+String.valueOf(currentmonth);
+	   String period = closingPeriodDAO.getCurrentPeriod(userLoginDAO.getCompanyID(principal.getName()));
 	   model.addAttribute("role", userLogin.getrole());
 	   Roles role = Roles.valueOf(userLogin.getrole()); 
        switch (role){
@@ -163,7 +164,7 @@ public class MainController {
    @RequestMapping(value = "/saveUser", method = RequestMethod.POST)
    public ModelAndView saveUser(@ModelAttribute UserLogin userLogin) {
        userLoginDAO.saveOrUpdate(userLogin);
-       return new ModelAndView("redirect:/listUser");    	   
+       return new ModelAndView("redirect:/home");    	   
    }
    
    @RequestMapping(value = "/deleteUser", method = RequestMethod.GET)
@@ -183,12 +184,21 @@ public class MainController {
                model.addObject("role", userLogin.getrole());
                model.addObject("rolelist", roles);
            }
-	   else {		// SA
-        	   List<String> roles= new ArrayList<String>();	
+	   else {		// Others
+		   if (request.getUserPrincipal().getName().equals(username)){
+			   List<String> roles= new ArrayList<String>();	
+        	   roles.add(userLogin.getrole());
+        	   model.addObject("role", userLogin.getrole());
+               model.addObject("rolelist", roles);			   
+		   }
+		   else {
+			   List<String> roles= new ArrayList<String>();	
         	   roles.add("MA");
+        	   roles.add("TL");
         	   model.addObject("role", userLogin.getrole());
                model.addObject("rolelist", roles);
     	   }
+	   }
        model.addObject("user", userLogin);       
        return model;
    }

@@ -90,8 +90,8 @@ public class BrandController {
     }
     
     @RequestMapping(value="/listBrand", method = RequestMethod.GET)
-    public ModelAndView listBrand(HttpServletRequest request) {
- 	    List<Brand> listBrand = brandDAO.list(userLoginDAO.getCompanyID(request.getUserPrincipal().getName()));
+    public ModelAndView listBrand(Principal principal) {
+ 	    List<Brand> listBrand = brandDAO.list(userLoginDAO.getCompanyID(principal.getName()));
         ModelAndView mav = new ModelAndView("brandList");
         mav.addObject("listBrand", listBrand);
  	    return mav;

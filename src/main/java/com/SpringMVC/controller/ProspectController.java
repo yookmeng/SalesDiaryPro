@@ -129,8 +129,8 @@ public class ProspectController {
     }
 
     @RequestMapping(value="/listProspects", method = RequestMethod.GET)
-    public ModelAndView listProspects(HttpServletRequest request) {
-        UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
+    public ModelAndView listProspects(Principal principal) {
+        UserLogin userLogin = userLoginDAO.get(principal.getName());
  	    ModelAndView mav = new ModelAndView("prospectList");
 		UserProfile userProfile = userProfileDAO.get(userLogin.getusername());
 		mav.addObject("role", userLogin.getrole());

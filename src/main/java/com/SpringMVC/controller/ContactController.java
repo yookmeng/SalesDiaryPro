@@ -110,8 +110,8 @@ public class ContactController {
     }
 
     @RequestMapping(value="/listContacts", method = RequestMethod.GET)
-    public ModelAndView listContacts(HttpServletRequest request) {
-        UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
+    public ModelAndView listContacts(Principal principal) {
+        UserLogin userLogin = userLoginDAO.get(principal.getName());
  	    ModelAndView mav = new ModelAndView("contactList");
 		UserProfile userProfile = userProfileDAO.get(userLogin.getusername());
 		List<Contact> listContact = contactDAO.list(userLogin.getuserid());

@@ -35,9 +35,6 @@
 					<a href="listProspects">Prospect</a>
 					<i class="fa fa-angle-right"></i>
 				</li>
-				<li>
-					<a href="listQuotation?prospectid=${prospect.prospectid}">Quotation</a>
-				</li>
 			</ul>
 		</div>
 		<div class="row">

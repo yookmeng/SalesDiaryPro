@@ -15,5 +15,9 @@ public interface ClosingPeriodDAO {
      
     public ClosingPeriod get(int id);
          
+    public String getCurrentPeriod(int companyid);
+
     public List<ClosingPeriod> list(int companyid);    
+
+    public List<String> getPeriod(int companyid);
 }

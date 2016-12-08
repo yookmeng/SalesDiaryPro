@@ -128,8 +128,8 @@ public class BranchTargetController {
  	}
  	   
     @RequestMapping(value="/listBranchTargetMA", method = RequestMethod.GET)
-    public ModelAndView listBranchTargetMA(HttpServletRequest request) {
-        UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
+    public ModelAndView listBranchTargetMA(Principal principal) {
+        UserLogin userLogin = userLoginDAO.get(principal.getName());
         Branch branch = branchDAO.getByMA(userLogin.getuserid());
  	    List<BranchTarget> listBranchTarget = branchTargetDAO.listByBranch(branch.getbranchid());
         ModelAndView mav = new ModelAndView("branchTargetMAList");

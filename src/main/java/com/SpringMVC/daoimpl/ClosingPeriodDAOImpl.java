@@ -71,6 +71,14 @@ public class ClosingPeriodDAOImpl extends JdbcDaoSupport implements ClosingPerio
         });
     }
 
+    @Override
+    public String getCurrentPeriod(int companyid) {
+    	String sql = "SELECT spGetCurrentPeriod(?) ";
+//      String sql = "EXEC spGetCurrentPeriod ? ";
+        String period = (String)getJdbcTemplate().queryForObject(sql, new Object[] {companyid}, String.class);
+        return period;
+    }
+
     public List<ClosingPeriod> list(int companyid) {
 	    String sql = "SELECT id, companyid, period, "
 	    		+ "opendate, closedate, closed "
@@ -80,5 +88,14 @@ public class ClosingPeriodDAOImpl extends JdbcDaoSupport implements ClosingPerio
         ClosingPeriodMapper mapper = new ClosingPeriodMapper();
         List<ClosingPeriod> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
+    }
+
+    @Override
+    public List<String> getPeriod(int companyid) {
+        String sql = "Select period FROM tblClosingPeriod "
+        		+ "WHERE companyid = " + companyid;
+         
+        List<String> periods = this.getJdbcTemplate().queryForList(sql, String.class);         
+        return periods;
     }
 }

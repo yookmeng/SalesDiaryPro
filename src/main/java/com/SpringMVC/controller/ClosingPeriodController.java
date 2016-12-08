@@ -97,7 +97,7 @@ public class ClosingPeriodController {
         return new ResponseEntity<ClosingPeriod>(HttpStatus.OK);
     }
 
-    @RequestMapping(value="/listClosingPeriod")
+    @RequestMapping(value="/listClosingPeriod", method = RequestMethod.GET)
     public ModelAndView listClosingPeriod(ModelAndView mav, Principal principal) throws IOException{
         UserLogin userLogin = userLoginDAO.get(principal.getName());
         int companyid = userLoginDAO.getCompanyID(principal.getName());

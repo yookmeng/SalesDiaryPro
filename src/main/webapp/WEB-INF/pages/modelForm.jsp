@@ -50,32 +50,32 @@
 					</div>
 					<div class="form-group">
 						<label for="commission" class="control-label col-sm-2">Commission</label>
-						<div class="col-sm-5">
-							<form:input type="text" path="commission" name="commission" id="commission" class="form-control" />
+						<div class="col-sm-2">
+							<form:input type="number" step="0.01" min="0" path="commission" name="commission" id="commission" class="form-control" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="price" class="control-label col-sm-2">Price</label>
-						<div class="col-sm-5">
-							<form:input type="text" path="price" name="price" id="price" class="form-control" />
+						<div class="col-sm-2">
+							<form:input type="number" step="0.01" min="0" path="price" name="price" id="price" class="form-control" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="suminsured" class="control-label col-sm-2">Recommended Sum Insured</label>
-						<div class="col-sm-5">
-							<form:input type="text" path="suminsured" name="suminsured" id="suminsured" class="form-control" />
+						<div class="col-sm-2">
+							<form:input type="number" step="0.01" min="0" path="suminsured" name="suminsured" id="suminsured" class="form-control" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="premium" class="control-label col-sm-2">Premium</label>
-						<div class="col-sm-5">
-							<form:input type="text" path="premium" name="premium" id="premium" class="form-control" />
+						<div class="col-sm-2">
+							<form:input type="number" step="0.01" min="0" path="premium" name="premium" id="premium" class="form-control" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="roadtax" class="control-label col-sm-2">Road Tax</label>
-						<div class="col-sm-5">
-							<form:input type="text" path="roadtax" name="roadtax" id="roadtax" class="form-control" />
+						<div class="col-sm-2">
+							<form:input type="number" step="0.01" min="0" path="roadtax" name="roadtax" id="roadtax" class="form-control" />
 						</div>
 					</div>
 					<div class="form-group">
@@ -109,7 +109,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="maxtorque" class="control-label col-sm-2">maximum Torque</label>
+						<label for="maxtorque" class="control-label col-sm-2">Maximum Torque</label>
 						<div class="col-sm-5">
 							<form:input type="text" path="maxtorque" name="maxtorque" id="maxtorque" class="form-control" />
 						</div>

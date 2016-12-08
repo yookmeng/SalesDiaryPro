@@ -23,7 +23,7 @@ public class SpringWebAppInitializer implements WebApplicationInitializer {
     }
  
    protected Filter[] getServletFilters() {
-        Filter [] singleton = { new CORSFilter()};
+        Filter [] singleton = { new HttpHeadFilter()};
         return singleton;
     }
 }

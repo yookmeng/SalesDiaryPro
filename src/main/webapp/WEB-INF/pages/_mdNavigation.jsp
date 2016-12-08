@@ -1,6 +1,6 @@
 <div id="navigation">
 	<div class="container-fluid">
-		<a href="#">Sales Diary Pro</a>
+		<a href="#" id="brand">Sales Diary Pro</a>
 		<a href="#" class="toggle-nav" rel="tooltip" data-placement="bottom" title="Toggle navigation">
 			<i class="fa fa-bars"></i>
 		</a>
@@ -20,7 +20,7 @@
 				<a href="listBranch">Branch</a>
 			</li>
 			<li>
-				<a href="listReview">Notes</a>
+				<a href="listReview">Review</a>
 			</li>
 		</ul>
 		<div class="user">

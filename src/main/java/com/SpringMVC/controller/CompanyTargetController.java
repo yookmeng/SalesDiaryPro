@@ -101,8 +101,8 @@ public class CompanyTargetController {
     }
     
     @RequestMapping(value="/listCompanyTarget", method = RequestMethod.GET)
-    public ModelAndView listCompanyTarget(HttpServletRequest request) {
-        int companyid = userLoginDAO.getCompanyID(request.getUserPrincipal().getName());
+    public ModelAndView listCompanyTarget(Principal principal) {
+        int companyid = userLoginDAO.getCompanyID(principal.getName());
         Company company = companyDAO.get(companyid);
  	    List<CompanyTarget> listCompanyTarget = companyTargetDAO.list(companyid);
         ModelAndView mav = new ModelAndView("companyTargetList");

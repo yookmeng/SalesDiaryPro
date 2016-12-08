@@ -22,72 +22,78 @@
 		<jsp:include page="_userNavigation.jsp" />
 	</c:if>
 	<div id="main">
-		<div class="container-fluid">
-		   	<input type="hidden" value="${base}" name="base" id="base"/>
-			<div class="breadcrumbs">
-				<ul>
-					<li>
-						<a href="home">Home</a>
-						<i class="fa fa-angle-right"></i>
-					</li>
-					<li>
-						<a href="listReview?userid=0">Notes</a>
-					</li>
-				</ul>
-			</div>
-		    <div align="center">
-				<div class="box box-color box-bordered">
-					<div class="box-title">
-						<h3>Notes</h3>
-					</div>
-					<div class="box-content nopadding">
-						<table class="table table-hover table-nomargin table-bordered usertable">
-							<thead>
-								<tr class="thefilter">
-									<th class="with-checkbox"></th>
-								    <th>Date</th>
-								    <th>Member</th>
-								    <th>Team</th>
-								    <th>Branch</th>
-								    <th>Minute</th>	
-								    <th>Action</th>	
-								</tr>
-								<tr>
-									<th class="with-checkbox">
-										<input type="checkbox" name="check_all" id="check_all">
-									</th>
-								    <th>Date</th>
-								    <th>Member</th>
-								    <th>Team</th>
-								    <th>Branch</th>
-								    <th>Minute</th>	
-								    <th>Action</th>	
-								</tr>						
-							</thead>
-			            	<tbody>
-				                <c:forEach var="review" items="${listReview}" varStatus="status">
-				                <tr>
-									<td class="with-checkbox">
-										<input type="checkbox" name="check" value="1">
-									</td>
-								    <td>${review.reviewdate}</td>
-				                    <td>${review.username}</td>
-				                    <td>${review.teamname}</td>
-				                    <td>${review.branchname}</td>
-				                    <td>${review.minute}</td>
-				                    <td>
-											<button class="btn btn-small" onclick="window.location='editReview?reviewid=${review.reviewid}';">
-										    	<i class="fa fa-edit"></i></button>
-										<c:if test="${role != 'USER'}">
-											<button class="btn btn-small" onclick="deleteReview(${review.reviewid})" >
-												<i class="fa fa-trash-o"></i></button>
-				                    	</c:if>
-				                    </td>
-				                </tr>
-				                </c:forEach>             
-			            	</tbody>
-			            </table>
-					</div>
+	   	<input type="hidden" value="${base}" name="base" id="base"/>
+	   	<input type="hidden" value="${currentPeriod}" name="currentPeriod" id="currentPeriod"/>		   	
+	   	<input type="hidden" value="${periods}" name="periods" id="periods"/>
+		<div class="breadcrumbs">
+			<ul>
+				<li>
+					<a href="home">Home</a>
+					<i class="fa fa-angle-right"></i>
+				</li>
+				<li>
+					<a href="listReview">Notes</a>
+				</li>
+			</ul>
+		</div>
+	    <div align="center">
+			<div class="box box-color box-bordered">
+				<div class="box-title">
+					<h3>Review</h3>
+				</div>
+				<div class="box-content nopadding">
+					<table class="table table-hover table-nomargin table-bordered usertable">
+						<thead>
+							<tr class="thefilter">
+								<th class="with-checkbox"></th>
+							    <th>Period</th>
+							    <th>Date</th>
+							    <th>Member</th>
+							    <th>Team</th>
+							    <th>Branch</th>
+							    <th>Minute</th>	
+							    <th>By</th>	
+							    <th>Action</th>	
+							</tr>
+							<tr>
+								<th class="with-checkbox">
+									<input type="checkbox" name="check_all" id="check_all">
+								</th>
+							    <th>Period</th>
+							    <th>Date</th>
+							    <th>Member</th>
+							    <th>Team</th>
+							    <th>Branch</th>
+							    <th>Minute</th>	
+							    <th>By</th>	
+							    <th>Action</th>	
+							</tr>						
+						</thead>
+		            	<tbody>
+			                <c:forEach var="review" items="${listReview}" varStatus="status">
+			                <tr>
+								<td class="with-checkbox">
+									<input type="checkbox" name="check" value="1">
+								</td>
+							    <td>${review.period}</td>
+							    <td>${review.reviewdate}</td>
+			                    <td>${review.username}</td>
+			                    <td>${review.teamname}</td>
+			                    <td>${review.branchname}</td>
+			                    <td>${review.minute}</td>
+			                    <td>${review.reviewbyname}</td>
+			                    <td>
+									<button class="btn btn-small" onclick="window.location='editReview?reviewid=${review.reviewid}';">
+								    	<i class="fa fa-edit"></i></button>
+									<c:if test="${role != 'USER'}">
+										<button class="btn btn-small" onclick="deleteReview(${review.reviewid})" >
+											<i class="fa fa-trash-o"></i></button>
+			                    	</c:if>
+			                    </td>
+			                </tr>
+			                </c:forEach>             
+		            	</tbody>
+		            </table>
 				</div>
 			</div>
 		</div>
@@ -103,13 +109,28 @@
 	                sLengthMenu: "_MENU_ <span>entries per page</span>"
 	            },
 	            sDom: "lfrtip",
-	            aoColumnDefs: [{ bSortable: !1, aTargets: [0, 6]}]
+	            aoColumnDefs: [{ bSortable: !1, aTargets: [0, 8]}]
 			};
 			
 			l.sDom = "T" + l.sDom;
 			l.oTableTools = { sSwfPath: "js/plugins/datatable/swf/copy_csv_xls_pdf.swf"};
-			
 	 		d = $(".usertable").dataTable(l);
+	 		var allperiod = $("#periods").val();
+	 		var arrayperiod = [];
+	 		var data = "";
+	 		allperiod = allperiod.replace("[","");
+	 		allperiod = allperiod.replace("]","");
+	 		allperiod = allperiod.replace(/ /g,"");
+			while(allperiod.length>0){
+				if (allperiod.search(",")>0){
+					arrayperiod.push(allperiod.substring(0,allperiod.search(",")));
+					allperiod = allperiod.substring(allperiod.search(",")+1,allperiod.length)
+				}
+				else{
+					arrayperiod.push(allperiod);
+					allperiod = "";
+				}					
+			}			
 	        $(".usertable").css("width", "100%");	
 	        $(".dataTables_filter input").attr("placeholder", "Search here...");
 	        $(".dataTables_length select").wrap("<div class='input-mini'></div>").chosen({ disable_search_threshold: 9999999 }),
@@ -118,7 +139,7 @@
 	        d.columnFilter({
 	            sPlaceHolder: "head:after",
 	            sRangeFormat: "{from}{to}",
-	            aoColumns: [null, {type: "date-range" }, { type: "text" }, { type: "text" }, {type: "text" }, {type: "text" }, null]
+	            aoColumns: [null, {type: "select", values: arrayperiod}, {type: "date-range" }, { type: "text" }, { type: "text" }, {type: "text" }, {type: "text" }, {type: "text" }, null]
 	        });
 		};
 	});

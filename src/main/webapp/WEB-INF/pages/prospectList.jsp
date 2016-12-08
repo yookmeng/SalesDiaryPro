@@ -53,6 +53,7 @@
 						    <th>Date Created</th>
 						    <th>Model</th>
 						    <th>Status</th>	
+						    <th>Notes</th>	
 						    <th>Activity</th>	
 						</tr>
 						<tr>
@@ -64,6 +65,7 @@
 						    <th>Date Created</th>
 						    <th>Model</th>
 						    <th>Status</th>	
+						    <th>Notes</th>	
 						    <th>Activity</th>	
 						</tr>
 					</thead>
@@ -78,6 +80,10 @@
 						    <td>${prospect.datecreated}</td>
 						    <td>${prospect.modelname}</td>
 						    <td>${prospect.status}</td>
+							<td>
+								<button class="btn btn-small" onclick="window.location='listNote?prospectid=${prospect.prospectid}';" >
+							    	<i class="fa fa-th-list"></i></button>
+							</td>
 							<td>
 								<button class="btn btn-small" onclick="window.location='listActivity?prospectid=${prospect.prospectid}';" >
 							    	<i class="fa fa-th-list"></i></button>
@@ -100,7 +106,7 @@
 	                sLengthMenu: "_MENU_ <span>entries per page</span>"
 	            },
 	            sDom: "lfrtip",
-	            aoColumnDefs: [{ bSortable: !1, aTargets: [0, 6]}]
+	            aoColumnDefs: [{ bSortable: !1, aTargets: [0, 7]}]
 			};
 			
 			l.sDom = "T" + l.sDom;
@@ -115,7 +121,7 @@
 	        d.columnFilter({
 	            sPlaceHolder: "head:after",
 	            sRangeFormat: "{from}{to}",
-	            aoColumns: [null, { type: "text" }, { type: "text" }, { type: "date-range" }, {type: "text" }, { type: "select", bCaseSensitive: !0, values: ["Hot", "Cold", "Closed", "Warm", "Lost"], selected: "Hot" }, null]
+	            aoColumns: [null, { type: "text" }, { type: "text" }, { type: "date-range" }, {type: "text" }, { type: "select", bCaseSensitive: !0, values: ["Hot", "Cold", "Closed", "Warm", "Lost"], selected: "Hot" }, null, null]
 	        });
 		};
 	})

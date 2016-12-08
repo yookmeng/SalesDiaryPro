@@ -26,7 +26,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="listReview">Notes</a>
+				<a href="listReview">Review</a>
 			</li>
 		</ul>
 		<div class="user">

@@ -2,9 +2,9 @@ package com.SpringMVC.model;
 
 import java.sql.Date;
 
-public class Review {
-    private int reviewid;
-    private String period; 
+public class Notes {
+    private int noteid;
+    private Date notedate;
     private int userid;
     private String username;
     private int teamid;
@@ -13,25 +13,22 @@ public class Review {
     private String branchname;
     private int companyid;
     private String companyname;
-    private int targetid;
-    private int teamtargetid;
-    private Date reviewdate;
-    private int prospect;
-    private int testdrive;
-    private int closed;
-    private String minute;
+    private int prospectid;
+    private String prospectname;
+    private String note;
+    private int status;
+    private String remark;
     private int reviewby;
     private String reviewbyname;
-    public Review() {
+    public Notes() {
     }
  
-    public Review(int reviewid, String period, int userid, String username, int teamid, String teamname, 
+    public Notes(int noteid, Date notedate, int userid, String username, int teamid, String teamname, 
     		int branchid, String branchname, int companyid, String companyname,
-    		int targetid, int teamtargetid, Date reviewdate, 
-    		int prospect, int testdrive, int closed, String minute, 
-    		int reviewby, String reviewbyname) {
-        this.reviewid = reviewid;
-        this.period = period;
+    		int prospectid, String prospectname, String note, int status, 
+    		String remark, int reviewby, String reviewbyname) {
+        this.noteid = noteid;
+        this.notedate = notedate;
         this.userid = userid;
         this.username = username;
         this.teamid = teamid;
@@ -40,29 +37,27 @@ public class Review {
         this.branchname = branchname;
         this.companyid = companyid;
         this.companyname = companyname;
-        this.targetid = targetid;
-        this.teamtargetid = teamtargetid;
-        this.reviewdate = reviewdate;
-        this.prospect = prospect;
-        this.testdrive = testdrive;
-        this.closed = closed;
-        this.minute = minute;
+        this.prospectid = prospectid;
+        this.prospectname = prospectname;
+        this.note = note;
+        this.status = status;
+        this.remark = remark;
         this.reviewby = reviewby;
         this.reviewbyname = reviewbyname;
     }
  
-    public int getreviewid() {
-        return reviewid;
+    public int getnoteid() {
+        return noteid;
     }  
-    public void setreviewid(int reviewid) {
-        this.reviewid = reviewid;
+    public void setnoteid(int noteid) {
+        this.noteid = noteid;
     }
 
-    public String getperiod() {
-        return period;
+    public Date getnotedate() {
+        return notedate;
     }  
-    public void setperiod(String period) {
-        this.period = period;
+    public void setnotedate(Date notedate) {
+        this.notedate = notedate;
     }
 
     public int getuserid() {
@@ -121,53 +116,39 @@ public class Review {
         this.companyname = companyname;
     }
 
-    public int gettargetid() {
-        return targetid;
+    public int getprospectid() {
+        return prospectid;
     }  
-    public void settargetid(int targetid) {
-        this.targetid = targetid;
+    public void setprospectid(int prospectid) {
+        this.prospectid = prospectid;
     }
 
-    public int getteamtargetid() {
-        return teamtargetid;
+    public String getprospectname() {
+        return prospectname;
     }  
-    public void setteamtargetid(int teamtargetid) {
-        this.teamtargetid = teamtargetid;
+    public void setprospectname(String prospectname) {
+        this.prospectname = prospectname;
     }
 
-    public Date getreviewdate() {
-        return reviewdate;
+    public String getnote() {
+        return note;
     }  
-    public void setreviewdate(Date reviewdate) {
-        this.reviewdate = reviewdate;
+    public void setnote(String note) {
+        this.note = note;
     }
 
-    public int getprospect() {
-        return prospect;
+    public int getstatus() {
+        return status;
     }  
-    public void setprospect(int prospect) {
-        this.prospect = prospect;
+    public void setstatus(int status) {
+        this.status = status;
     }
 
-    public int gettestdrive() {
-        return testdrive;
+    public String getremark() {
+        return remark;
     }  
-    public void settestdrive(int testdrive) {
-        this.testdrive = testdrive;
-    }
-
-    public int getclosed() {
-        return closed;
-    }  
-    public void setclosed(int closed) {
-        this.closed = closed;
-    }
-
-    public String getminute() {
-        return minute;
-    }  
-    public void setminute(String minute) {
-        this.minute = minute;
+    public void setremark(String remark) {
+        this.remark = remark;
     }
 
     public int getreviewby() {

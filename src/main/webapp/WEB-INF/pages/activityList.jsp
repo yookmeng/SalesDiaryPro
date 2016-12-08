@@ -129,6 +129,9 @@
 							<c:if test="${activity.quotation==true && activity.quotationid!=0}">
 								<a href="${activity.quotationpdflink}">${activity.quotationpdflink}</a>
 							</c:if>
+							<c:if test="${activity.closed==true && activity.closedid!=0}">
+					            <a href="editClosed?closedid=${activity.closedid}">Closed Detail</a>
+							</c:if>
 						</td>						
 					</tr>
 				</c:forEach>             

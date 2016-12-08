@@ -29,10 +29,12 @@ public class ReviewMapper implements RowMapper<Review> {
         int closed = rs.getInt("closed");
         String minute = rs.getString("minute");
         int reviewby = rs.getInt("reviewby");
+        String reviewbyname = rs.getString("reviewbyname");
         
         return new Review(reviewid, period, userid, username, teamid, teamname, 
         		branchid, branchname, companyid, companyname, 
         		targetid, teamtargetid, reviewdate, 
-        		prospect, testdrive, closed, minute, reviewby);
+        		prospect, testdrive, closed, minute, 
+        		reviewby, reviewbyname);
     }
 }
