@@ -190,7 +190,6 @@
 	            dataType: "json",
 	            data: JSON.stringify(json),
 	            success:function(data, Textstatus, jqXHR){
-	                alert("Record updated!");
 	                if ($('#role').val()=="DEV"){
 		                window.location.href = base+"/listCompany";	                	
 	                }
@@ -199,7 +198,6 @@
 	                }
 	            },
 	            error:function(jqXhr, Textstatus){
-	                alert("Update failed!");
 	            }
 	        });
 	    }

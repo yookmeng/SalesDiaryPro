@@ -19,6 +19,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.SpringMVC.dao.BranchDAO;
 import com.SpringMVC.dao.BranchTargetDAO;
+import com.SpringMVC.dao.ClosingPeriodDAO;
 import com.SpringMVC.dao.CompanyTargetDAO;
 import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.model.Branch;
@@ -35,6 +36,9 @@ public class BranchTargetController {
 
     @Autowired
     private UserLoginDAO userLoginDAO;
+
+    @Autowired
+    private ClosingPeriodDAO closingPeriodDAO;
 
     @Autowired
     private BranchDAO branchDAO;
@@ -59,7 +63,8 @@ public class BranchTargetController {
 
     @RequestMapping(value = BranchTargetRestURIConstant.GetAll, method = RequestMethod.GET)
 	public String getAllBranchTarget(@PathVariable String period, Principal principal) {
-    	int companyid = userLoginDAO.getCompanyID(principal.getName());
+    	UserLogin userLogin = userLoginDAO.get(principal.getName());
+    	int companyid = userLogin.getcompanyid();
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
@@ -132,8 +137,10 @@ public class BranchTargetController {
         UserLogin userLogin = userLoginDAO.get(principal.getName());
         Branch branch = branchDAO.getByMA(userLogin.getuserid());
  	    List<BranchTarget> listBranchTarget = branchTargetDAO.listByBranch(branch.getbranchid());
+        List<String> periods = closingPeriodDAO.getPeriod(userLogin.getcompanyid());	
         ModelAndView mav = new ModelAndView("branchTargetMAList");
- 	    mav.addObject("branch", branch);        
+ 	    mav.addObject("branch", branch);
+ 	    mav.addObject("periods", periods);
  	    mav.addObject("listTarget", listBranchTarget);
  	    return mav;
  	}

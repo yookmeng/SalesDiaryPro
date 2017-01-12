@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@page session="true"%>
 <html>
 <jsp:include page="_menu.jsp" />
 <body>

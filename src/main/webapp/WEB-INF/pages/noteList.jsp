@@ -21,77 +21,170 @@
 		<jsp:include page="_userNavigation.jsp" />
 	</c:if>
 	<div id="main">
-	   	<input type="hidden" value="${base}" name="base" id="base"/>	
-        <input type="hidden" value="prospect" name="prospect" /> 
-		<div class="breadcrumbs">
-			<ul>
-				<li>
-					<a href="home">Home</a>
-					<i class="fa fa-angle-right"></i>
-				</li>
-				<li>
-					<a href="listProspects">Prospect</a>
-					<i class="fa fa-angle-right"></i>
-				</li>
-				<li>
-					<a href="listNote?prospectid=${prospect.prospectid}">Notes</a>
-				</li>
-			</ul>
-		</div>
-		<div>
-			<h4>${prospect.firstname} ${prospect.lastname}</h4>
-		</div>
-        <div align="center">
-			<c:if test="${role == 'USER'}">
-	   	    	<h5><a href="addNotes?prospectid=${prospect.prospectid}" class='btn'>
-					<i class="fa fa-plus-circle"></i>New Notes</a></h5>
-			</c:if>
+ 		<div class="container-fluid">
+		   	<input type="hidden" value="${base}" name="base" id="base"/>	
+	        <input type="hidden" value="prospect" name="prospect" /> 
+			<div class="breadcrumbs">
+				<ul>
+					<li>
+						<a href="home">Home</a>
+						<i class="fa fa-angle-right"></i>
+					</li>
+					<li>
+						<a href="listProspects">Prospect</a>
+						<i class="fa fa-angle-right"></i>
+					</li>
+					<li>
+						<a href="listNote?prospectid=${prospect.prospectid}">Notes</a>
+					</li>
+				</ul>
+			</div>
+			<div>
+				<h4>Prospect Name : ${prospect.firstname} ${prospect.lastname}</h4>
+			</div>
 			<div class="box box-color box-bordered">
 				<div class="box-title">
-					<h3>Notes</h3>
+					<h3>Activities</h3>
 				</div>
 				<div class="box-content nopadding">
-					<table class="table table-hover table-nomargin table-bordered usertable">
-						<thead>
-							<tr class="thefilter">
-								<th class="with-checkbox"></th>
-							    <th>Date</th>
-							    <th>Notes</th>
-							    <th>Status</th>
-							    <th>Remark</th>
-							</tr>
-							<tr>
-								<th class="with-checkbox">
-									<input type="checkbox" name="check_all" id="check_all">
-								</th>
-							    <th>Date</th>
-							    <th>Notes</th>
-							    <th>Status</th>
-							    <th>Remark</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="notes" items="${listNotes}" varStatus="status">
-								<tr>
-									<td class="with-checkbox">
-										<input type="checkbox" name="check" value="1">
-									</td>
-								    <td><a href="editNotes?noteid=${notes.noteid}">${notes.notedate}</a></td>
-								    <td>${notes.note}</td>
-									<c:if test="${notes.status == 0}">
-									    <td>Pending</td>
+					<table class="table table-hover table-nomargin table-bordered">
+						<tr>
+						    <th>Date</th>
+						    <th>Model</th>
+						    <th>Activity</th>
+						    <th>Link</th>
+						</tr>
+						<c:forEach var="activity" items="${listActivity}" varStatus="status">
+						    <td>${activity.activitydate}</td>
+							<td>${activity.modelname}</td>
+							<td>
+								<ul class="minitiles">
+									<c:if test="${activity.demo==true && activity.demostatus==false}">
+										<li class="lightred">
+											<i class="fa glyphicon-display"></i>
+											<span>Presentation</span>
+										</li>
 									</c:if>
-									<c:if test="${notes.status == 1}">
-									    <td>Approved</td>
+									<c:if test="${activity.demo==true && activity.demostatus==true}">
+										<li class="satgreen">
+											<i class="fa glyphicon-display"></i>
+											<span>Presentation</span>
+										</li>
 									</c:if>
-									<c:if test="${notes.status == 2}">
-									    <td>Rejected</td>
+									<c:if test="${activity.testdrive==true && activity.testdrivestatus==false}">
+										<li class="lightred">
+											<i class="fa glyphicon-car"></i>
+											<span>Test Drive</span>
+										</li>
 									</c:if>
-									<td>${notes.remark}</td>
-								</tr>
-							</c:forEach>             
-						</tbody>
+									<c:if test="${activity.testdrive==true && activity.testdrivestatus==true}">
+										<li class="satgreen">
+											<i class="fa glyphicon-car"></i>
+											<span>Test Drive</span>
+										</li>
+									</c:if>
+									<c:if test="${activity.quotation==true && activity.quotationid==0}">
+										<li class="lightred">
+											<i class="fa glyphicon-calculator"></i>
+											<span>Quotation</span>
+										</li>
+									</c:if>
+									<c:if test="${activity.quotation==true && activity.quotationid!=0}">
+										<li class="satgreen">
+											<i class="fa glyphicon-calculator"></i>
+											<span>Quotation</span>
+										</li>
+									</c:if>
+									<c:if test="${activity.followup==true && activity.followupstatus==false}">
+										<li class="lightred">
+											<i class="fa glyphicon-calendar"></i>
+											<span>Follow Up</span>
+										</li>
+									</c:if>
+									<c:if test="${activity.followup==true && activity.followupstatus==true}">
+										<li class="satgreen">
+											<i class="fa glyphicon-calendar"></i>
+											<span>Follow Up</span>
+										</li>
+									</c:if>
+									<c:if test="${activity.closed==true}">
+										<li class="satgreen">
+											<i class="fa glyphicon-ok_2"></i>
+											<span>Close</span>
+										</li>
+									</c:if>
+									<c:if test="${activity.lost==true}">
+										<li class="satgreen">
+											<i class="fa glyphicon-remove_2"></i>
+											<span>Close</span>
+										</li>
+									</c:if>					
+								</ul>
+							</td>
+							<td>
+								<c:if test="${activity.quotation==true && activity.quotationid!=0}">
+									<a href="${activity.quotationpdflink}">${activity.quotationpdflink}</a>
+								</c:if>
+								<c:if test="${activity.closed==true && activity.closedid!=0}">
+						            <a href="editClosed?closedid=${activity.closedid}">Closed Detail</a>
+								</c:if>
+							</td>	
+						</c:forEach>				
 					</table>
+				</div>
+			</div>
+	        <div align="center">
+				<c:if test="${role == 'USER'}">
+		   	    	<h5><a href="addNotes?prospectid=${prospect.prospectid}" class='btn'>
+						<i class="fa fa-plus-circle"></i>New Notes</a></h5>
+				</c:if>
+				<div class="box box-color box-bordered">
+					<div class="box-title">
+						<h3>Notes</h3>
+					</div>
+					<div class="box-content nopadding">
+						<table class="table table-hover table-nomargin table-bordered usertable">
+							<thead>
+								<tr class="thefilter">
+									<th class="with-checkbox"></th>
+								    <th>Date</th>
+								    <th>Notes</th>
+								    <th>Status</th>
+								    <th>Remark</th>
+								</tr>
+								<tr>
+									<th class="with-checkbox">
+										<input type="checkbox" name="check_all" id="check_all">
+									</th>
+								    <th>Date</th>
+								    <th>Notes</th>
+								    <th>Status</th>
+								    <th>Remark</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="notes" items="${listNotes}" varStatus="status">
+									<tr>
+										<td class="with-checkbox">
+											<input type="checkbox" name="check" value="1">
+										</td>
+									    <td><a href="editNotes?noteid=${notes.noteid}">${notes.notedate}</a></td>
+									    <td>${notes.note}</td>
+										<c:if test="${notes.status == 0}">
+										    <td>Pending</td>
+										</c:if>
+										<c:if test="${notes.status == 1}">
+										    <td>Approved</td>
+										</c:if>
+										<c:if test="${notes.status == 2}">
+										    <td>Rejected</td>
+										</c:if>
+										<td>${notes.remark}</td>
+									</tr>
+								</c:forEach>             
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>

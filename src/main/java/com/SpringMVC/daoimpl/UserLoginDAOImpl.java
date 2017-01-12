@@ -12,7 +12,6 @@ import com.SpringMVC.model.UserLogin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Service;
@@ -21,37 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class UserLoginDAOImpl extends JdbcDaoSupport implements UserLoginDAO {
- 
-    @Autowired
+	@Autowired
     public UserLoginDAOImpl(DataSource dataSource) {
         this.setDataSource(dataSource);
     }
   
-    @Override
-    public UserLogin findUserLogin(String username) {
-        String sql = "SELECT u.userid AS userid, "
-        		+ "u.username AS username, "
-        		+ "u.password AS password, "
-        		+ "r.role AS role, "
-        		+ "CASE WHEN sa.companyid IS NULL THEN "
-        		+ "CASE WHEN md.companyid IS NULL THEN 0 ELSE md.companyid END "
-        		+ "ELSE sa.companyid END AS companyid "
-        		+ "FROM	tblUser u "        		
-				+ "LEFT JOIN tblRole r ON u.username = r.username "
-				+ "LEFT JOIN tblCompany sa ON sa.said = u.userid "
-				+ "LEFT JOIN tblCompany md ON md.mdid = u.userid "
-                + "WHERE u.username = ? ";
- 
-        Object[] params = new Object[] { username };
-        UserLoginMapper mapper = new UserLoginMapper();
-        try {
-            UserLogin userLogin = this.getJdbcTemplate().queryForObject(sql, params, mapper);
-            return userLogin;
-        } catch (EmptyResultDataAccessException e) {
-            return null;
-        }
-    }
- 
     @Override
     public String getUserRoles(String username) {
         String sql = "Select role from tblRole where username = ? ";
@@ -68,28 +41,35 @@ public class UserLoginDAOImpl extends JdbcDaoSupport implements UserLoginDAO {
         return roles;
     }
     
-    public void saveOrUpdate(UserLogin userLogin) {
-        if (userLogin.getuserid() > 0)  {
-        	String sqlUser = "UPDATE tblUser SET password=? WHERE userid=?";
-            this.getJdbcTemplate().update(sqlUser, 
-            		userLogin.getpassword(), userLogin.getuserid());
-        	
-    		String sqlRole = "UPDATE tblRole SET role=? WHERE username=?";
-            this.getJdbcTemplate().update(sqlRole, 
-            		userLogin.getrole(), userLogin.getusername());            
-        } else {
-        	String sqlUser = "INSERT INTO tblUser (username, password, enabled) "
-        			+ "VALUES (?, ?, '1')";
-            this.getJdbcTemplate().update(sqlUser, 
-            		userLogin.getusername(), userLogin.getpassword());
+    public void save(UserLogin userLogin) {
+    	String sqlUser = "INSERT INTO tblUser ("
+    			+ "username, password, teamid, branchid, companyid, mobile, email, imgurl, imgthumburl, enabled) "
+    			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, '1')";
+        this.getJdbcTemplate().update(sqlUser, 
+        		userLogin.getusername(), userLogin.getpassword(), userLogin.getteamid(),
+        		userLogin.getbranchid(), userLogin.getcompanyid(), userLogin.getmobile(),
+        		userLogin.getemail(), userLogin.getimgurl(), userLogin.getimgthumburl());
 
-    		String sqlRole = "INSERT INTO tblRole (username, role) "
-    				+ "VALUES (?, ?)";
-            this.getJdbcTemplate().update(sqlRole, 
-            		userLogin.getusername(), userLogin.getrole());            	
-        }
+		String sqlRole = "INSERT INTO tblRole (username, role) "
+				+ "VALUES (?, ?)";
+        this.getJdbcTemplate().update(sqlRole, 
+        		userLogin.getusername(), userLogin.getrole());            	
     }
     
+    public void update(UserLogin userLogin) {
+    	String sqlUser = "UPDATE tblUser SET password=?, teamid=?, branchid=?, companyid=?, "
+    			+ "mobile=?, email=?, imgurl=?, imgthumburl=? "
+    			+ "WHERE userid=?";
+        this.getJdbcTemplate().update(sqlUser, 
+        		userLogin.getpassword(), userLogin.getteamid(), userLogin.getbranchid(), 
+        		userLogin.getcompanyid(), userLogin.getmobile(), userLogin.getemail(), 
+        		userLogin.getimgurl(), userLogin.getimgthumburl(), userLogin.getuserid());
+    	
+		String sqlRole = "UPDATE tblRole SET role=? WHERE username=?";
+        this.getJdbcTemplate().update(sqlRole, 
+        		userLogin.getrole(), userLogin.getusername());            
+    }
+
     public void delete(String username) {
         String sql = "DELETE FROM tblUser WHERE username=?";
         this.getJdbcTemplate().update(sql, username);
@@ -101,38 +81,55 @@ public class UserLoginDAOImpl extends JdbcDaoSupport implements UserLoginDAO {
     @Override
     public List<UserLogin> list(String role, int companyid) {
     	String sql = "";
-    	if (role.equals("DEV") ){    	
-	        sql = "SELECT u.userid AS userid, "
-	        		+ "u.username AS username, "
-	        		+ "u.password AS password, "
-	        		+ "r.role AS role, "
-	        		+ "CASE WHEN sa.companyid IS NULL THEN "
-	        		+ "CASE WHEN md.companyid IS NULL THEN 0 ELSE md.companyid END "
-	        		+ "ELSE sa.companyid END AS companyid "
-	        		+ "FROM	tblUser u "
-					+ "LEFT JOIN tblRole r ON u.username = r.username "
-					+ "LEFT JOIN tblCompany sa ON sa.said = u.userid "
-					+ "LEFT JOIN tblCompany md ON md.mdid = u.userid "
-    				+ "WHERE r.role IN ('SA', 'MD')";    		    		
+    	if (role.equals("DEV") ){
+            sql = "SELECT u.userid AS userid, "
+        		+ "u.username, password, role, "
+        		+ "u.teamid, t.teamname, "
+        		+ "u.branchid, b.branchname, "
+        		+ "u.companyid, c.companyname, "
+        		+ "mobile, u.email, imgurl, imgthumburl "
+        		+ "FROM	tblUser u "        		
+				+ "LEFT JOIN tblRole r ON u.username = r.username "
+				+ "LEFT JOIN tblTeam t ON u.teamid = t.teamid "
+				+ "LEFT JOIN tblBranch b ON u.branchid = b.branchid "
+				+ "LEFT JOIN tblCompany c ON u.companyid = c.companyid "
+				+ "WHERE r.role IN ('SA', 'MD')";    		    		
     	}
     	else {
-	        sql = "SELECT u.userid AS userid, "
-	        		+ "u.username AS username, "
-	        		+ "u.password AS password, "
-	        		+ "r.role AS role, "
-	        		+ "CASE WHEN b1.companyid IS NULL THEN "
-	        		+ "CASE WHEN b2.companyid IS NULL THEN 0 ELSE b2.companyid END "
-	        		+ "ELSE b1.companyid END AS companyid "
-	        		+ "FROM	tblUser u "        		
-	        		+ "LEFT JOIN tblRole r ON u.username = r.username "
-	        		+ "LEFT JOIN tblBranch b1 ON b1.maid = u.userid "
-	        		+ "LEFT JOIN tblUserProfile up ON u.userid = up.userid "
-	        		+ "LEFT JOIN tblTeam t ON t.teamid = up.teamid "
-	        		+ "LEFT JOIN tblBranch b2 ON b2.branchid = t.branchid "	        		
-	        		+ "WHERE r.role IN ('MA', 'TL') "
-	        		+ "AND (b1.companyid IS NULL OR b1.companyid=" + companyid + " "
-    				+ "OR b2.companyid IS NULL OR b2.companyid=" + companyid + ")";
+            sql = "SELECT u.userid AS userid, "
+        		+ "u.username, password, role, "
+        		+ "u.teamid, t.teamname, "
+        		+ "u.branchid, b.branchname, "
+        		+ "u.companyid, c.companyname, "
+        		+ "mobile, u.email, imgurl, imgthumburl "
+        		+ "FROM	tblUser u "        		
+				+ "LEFT JOIN tblRole r ON u.username = r.username "
+				+ "LEFT JOIN tblTeam t ON u.teamid = t.teamid "
+				+ "LEFT JOIN tblBranch b ON u.branchid = b.branchid "
+				+ "LEFT JOIN tblCompany c ON u.companyid = c.companyid "
+        		+ "WHERE r.role IN ('MA', 'TL') "
+        		+ "AND u.companyid = " + companyid;
     	}
+        UserLoginMapper mapper = new UserLoginMapper();
+        List<UserLogin> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }
+
+    @Override
+    public List<UserLogin> listByTeam(int teamid) {
+    	String sql = "SELECT u.userid AS userid, "
+        		+ "u.username, password, role, "
+        		+ "u.teamid, t.teamname, "
+        		+ "u.branchid, b.branchname, "
+        		+ "u.companyid, c.companyname, "
+        		+ "mobile, u.email, imgurl, imgthumburl "
+        		+ "FROM	tblUser u "        		
+				+ "LEFT JOIN tblRole r ON u.username = r.username "
+				+ "LEFT JOIN tblTeam t ON u.teamid = t.teamid "
+				+ "LEFT JOIN tblBranch b ON u.branchid = b.branchid "
+				+ "LEFT JOIN tblCompany c ON u.companyid = c.companyid "
+        		+ "WHERE r.role = 'USER' "
+        		+ "AND u.teamid = " + teamid;
         UserLoginMapper mapper = new UserLoginMapper();
         List<UserLogin> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
@@ -175,19 +172,29 @@ public class UserLoginDAOImpl extends JdbcDaoSupport implements UserLoginDAO {
     }
 
     @Override
-    public UserLogin get(String username) {
-	    String sql = "SELECT u.userid AS userid, "
-	    		+ "u.username AS username, "
-	    		+ "u.password AS password, "
-	    		+ "r.role AS role, "
-        		+ "CASE WHEN sa.companyid IS NULL THEN "
-        		+ "CASE WHEN md.companyid IS NULL THEN 0 ELSE md.companyid END "
-        		+ "ELSE sa.companyid END AS companyid "
-        		+ "FROM	tblUser u "
+    public List<String> userlist(int teamid) {
+        String sql = "SELECT u.username AS username FROM tblUser u "        		
 				+ "LEFT JOIN tblRole r ON u.username = r.username "
-				+ "LEFT JOIN tblCompany sa ON sa.said = u.userid "
-				+ "LEFT JOIN tblCompany md ON md.mdid = u.userid "
-				+ "WHERE u.username='" + username + "'";
+        		+ "WHERE r.role = 'USER' "
+        		+ "AND u.teamid = "+teamid;
+        List<String> leaderlist = this.getJdbcTemplate().queryForList(sql, String.class);         
+        return leaderlist;
+    }
+
+    @Override
+    public UserLogin findUser(int userid) {
+        String sql = "SELECT u.userid AS userid, "
+	    		+ "u.username, password, role, "
+        		+ "u.teamid, t.teamname, "
+        		+ "u.branchid, b.branchname, "
+        		+ "u.companyid, c.companyname, "
+	    		+ "mobile, u.email, imgurl, imgthumburl "
+	    		+ "FROM	tblUser u "        		
+				+ "LEFT JOIN tblRole r ON u.username = r.username "
+				+ "LEFT JOIN tblTeam t ON u.teamid = t.teamid "
+				+ "LEFT JOIN tblBranch b ON u.branchid = b.branchid "
+				+ "LEFT JOIN tblCompany c ON u.companyid = c.companyid "
+				+ "WHERE u.userid=" + userid;
 	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<UserLogin>() {
 	 
 	        @Override
@@ -199,7 +206,16 @@ public class UserLoginDAOImpl extends JdbcDaoSupport implements UserLoginDAO {
 	                userLogin.setusername(rs.getString("username"));
 	                userLogin.setpassword(rs.getString("password"));	                
 	                userLogin.setrole(rs.getString("role"));
+	                userLogin.setteamid(rs.getInt("teamid"));
+	                userLogin.setteamname(rs.getString("teamname"));
+	                userLogin.setbranchid(rs.getInt("branchid"));
+	                userLogin.setbranchname(rs.getString("branchname"));
 	                userLogin.setcompanyid(rs.getInt("companyid"));
+	                userLogin.setcompanyname(rs.getString("companyname"));
+	                userLogin.setmobile(rs.getString("mobile"));
+	                userLogin.setemail(rs.getString("email"));
+	                userLogin.setimgurl(rs.getString("imgurl"));
+	                userLogin.setimgthumburl(rs.getString("imgthumburl"));
 	                return userLogin;
 	            }	 
 	            return null;
@@ -208,10 +224,86 @@ public class UserLoginDAOImpl extends JdbcDaoSupport implements UserLoginDAO {
     }
 
     @Override
-    public int getCompanyID(String username) {
-    	String sql = "SELECT spGetCompanyID(?) ";
-//    	String sql = "EXEC spGetCompanyID ? ";
-        int companyid = (int)getJdbcTemplate().queryForObject(sql, new Object[] {username}, int.class);
-        return companyid;
+    public UserLogin findUserEmail(String email) {
+        String sql = "SELECT u.userid AS userid, "
+	    		+ "u.username, password, role, "
+        		+ "u.teamid, t.teamname, "
+        		+ "u.branchid, b.branchname, "
+        		+ "u.companyid, c.companyname, "
+	    		+ "mobile, u.email, imgurl, imgthumburl "
+	    		+ "FROM	tblUser u "        		
+				+ "LEFT JOIN tblRole r ON u.username = r.username "
+				+ "LEFT JOIN tblTeam t ON u.teamid = t.teamid "
+				+ "LEFT JOIN tblBranch b ON u.branchid = b.branchid "
+				+ "LEFT JOIN tblCompany c ON u.companyid = c.companyid "
+				+ "WHERE u.email='" + email + "'";
+	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<UserLogin>() {
+	 
+	        @Override
+	        public UserLogin extractData(ResultSet rs) throws SQLException,
+	                DataAccessException {
+	            if (rs.next()) {
+	                UserLogin userLogin = new UserLogin();
+	                userLogin.setuserid(rs.getInt("userid"));
+	                userLogin.setusername(rs.getString("username"));
+	                userLogin.setpassword(rs.getString("password"));	                
+	                userLogin.setrole(rs.getString("role"));
+	                userLogin.setteamid(rs.getInt("teamid"));
+	                userLogin.setteamname(rs.getString("teamname"));
+	                userLogin.setbranchid(rs.getInt("branchid"));
+	                userLogin.setbranchname(rs.getString("branchname"));
+	                userLogin.setcompanyid(rs.getInt("companyid"));
+	                userLogin.setcompanyname(rs.getString("companyname"));
+	                userLogin.setmobile(rs.getString("mobile"));
+	                userLogin.setemail(rs.getString("email"));
+	                userLogin.setimgurl(rs.getString("imgurl"));
+	                userLogin.setimgthumburl(rs.getString("imgthumburl"));
+	                return userLogin;
+	            }	 
+	            return null;
+	        }
+        });
+    }
+
+    @Override
+    public UserLogin get(String username) {
+        String sql = "SELECT u.userid AS userid, "
+	    		+ "u.username, password, role, "
+        		+ "u.teamid, t.teamname, "
+        		+ "u.branchid, b.branchname, "
+        		+ "u.companyid, c.companyname, "
+	    		+ "mobile, u.email, imgurl, imgthumburl "
+	    		+ "FROM	tblUser u "        		
+				+ "LEFT JOIN tblRole r ON u.username = r.username "
+				+ "LEFT JOIN tblTeam t ON u.teamid = t.teamid "
+				+ "LEFT JOIN tblBranch b ON u.branchid = b.branchid "
+				+ "LEFT JOIN tblCompany c ON u.companyid = c.companyid "
+				+ "WHERE u.username='" + username + "'";
+        return this.getJdbcTemplate().query(sql, new ResultSetExtractor<UserLogin>() {
+	 
+	        @Override
+	        public UserLogin extractData(ResultSet rs) throws SQLException,
+	                DataAccessException {
+	            if (rs.next()) {
+	                UserLogin userLogin = new UserLogin();
+	                userLogin.setuserid(rs.getInt("userid"));
+	                userLogin.setusername(rs.getString("username"));
+	                userLogin.setpassword(rs.getString("password"));	                
+	                userLogin.setrole(rs.getString("role"));
+	                userLogin.setteamid(rs.getInt("teamid"));
+	                userLogin.setteamname(rs.getString("teamname"));
+	                userLogin.setbranchid(rs.getInt("branchid"));
+	                userLogin.setbranchname(rs.getString("branchname"));
+	                userLogin.setcompanyid(rs.getInt("companyid"));
+	                userLogin.setcompanyname(rs.getString("companyname"));
+	                userLogin.setmobile(rs.getString("mobile"));
+	                userLogin.setemail(rs.getString("email"));
+	                userLogin.setimgurl(rs.getString("imgurl"));
+	                userLogin.setimgthumburl(rs.getString("imgthumburl"));
+	                return userLogin;
+	            }	 
+	            return null;
+	        }
+        });
     }
 }

@@ -183,7 +183,6 @@
 	            dataType: "json",
 	            data: JSON.stringify(json), 
 	            success:function(data, Textstatus, jqXHR){
-	                alert("Record created!");
 	                if ($('#role').val()=="SA"){
 		                window.location.href = base+"/listBranch";
 	                }
@@ -192,7 +191,6 @@
 	                }	                
 	            },
 	            error:function(jqXhr, Textstatus){
-	                alert("Create failed!");
 	            }
 	        });    	
 	    }

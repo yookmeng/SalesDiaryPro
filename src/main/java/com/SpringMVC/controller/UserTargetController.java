@@ -18,11 +18,11 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.SpringMVC.dao.TeamDAO;
 import com.SpringMVC.dao.TeamTargetDAO;
-import com.SpringMVC.dao.UserProfileDAO;
+import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.dao.UserTargetDAO;
 import com.SpringMVC.model.Team;
 import com.SpringMVC.model.TeamTarget;
-import com.SpringMVC.model.UserProfile;
+import com.SpringMVC.model.UserLogin;
 import com.SpringMVC.model.UserTarget;
 import com.SpringMVC.uriconstant.UserTargetRestURIConstant;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -33,7 +33,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class UserTargetController {
 
     @Autowired
-    private UserProfileDAO userProfileDAO;
+    private UserLoginDAO userLoginDAO;
 
     @Autowired
     private TeamTargetDAO teamTargetDAO;
@@ -94,8 +94,8 @@ public class UserTargetController {
 
     @RequestMapping(value = UserTargetRestURIConstant.Create, method = RequestMethod.POST)
     public ResponseEntity<UserTarget> createUserTarget(@RequestBody UserTarget userTarget) throws IOException {
-    	UserProfile userProfile = userProfileDAO.get(userTarget.getusername());
-    	userTarget.setuserid(userProfile.getuserid());
+    	UserLogin userLogin = userLoginDAO.get(userTarget.getusername());
+    	userTarget.setuserid(userLogin.getuserid());
     	userTargetDAO.save(userTarget);
         return new ResponseEntity<UserTarget>(userTarget, HttpStatus.CREATED);
     }
@@ -148,7 +148,7 @@ public class UserTargetController {
         newUserTarget.setperiod(teamTarget.getperiod());
         newUserTarget.setteamtargetid(teamTarget.gettargetid());        
         ModelAndView mav = new ModelAndView("userTargetForm");
-        List<String> members = userProfileDAO.userList(teamTarget.getteamid());	
+        List<String> members = userLoginDAO.userlist(teamTarget.getteamid());	
         mav.addObject("team", team);
         mav.addObject("userlist", members);
         mav.addObject("teamTarget", teamTarget);
@@ -163,7 +163,7 @@ public class UserTargetController {
         TeamTarget teamTarget = teamTargetDAO.get(editUserTarget.getteamtargetid());
         Team team = teamDAO.get(teamTarget.getteamid());
         ModelAndView mav = new ModelAndView("userTargetForm");
-        List<String> members = userProfileDAO.userList(teamTarget.getteamid());	
+        List<String> members = userLoginDAO.userlist(teamTarget.getteamid());	
         mav.addObject("team", team);
         mav.addObject("userlist", members);
         mav.addObject("teamTarget", teamTarget);

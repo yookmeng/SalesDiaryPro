@@ -117,16 +117,16 @@ public class UserTargetDAOImpl extends JdbcDaoSupport implements UserTargetDAO {
     public List<UserTarget> list(String period, int teamid) {
 	    String sql = "SELECT ut.targetid AS targetid, "
 	    		+ "ut.userid AS userid, "
-	    		+ "up.username AS username, "
+	    		+ "u.username AS username, "
 	    		+ "ut.period AS period, "
 	    		+ "ut.teamtargetid AS teamtargetid, "
 	    		+ "ut.prospect AS prospect, "
 	    		+ "ut.testdrive AS testdrive, "
 	    		+ "ut.closed AS closed "
 	    		+ "FROM tblUserTarget ut "
-	    		+ "LEFT JOIN tblUserProfile up ON up.userid = ut.userid "	    		
+	    		+ "LEFT JOIN tblUser u ON u.userid = ut.userid "	    		
         		+ "WHERE ut.period = '"+period+"' "
-        		+ "AND up.teamid ="+teamid;
+        		+ "AND u.teamid ="+teamid;
         UserTargetMapper mapper = new UserTargetMapper();
         List<UserTarget> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
@@ -135,14 +135,14 @@ public class UserTargetDAOImpl extends JdbcDaoSupport implements UserTargetDAO {
     public List<UserTarget> listByUser(int userid) {
 	    String sql = "SELECT ut.targetid AS targetid, "
 	    		+ "ut.userid AS userid, "
-	    		+ "up.username AS username, "
+	    		+ "u.username AS username, "
 	    		+ "ut.period AS period, "
 	    		+ "ut.teamtargetid AS teamtargetid, "
 	    		+ "ut.prospect AS prospect, "
 	    		+ "ut.testdrive AS testdrive, "
 	    		+ "ut.closed AS closed "
 	    		+ "FROM tblUserTarget ut "
-	    		+ "LEFT JOIN tblUserProfile up ON up.userid = ut.userid "	    		
+	    		+ "LEFT JOIN tblUser u ON u.userid = ut.userid "	    		
         		+ "WHERE ut.userid ="+userid;
         UserTargetMapper mapper = new UserTargetMapper();
         List<UserTarget> list = this.getJdbcTemplate().query(sql, mapper);

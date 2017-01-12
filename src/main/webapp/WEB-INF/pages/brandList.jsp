@@ -9,58 +9,65 @@
 <jsp:include page="_menu.jsp" />
 <body>
 	<jsp:include page="_saNavigation.jsp" />
- 	<div id="main" class="container-fluid">
-	   	<input type="hidden" value="${base}" name="base" id="base"/>	
-		<div class="breadcrumbs">
-			<ul>
-				<li>
-					<a href="home">Home</a>
-					<i class="fa fa-angle-right"></i>
-				</li>
-				<li>
-					<a href="listBrand">Brand</a>
-				</li>
-			</ul>
-		</div>
-        <div align="center">
-			<h5>		
-   				<a href="addBrand" class='btn'>
-				<i class="fa fa-plus-circle"></i>New Brand</a>
-			</h5>
-			<div class="box-content nopadding">
-				<table class="table table-hover table-nomargin table-bordered usertable">
-				<thead>
-					<tr class="thefilter">
-						<th class="with-checkbox"></th>
-					    <th>Name</th>
-					    <th>Action</th>
-					</tr>
-					<tr>
-						<th class="with-checkbox">
-							<input type="checkbox" name="check_all" id="check_all">
-						</th>
-					    <th>Name</th>
-					    <th>Action</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="brand" items="${listBrand}" varStatus="status">
-						<tr>
-							<td class="with-checkbox">
-								<input type="checkbox" name="check" value="1">
-							</td>
-						    <td>${brand.brandname}</td>
-							<td>
-								<button class="btn btn-small" onclick="window.location='editBrand?brandid=${brand.brandid}';" >
-							    	<i class="fa fa-edit"></i></button>
-								<button class="btn btn-small" onclick="deleteBrand(${brand.brandid})">
-									<i class="fa fa-trash-o"></i></button>
-								<a href="listModel?brandid=${brand.brandid}">Model</a>				
-						    </td>		                 
-						</tr>
-					</c:forEach>             
-				</tbody>
-				</table>
+ 	<div id="main"> 
+ 		<div class="container-fluid">
+		   	<input type="hidden" value="${base}" name="base" id="base"/>	
+			<div class="breadcrumbs">
+				<ul>
+					<li>
+						<a href="home">Home</a>
+						<i class="fa fa-angle-right"></i>
+					</li>
+					<li>
+						<a href="listBrand">Brand</a>
+					</li>
+				</ul>
+			</div>
+	        <div align="center">
+				<h5>		
+	   				<a href="addBrand" class='btn'>
+					<i class="fa fa-plus-circle"></i>Add New</a>
+				</h5>
+				<div class="box box-color box-bordered">
+					<div class="box-title">
+						<h3>Brand</h3>
+					</div>
+					<div class="box-content nopadding">
+						<table class="table table-hover table-nomargin table-bordered usertable">
+						<thead>
+							<tr class="thefilter">
+								<th class="with-checkbox"></th>
+							    <th>Name</th>
+							    <th>Action</th>
+							</tr>
+							<tr>
+								<th class="with-checkbox">
+									<input type="checkbox" name="check_all" id="check_all">
+								</th>
+							    <th>Name</th>
+							    <th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach var="brand" items="${listBrand}" varStatus="status">
+								<tr>
+									<td class="with-checkbox">
+										<input type="checkbox" name="check" value="1">
+									</td>
+								    <td>${brand.brandname}</td>
+									<td>
+										<button class="btn btn-small" onclick="window.location='editBrand?brandid=${brand.brandid}';" >
+									    	<i class="fa fa-edit"></i></button>
+										<button class="btn btn-small" onclick="deleteBrand(${brand.brandid})">
+											<i class="fa fa-trash-o"></i></button>
+										<a href="listModel?brandid=${brand.brandid}">Model</a>				
+								    </td>		                 
+								</tr>
+							</c:forEach>             
+						</tbody>
+						</table>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

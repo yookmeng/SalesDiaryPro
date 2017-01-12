@@ -21,79 +21,80 @@
 		<jsp:include page="_userNavigation.jsp" />
 	</c:if>
 	<div id="main">
-	   	<input type="hidden" value="${base}" name="base" id="base"/>	
-		<div class="breadcrumbs">
-			<ul>
-				<li>
-					<a href="home">Home</a>
-					<i class="fa fa-angle-right"></i>
-				</li>
-				<li>
-					<a href="listProspects">Prospect</a>
-				</li>
-			</ul>
-		</div>
-        <input type="hidden" value="userProfile" name="userProfile" /> 
-		<div align="center">
-   	    	<h5>
-   				<a href="addQuestionaire" class='btn'>
-				<i class="fa fa-plus-circle"></i>New Prospect</a></h5>
-		</div>
-		<div class="box box-color box-bordered">
-			<div class="box-title">
-				<h3>Prospect</h3>
+ 		<div class="container-fluid">
+		   	<input type="hidden" value="${base}" name="base" id="base"/>	
+			<div class="breadcrumbs">
+				<ul>
+					<li>
+						<a href="home">Home</a>
+						<i class="fa fa-angle-right"></i>
+					</li>
+					<li>
+						<a href="listProspects">Prospect</a>
+					</li>
+				</ul>
 			</div>
-			<div class="box-content nopadding">
-				<table class="table table-hover table-nomargin table-bordered usertable">
-					<thead>
-						<tr class="thefilter">
-							<th class="with-checkbox"></th>
-						    <th>Name</th>
-						    <th>Mobile</th>
-						    <th>Date Created</th>
-						    <th>Model</th>
-						    <th>Status</th>	
-						    <th>Notes</th>	
-						    <th>Activity</th>	
-						</tr>
-						<tr>
-							<th class="with-checkbox">
-								<input type="checkbox" name="check_all" id="check_all">
-							</th>
-						    <th>Name</th>
-						    <th>Mobile</th>
-						    <th>Date Created</th>
-						    <th>Model</th>
-						    <th>Status</th>	
-						    <th>Notes</th>	
-						    <th>Activity</th>	
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach var="prospect" items="${listProspect}" varStatus="status">
-						<tr>
-							<td class="with-checkbox">
-								<input type="checkbox" name="check" value="1">
-							</td>
-						    <td><a href="editProspect?prospectid=${prospect.prospectid}">${prospect.firstname}</a></td>
-						    <td>${prospect.mobile}</td>
-						    <td>${prospect.datecreated}</td>
-						    <td>${prospect.modelname}</td>
-						    <td>${prospect.status}</td>
-							<td>
-								<button class="btn btn-small" onclick="window.location='listNote?prospectid=${prospect.prospectid}';" >
-							    	<i class="fa fa-th-list"></i></button>
-							</td>
-							<td>
-								<button class="btn btn-small" onclick="window.location='listActivity?prospectid=${prospect.prospectid}';" >
-							    	<i class="fa fa-th-list"></i></button>
-							</td>
-						</tr>
-						</c:forEach>
-					</tbody>
-				</table>
+			<div align="center">
+	   	    	<h5>
+	   				<a href="addQuestionaire" class='btn'>
+					<i class="fa fa-plus-circle"></i>New Prospect</a></h5>
 			</div>
-		</div>        
+			<div class="box box-color box-bordered">
+				<div class="box-title">
+					<h3>Prospect</h3>
+				</div>
+				<div class="box-content nopadding">
+					<table class="table table-hover table-nomargin table-bordered usertable">
+						<thead>
+							<tr class="thefilter">
+								<th class="with-checkbox"></th>
+							    <th>Name</th>
+							    <th>Mobile</th>
+							    <th>Date Created</th>
+							    <th>Model</th>
+							    <th>Status</th>	
+							    <th>Notes</th>	
+							    <th>Activity</th>	
+							</tr>
+							<tr>
+								<th class="with-checkbox">
+									<input type="checkbox" name="check_all" id="check_all">
+								</th>
+							    <th>Name</th>
+							    <th>Mobile</th>
+							    <th>Date Created</th>
+							    <th>Model</th>
+							    <th>Status</th>	
+							    <th>Notes</th>	
+							    <th>Activity</th>	
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach var="prospect" items="${listProspect}" varStatus="status">
+							<tr>
+								<td class="with-checkbox">
+									<input type="checkbox" name="check" value="1">
+								</td>
+							    <td><a href="editProspect?prospectid=${prospect.prospectid}">${prospect.firstname}</a></td>
+							    <td>${prospect.mobile}</td>
+							    <td>${prospect.datecreated}</td>
+							    <td>${prospect.modelname}</td>
+							    <td>${prospect.status}</td>
+								<td>
+									<button class="btn btn-small" onclick="window.location='listNote?prospectid=${prospect.prospectid}';" >
+								    	<i class="fa fa-th-list"></i></button>
+								</td>
+								<td>
+									<button class="btn btn-small" onclick="window.location='listActivity?prospectid=${prospect.prospectid}';" >
+								    	<i class="fa fa-th-list"></i></button>
+								</td>
+							</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
+			</div>        
+		</div>
 	</div>
 	<script>
 	$(document).ready(function() {

@@ -50,19 +50,19 @@ public class NotesDAOImpl extends JdbcDaoSupport implements NotesDAO {
     
     public List<Notes> list(int prospectid) {
 	    String sql = "SELECT noteid, notedate, "
-	    		+ "n.userid, up.username, "
+	    		+ "n.userid, u.username, "
 	    		+ "n.teamid, t.teamname, "
 	    		+ "n.branchid, b.branchname, "
 	    		+ "n.companyid, c.companyname, "
         		+ "n.prospectid, p.firstname AS prospectname, "
-        		+ "note, n.status, n.remark, reviewby, u.username AS reviewbyname "
+        		+ "note, n.status, n.remark, reviewby, rb.username AS reviewbyname "
         		+ "FROM tblNotes n "
-        		+ "LEFT JOIN tblUserProfile up on up.userid = n.userid "
+        		+ "LEFT JOIN tblUser u on u.userid = n.userid "
         		+ "LEFT JOIN tblTeam t on t.teamid = n.teamid "
         		+ "LEFT JOIN tblBranch b on b.branchid = n.branchid "
         		+ "LEFT JOIN tblCompany c on c.companyid = n.companyid "
         		+ "LEFT JOIN tblProspect p on p.prospectid = n.prospectid "
-        		+ "LEFT JOIN tblUser u on u.userid = n.reviewby "
+        		+ "LEFT JOIN tblUser rb on rb.userid = n.reviewby "
         		+ "WHERE n.prospectid = " + prospectid;
 	    NotesMapper mapper = new NotesMapper();
         List<Notes> list = this.getJdbcTemplate().query(sql, mapper);
@@ -71,19 +71,19 @@ public class NotesDAOImpl extends JdbcDaoSupport implements NotesDAO {
 
     public List<Notes> listByTeam(int teamid) {
 	    String sql = "SELECT noteid, notedate, "
-	    		+ "n.userid, up.username, "
+	    		+ "n.userid, u.username, "
 	    		+ "n.teamid, t.teamname, "
 	    		+ "n.branchid, b.branchname, "
 	    		+ "n.companyid, c.companyname, "
         		+ "n.prospectid, p.firstname AS prospectname, "
-        		+ "note, n.status, n.remark, reviewby, u.username AS reviewbyname "
+        		+ "note, n.status, n.remark, reviewby, rb.username AS reviewbyname "
         		+ "FROM tblNotes n "
-        		+ "LEFT JOIN tblUserProfile up on up.userid = n.userid "
+        		+ "LEFT JOIN tblUser u on u.userid = n.userid "
         		+ "LEFT JOIN tblTeam t on t.teamid = n.teamid "
         		+ "LEFT JOIN tblBranch b on b.branchid = n.branchid "
         		+ "LEFT JOIN tblCompany c on c.companyid = n.companyid "
         		+ "LEFT JOIN tblProspect p on p.prospectid = n.prospectid "
-        		+ "LEFT JOIN tblUser u on u.userid = n.reviewby "
+        		+ "LEFT JOIN tblUser rb on rb.userid = n.reviewby "
         		+ "WHERE t.teamid = " + teamid;
 	    NotesMapper mapper = new NotesMapper();
         List<Notes> list = this.getJdbcTemplate().query(sql, mapper);
@@ -92,19 +92,19 @@ public class NotesDAOImpl extends JdbcDaoSupport implements NotesDAO {
 
     public List<Notes> listByBranch(int branchid) {
 	    String sql = "SELECT noteid, notedate, "
-	    		+ "n.userid, up.username, "
+	    		+ "n.userid, u.username, "
 	    		+ "n.teamid, t.teamname, "
 	    		+ "n.branchid, b.branchname, "
 	    		+ "n.companyid, c.companyname, "
         		+ "n.prospectid, p.firstname AS prospectname, "
-        		+ "note, n.status, n.remark, reviewby, u.username AS reviewbyname "
+        		+ "note, n.status, n.remark, reviewby, rb.username AS reviewbyname "
         		+ "FROM tblNotes n "
-        		+ "LEFT JOIN tblUserProfile up on up.userid = n.userid "
+        		+ "LEFT JOIN tblUser u on u.userid = n.userid "
         		+ "LEFT JOIN tblTeam t on t.teamid = n.teamid "
         		+ "LEFT JOIN tblBranch b on b.branchid = n.branchid "
         		+ "LEFT JOIN tblCompany c on c.companyid = n.companyid "
         		+ "LEFT JOIN tblProspect p on p.prospectid = n.prospectid "
-        		+ "LEFT JOIN tblUser u on u.userid = n.reviewby "
+        		+ "LEFT JOIN tblUser rb on rb.userid = n.reviewby "
         		+ "WHERE b.branchid = " + branchid;
 	    NotesMapper mapper = new NotesMapper();
         List<Notes> list = this.getJdbcTemplate().query(sql, mapper);
@@ -113,19 +113,19 @@ public class NotesDAOImpl extends JdbcDaoSupport implements NotesDAO {
 
     public List<Notes> listByCompany(int companyid) {
 	    String sql = "SELECT noteid, notedate, "
-	    		+ "n.userid, up.username, "
+	    		+ "n.userid, u.username, "
 	    		+ "n.teamid, t.teamname, "
 	    		+ "n.branchid, b.branchname, "
 	    		+ "n.companyid, c.companyname, "
         		+ "n.prospectid, p.firstname AS prospectname, "
-        		+ "note, n.status, n.remark, reviewby, u.username AS reviewbyname "
+        		+ "note, n.status, n.remark, reviewby, rb.username AS reviewbyname "
         		+ "FROM tblNotes n "
-        		+ "LEFT JOIN tblUserProfile up on up.userid = n.userid "
+        		+ "LEFT JOIN tblUser u on u.userid = n.userid "
         		+ "LEFT JOIN tblTeam t on t.teamid = n.teamid "
         		+ "LEFT JOIN tblBranch b on b.branchid = n.branchid "
         		+ "LEFT JOIN tblCompany c on c.companyid = n.companyid "
         		+ "LEFT JOIN tblProspect p on p.prospectid = n.prospectid "
-        		+ "LEFT JOIN tblUser u on u.userid = n.reviewby "
+        		+ "LEFT JOIN tblUser rb on rb.userid = n.reviewby "
         		+ "WHERE c.companyid = " + companyid;
 	    NotesMapper mapper = new NotesMapper();
         List<Notes> list = this.getJdbcTemplate().query(sql, mapper);
@@ -134,19 +134,19 @@ public class NotesDAOImpl extends JdbcDaoSupport implements NotesDAO {
 
     public Notes get(int noteid) {
 	    String sql = "SELECT noteid,  notedate, "
-	    		+ "n.userid, up.username, "
+	    		+ "n.userid, u.username, "
 	    		+ "n.teamid, t.teamname, "
 	    		+ "n.branchid, b.branchname, "
 	    		+ "n.companyid, c.companyname, "
         		+ "n.prospectid, p.firstname AS prospectname, "
-        		+ "note, n.status, n.remark, reviewby, u.username AS reviewbyname "
+        		+ "note, n.status, n.remark, reviewby, rb.username AS reviewbyname "
         		+ "FROM tblNotes n "
-        		+ "LEFT JOIN tblUserProfile up on up.userid = n.userid "
+        		+ "LEFT JOIN tblUser u on u.userid = n.userid "
         		+ "LEFT JOIN tblTeam t on t.teamid = n.teamid "
         		+ "LEFT JOIN tblBranch b on b.branchid = n.branchid "
         		+ "LEFT JOIN tblCompany c on c.companyid = n.companyid "
         		+ "LEFT JOIN tblProspect p on p.prospectid = n.prospectid "
-        		+ "LEFT JOIN tblUser u on u.userid = n.reviewby "
+        		+ "LEFT JOIN tblUser rb on rb.userid = n.reviewby "
 	    		+ "WHERE n.noteid=" + noteid;
 	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<Notes>() {
 	 

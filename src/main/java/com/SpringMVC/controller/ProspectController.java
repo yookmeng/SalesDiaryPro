@@ -22,12 +22,10 @@ import com.SpringMVC.dao.CodeMasterDAO;
 import com.SpringMVC.dao.ProspectDAO;
 import com.SpringMVC.dao.TeamDAO;
 import com.SpringMVC.dao.UserLoginDAO;
-import com.SpringMVC.dao.UserProfileDAO;
 import com.SpringMVC.model.Branch;
 import com.SpringMVC.model.Prospect;
 import com.SpringMVC.model.Team;
 import com.SpringMVC.model.UserLogin;
-import com.SpringMVC.model.UserProfile;
 import com.SpringMVC.uriconstant.ProspectRestURIConstant;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,9 +36,6 @@ public class ProspectController {
 
 	@Autowired
     private UserLoginDAO userLoginDAO;
-
-    @Autowired
-    private UserProfileDAO userProfileDAO;
 
     @Autowired
     private TeamDAO teamDAO;
@@ -72,7 +67,7 @@ public class ProspectController {
 
     @RequestMapping(value = ProspectRestURIConstant.GetAll, method = RequestMethod.GET)
 	public String getAllProspect(Principal principal) {
-    	UserLogin userLogin = userLoginDAO.findUserLogin(principal.getName());
+    	UserLogin userLogin = userLoginDAO.get(principal.getName());
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
@@ -132,9 +127,7 @@ public class ProspectController {
     public ModelAndView listProspects(Principal principal) {
         UserLogin userLogin = userLoginDAO.get(principal.getName());
  	    ModelAndView mav = new ModelAndView("prospectList");
-		UserProfile userProfile = userProfileDAO.get(userLogin.getusername());
 		mav.addObject("role", userLogin.getrole());
-		mav.addObject("userProfile", userProfile);
 		Roles role = Roles.valueOf(userLogin.getrole()); 
 		switch (role){
 		case USER:
@@ -149,8 +142,7 @@ public class ProspectController {
 			mav.addObject("listProspect", prospectDAO.listByBranch(branch.getbranchid()));			
 			break;    	   
 		case MD:
-			int companyid = userLoginDAO.getCompanyID(userLogin.getusername());
-			mav.addObject("listProspect", prospectDAO.listByCompany(companyid));			
+			mav.addObject("listProspect", prospectDAO.listByCompany(userLogin.getcompanyid()));			
 			break;
 		default:
 			break;	

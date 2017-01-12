@@ -53,7 +53,8 @@ public class ClosingPeriodController {
 
     @RequestMapping(value = ClosingPeriodRestURIConstant.GetAll, method = RequestMethod.GET)
 	public String getAllClosingPeriod(Principal principal) {
-    	int companyid = userLoginDAO.getCompanyID(principal.getName());
+    	UserLogin userLogin = userLoginDAO.get(principal.getName());
+    	int companyid = userLogin.getcompanyid();
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
@@ -100,7 +101,7 @@ public class ClosingPeriodController {
     @RequestMapping(value="/listClosingPeriod", method = RequestMethod.GET)
     public ModelAndView listClosingPeriod(ModelAndView mav, Principal principal) throws IOException{
         UserLogin userLogin = userLoginDAO.get(principal.getName());
-        int companyid = userLoginDAO.getCompanyID(principal.getName());
+        int companyid = userLogin.getcompanyid();
  	    List<ClosingPeriod> listClosingPeriod = closingPeriodDAO.list(companyid);
  	    mav.addObject("listClosingPeriod", listClosingPeriod);
         mav.addObject("role", userLogin.getrole());        
@@ -111,7 +112,7 @@ public class ClosingPeriodController {
     @RequestMapping(value = "/addClosingPeriod", method = RequestMethod.GET)
     public ModelAndView addClosingPeriod(ModelAndView mav, Principal principal) {
         UserLogin userLogin = userLoginDAO.get(principal.getName());
-        int companyid = userLoginDAO.getCompanyID(principal.getName());
+        int companyid = userLogin.getcompanyid();
         ClosingPeriod newClosingPeriod = new ClosingPeriod();
         newClosingPeriod.setcompanyid(companyid);
         List<String> periods = commonDAO.periodList();

@@ -12,6 +12,15 @@
 				<a href="listCompany">Company</a>
 			</li>
 		</ul>
+		<form action="${pageContext.request.contextPath}/logout" method="post" id="logoutForm">
+			<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
+		</form>
+		<script>
+			function formSubmit() {
+				document.getElementById("logoutForm").submit();
+			}
+		</script>
 		<div class="user">
 			<div class="dropdown">
 				<a href="#" class='dropdown-toggle' data-toggle="dropdown">${pageContext.request.userPrincipal.name}
@@ -22,7 +31,7 @@
 						<a href="editUser?username=${pageContext.request.userPrincipal.name}">Edit profile</a>
 					</li>
 					<li>
-						<a href="login">Sign out</a>
+						<a href="javascript:formSubmit()">Sign out</a>
 					</li>
 				</ul>
 			</div>			

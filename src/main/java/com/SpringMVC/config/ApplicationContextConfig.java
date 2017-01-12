@@ -17,6 +17,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.servlet.ViewResolver;
@@ -93,6 +94,13 @@ public class ApplicationContextConfig {
       return dataSource;
   }
  
+  @Bean(name = "savedRequestAwareAuthenticationSuccessHandler")
+  public SavedRequestAwareAuthenticationSuccessHandler savedRequestAwareAuthenticationSuccessHandler() {
+	  SavedRequestAwareAuthenticationSuccessHandler savedRequestAwareAuthenticationSuccessHandler = new SavedRequestAwareAuthenticationSuccessHandler();
+	  savedRequestAwareAuthenticationSuccessHandler.setTargetUrlParameter("targetUrl");
+	  return savedRequestAwareAuthenticationSuccessHandler;
+  }
+  
   // Transaction Manager
   @Autowired
   @Bean(name = "transactionManager")

@@ -51,19 +51,19 @@ public class ReviewDAOImpl extends JdbcDaoSupport implements ReviewDAO {
     
     public List<Review> list(int userid) {
 	    String sql = "SELECT reviewid, period, "
-	    		+ "r.userid, up.username, "
+	    		+ "r.userid, u.username, "
 	    		+ "r.teamid, t.teamname, "
 	    		+ "r.branchid, b.branchname, "
 	    		+ "r.companyid, c.companyname, "
 	    		+ "targetid, teamtargetid, reviewdate, "
         		+ "prospect, testdrive, closed, "
-        		+ "minute, reviewby, u.username AS reviewbyname "
+        		+ "minute, reviewby, rb.username AS reviewbyname "
         		+ "FROM tblReview r "
-        		+ "LEFT JOIN tblUserProfile up on up.userid = r.userid "
+        		+ "LEFT JOIN tblUser u on u.userid = r.userid "
         		+ "LEFT JOIN tblTeam t on t.teamid = r.teamid "
         		+ "LEFT JOIN tblBranch b on b.branchid = r.branchid "
         		+ "LEFT JOIN tblCompany c on c.companyid = r.companyid "
-        		+ "LEFT JOIN tblUser u on u.userid = r.reviewby "
+        		+ "LEFT JOIN tblUser rb on rb.userid = r.reviewby "
         		+ "WHERE r.userid = " + userid;
 	    ReviewMapper mapper = new ReviewMapper();
         List<Review> list = this.getJdbcTemplate().query(sql, mapper);
@@ -72,19 +72,19 @@ public class ReviewDAOImpl extends JdbcDaoSupport implements ReviewDAO {
 
     public List<Review> listByTeam(int teamid) {
 	    String sql = "SELECT reviewid, period, "
-	    		+ "r.userid, up.username, "
+	    		+ "r.userid, u.username, "
 	    		+ "r.teamid, t.teamname, "
 	    		+ "r.branchid, b.branchname, "
 	    		+ "r.companyid, c.companyname, "
 	    		+ "targetid, teamtargetid, reviewdate, "
         		+ "prospect, testdrive, closed, "
-        		+ "minute, reviewby, u.username AS reviewbyname "
+        		+ "minute, reviewby, rb.username AS reviewbyname "
         		+ "FROM tblReview r "
-        		+ "LEFT JOIN tblUserProfile up on up.userid = r.userid "
+        		+ "LEFT JOIN tblUser u on u.userid = r.userid "
         		+ "LEFT JOIN tblTeam t on t.teamid = r.teamid "
         		+ "LEFT JOIN tblBranch b on b.branchid = r.branchid "
         		+ "LEFT JOIN tblCompany c on c.companyid = r.companyid "
-        		+ "LEFT JOIN tblUser u on u.userid = r.reviewby "
+        		+ "LEFT JOIN tblUser rb on rb.userid = r.reviewby "
         		+ "WHERE t.teamid = " + teamid;
 	    ReviewMapper mapper = new ReviewMapper();
         List<Review> list = this.getJdbcTemplate().query(sql, mapper);
@@ -93,19 +93,19 @@ public class ReviewDAOImpl extends JdbcDaoSupport implements ReviewDAO {
 
     public List<Review> listByBranch(int branchid) {
 	    String sql = "SELECT reviewid, period, "
-	    		+ "r.userid, up.username, "
+	    		+ "r.userid, u.username, "
 	    		+ "r.teamid, t.teamname, "
 	    		+ "r.branchid, b.branchname, "
 	    		+ "r.companyid, c.companyname, "
 	    		+ "targetid, teamtargetid, reviewdate, "
         		+ "prospect, testdrive, closed, "
-        		+ "minute, reviewby, u.username AS reviewbyname "
+        		+ "minute, reviewby, rb.username AS reviewbyname "
         		+ "FROM tblReview r "
-        		+ "LEFT JOIN tblUserProfile up on up.userid = r.userid "
+        		+ "LEFT JOIN tblUser u on u.userid = r.userid "
         		+ "LEFT JOIN tblTeam t on t.teamid = r.teamid "
         		+ "LEFT JOIN tblBranch b on b.branchid = r.branchid "
         		+ "LEFT JOIN tblCompany c on c.companyid = r.companyid "
-        		+ "LEFT JOIN tblUser u on u.userid = r.reviewby "
+        		+ "LEFT JOIN tblUser rb on rb.userid = r.reviewby "
         		+ "WHERE b.branchid = " + branchid;
 	    ReviewMapper mapper = new ReviewMapper();
         List<Review> list = this.getJdbcTemplate().query(sql, mapper);
@@ -114,19 +114,19 @@ public class ReviewDAOImpl extends JdbcDaoSupport implements ReviewDAO {
 
     public List<Review> listByCompany(int companyid) {
 	    String sql = "SELECT reviewid, period, "
-	    		+ "r.userid, up.username, "
+	    		+ "r.userid, u.username, "
 	    		+ "r.teamid, t.teamname, "
 	    		+ "r.branchid, b.branchname, "
 	    		+ "r.companyid, c.companyname, "
 	    		+ "targetid, teamtargetid, reviewdate, "
         		+ "prospect, testdrive, closed, "
-        		+ "minute, reviewby, u.username AS reviewbyname "
+        		+ "minute, reviewby, rb.username AS reviewbyname "
         		+ "FROM tblReview r "
-        		+ "LEFT JOIN tblUserProfile up on up.userid = r.userid "
+        		+ "LEFT JOIN tblUser u on u.userid = r.userid "
         		+ "LEFT JOIN tblTeam t on t.teamid = r.teamid "
         		+ "LEFT JOIN tblBranch b on b.branchid = r.branchid "
         		+ "LEFT JOIN tblCompany c on c.companyid = r.companyid "
-        		+ "LEFT JOIN tblUser u on u.userid = r.reviewby "
+        		+ "LEFT JOIN tblUser rb on rb.userid = r.reviewby "
         		+ "WHERE c.companyid = " + companyid;
 	    ReviewMapper mapper = new ReviewMapper();
         List<Review> list = this.getJdbcTemplate().query(sql, mapper);
@@ -135,19 +135,19 @@ public class ReviewDAOImpl extends JdbcDaoSupport implements ReviewDAO {
 
     public Review get(int reviewid) {
 	    String sql = "SELECT reviewid, period, "
-	    		+ "r.userid, up.username, "
+	    		+ "r.userid, u.username, "
 	    		+ "r.teamid, t.teamname, "
 	    		+ "r.branchid, b.branchname, "
 	    		+ "r.companyid, c.companyname, "
 	    		+ "targetid, teamtargetid, reviewdate, "
         		+ "prospect, testdrive, closed, "
-        		+ "minute, reviewby, u.username AS reviewbyname "
+        		+ "minute, reviewby, rb.username AS reviewbyname "
         		+ "FROM tblReview r "
-        		+ "LEFT JOIN tblUserProfile up on up.userid = r.userid "
+        		+ "LEFT JOIN tblUser u on u.userid = r.userid "
         		+ "LEFT JOIN tblTeam t on t.teamid = r.teamid "
         		+ "LEFT JOIN tblBranch b on b.branchid = r.branchid "
         		+ "LEFT JOIN tblCompany c on c.companyid = r.companyid "
-        		+ "LEFT JOIN tblUser u on u.userid = r.reviewby "
+        		+ "LEFT JOIN tblUser rb on rb.userid = r.reviewby "
 	    		+ "WHERE r.reviewid=" + reviewid;
 	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<Review>() {
 	 

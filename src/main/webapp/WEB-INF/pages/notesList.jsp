@@ -21,77 +21,75 @@
 		<jsp:include page="_userNavigation.jsp" />
 	</c:if>
 	<div id="main">
-	   	<input type="hidden" value="${base}" name="base" id="base"/>	
-        <input type="hidden" value="prospect" name="prospect" /> 
-		<div class="breadcrumbs">
-			<ul>
-				<li>
-					<a href="home">Home</a>
-					<i class="fa fa-angle-right"></i>
-				</li>
-				<li>
-					<a href="listProspects">Prospect</a>
-					<i class="fa fa-angle-right"></i>
-				</li>
-				<li>
-					<a href="listNotes?prospectid=${prospect.prospectid}">Notes</a>
-				</li>
-			</ul>
-		</div>
-		<div>
-			<h4>${prospect.firstname} ${prospect.lastname}</h4>
-		</div>
-        <div align="center">
-			<c:if test="${role == 'USER'}">
-	   	    	<h5><a href="addNotes?prospectid=${prospect.prospectid}" class='btn'>
-					<i class="fa fa-plus-circle"></i>New Notes</a></h5>
-			</c:if>
-			<div class="box box-color box-bordered">
-				<div class="box-title">
-					<h3>Notes</h3>
-				</div>
-				<div class="box-content nopadding">
-					<table class="table table-hover table-nomargin table-bordered usertable">
-						<thead>
-							<tr class="thefilter">
-								<th class="with-checkbox"></th>
-							    <th>Date</th>
-							    <th>Notes</th>
-							    <th>Status</th>
-							    <th>Remark</th>
-							</tr>
-							<tr>
-								<th class="with-checkbox">
-									<input type="checkbox" name="check_all" id="check_all">
-								</th>
-							    <th>Date</th>
-							    <th>Notes</th>
-							    <th>Status</th>
-							    <th>Remark</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="notes" items="${listNotes}" varStatus="status">
-								<tr>
-									<td class="with-checkbox">
-										<input type="checkbox" name="check" value="1">
-									</td>
-								    <td><a href="editNotes?noteid=${notes.noteid}">${notes.notedate}</a></td>
-								    <td>${notes.note}</td>
-									<c:if test="${notes.status == 0}">
-									    <td>Pending</td>
-									</c:if>
-									<c:if test="${notes.status == 1}">
-									    <td>Approved</td>
-									</c:if>
-									<c:if test="${notes.status == 2}">
-									    <td>Rejected</td>
-									</c:if>
-									<td>${notes.remark}</td>
+ 		<div class="container-fluid">
+		   	<input type="hidden" value="${base}" name="base" id="base"/>	
+	        <input type="hidden" value="prospect" name="prospect" /> 
+			<div class="breadcrumbs">
+				<ul>
+					<li>
+						<a href="home">Home</a>
+						<i class="fa fa-angle-right"></i>
+					</li>
+					<li>
+						<a href="listNotes?prospectid=${prospect.prospectid}">Notes</a>
+					</li>
+				</ul>
+			</div>
+			<div>
+				<h4>${prospect.firstname} ${prospect.lastname}</h4>
+			</div>
+	        <div align="center">
+				<c:if test="${role == 'USER'}">
+		   	    	<h5><a href="addNotes?prospectid=${prospect.prospectid}" class='btn'>
+						<i class="fa fa-plus-circle"></i>New Notes</a></h5>
+				</c:if>
+				<div class="box box-color box-bordered">
+					<div class="box-title">
+						<h3>Notes</h3>
+					</div>
+					<div class="box-content nopadding">
+						<table class="table table-hover table-nomargin table-bordered usertable">
+							<thead>
+								<tr class="thefilter">
+									<th class="with-checkbox"></th>
+								    <th>Date</th>
+								    <th>Notes</th>
+								    <th>Status</th>
+								    <th>Remark</th>
 								</tr>
-							</c:forEach>             
-						</tbody>
-					</table>
+								<tr>
+									<th class="with-checkbox">
+										<input type="checkbox" name="check_all" id="check_all">
+									</th>
+								    <th>Date</th>
+								    <th>Notes</th>
+								    <th>Status</th>
+								    <th>Remark</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="notes" items="${listNotes}" varStatus="status">
+									<tr>
+										<td class="with-checkbox">
+											<input type="checkbox" name="check" value="1">
+										</td>
+									    <td><a href="editNotes?noteid=${notes.noteid}">${notes.notedate}</a></td>
+									    <td>${notes.note}</td>
+										<c:if test="${notes.status == 0}">
+										    <td>Pending</td>
+										</c:if>
+										<c:if test="${notes.status == 1}">
+										    <td>Approved</td>
+										</c:if>
+										<c:if test="${notes.status == 2}">
+										    <td>Rejected</td>
+										</c:if>
+										<td>${notes.remark}</td>
+									</tr>
+								</c:forEach>             
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>

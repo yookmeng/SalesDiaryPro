@@ -36,20 +36,19 @@ public class BranchDAOImpl extends JdbcDaoSupport implements BranchDAO {
         		address.getcountry(), address.getzipcode(), address.getstate(),
         		address.getcity(), address.getstreet(), branch.gettelephone(),
         		branch.getfax(), branch.getemail(), branch.getwebsite());
-	}
+    }
     
     public void update(Branch branch) {
     	Address address = branch.getaddress();
-
-        String sql = "UPDATE tblBranch SET "
-        		+ "branchname=?, regno=?, maid=?, "
-        		+ "address.country=?, address.zipcode=?, address.state=?, address.city=?, address.street=?, "
-        		+ "telephone=?, fax=?, email=?, website=? "
-        		+ "WHERE branchid=?";
+    	String sql = "UPDATE tblBranch SET "
+	    		+ "branchname=?, regno=?, maid=?, "
+	    		+ "address.country=?, address.zipcode=?, address.state=?, address.city=?, address.street=?, "
+	    		+ "telephone=?, fax=?, email=?, website=? "
+	    		+ "WHERE branchid=?";
         this.getJdbcTemplate().update(sql, 
-        		branch.getbranchname(), branch.getregno(), branch.getmaid(),
-        		address.getcountry(), address.getzipcode(), address.getstate(), address.getcity(), address.getstreet(), 
-        		branch.gettelephone(), branch.getfax(), branch.getemail(), branch.getwebsite(), branch.getbranchid());
+	    		branch.getbranchname(), branch.getregno(), branch.getmaid(),
+	    		address.getcountry(), address.getzipcode(), address.getstate(), address.getcity(), address.getstreet(), 
+	    		branch.gettelephone(), branch.getfax(), branch.getemail(), branch.getwebsite(), branch.getbranchid());
     }
     
     public void delete(int branchid) {
@@ -58,9 +57,9 @@ public class BranchDAOImpl extends JdbcDaoSupport implements BranchDAO {
     }
     
     public List<Branch> list(int companyid) {
-	    String sql = "SELECT branchid AS branchid, "
+	    String sql = "SELECT b.branchid AS branchid, "
 	    		+ "branchname AS branchname, "
-	    		+ "companyid AS companyid, "
+	    		+ "b.companyid AS companyid, "
 	    		+ "regno AS regno, "
 	    		+ "b.maid AS maid, "
 	    		+ "ma.username AS maname, "
@@ -71,11 +70,11 @@ public class BranchDAOImpl extends JdbcDaoSupport implements BranchDAO {
 	    		+ "(address).street AS street, "
 	    		+ "telephone AS telephone, "
 	    		+ "fax AS fax, "
-	    		+ "email AS email, "
+	    		+ "b.email AS email, "
 	    		+ "website AS website "
 	    		+ "FROM tblBranch b "
 	    		+ "LEFT JOIN tblUser ma on b.maid = ma.userid "
-        		+ "WHERE companyid=" + companyid;
+        		+ "WHERE b.companyid=" + companyid;
         BranchMapper mapper = new BranchMapper();
         List<Branch> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
@@ -88,9 +87,9 @@ public class BranchDAOImpl extends JdbcDaoSupport implements BranchDAO {
     }
 
     public Branch get(int branchid) {
-	    String sql = "SELECT branchid AS branchid, "
+	    String sql = "SELECT b.branchid AS branchid, "
 	    		+ "branchname AS branchname, "
-	    		+ "companyid AS companyid, "
+	    		+ "b.companyid AS companyid, "
 	    		+ "regno AS regno, "
 	    		+ "b.maid AS maid, "
 	    		+ "ma.username AS maname, "
@@ -101,11 +100,11 @@ public class BranchDAOImpl extends JdbcDaoSupport implements BranchDAO {
 	    		+ "(address).street AS street, "
 	    		+ "telephone AS telephone, "
 	    		+ "fax AS fax, "
-	    		+ "email AS email, "
+	    		+ "b.email AS email, "
 	    		+ "website AS website "
 	    		+ "FROM tblBranch b "
 	    		+ "LEFT JOIN tblUser ma on b.maid = ma.userid "
-	    		+ "WHERE branchid=" + branchid;
+	    		+ "WHERE b.branchid=" + branchid;
 	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<Branch>() {
 	 
 	        @Override
@@ -138,9 +137,9 @@ public class BranchDAOImpl extends JdbcDaoSupport implements BranchDAO {
     }
     
     public Branch getByName(String branchname) {
-	    String sql = "SELECT branchid AS branchid, "
+	    String sql = "SELECT b.branchid AS branchid, "
 	    		+ "branchname AS branchname, "
-	    		+ "companyid AS companyid, "
+	    		+ "b.companyid AS companyid, "
 	    		+ "regno AS regno, "
 	    		+ "b.maid AS maid, "
 	    		+ "ma.username AS maname, "
@@ -151,7 +150,7 @@ public class BranchDAOImpl extends JdbcDaoSupport implements BranchDAO {
 	    		+ "(address).street AS street, "
 	    		+ "telephone AS telephone, "
 	    		+ "fax AS fax, "
-	    		+ "email AS email, "
+	    		+ "b.email AS email, "
 	    		+ "website AS website "
 	    		+ "FROM tblBranch b "
 	    		+ "LEFT JOIN tblUser ma on b.maid = ma.userid "	    		
@@ -188,9 +187,9 @@ public class BranchDAOImpl extends JdbcDaoSupport implements BranchDAO {
     }
 
     public Branch getByMA(int maid) {
-	    String sql = "SELECT branchid AS branchid, "
+	    String sql = "SELECT b.branchid AS branchid, "
 	    		+ "branchname AS branchname, "
-	    		+ "companyid AS companyid, "
+	    		+ "b.companyid AS companyid, "
 	    		+ "regno AS regno, "
 	    		+ "b.maid AS maid, "
 	    		+ "ma.username AS maname, "
@@ -201,7 +200,7 @@ public class BranchDAOImpl extends JdbcDaoSupport implements BranchDAO {
 	    		+ "(address).street AS street, "
 	    		+ "telephone AS telephone, "
 	    		+ "fax AS fax, "
-	    		+ "email AS email, "
+	    		+ "b.email AS email, "
 	    		+ "website AS website "
 	    		+ "FROM tblBranch b "
 	    		+ "LEFT JOIN tblUser ma on b.maid = ma.userid "

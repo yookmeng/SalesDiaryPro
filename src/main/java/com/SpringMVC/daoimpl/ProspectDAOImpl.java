@@ -143,8 +143,8 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "FROM tblProspect p "
         		+ "LEFT JOIN tblActivity a ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblModel m ON a.modelid = m.modelid "
-        		+ "LEFT JOIN tblUserProfile up ON up.userid = p.userid "
-        		+ "WHERE up.teamid = " + teamid + " "
+        		+ "LEFT JOIN tblUser u ON u.userid = p.userid "
+        		+ "WHERE u.teamid = " + teamid + " "
 				+ "AND (a.activitydate = (SELECT MIN(c.activitydate) FROM tblActivity c WHERE c.prospectid = p.prospectid) OR a.activitydate IS NULL) "
 				+ "ORDER BY firstname, lastname";
         ProspectMapper mapper = new ProspectMapper();
@@ -165,9 +165,8 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "FROM tblProspect p "
         		+ "LEFT JOIN tblActivity a ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblModel m ON a.modelid = m.modelid "
-        		+ "LEFT JOIN tblUserProfile up ON up.userid = p.userid "
-        		+ "LEFT JOIN tblTeam t ON t.teamid = up.teamid "
-        		+ "WHERE t.branchid = " + branchid + " "
+        		+ "LEFT JOIN tblUser u ON u.userid = p.userid "
+        		+ "WHERE u.branchid = " + branchid + " "
 				+ "AND (a.activitydate = (SELECT MIN(c.activitydate) FROM tblActivity c WHERE c.prospectid = p.prospectid) OR a.activitydate IS NULL) "
         		+ "ORDER BY firstname, lastname";
         ProspectMapper mapper = new ProspectMapper();
@@ -188,10 +187,8 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "FROM tblProspect p "
         		+ "LEFT JOIN tblActivity a ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblModel m ON a.modelid = m.modelid "
-        		+ "LEFT JOIN tblUserProfile up ON up.userid = p.userid "
-        		+ "LEFT JOIN tblTeam t ON t.teamid = up.teamid "
-        		+ "LEFT JOIN tblBranch b ON b.branchid = t.branchid "
-        		+ "WHERE b.companyid = " + companyid + " "
+        		+ "LEFT JOIN tblUser u ON up.userid = p.userid "
+        		+ "WHERE u.companyid = " + companyid + " "
 				+ "AND a.activitydate = (SELECT MIN(c.activitydate) FROM tblActivity c WHERE c.prospectid = p.prospectid) "
         		+ "ORDER BY firstname, lastname";
         ProspectMapper mapper = new ProspectMapper();

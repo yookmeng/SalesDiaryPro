@@ -12,7 +12,7 @@ public interface CompanyDAO {
      
     public void update(Company company);
 
-    public void delete(int companyid);
+    public void delete(Company company);
      
     public Company get(int companyid);
 

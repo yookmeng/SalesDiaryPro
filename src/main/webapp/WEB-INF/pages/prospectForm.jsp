@@ -13,172 +13,174 @@
 <body>
 	<jsp:include page="_userNavigation.jsp" />
 	<div id="main">
-	   	<input type="hidden" value="${base}" name="base" id="base"/>		
-		<div class="breadcrumbs">
-			<ul>
-				<li>
-					<a href="home">Home</a>
-					<i class="fa fa-angle-right"></i>
-				</li>
-				<li>
-					<a href="listProspects">Prospect</a>
-				</li>
-			</ul>
-		</div>		
-		<div class="row">
-			<div class="span12">
-				<div class="box">
-					<div class="box-content">
-						<form:form id="entry-form" action="" method="post" modelAttribute="prospect" class='form-horizontal form-wizard'>
-			            <form:hidden path="prospectid"/>
-			            <form:hidden path="userid"/>
-						<div class="step" id="firstStep">
-							<div class="form-group">
-								<label for="firstname" class="control-label col-sm-2">First Name</label>
-								<div class="col-sm-5">
-									<form:input type="text" path="firstname" name="firstname" id="firstname" class="form-control"/>
+ 		<div class="container-fluid">
+		   	<input type="hidden" value="${base}" name="base" id="base"/>		
+			<div class="breadcrumbs">
+				<ul>
+					<li>
+						<a href="home">Home</a>
+						<i class="fa fa-angle-right"></i>
+					</li>
+					<li>
+						<a href="listProspects">Prospect</a>
+					</li>
+				</ul>
+			</div>		
+			<div class="row">
+				<div class="span12">
+					<div class="box">
+						<div class="box-content">
+							<form:form id="entry-form" action="" method="post" modelAttribute="prospect" class='form-horizontal form-wizard'>
+				            <form:hidden path="prospectid"/>
+				            <form:hidden path="userid"/>
+							<div class="step" id="firstStep">
+								<div class="form-group">
+									<label for="firstname" class="control-label col-sm-2">First Name</label>
+									<div class="col-sm-5">
+										<form:input type="text" path="firstname" name="firstname" id="firstname" class="form-control"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="lastname" class="control-label col-sm-2">Last Name</label>
+									<div class="col-sm-5">
+										<form:input type="text" path="lastname" name="lastname" id="lastname" class="form-control"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="mobile" class="control-label col-sm-2">Mobile</label>
+									<div class="col-sm-3">
+										<form:input type="text" path="mobile" name="mobile" id="mobile" class="form-control" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="text" class="control-label col-sm-2">Status</label>
+									<div class="col-sm-1">
+										<form:select name="status" path="status" id="status" items="${statuslist}" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="text" class="control-label col-sm-2">Gender</label>
+									<div class="col-sm-1">
+										<form:select name="gender" path="gender" id="gender" items="${genderlist}"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="age" class="control-label col-sm-2">Age</label>
+									<div class="col-sm-1">
+										<form:input type="text" name="age" path="age" id="age" class="form-control"/>
+									</div>
 								</div>
 							</div>
-							<div class="form-group">
-								<label for="lastname" class="control-label col-sm-2">Last Name</label>
-								<div class="col-sm-5">
-									<form:input type="text" path="lastname" name="lastname" id="lastname" class="form-control"/>
+							<div class="step" id="secondStep">
+								<div class="form-group">
+									<label for="text" class="control-label col-sm-1">Home</label>
+								</div>
+								<div class="form-group">
+									<label for="country" class="control-label col-sm-1">Country</label>
+									<div class="col-sm-3">
+										<form:input type="text" path="homeaddress.country" name="homeaddress.country" id="hcountry" class="form-control" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="zipcode" class="control-label col-sm-1">Zip Code</label>
+									<div class="col-sm-3">
+										<form:input type="text" name="homeaddress.zipcode" path="homeaddress.zipcode" id="hzipcode" class="form-control" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="state" class="control-label col-sm-1">State</label>
+									<div class="col-sm-3">
+										<form:input type="text" path="homeaddress.state" name="homeaddress.state" id="hstate" class="form-control" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="city" class="control-label col-sm-1">City</label>
+									<div class="col-sm-3">
+										<form:input type="text" path="homeaddress.city" name="homeaddress.city" id="hcity" class="form-control" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="street" class="control-label col-sm-1">Street</label>
+									<div class="col-sm-5">
+										<form:input type="text" path="homeaddress.street" name="homeaddress.street" id="hstreet" class="form-control" />
+									</div>
+								</div>		
+								<div class="form-group">
+									<label for="htelno" class="control-label col-sm-1">Tel. No</label>
+									<div class="col-sm-3">
+										<form:input type="text" path="htelno" name="htelno" id="htelno" class="form-control" />
+									</div>
 								</div>
 							</div>
-							<div class="form-group">
-								<label for="mobile" class="control-label col-sm-2">Mobile</label>
-								<div class="col-sm-3">
-									<form:input type="text" path="mobile" name="mobile" id="mobile" class="form-control" />
+							<div class="step" id="thirdStep">
+								<div class="form-group">
+									<label for="text" class="control-label col-sm-1">Office</label>
+								</div>
+								<div class="form-group">
+									<label for="country" class="control-label col-sm-1">Country</label>
+									<div class="col-sm-3">
+										<form:input type="text" path="workaddress.country" name="workaddress.country" id="wcountry" class="form-control" />
+									</div>
+								</div>								
+								<div class="form-group">
+									<label for="zipcode" class="control-label col-sm-1">Zip Code</label>
+									<div class="col-sm-3">
+										<form:input type="text" name="workaddress.zipcode" path="workaddress.zipcode" id="wzipcode" class="form-control" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="state" class="control-label col-sm-1">State</label>
+									<div class="col-sm-3">
+										<form:input type="text" path="workaddress.state" name="workaddress.state" id="wstate" class="form-control" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="city" class="control-label col-sm-1">City</label>
+									<div class="col-sm-3">
+										<form:input type="text" path="workaddress.city" name="workaddress.city" id="wcity" class="form-control" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="street" class="control-label col-sm-1">Street</label>
+									<div class="col-sm-5">
+										<form:input type="text" path="workaddress.street" name="workaddress.street" id="wstreet" class="form-control" />
+									</div>
+								</div>		
+								<div class="form-group">
+									<label for="wtelno" class="control-label col-sm-1">Tel. No</label>
+									<div class="col-sm-3">
+										<form:input type="text" path="wtelno" name="wtelno" id="wtelno" class="form-control" />
+									</div>
+								</div>						
+							</div>
+							<div class="step" id="fourthStep">
+								<div class="form-group">
+									<label for="text" class="control-label col-sm-2">Source</label>
+									<div class="col-sm-3">
+										<form:select name="source" path="source" id="source" items="${sourcelist}" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="text" class="control-label col-sm-2">Occupation</label>
+									<div class="col-sm-3">
+										<form:input type="text" name="occupation" path="occupation" id="occupation" class="form-control" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="text" class="control-label col-sm-2">Income</label>
+									<div class="col-sm-3">
+										<form:input type="text" name="income" path="income" id="income" class="form-control" />
+									</div>
 								</div>
 							</div>
-							<div class="form-group">
-								<label for="text" class="control-label col-sm-2">Status</label>
-								<div class="col-sm-1">
-									<form:select name="status" path="status" id="status" items="${statuslist}" />
-								</div>
+							
+							<div class="form-actions">
+								<input type="reset" class="btn" onclick="location.href='listProspects'" value="Back" id="back">
+								<input type="submit" class="btn btn-primary" value="Save" id="next">
+								<input type="button" class="btn" value="Done" id="done">
 							</div>
-							<div class="form-group">
-								<label for="text" class="control-label col-sm-2">Gender</label>
-								<div class="col-sm-1">
-									<form:select name="gender" path="gender" id="gender" items="${genderlist}"/>
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="age" class="control-label col-sm-2">Age</label>
-								<div class="col-sm-1">
-									<form:input type="text" name="age" path="age" id="age" class="form-control"/>
-								</div>
-							</div>
+							</form:form>
 						</div>
-						<div class="step" id="secondStep">
-							<div class="form-group">
-								<label for="text" class="control-label col-sm-1">Home</label>
-							</div>
-							<div class="form-group">
-								<label for="country" class="control-label col-sm-1">Country</label>
-								<div class="col-sm-3">
-									<form:input type="text" path="homeaddress.country" name="homeaddress.country" id="hcountry" class="form-control" />
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="zipcode" class="control-label col-sm-1">Zip Code</label>
-								<div class="col-sm-3">
-									<form:input type="text" name="homeaddress.zipcode" path="homeaddress.zipcode" id="hzipcode" class="form-control" />
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="state" class="control-label col-sm-1">State</label>
-								<div class="col-sm-3">
-									<form:input type="text" path="homeaddress.state" name="homeaddress.state" id="hstate" class="form-control" />
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="city" class="control-label col-sm-1">City</label>
-								<div class="col-sm-3">
-									<form:input type="text" path="homeaddress.city" name="homeaddress.city" id="hcity" class="form-control" />
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="street" class="control-label col-sm-1">Street</label>
-								<div class="col-sm-5">
-									<form:input type="text" path="homeaddress.street" name="homeaddress.street" id="hstreet" class="form-control" />
-								</div>
-							</div>		
-							<div class="form-group">
-								<label for="htelno" class="control-label col-sm-1">Tel. No</label>
-								<div class="col-sm-3">
-									<form:input type="text" path="htelno" name="htelno" id="htelno" class="form-control" />
-								</div>
-							</div>
-						</div>
-						<div class="step" id="thirdStep">
-							<div class="form-group">
-								<label for="text" class="control-label col-sm-1">Office</label>
-							</div>
-							<div class="form-group">
-								<label for="country" class="control-label col-sm-1">Country</label>
-								<div class="col-sm-3">
-									<form:input type="text" path="workaddress.country" name="workaddress.country" id="wcountry" class="form-control" />
-								</div>
-							</div>								
-							<div class="form-group">
-								<label for="zipcode" class="control-label col-sm-1">Zip Code</label>
-								<div class="col-sm-3">
-									<form:input type="text" name="workaddress.zipcode" path="workaddress.zipcode" id="wzipcode" class="form-control" />
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="state" class="control-label col-sm-1">State</label>
-								<div class="col-sm-3">
-									<form:input type="text" path="workaddress.state" name="workaddress.state" id="wstate" class="form-control" />
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="city" class="control-label col-sm-1">City</label>
-								<div class="col-sm-3">
-									<form:input type="text" path="workaddress.city" name="workaddress.city" id="wcity" class="form-control" />
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="street" class="control-label col-sm-1">Street</label>
-								<div class="col-sm-5">
-									<form:input type="text" path="workaddress.street" name="workaddress.street" id="wstreet" class="form-control" />
-								</div>
-							</div>		
-							<div class="form-group">
-								<label for="wtelno" class="control-label col-sm-1">Tel. No</label>
-								<div class="col-sm-3">
-									<form:input type="text" path="wtelno" name="wtelno" id="wtelno" class="form-control" />
-								</div>
-							</div>						
-						</div>
-						<div class="step" id="fourthStep">
-							<div class="form-group">
-								<label for="text" class="control-label col-sm-2">Source</label>
-								<div class="col-sm-3">
-									<form:select name="source" path="source" id="source" items="${sourcelist}" />
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="text" class="control-label col-sm-2">Occupation</label>
-								<div class="col-sm-3">
-									<form:input type="text" name="occupation" path="occupation" id="occupation" class="form-control" />
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="text" class="control-label col-sm-2">Income</label>
-								<div class="col-sm-3">
-									<form:input type="text" name="income" path="income" id="income" class="form-control" />
-								</div>
-							</div>
-						</div>
-						
-						<div class="form-actions">
-							<input type="reset" class="btn" onclick="location.href='listProspects'" value="Back" id="back">
-							<input type="submit" class="btn btn-primary" value="Save" id="next">
-							<input type="button" class="btn" value="Done" id="done">
-						</div>
-						</form:form>
 					</div>
 				</div>
 			</div>

@@ -35,50 +35,53 @@
 					<i class="fa fa-plus-circle"></i>New Branch</a>
 				</h5>
 			</c:if>	
-			<div class="box-content nopadding">
-				<table class="table table-hover table-nomargin table-bordered usertable">
-				<thead>
-					<tr class="thefilter">
-						<th class="with-checkbox"></th>
-					    <th>Name</th>
-					    <th>Registration No</th>
-					    <th>Manager Name</th>
-					    <th>Action</th>
-					</tr>
-					<tr>
-						<th class="with-checkbox">
-							<input type="checkbox" name="check_all" id="check_all">
-						</th>
-					    <th>Name</th>
-					    <th>Registration No</th>
-					    <th>Manager Name</th>
-					    <th>Action</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="branch" items="${listBranch}" varStatus="status">
-						<tr>
-							<td class="with-checkbox">
-								<input type="checkbox" name="check" value="1">
-							</td>
-						    <td>${branch.branchname}</td>
-							<td>${branch.regno}</td>
-							<td>${branch.maname}</td>
-							<td>
-								<c:if test="${role == 'SA'}">		
-									<button class="btn btn-small" onclick="window.location='editBranch?branchid=${branch.branchid}';" >
-								    	<i class="fa fa-edit"></i></button>
-									&nbsp;&nbsp;&nbsp;&nbsp;
-									<button class="btn btn-small" onclick="deleteBranch(${branch.branchid})">
-										<i class="fa fa-trash-o"></i></button>
-		                        	&nbsp;&nbsp;&nbsp;&nbsp;							
-								</c:if>
-								<a href="listTeam?branchid=${branch.branchid}">Team</a>				
-						    </td>		                 
+			<div class="box box-color box-bordered">
+				<div class="box-title">
+					<h3>Branch</h3>
+				</div>
+				<div class="box-content nopadding">
+					<table class="table table-hover table-nomargin table-bordered usertable">
+					<thead>
+						<tr class="thefilter">
+							<th class="with-checkbox"></th>
+						    <th>Name</th>
+						    <th>Registration No</th>
+						    <th>Manager Name</th>
+						    <th>Action</th>
 						</tr>
-					</c:forEach>
-				</tbody>
-				</table>
+						<tr>
+							<th class="with-checkbox">
+								<input type="checkbox" name="check_all" id="check_all">
+							</th>
+						    <th>Name</th>
+						    <th>Registration No</th>
+						    <th>Manager Name</th>
+						    <th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="branch" items="${listBranch}" varStatus="status">
+							<tr>
+								<td class="with-checkbox">
+									<input type="checkbox" name="check" value="1">
+								</td>
+							    <td>${branch.branchname}</td>
+								<td>${branch.regno}</td>
+								<td>${branch.maname}</td>
+								<td>
+									<c:if test="${role == 'SA'}">		
+										<button class="btn btn-small" onclick="window.location='editBranch?branchid=${branch.branchid}';" >
+									    	<i class="fa fa-edit"></i></button>
+										<button class="btn btn-small" onclick="deleteBranch(${branch.branchid})">
+											<i class="fa fa-trash-o"></i></button>
+									</c:if>
+									<a href="listTeam?branchid=${branch.branchid}">Team</a>				
+							    </td>		                 
+							</tr>
+						</c:forEach>
+					</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -26,7 +26,6 @@ import com.SpringMVC.dao.ReviewDAO;
 import com.SpringMVC.dao.TeamDAO;
 import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.dao.UserMonthlySummaryDAO;
-import com.SpringMVC.dao.UserProfileDAO;
 import com.SpringMVC.dao.UserTargetDAO;
 import com.SpringMVC.model.Branch;
 import com.SpringMVC.model.Company;
@@ -34,7 +33,6 @@ import com.SpringMVC.model.Review;
 import com.SpringMVC.model.Team;
 import com.SpringMVC.model.UserLogin;
 import com.SpringMVC.model.UserMonthlySummary;
-import com.SpringMVC.model.UserProfile;
 import com.SpringMVC.model.UserTarget;
 import com.SpringMVC.uriconstant.ReviewRestURIConstant;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -43,9 +41,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @EnableWebMvc
 @RestController
 public class ReviewController {
-
-    @Autowired
-    private UserProfileDAO userProfileDAO;
 
     @Autowired
     private TeamDAO teamDAO;
@@ -159,10 +154,9 @@ public class ReviewController {
 
     @RequestMapping(value="/listReview", method = RequestMethod.GET)
     public ModelAndView listReview(Principal principal) {
-        int companyid = userLoginDAO.getCompanyID(principal.getName());
-        String currentPeriod = closingPeriodDAO.getCurrentPeriod(companyid);
         UserLogin userLogin = userLoginDAO.get(principal.getName());
-        List<String> periods = closingPeriodDAO.getPeriod(companyid);	
+        String currentPeriod = closingPeriodDAO.getCurrentPeriod(userLogin.getcompanyid());
+        List<String> periods = closingPeriodDAO.getPeriod(userLogin.getcompanyid());	
         ModelAndView mav = new ModelAndView("reviewList");
         mav.addObject("currentPeriod", currentPeriod);
         mav.addObject("periods", periods);
@@ -170,14 +164,16 @@ public class ReviewController {
         Roles role = Roles.valueOf(userLogin.getrole()); 
         switch (role){
         case MD:
-            mav.addObject("listReview", reviewDAO.listByCompany(companyid));
+            mav.addObject("listReview", reviewDAO.listByCompany(userLogin.getcompanyid()));
             break;
         case MA:
             Branch branch = branchDAO.getByMA(userLogin.getuserid());
+            mav.addObject("branch", branch);
             mav.addObject("listReview", reviewDAO.listByBranch(branch.getbranchid()));
             break;
         case TL:
             Team team = teamDAO.getByUser(userLogin.getuserid());
+            mav.addObject("team", team);
             mav.addObject("listReview", reviewDAO.listByTeam(team.getteamid()));
             break;
         default:
@@ -190,13 +186,13 @@ public class ReviewController {
     public ModelAndView addReview(HttpServletRequest request) {
         int userid = Integer.parseInt(request.getParameter("userid"));
         int targetid = Integer.parseInt(request.getParameter("targetid"));
-        UserProfile userProfile = userProfileDAO.findUser(userid);
-        UserTarget userTarget = userTargetDAO.get(targetid);
-        String currentPeriod = closingPeriodDAO.getCurrentPeriod(userLoginDAO.getCompanyID(request.getUserPrincipal().getName()));
-        Team team = teamDAO.get(userProfile.getteamid());
-        Branch branch = branchDAO.get(team.getbranchid());
-        Company company = companyDAO.get(branch.getcompanyid());
         UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
+        UserLogin userProfile = userLoginDAO.findUser(userid);
+        UserTarget userTarget = userTargetDAO.get(targetid);
+        String currentPeriod = closingPeriodDAO.getCurrentPeriod(userLogin.getcompanyid());
+        Team team = teamDAO.get(userProfile.getteamid());
+        Branch branch = branchDAO.get(userProfile.getbranchid());
+        Company company = companyDAO.get(userProfile.getcompanyid());
         UserMonthlySummary userMonthlySummary = userMonthlySummaryDAO.get(userTarget.getperiod(), userid, userProfile.getrole()); 
         Review newReview = new Review();
         Date date = new Date(Calendar.getInstance().getTime().getTime());
@@ -218,6 +214,8 @@ public class ReviewController {
         newReview.setreviewby(userLogin.getuserid());  
         ModelAndView mav = new ModelAndView("reviewForm");
         mav.addObject("role", userLogin.getrole());
+        mav.addObject("team", team);
+        mav.addObject("branch", branch);
         mav.addObject("currentPeriod", currentPeriod);
         mav.addObject("userTarget", userTarget);
         mav.addObject("review", newReview);
@@ -228,11 +226,15 @@ public class ReviewController {
     public ModelAndView editReview(HttpServletRequest request) {
         int reviewid = Integer.parseInt(request.getParameter("reviewid")); 
         UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
+        Branch branch = branchDAO.get(userLogin.getbranchid());
+        Team team = teamDAO.get(userLogin.getteamid());
         Review editReview = reviewDAO.get(reviewid);
         UserTarget userTarget = userTargetDAO.get(editReview.gettargetid());
-        String currentPeriod = closingPeriodDAO.getCurrentPeriod(userLoginDAO.getCompanyID(request.getUserPrincipal().getName()));
+        String currentPeriod = closingPeriodDAO.getCurrentPeriod(userLogin.getcompanyid());
         ModelAndView mav = new ModelAndView("reviewForm");
         mav.addObject("role", userLogin.getrole());        
+        mav.addObject("team", team);
+        mav.addObject("branch", branch);
         mav.addObject("currentPeriod", currentPeriod);
         mav.addObject("userTarget", userTarget);
         mav.addObject("review", editReview);

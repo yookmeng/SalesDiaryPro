@@ -17,12 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import com.SpringMVC.dao.ClosingPeriodDAO;
 import com.SpringMVC.dao.CommonDAO;
 import com.SpringMVC.dao.CompanyDAO;
 import com.SpringMVC.dao.CompanyTargetDAO;
 import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.model.Company;
 import com.SpringMVC.model.CompanyTarget;
+import com.SpringMVC.model.UserLogin;
 import com.SpringMVC.uriconstant.CompanyTargetRestURIConstant;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,6 +45,9 @@ public class CompanyTargetController {
     @Autowired
     private CommonDAO commonDAO;
 
+    @Autowired
+    private ClosingPeriodDAO closingPeriodDAO;
+
     @RequestMapping(value = CompanyTargetRestURIConstant.Get, method = RequestMethod.GET)
 	public String getCompanyTarget(@PathVariable int targetid) {
     	ObjectMapper mapper = new ObjectMapper();
@@ -57,7 +62,8 @@ public class CompanyTargetController {
 
     @RequestMapping(value = CompanyTargetRestURIConstant.GetAll, method = RequestMethod.GET)
 	public String getAllCompanyTarget(Principal principal) {
-    	int companyid = userLoginDAO.getCompanyID(principal.getName());
+    	UserLogin userLogin = userLoginDAO.get(principal.getName());
+    	int companyid = userLogin.getcompanyid();
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
@@ -102,22 +108,25 @@ public class CompanyTargetController {
     
     @RequestMapping(value="/listCompanyTarget", method = RequestMethod.GET)
     public ModelAndView listCompanyTarget(Principal principal) {
-        int companyid = userLoginDAO.getCompanyID(principal.getName());
-        Company company = companyDAO.get(companyid);
+    	UserLogin userLogin = userLoginDAO.get(principal.getName());
+        int companyid = userLogin.getcompanyid();
+        Company company = companyDAO.get(companyid);        
  	    List<CompanyTarget> listCompanyTarget = companyTargetDAO.list(companyid);
+        List<String> periods = closingPeriodDAO.getPeriod(companyid);	
         ModelAndView mav = new ModelAndView("companyTargetList");
         mav.addObject("company", company);
+        mav.addObject("periods", periods);        
  	    mav.addObject("listTarget", listCompanyTarget);
  	    return mav;
  	}
  	   
     @RequestMapping(value = "/addCompanyTarget", method = RequestMethod.GET)
     public ModelAndView addCompanyTarget(HttpServletRequest request) {
-        int companyid = userLoginDAO.getCompanyID(request.getUserPrincipal().getName());
-        Company company = companyDAO.get(companyid);
+    	UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
+        Company company = companyDAO.get(userLogin.getcompanyid());
         List<String> periods = commonDAO.periodList();
         CompanyTarget newCompanyTarget = new CompanyTarget();
-        newCompanyTarget.setcompanyid(companyid);
+        newCompanyTarget.setcompanyid(userLogin.getcompanyid());
         ModelAndView mav = new ModelAndView("companyTargetForm");
         mav.addObject("periodlist", periods);
         mav.addObject("company", company);

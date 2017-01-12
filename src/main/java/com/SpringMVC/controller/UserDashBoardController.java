@@ -63,7 +63,7 @@ public class UserDashBoardController {
 	public String userDashBoard(Model model, HttpServletRequest request) throws ParseException {
        String period = request.getParameter("period");
 	   model.addAttribute("username", request.getUserPrincipal().getName());
-	   UserLogin userLogin = userLoginDAO.findUserLogin(request.getUserPrincipal().getName());
+	   UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
 	   model.addAttribute("role", userLogin.getrole());
 	   Roles role = Roles.valueOf(userLogin.getrole()); 
        switch (role){

@@ -19,10 +19,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.SpringMVC.dao.ContactDAO;
 import com.SpringMVC.dao.UserLoginDAO;
-import com.SpringMVC.dao.UserProfileDAO;
 import com.SpringMVC.model.Contact;
 import com.SpringMVC.model.UserLogin;
-import com.SpringMVC.model.UserProfile;
 import com.SpringMVC.uriconstant.ContactRestURIConstant;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,9 +30,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class ContactController {
     @Autowired
     private UserLoginDAO userLoginDAO;
-
-    @Autowired
-    private UserProfileDAO userProfileDAO;
 
     @Autowired
     private ContactDAO contactDAO;
@@ -53,7 +48,7 @@ public class ContactController {
 
     @RequestMapping(value = ContactRestURIConstant.GetAll, method = RequestMethod.GET)
 	public String getAllContact(Principal principal) {
-    	UserLogin userLogin = userLoginDAO.findUserLogin(principal.getName());
+    	UserLogin userLogin = userLoginDAO.get(principal.getName());
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
@@ -113,9 +108,8 @@ public class ContactController {
     public ModelAndView listContacts(Principal principal) {
         UserLogin userLogin = userLoginDAO.get(principal.getName());
  	    ModelAndView mav = new ModelAndView("contactList");
-		UserProfile userProfile = userProfileDAO.get(userLogin.getusername());
 		List<Contact> listContact = contactDAO.list(userLogin.getuserid());
-		mav.addObject("userProfile", userProfile);
+		mav.addObject("userLogin", userLogin);
 		mav.addObject("listContact", listContact);        	
  	    return mav;
  	}

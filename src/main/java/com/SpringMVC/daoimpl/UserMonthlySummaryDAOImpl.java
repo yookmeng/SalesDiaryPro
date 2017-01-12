@@ -72,12 +72,11 @@ public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMon
 			    		+ "percentprospect, percenttestdrive, percentclosed, "
 			    		+ "commission, totalhot, pendingactivity "
 			    		+ "FROM tblMonthlySummary ms "
-			    		+ "LEFT JOIN tblUserProfile up ON ms.userid = up.userid "
 			    		+ "LEFT JOIN tblTeam t ON ms.teamid = t.teamid "
 			    		+ "LEFT JOIN tblBranch b ON ms.branchid = b.branchid "
 			    		+ "LEFT JOIN tblCompany c ON ms.companyid = c.companyid "
 			    		+ "WHERE period = '" + period + "' "
-						+ "AND up.teamid = " + teamid + " "
+						+ "AND ms.teamid = " + teamid + " "
 						+ "ORDER BY ms.username";
 				break;
 			case MA:
@@ -90,7 +89,6 @@ public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMon
 			    		+ "percentprospect, percenttestdrive, percentclosed, "
 			    		+ "commission, totalhot, pendingactivity "
 			    		+ "FROM tblMonthlySummary ms "
-			    		+ "LEFT JOIN tblUserProfile up ON ms.userid = up.userid "
 			    		+ "LEFT JOIN tblTeam t ON ms.teamid = t.teamid "
 			    		+ "LEFT JOIN tblBranch b ON ms.branchid = b.branchid "
 			    		+ "LEFT JOIN tblCompany c ON ms.companyid = c.companyid "
@@ -108,7 +106,6 @@ public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMon
 			    		+ "percentprospect, percenttestdrive, percentclosed, "
 			    		+ "commission, totalhot, pendingactivity "
 			    		+ "FROM tblMonthlySummary ms "
-			    		+ "LEFT JOIN tblUserProfile up ON ms.userid = up.userid "
 			    		+ "LEFT JOIN tblTeam t ON ms.teamid = t.teamid "
 			    		+ "LEFT JOIN tblBranch b ON ms.branchid = b.branchid "
 			    		+ "LEFT JOIN tblCompany c ON ms.companyid = c.companyid "
@@ -197,12 +194,11 @@ public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMon
 			    		+ "percentprospect, percenttestdrive, percentclosed, "
 			    		+ "commission, totalhot, pendingactivity "
 			    		+ "FROM tblMonthlySummary ms "
-			    		+ "LEFT JOIN tblUserProfile up ON ms.userid = up.userid "
 			    		+ "LEFT JOIN tblTeam t ON ms.teamid = t.teamid "
 			    		+ "LEFT JOIN tblBranch b ON ms.branchid = b.branchid "
 			    		+ "LEFT JOIN tblCompany c ON ms.companyid = c.companyid "
 			    		+ "WHERE period = '" + period + "' "
-						+ "AND up.teamid = " + teamid + " "
+						+ "AND ms.teamid = " + teamid + " "
 						+ "ORDER BY ms.username";
 				break;
 			case MA:
@@ -215,7 +211,6 @@ public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMon
 			    		+ "percentprospect, percenttestdrive, percentclosed, "
 			    		+ "commission, totalhot, pendingactivity "
 			    		+ "FROM tblMonthlySummary ms "
-			    		+ "LEFT JOIN tblUserProfile up ON ms.userid = up.userid "
 			    		+ "LEFT JOIN tblTeam t ON ms.teamid = t.teamid "
 			    		+ "LEFT JOIN tblBranch b ON ms.branchid = b.branchid "
 			    		+ "LEFT JOIN tblCompany c ON ms.companyid = c.companyid "
@@ -233,7 +228,6 @@ public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMon
 			    		+ "percentprospect, percenttestdrive, percentclosed, "
 			    		+ "commission, totalhot, pendingactivity "
 			    		+ "FROM tblMonthlySummary ms "
-			    		+ "LEFT JOIN tblUserProfile up ON ms.userid = up.userid "
 			    		+ "LEFT JOIN tblTeam t ON ms.teamid = t.teamid "
 			    		+ "LEFT JOIN tblBranch b ON ms.branchid = b.branchid "
 			    		+ "LEFT JOIN tblCompany c ON ms.companyid = c.companyid "

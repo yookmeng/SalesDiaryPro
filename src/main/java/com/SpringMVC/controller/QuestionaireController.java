@@ -20,11 +20,10 @@ import com.SpringMVC.dao.CodeMasterDAO;
 import com.SpringMVC.dao.ModelDAO;
 import com.SpringMVC.dao.QuestionaireDAO;
 import com.SpringMVC.dao.UserLoginDAO;
-import com.SpringMVC.dao.UserProfileDAO;
 import com.SpringMVC.model.Brand;
 import com.SpringMVC.model.Model;
 import com.SpringMVC.model.Questionaire;
-import com.SpringMVC.model.UserProfile;
+import com.SpringMVC.model.UserLogin;
 import com.SpringMVC.uriconstant.QuestionaireRestURIConstant;
 
 @EnableWebMvc
@@ -33,9 +32,6 @@ public class QuestionaireController {
 
     @Autowired
     private UserLoginDAO userLoginDAO;
-
-    @Autowired
-    private UserProfileDAO userProfileDAO;
 
     @Autowired
     private CodeMasterDAO codeMasterDAO;
@@ -51,10 +47,10 @@ public class QuestionaireController {
 
     @RequestMapping(value = "/addQuestionaire", method = RequestMethod.GET)
     public ModelAndView addQuestionaire(HttpServletRequest request) {
-    	UserProfile userProfile = userProfileDAO.get(request.getUserPrincipal().getName());
-    	int companyid = userLoginDAO.getCompanyID(request.getUserPrincipal().getName());
+    	UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
+    	int companyid = userLogin.getcompanyid();
     	Questionaire newQuestionaire = new Questionaire();
-    	newQuestionaire.setuserid(userProfile.getuserid());
+    	newQuestionaire.setuserid(userLogin.getuserid());
         ModelAndView mav = new ModelAndView("questionaireForm");
         List<String> sources = codeMasterDAO.getCode("SOURCE");	
         mav.addObject("sourcelist", sources);

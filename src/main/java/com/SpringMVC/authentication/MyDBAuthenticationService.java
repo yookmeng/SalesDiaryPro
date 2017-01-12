@@ -23,7 +23,7 @@ public class MyDBAuthenticationService implements UserDetailsService {
  
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserLogin userLogin = userLoginDAO.findUserLogin(username);
+        UserLogin userLogin = userLoginDAO.get(username);
  
         if (userLogin == null) {
             throw new UsernameNotFoundException("User " + username + " was not found in the database");

@@ -19,6 +19,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import com.SpringMVC.dao.BrandDAO;
 import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.model.Brand;
+import com.SpringMVC.model.UserLogin;
 import com.SpringMVC.uriconstant.BrandRestURIConstant;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -47,10 +48,11 @@ public class BrandController {
 
     @RequestMapping(value = BrandRestURIConstant.GetAll, method = RequestMethod.GET)
 	public String getBrands(Principal principal) {
+    	UserLogin userLogin = userLoginDAO.get(principal.getName());
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
-			jsonInString = mapper.writeValueAsString(brandDAO.list(userLoginDAO.getCompanyID(principal.getName())));
+			jsonInString = mapper.writeValueAsString(brandDAO.list(userLogin.getcompanyid()));
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
@@ -91,7 +93,8 @@ public class BrandController {
     
     @RequestMapping(value="/listBrand", method = RequestMethod.GET)
     public ModelAndView listBrand(Principal principal) {
- 	    List<Brand> listBrand = brandDAO.list(userLoginDAO.getCompanyID(principal.getName()));
+    	UserLogin userLogin = userLoginDAO.get(principal.getName());
+ 	    List<Brand> listBrand = brandDAO.list(userLogin.getcompanyid());
         ModelAndView mav = new ModelAndView("brandList");
         mav.addObject("listBrand", listBrand);
  	    return mav;
@@ -99,8 +102,9 @@ public class BrandController {
 
     @RequestMapping(value = "/addBrand", method = RequestMethod.GET)
     public ModelAndView addBrand(HttpServletRequest request) {
+    	UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
         Brand newBrand = new Brand();
-        newBrand.setcompanyid(userLoginDAO.getCompanyID(request.getUserPrincipal().getName()));
+        newBrand.setcompanyid(userLogin.getcompanyid());
         ModelAndView mav = new ModelAndView("brandForm");
         mav.addObject("brand", newBrand);
         return mav;

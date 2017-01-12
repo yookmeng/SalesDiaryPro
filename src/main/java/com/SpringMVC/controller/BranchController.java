@@ -51,10 +51,11 @@ public class BranchController {
 
     @RequestMapping(value = BranchRestURIConstant.GetAll, method = RequestMethod.GET)
 	public String getBranchs(Principal principal) {
+    	UserLogin userLogin = userLoginDAO.get(principal.getName());
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
-			jsonInString = mapper.writeValueAsString(branchDAO.list(userLoginDAO.getCompanyID(principal.getName())));
+			jsonInString = mapper.writeValueAsString(branchDAO.list(userLogin.getcompanyid()));
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
@@ -64,8 +65,12 @@ public class BranchController {
     @RequestMapping(value = BranchRestURIConstant.Create, method = RequestMethod.POST)
     public ResponseEntity<Branch> createBranch(@RequestBody Branch branch) throws IOException {
     	UserLogin userLogin = userLoginDAO.get(branch.getmaname());
-    	branch.setmaid(userLogin.getuserid());
+    	branch.setmaid(userLogin.getuserid());    	
     	branchDAO.save(branch);
+    	
+    	userLogin.setcompanyid(branch.getcompanyid());
+    	userLogin.setbranchid(branch.getbranchid());
+    	userLoginDAO.update(userLogin);
         return new ResponseEntity<Branch>(branch, HttpStatus.CREATED);
     }
 
@@ -77,8 +82,16 @@ public class BranchController {
             return new ResponseEntity<Branch>(HttpStatus.NOT_FOUND);
         }
         
+    	UserLogin userLoginClear = userLoginDAO.get(currentBranch.getmaname());
+    	userLoginClear.setcompanyid(0);
+    	userLoginClear.setbranchid(0);
+    	userLoginDAO.update(userLoginClear);
+
     	UserLogin userLogin = userLoginDAO.get(branch.getmaname());
     	branch.setmaid(userLogin.getuserid());
+    	userLogin.setcompanyid(branch.getcompanyid());
+    	userLogin.setbranchid(branch.getbranchid());
+    	userLoginDAO.update(userLogin);
 
     	currentBranch.setbranchname(branch.getbranchname());
     	currentBranch.setregno(branch.getregno());
@@ -101,14 +114,18 @@ public class BranchController {
             return new ResponseEntity<Branch>(HttpStatus.NOT_FOUND);
         }
  
-        branchDAO.delete(branchid);
+    	UserLogin userLogin = userLoginDAO.get(branch.getmaname());
+    	userLogin.setcompanyid(0);
+    	userLogin.setbranchid(0);
+    	userLoginDAO.update(userLogin);
+    	branchDAO.delete(branchid);
         return new ResponseEntity<Branch>(HttpStatus.OK);
     }
 
     @RequestMapping(value="/listBranch", method = RequestMethod.GET)
     public ModelAndView listBranch(Principal principal) {
     	UserLogin userLogin = userLoginDAO.get(principal.getName());
-    	List<Branch> listBranch = branchDAO.list(userLoginDAO.getCompanyID(principal.getName()));
+    	List<Branch> listBranch = branchDAO.list(userLogin.getcompanyid());
         ModelAndView mav = new ModelAndView("branchList");        
         mav.addObject("role", userLogin.getrole());
         mav.addObject("listBranch", listBranch);
@@ -119,7 +136,7 @@ public class BranchController {
     public ModelAndView addBranch(HttpServletRequest request) {
     	UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
         Branch newBranch = new Branch();
-        newBranch.setcompanyid(userLoginDAO.getCompanyID(request.getUserPrincipal().getName()));
+        newBranch.setcompanyid(userLogin.getcompanyid());
         ModelAndView mav = new ModelAndView("branchForm");
         List<String> malist = userLoginDAO.malist();	
         mav.addObject("role", userLogin.getrole());
@@ -134,10 +151,16 @@ public class BranchController {
     	UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
         Branch editBranch = branchDAO.get(branchid);
         ModelAndView mav = new ModelAndView("branchForm");
-    	List<String> malist = new ArrayList<String>();
-    	malist.add(editBranch.getmaname());
+        if (userLogin.getrole().equals("SA")){
+            List<String> malist = userLoginDAO.malist();	
+            mav.addObject("malist", malist); 
+        }
+        else {
+        	List<String> malist = new ArrayList<String>();
+        	malist.add(editBranch.getmaname());
+            mav.addObject("malist", malist); 
+        }
         mav.addObject("role", userLogin.getrole());
-        mav.addObject("malist", malist); 
         mav.addObject("branch", editBranch);
         return mav;
     }    

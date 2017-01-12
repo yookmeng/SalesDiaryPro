@@ -23,8 +23,8 @@
 	</c:if>   
 	<div id="main" class="container-fluid">
 	   	<input type="hidden" value="${base}" name="base" id="base"/>	
-		<input type="hidden" value="companyid" name="companyid" />     
-		<input type="hidden" value="branchid" name="branchid" />     
+		<input type="hidden" value="company" name="company" />     
+		<input type="hidden" value="branch" name="branch" />     
 		<input type="hidden" value="team" name="team" />     
 		<div class="breadcrumbs">
 			<ul>
@@ -49,7 +49,9 @@
 			<div class="span12">
 				<div class="box">
 					<div class="box-content">
-			        <form:form action="" method="post" modelAttribute="userProfile" class='form-horizontal form-wizard'>
+			        <form:form action="" method="post" modelAttribute="member" class='form-horizontal form-wizard'>
+		            <form:hidden path="companyid"/>
+		            <form:hidden path="branchid"/>
 		            <form:hidden path="teamid"/>
 		            <form:hidden path="userid"/>
 		            <form:hidden path="role"/>
@@ -78,7 +80,7 @@
 						</div>
 					</div>
 					<div class="form-actions">
-						<input type="reset" class="btn" onclick="location.href='listMember?teamid=${userProfile.teamid}'" value="Back" id="back">						
+						<input type="reset" class="btn" onclick="location.href='listMember?teamid=${member.teamid}'" value="Back" id="back">						
 						<input id="btnSave" type="submit" class="btn btn-primary" name="Save" value="Save">
 					</div>
 					</form:form>
@@ -100,6 +102,8 @@
 	    var username = $('#username').val(); 
 	    var password = $('#password').val(); 
 	    var role = $('#role').val(); 
+	    var companyid = $('#companyid').val(); 
+	    var branchid = $('#branchid').val(); 
 	    var teamid = $('#teamid').val(); 
 	    var mobile = $('#mobile').val(); 
 	    var email = $('#email').val(); 
@@ -109,13 +113,15 @@
 	    		"username" : username,
 	    		"password" : password,
 	    		"role" : role,
+	    		"companyid" : companyid,
+	    		"branchid" : branchid,
 	    		"teamid" : teamid,
 	    		"mobile" : mobile,
 	    		"email" : email
 		};
 	    if (json.userid=="0"){
 	        $.ajax({
-	            url: base+"/userprofile/create",
+	            url: base+"/user/create",
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
@@ -129,7 +135,7 @@
 	    }
 	    else {
 	        $.ajax({
-	            url: base+"/userprofile/update/"+userid,
+	            url: base+"/user/update/"+userid,
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",

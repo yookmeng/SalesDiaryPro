@@ -16,8 +16,10 @@
 			    </div>
 			</c:if>
 	       
-	   		<form name='f' action="${pageContext.request.contextPath}/j_spring_security_check?targetUrl=${targetUrl}" method='POST'>
-			<div class="form-group">
+<%-- 	   		<form name='f' action="${pageContext.request.contextPath}/j_spring_security_check?targetUrl=${targetUrl}" method='POST'>
+ --%>
+			<form id ='loginForm'>
+ 			<div class="form-group">
 				<input type="text" name='username' placeholder="User Name" class='form-control' data-rule-required="true">
 			</div>
 			<div class="form-group">
@@ -37,8 +39,9 @@
 					</c:if>
 				<input type="submit" value="Sign me in" class='btn btn-primary'>
 			</div>
-			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />	
-			</form>
+<%-- 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />	
+ --%>			
+ 			</form>
 			<div class="forget">
 				<a href="#">
 					<span>Forgot password?</span>
@@ -46,5 +49,6 @@
 			</div>
 		</div>
 	</div>
+<script src="js/login.js"></script>	
 </body>
 </html>

@@ -34,7 +34,7 @@ public class TeamController {
 	@Autowired
     private BranchDAO branchDAO;
 
-    @Autowired
+	@Autowired
     private UserLoginDAO userLoginDAO;
 
     @Autowired
@@ -67,9 +67,14 @@ public class TeamController {
     @RequestMapping(value = TeamRestURIConstant.Create, method = RequestMethod.POST)
     public ResponseEntity<Team> createTeam(@RequestBody Team team) throws IOException {
     	UserLogin userLogin = userLoginDAO.get(team.getleadername());
+    	Branch branch = branchDAO.get(team.getbranchid());
     	team.setleaderid(userLogin.getuserid());
-
     	teamDAO.save(team);
+    	
+    	userLogin.setcompanyid(branch.getcompanyid());
+    	userLogin.setbranchid(team.getbranchid());
+    	userLogin.setteamid(team.getteamid());
+    	userLoginDAO.update(userLogin);
         return new ResponseEntity<Team>(team, HttpStatus.CREATED);
     }
 
@@ -81,8 +86,20 @@ public class TeamController {
             return new ResponseEntity<Team>(HttpStatus.NOT_FOUND);
         }
         
+    	UserLogin userLoginClear = userLoginDAO.get(currentTeam.getleadername());
+    	userLoginClear.setcompanyid(0);
+    	userLoginClear.setbranchid(0);
+    	userLoginClear.setteamid(0);
+    	userLoginDAO.update(userLoginClear);
+
     	UserLogin userLogin = userLoginDAO.get(team.getleadername());
     	team.setleaderid(userLogin.getuserid());
+
+    	Branch branch = branchDAO.get(team.getbranchid());
+    	userLogin.setcompanyid(branch.getcompanyid());
+    	userLogin.setbranchid(team.getbranchid());
+    	userLogin.setteamid(team.getteamid());
+    	userLoginDAO.update(userLogin);
 
     	currentTeam.setteamname(team.getteamname());
         currentTeam.setleaderid(team.getleaderid());
@@ -97,6 +114,11 @@ public class TeamController {
         if (team == null) {
             return new ResponseEntity<Team>(HttpStatus.NOT_FOUND);
         }
+    	UserLogin userLogin = userLoginDAO.get(team.getleadername());
+    	userLogin.setcompanyid(0);
+    	userLogin.setbranchid(0);
+    	userLogin.setteamid(0);
+    	userLoginDAO.update(userLogin);
         teamDAO.delete(teamid);
         return new ResponseEntity<Team>(HttpStatus.OK);
     }

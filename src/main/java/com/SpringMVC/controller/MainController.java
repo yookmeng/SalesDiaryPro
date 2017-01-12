@@ -3,17 +3,21 @@ package com.SpringMVC.controller;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.RememberMeAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.SpringMVC.model.Branch;
@@ -67,59 +71,133 @@ public class MainController {
         USER, SA, MD, MA, TL, DEV;
     }
     
-    @RequestMapping(value = { "/", "/login" }, method = RequestMethod.GET)
-	public String loginPage(Model model) {
-       return "login";
+    @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
+    public ModelAndView login(
+    		@RequestParam(value = "error", required = false) String error,
+    		@RequestParam(value = "logout", required = false) String logout,
+    		HttpServletRequest request) {
+    	ModelAndView model = new ModelAndView();
+    	if (error != null) {
+    		model.addObject("error", "Invalid username and password!");
+    		//login form for update page
+    		//if login error, get the targetUrl from session again.
+    		String targetUrl = getRememberMeTargetUrlFromSession(request);
+    		if(StringUtils.hasText(targetUrl)){
+    			model.addObject("targetUrl", targetUrl);
+    			model.addObject("loginUpdate", true);
+    		}
+    	}
+
+    	if (logout != null) {
+    		model.addObject("msg", "You've been logged out successfully.");
+    	}
+    	
+    	if (SecurityContextHolder.getContext().getAuthentication() != null &&
+    			 SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
+    			 //when Anonymous Authentication is enabled
+    			 !(SecurityContextHolder.getContext().getAuthentication() 
+    			          instanceof AnonymousAuthenticationToken)) {
+			model.addObject("username", request.getUserPrincipal().getName());
+			UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
+			String period = closingPeriodDAO.getCurrentPeriod(userLogin.getcompanyid());
+			model.addObject("role", userLogin.getrole());
+			Roles role = Roles.valueOf(userLogin.getrole()); 
+			switch (role){
+			case USER:
+				UserMonthlySummary userMonthlySummary = userMonthlySummaryDAO.get(period, userLogin.getuserid(), userLogin.getrole());
+				model.addObject("userMonthlySummary", userMonthlySummary);    	   
+	    		model.setViewName("userDashBoard");
+	    		break;
+			case TL:
+				Team team = teamDAO.getByUser(userLogin.getuserid());
+				TeamTarget teamTarget = teamTargetDAO.getByPeriod(period, team.getteamid());
+				model.addObject("listUserMonthlySummary", userMonthlySummaryDAO.list(period, userLogin.getuserid(), userLogin.getrole()));    	   
+				model.addObject("team", team);
+				model.addObject("teamTarget", teamTarget);    	   
+	    		model.setViewName("tlDashBoard");    		    		
+	    		break;
+			case MA:
+				Branch branch = branchDAO.getByMA(userLogin.getuserid());
+				BranchTarget branchTarget = branchTargetDAO.getByPeriod(period, branch.getbranchid());
+				model.addObject("listUserMonthlySummary", userMonthlySummaryDAO.list(period, userLogin.getuserid(), userLogin.getrole()));    	   
+				model.addObject("branch", branch);
+				model.addObject("teamTarget", teamTargetDAO.list(period, branch.getbranchid()));
+				model.addObject("branchTarget", branchTarget);
+	    		model.setViewName("maDashBoard");    		    		
+	    		break;
+			case MD:
+				Company company = companyDAO.get(userLogin.getcompanyid());
+				CompanyTarget companyTarget = companyTargetDAO.getByPeriod(period, company.getcompanyid());
+				model.addObject("listUserMonthlySummary", userMonthlySummaryDAO.list(period, userLogin.getuserid(), userLogin.getrole()));    	   
+				model.addObject("company", company);
+				model.addObject("teamTarget", teamTargetDAO.listAll(period, company.getcompanyid()));
+				model.addObject("branchTarget", branchTargetDAO.list(period, company.getcompanyid()));
+				model.addObject("companyTarget", companyTarget);
+	    		model.setViewName("mdDashBoard");    		    		
+			case SA:
+	    		model.setViewName("saDashBoard");    		    		
+	    		break;
+			default:
+	    		model.setViewName("home");    		    		
+	    		break;
+			}
+    	}
+    	else {
+    		model.setViewName("login");    		    		
+    	}
+    	return model;
+    }
+    
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
+	public String home(Model model, HttpServletRequest request) throws ParseException {
+		if (isRememberMeAuthenticated()) {
+			//send login for update
+			setRememberMeTargetUrlToSession(request);
+			model.addAttribute("loginUpdate", true);
+			return "/login";
+
+		} else {
+			model.addAttribute("username", request.getUserPrincipal().getName());
+			UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
+			String period = closingPeriodDAO.getCurrentPeriod(userLogin.getcompanyid());
+			model.addAttribute("role", userLogin.getrole());
+			Roles role = Roles.valueOf(userLogin.getrole()); 
+			switch (role){
+			case USER:
+				UserMonthlySummary userMonthlySummary = userMonthlySummaryDAO.get(period, userLogin.getuserid(), userLogin.getrole());
+				model.addAttribute("userMonthlySummary", userMonthlySummary);    	   
+				return "userDashBoard";    	   
+			case TL:
+				Team team = teamDAO.getByUser(userLogin.getuserid());
+				TeamTarget teamTarget = teamTargetDAO.getByPeriod(period, team.getteamid());
+				model.addAttribute("listUserMonthlySummary", userMonthlySummaryDAO.list(period, userLogin.getuserid(), userLogin.getrole()));    	   
+				model.addAttribute("team", team);
+				model.addAttribute("teamTarget", teamTarget);    	   
+				return "tlDashBoard";    	   
+			case MA:
+				Branch branch = branchDAO.getByMA(userLogin.getuserid());
+				BranchTarget branchTarget = branchTargetDAO.getByPeriod(period, branch.getbranchid());
+				model.addAttribute("listUserMonthlySummary", userMonthlySummaryDAO.list(period, userLogin.getuserid(), userLogin.getrole()));    	   
+				model.addAttribute("branch", branch);
+				model.addAttribute("teamTarget", teamTargetDAO.list(period, branch.getbranchid()));
+				model.addAttribute("branchTarget", branchTarget);
+				return "maDashBoard";    	   
+			case MD:
+				Company company = companyDAO.get(userLogin.getcompanyid());
+				CompanyTarget companyTarget = companyTargetDAO.getByPeriod(period, company.getcompanyid());
+				model.addAttribute("listUserMonthlySummary", userMonthlySummaryDAO.list(period, userLogin.getuserid(), userLogin.getrole()));    	   
+				model.addAttribute("company", company);
+				model.addAttribute("teamTarget", teamTargetDAO.listAll(period, company.getcompanyid()));
+				model.addAttribute("branchTarget", branchTargetDAO.list(period, company.getcompanyid()));
+				model.addAttribute("companyTarget", companyTarget);
+				return "mdDashBoard";    	   
+			case SA:
+				return "saDashBoard";    	   
+			default:
+				return "home";
+			}
+		}
 	}
-   
-	@RequestMapping(value = "/logoutSuccessful", method = RequestMethod.GET)
-	public String logoutSuccessfulPage(Model model) {
-       model.addAttribute("title", "Logout");
-       return "logoutSuccessful";
-	}
- 
-	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public String home(Model model, Principal principal) throws ParseException {
-	   model.addAttribute("username", principal.getName());
-	   UserLogin userLogin = userLoginDAO.findUserLogin(principal.getName());
-	   String period = closingPeriodDAO.getCurrentPeriod(userLoginDAO.getCompanyID(principal.getName()));
-	   model.addAttribute("role", userLogin.getrole());
-	   Roles role = Roles.valueOf(userLogin.getrole()); 
-       switch (role){
-       case USER:
-    	   UserMonthlySummary userMonthlySummary = userMonthlySummaryDAO.get(period, userLogin.getuserid(), userLogin.getrole());
-    	   model.addAttribute("userMonthlySummary", userMonthlySummary);    	   
-    	   return "userDashBoard";    	   
-       case TL:
-    	   Team team = teamDAO.getByUser(userLogin.getuserid());
-    	   TeamTarget teamTarget = teamTargetDAO.getByPeriod(period, team.getteamid());
-    	   model.addAttribute("listUserMonthlySummary", userMonthlySummaryDAO.list(period, userLogin.getuserid(), userLogin.getrole()));    	   
-    	   model.addAttribute("team", team);
-    	   model.addAttribute("teamTarget", teamTarget);    	   
-           return "tlDashBoard";    	   
-       case MA:
-    	   Branch branch = branchDAO.getByMA(userLogin.getuserid());
-    	   BranchTarget branchTarget = branchTargetDAO.getByPeriod(period, branch.getbranchid());
-    	   model.addAttribute("listUserMonthlySummary", userMonthlySummaryDAO.list(period, userLogin.getuserid(), userLogin.getrole()));    	   
-    	   model.addAttribute("branch", branch);
-    	   model.addAttribute("teamTarget", teamTargetDAO.list(period, branch.getbranchid()));
-    	   model.addAttribute("branchTarget", branchTarget);
-           return "maDashBoard";    	   
-       case MD:
-    	   Company company = companyDAO.get(userLogin.getcompanyid());
-    	   CompanyTarget companyTarget = companyTargetDAO.getByPeriod(period, company.getcompanyid());
-    	   model.addAttribute("listUserMonthlySummary", userMonthlySummaryDAO.list(period, userLogin.getuserid(), userLogin.getrole()));    	   
-    	   model.addAttribute("company", company);
-    	   model.addAttribute("teamTarget", teamTargetDAO.listAll(period, company.getcompanyid()));
-    	   model.addAttribute("branchTarget", branchTargetDAO.list(period, company.getcompanyid()));
-    	   model.addAttribute("companyTarget", companyTarget);
-           return "mdDashBoard";    	   
-       case SA:
-           return "saDashBoard";    	   
-       default:
-           return "home";
-       }
-   }
 
    @RequestMapping(value = "/calendar")
 	public ModelAndView calendar(ModelAndView model, Principal principal) throws IOException{
@@ -129,80 +207,6 @@ public class MainController {
 	   return model;
 	}
  
-	@RequestMapping(value="/listUser")
-	public ModelAndView listUser(ModelAndView model, Principal principal) throws IOException{
-		List<UserLogin> listUser = userLoginDAO.list(
-				userLoginDAO.getUserRoles(principal.getName()),
-				userLoginDAO.getCompanyID(principal.getName()));
-		model.addObject("listUser", listUser);
-		model.addObject("role", userLoginDAO.getUserRoles(principal.getName()));
-		model.setViewName("userList");	 	    
-		return model;
-	}
-	   
-   @RequestMapping(value = "/newUser", method = RequestMethod.GET)
-   public ModelAndView addUser(ModelAndView model, Principal principal) {
-       UserLogin userLogin = userLoginDAO.get(principal.getName());
-       UserLogin newUser = new UserLogin();
-       model.addObject("user", newUser);
-       if (userLogin.getrole().equals("DEV")){       
-	       List<String> roles= userLoginDAO.getAllRoles();	
-	       model.addObject("role", userLoginDAO.getUserRoles(principal.getName()));
-	       model.addObject("rolelist", roles);
-       }
-	   else {		// SA
-    	   List<String> roles= new ArrayList<String>();	
-    	   roles.add("MA");
-    	   roles.add("TL");
-    	   model.addObject("role", userLogin.getrole());
-           model.addObject("rolelist", roles);
-       }
-       model.setViewName("userForm");
-       return model;
-   }
-   
-   @RequestMapping(value = "/saveUser", method = RequestMethod.POST)
-   public ModelAndView saveUser(@ModelAttribute UserLogin userLogin) {
-       userLoginDAO.saveOrUpdate(userLogin);
-       return new ModelAndView("redirect:/home");    	   
-   }
-   
-   @RequestMapping(value = "/deleteUser", method = RequestMethod.GET)
-   public ModelAndView deleteUser(HttpServletRequest request) {
-       String username = request.getParameter("username");
-       userLoginDAO.delete(username);
-       return new ModelAndView("redirect:/listUser");
-   }
-   
-   @RequestMapping(value = "/editUser", method = RequestMethod.GET)
-   public ModelAndView editUser(HttpServletRequest request) {
-       String username = request.getParameter("username");
-       UserLogin userLogin = userLoginDAO.get(username);
-       ModelAndView model = new ModelAndView("userForm");
-       if (userLogin.getrole().equals("DEV")){
-        	   List<String> roles= userLoginDAO.getAllRoles();	
-               model.addObject("role", userLogin.getrole());
-               model.addObject("rolelist", roles);
-           }
-	   else {		// Others
-		   if (request.getUserPrincipal().getName().equals(username)){
-			   List<String> roles= new ArrayList<String>();	
-        	   roles.add(userLogin.getrole());
-        	   model.addObject("role", userLogin.getrole());
-               model.addObject("rolelist", roles);			   
-		   }
-		   else {
-			   List<String> roles= new ArrayList<String>();	
-        	   roles.add("MA");
-        	   roles.add("TL");
-        	   model.addObject("role", userLogin.getrole());
-               model.addObject("rolelist", roles);
-    	   }
-	   }
-       model.addObject("user", userLogin);       
-       return model;
-   }
-   
    @RequestMapping(value = "/403", method = RequestMethod.GET)
    public String accessDenied(Model model, Principal principal) {
         
@@ -215,4 +219,35 @@ public class MainController {
        }
        return "403";
    }
+
+   /**
+	 * Check if user is login by remember me cookie, refer
+	 * org.springframework.security.authentication.AuthenticationTrustResolverImpl
+	 */
+   private boolean isRememberMeAuthenticated() {
+		Authentication authentication =
+                    SecurityContextHolder.getContext().getAuthentication();
+		if (authentication == null) {
+			return false;
+		}
+
+		return RememberMeAuthenticationToken.class.isAssignableFrom(authentication.getClass());
+	}
+
+	private void setRememberMeTargetUrlToSession(HttpServletRequest request){
+		HttpSession session = request.getSession(false);
+		if(session!=null){
+			session.setAttribute("targetUrl", "/home");
+		}
+	}
+
+	private String getRememberMeTargetUrlFromSession(HttpServletRequest request){
+		String targetUrl = "";
+		HttpSession session = request.getSession(false);
+		if(session!=null){
+			targetUrl = session.getAttribute("targetUrl")==null?""
+                             :session.getAttribute("targetUrl").toString();
+		}
+		return targetUrl;
+	}
 }

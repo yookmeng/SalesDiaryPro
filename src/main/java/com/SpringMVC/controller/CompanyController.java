@@ -66,9 +66,12 @@ public class CompanyController {
     	company.setmdid(userLoginMD.getuserid());
     	UserLogin userLoginSA = userLoginDAO.get(company.getsaname());
     	company.setsaid(userLoginSA.getuserid());
-
     	companyDAO.save(company);
-        return new ResponseEntity<Company>(company, HttpStatus.CREATED);
+    	userLoginMD.setcompanyid(company.getcompanyid());
+    	userLoginDAO.update(userLoginMD);
+    	userLoginSA.setcompanyid(company.getcompanyid());
+    	userLoginDAO.update(userLoginSA);    	
+    	return new ResponseEntity<Company>(company, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = CompanyRestURIConstant.Update, method = RequestMethod.POST)
@@ -77,10 +80,22 @@ public class CompanyController {
         if (currentCompany==null) {
             return new ResponseEntity<Company>(HttpStatus.NOT_FOUND);
         }
+        
+    	UserLogin userLoginMDClear = userLoginDAO.get(currentCompany.getmdname());
+    	UserLogin userLoginSAClear = userLoginDAO.get(currentCompany.getsaname());
+    	userLoginMDClear.setcompanyid(0);
+    	userLoginDAO.update(userLoginMDClear);
+    	userLoginSAClear.setcompanyid(0);
+    	userLoginDAO.update(userLoginSAClear);    	
+    	
         UserLogin userLoginMD = userLoginDAO.get(company.getmdname());
     	company.setmdid(userLoginMD.getuserid());
     	UserLogin userLoginSA = userLoginDAO.get(company.getsaname());
     	company.setsaid(userLoginSA.getuserid());
+    	userLoginMD.setcompanyid(company.getcompanyid());
+    	userLoginDAO.update(userLoginMD);
+    	userLoginSA.setcompanyid(company.getcompanyid());
+    	userLoginDAO.update(userLoginSA);    	
 
     	currentCompany.setcompanyname(company.getcompanyname());
     	currentCompany.setregno(company.getregno());
@@ -102,8 +117,15 @@ public class CompanyController {
         if (company == null) {
             return new ResponseEntity<Company>(HttpStatus.NOT_FOUND);
         }
- 
-        companyDAO.delete(companyid);
+        
+    	UserLogin userLoginMD = userLoginDAO.get(company.getmdname());
+    	UserLogin userLoginSA = userLoginDAO.get(company.getsaname());
+    	userLoginMD.setcompanyid(0);
+    	userLoginDAO.update(userLoginMD);
+    	userLoginSA.setcompanyid(0);
+    	userLoginDAO.update(userLoginSA);    	
+
+    	companyDAO.delete(company);
         return new ResponseEntity<Company>(HttpStatus.OK);
     }
 
@@ -131,12 +153,12 @@ public class CompanyController {
             
     @RequestMapping(value = "/editCompany", method = RequestMethod.GET)
     public ModelAndView editCompany(HttpServletRequest request) {
+    	UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
         int companyid = Integer.parseInt(request.getParameter("companyid"));
         if (companyid==0){
-        	companyid = userLoginDAO.getCompanyID(request.getUserPrincipal().getName());
+        	companyid = userLogin.getcompanyid();
         }
         Company editCompany= companyDAO.get(companyid);
-        UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
         ModelAndView mav = new ModelAndView("companyForm");
         if (userLogin.getrole().equals("DEV")){
             List<String> mdlist = userLoginDAO.mdlist();	

@@ -151,9 +151,13 @@ public class ActivityController {
         int prospectid = Integer.parseInt(request.getParameter("prospectid"));
         Prospect prospect = prospectDAO.get(prospectid);
         UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
- 	    List<Activity> listActivity= activityDAO.list(prospectid);
+        Branch branch = branchDAO.get(userLogin.getbranchid());
+        Team team = teamDAO.get(userLogin.getteamid());
+        List<Activity> listActivity= activityDAO.list(prospectid);
         ModelAndView mav = new ModelAndView("activityList");
 		mav.addObject("role", userLogin.getrole());
+        mav.addObject("team", team);
+        mav.addObject("branch", branch);
         mav.addObject("prospect", prospect);
         mav.addObject("listActivity", listActivity);
  	    return mav;
@@ -171,14 +175,16 @@ public class ActivityController {
 			break;    	   
 		case TL:
 			Team team = teamDAO.getByUser(userLogin.getuserid());
+	        mav.addObject("team", team);
 			mav.addObject("listActivity", activityDAO.listByTeam(team.getteamid()));			
 			break;    	   
 		case MA:
 			Branch branch = branchDAO.getByMA(userLogin.getuserid());
+	        mav.addObject("branch", branch);
 			mav.addObject("listActivity", activityDAO.listByBranch(branch.getbranchid()));			
 			break;    	   
 		case MD:
-			int companyid = userLoginDAO.getCompanyID(userLogin.getusername());
+			int companyid = userLogin.getcompanyid();
 			mav.addObject("listActivity", activityDAO.listByCompany(companyid));			
 			break;
 		default:
@@ -197,7 +203,7 @@ public class ActivityController {
         Prospect prospect = prospectDAO.get(prospectid);
         UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
         ModelAndView mav = new ModelAndView("activityForm");
-        List<String> brands = brandDAO.getSellingBrands(userLoginDAO.getCompanyID(request.getUserPrincipal().getName()));	
+        List<String> brands = brandDAO.getSellingBrands(userLogin.getcompanyid());	
         mav.addObject("brandlist", brands);
         Brand brand = brandDAO.getByName(brands.get(0));
         List<String> models = modelDAO.getSellingModels(brand.getbrandid());	
@@ -214,12 +220,16 @@ public class ActivityController {
         Activity editActivity = activityDAO.get(activityid);
         Prospect prospect = prospectDAO.get(editActivity.getprospectid());
         UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
+        Branch branch = branchDAO.get(userLogin.getbranchid());
+        Team team = teamDAO.get(userLogin.getteamid());
         ModelAndView mav = new ModelAndView("activityForm");
-        List<String> brands = brandDAO.getSellingBrands(userLoginDAO.getCompanyID(request.getUserPrincipal().getName()));	
+        List<String> brands = brandDAO.getSellingBrands(userLogin.getcompanyid());	
         mav.addObject("brandlist", brands);
         Brand brand = brandDAO.getByName(brands.get(0));
         List<String> models = modelDAO.getSellingModels(brand.getbrandid());	
 		mav.addObject("role", userLogin.getrole());
+        mav.addObject("team", team);
+        mav.addObject("branch", branch);
         mav.addObject("prospect", prospect);
         mav.addObject("modellist", models);
         mav.addObject("activity", editActivity);

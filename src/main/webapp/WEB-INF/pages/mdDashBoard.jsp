@@ -73,7 +73,7 @@
 				                <th><p align="center">Percent</p></th>
 				                <th><p align="right">Commission</p></th>
 				                <th><p align="center">Hot</p></th>
-				                <th><p align="center">Note</p></th>
+				                <th><p align="center">Review</p></th>
 							</tr>
 							<tr>
 								<th></th>
@@ -105,7 +105,7 @@
 				                <th>Percent</th>
 				                <th>Commission</th>
 				                <th>Hot</th>
-				                <th>Note</th>
+				                <th>Review</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -129,7 +129,7 @@
 				                    <td><p align="right"><fmt:formatNumber value="${listSummary.commission}"/></p></td>
 				                    <td><p align="center"><fmt:formatNumber value="${listSummary.totalhot}"/></p></td>
 				                    <td><p align="center">
-										<button class="btn btn-small" title="Add Note" onclick="window.location='addReview?userid=${listSummary.userid}&targetid=${listSummary.targetid}';" >
+										<button class="btn btn-small" title="Add Review" onclick="window.location='addReview?userid=${listSummary.userid}&targetid=${listSummary.targetid}';" >
 									    	<i class="fa fa-plus-circle"></i></button>
 									    </p>
 				                    </td>

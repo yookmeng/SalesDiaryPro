@@ -18,20 +18,20 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import com.SpringMVC.dao.ActivityDAO;
 import com.SpringMVC.dao.BranchDAO;
 import com.SpringMVC.dao.CompanyDAO;
 import com.SpringMVC.dao.NotesDAO;
 import com.SpringMVC.dao.ProspectDAO;
 import com.SpringMVC.dao.TeamDAO;
 import com.SpringMVC.dao.UserLoginDAO;
-import com.SpringMVC.dao.UserProfileDAO;
+import com.SpringMVC.model.Activity;
 import com.SpringMVC.model.Branch;
 import com.SpringMVC.model.Company;
 import com.SpringMVC.model.Notes;
 import com.SpringMVC.model.Prospect;
 import com.SpringMVC.model.Team;
 import com.SpringMVC.model.UserLogin;
-import com.SpringMVC.model.UserProfile;
 import com.SpringMVC.uriconstant.NotesRestURIConstant;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,9 +39,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @EnableWebMvc
 @RestController
 public class NotesController {
-
-    @Autowired
-    private UserProfileDAO userProfileDAO;
 
     @Autowired
     private TeamDAO teamDAO;
@@ -57,6 +54,9 @@ public class NotesController {
 
     @Autowired
     private ProspectDAO prospectDAO;
+
+    @Autowired
+    private ActivityDAO activityDAO;
 
     @Autowired
     private NotesDAO notesDAO;
@@ -152,31 +152,36 @@ public class NotesController {
         int prospectid = Integer.parseInt(request.getParameter("prospectid"));
         Prospect prospect = prospectDAO.get(prospectid);
         UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
+        Team team = teamDAO.get(userLogin.getteamid());
+ 	    List<Activity> listActivity= activityDAO.list(prospectid);
  	    List<Notes> listNotes= notesDAO.list(prospectid);
         ModelAndView mav = new ModelAndView("noteList");
 		mav.addObject("role", userLogin.getrole());
-        mav.addObject("prospect", prospect);
+		mav.addObject("team", team);
+		mav.addObject("prospect", prospect);
+        mav.addObject("listActivity", listActivity);
         mav.addObject("listNotes", listNotes);
  	    return mav;
  	}
     
     @RequestMapping(value="/listNotes", method = RequestMethod.GET)
     public ModelAndView listNotes(HttpServletRequest request) {
-        int companyid = userLoginDAO.getCompanyID(request.getUserPrincipal().getName());
-        UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
+    	UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
         ModelAndView mav = new ModelAndView("notesList");
         mav.addObject("role", userLogin.getrole());
         Roles role = Roles.valueOf(userLogin.getrole()); 
         switch (role){
         case MD:
-            mav.addObject("listNotes", notesDAO.listByCompany(companyid));
+            mav.addObject("listNotes", notesDAO.listByCompany(userLogin.getcompanyid()));
             break;
         case MA:
             Branch branch = branchDAO.getByMA(userLogin.getuserid());
+            mav.addObject("branch", branch);
             mav.addObject("listNotes", notesDAO.listByBranch(branch.getbranchid()));
             break;
         case TL:
             Team team = teamDAO.getByUser(userLogin.getuserid());
+            mav.addObject("team", team);
             mav.addObject("listNotes", notesDAO.listByTeam(team.getteamid()));
             break;
         default:
@@ -188,11 +193,10 @@ public class NotesController {
     @RequestMapping(value = "/addNotes", method = RequestMethod.GET)
     public ModelAndView addReview(HttpServletRequest request) {
         int prospectid = Integer.parseInt(request.getParameter("prospectid"));
-        UserLogin userLogin = userLoginDAO.findUserLogin(request.getUserPrincipal().getName());
-        UserProfile userProfile = userProfileDAO.get(request.getUserPrincipal().getName());
-        Team team = teamDAO.get(userProfile.getteamid());
-        Branch branch = branchDAO.get(team.getbranchid());
-        Company company = companyDAO.get(branch.getcompanyid());
+        UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
+        Team team = teamDAO.get(userLogin.getteamid());
+        Branch branch = branchDAO.get(userLogin.getbranchid());
+        Company company = companyDAO.get(userLogin.getcompanyid());
         Notes newNotes = new Notes();
         Date date = new Date(Calendar.getInstance().getTime().getTime());
         newNotes.setnotedate(date);
@@ -217,9 +221,13 @@ public class NotesController {
     public ModelAndView editNotes(HttpServletRequest request) {
         int noteid = Integer.parseInt(request.getParameter("noteid")); 
         UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
+        Branch branch = branchDAO.get(userLogin.getbranchid());
+        Team team = teamDAO.get(userLogin.getteamid());
         Notes editNotes = notesDAO.get(noteid);
         ModelAndView mav = new ModelAndView("notesForm");
         mav.addObject("role", userLogin.getrole());
+        mav.addObject("branch", branch);
+        mav.addObject("team", team);
         mav.addObject("notes", editNotes);
         return mav;
     }    

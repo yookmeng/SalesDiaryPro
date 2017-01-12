@@ -14,43 +14,50 @@
 	<c:if test="${role == 'MD'}">
 		<jsp:include page="_mdNavigation.jsp" />
 	</c:if>
- 	<div id="main" class="container-fluid">
-	   	<input type="hidden" value="${base}" name="base" id="base"/>	
-		<div class="breadcrumbs">
-			<ul>
-				<li>
-					<a href="home">Home</a>
-					<i class="fa fa-angle-right"></i>
-				</li>
-				<li>
-					<a href="listPeriod">Closing</a>
-				</li>
-			</ul>
-		</div>
-        <br>
-        <div align="center">
-			<c:if test="${role == 'SA'}">
-   	    	<h5>
-   				<a href="addClosingPeriod" class='btn'>
-				<i class="fa fa-plus-circle"></i>New Closing</a></h5>
-			</c:if>
-			<div class="box-content nopadding">
-				<table class="table table-hover table-nomargin table-bordered">
-				<tr>
-				    <th>Period</th>
-				    <th>Opening Date</th>
-				    <th>Closing Date</th>
-				    <th>Closed</th>
-				</tr>
-				<c:forEach var="closingPeriod" items="${listClosingPeriod}" varStatus="status">
-					<tr>
-					    <td><a href="editClosingPeriod?id=${closingPeriod.id}">${closingPeriod.period}</a></td>
-					    <td>${closingPeriod.opendate}</td>
-					    <td>${closingPeriod.closedate}</td>
-					    <td>${closingPeriod.closed}</td>
-					</tr>
-				</c:forEach>             
-				</table>
+ 	<div id="main">
+ 		<div class="container-fluid">
+		   	<input type="hidden" value="${base}" name="base" id="base"/>	
+			<div class="breadcrumbs">
+				<ul>
+					<li>
+						<a href="home">Home</a>
+						<i class="fa fa-angle-right"></i>
+					</li>
+					<li>
+						<a href="listPeriod">Closing</a>
+					</li>
+				</ul>
+			</div>
+	        <br>
+	        <div align="center">
+				<c:if test="${role == 'SA'}">
+	   	    	<h5>
+	   				<a href="addClosingPeriod" class='btn'>
+					<i class="fa fa-plus-circle"></i>Add New</a></h5>
+				</c:if>
+				<div class="box box-color box-bordered">
+					<div class="box-title">
+						<h3>Closing Period</h3>
+					</div>
+					<div class="box-content nopadding">
+						<table class="table table-hover table-nomargin table-bordered">
+						<tr>
+						    <th>Period</th>
+						    <th>Opening Date</th>
+						    <th>Closing Date</th>
+						    <th>Closed</th>
+						</tr>
+						<c:forEach var="closingPeriod" items="${listClosingPeriod}" varStatus="status">
+							<tr>
+							    <td><a href="editClosingPeriod?id=${closingPeriod.id}">${closingPeriod.period}</a></td>
+							    <td>${closingPeriod.opendate}</td>
+							    <td>${closingPeriod.closedate}</td>
+							    <td>${closingPeriod.closed}</td>
+							</tr>
+						</c:forEach>             
+						</table>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

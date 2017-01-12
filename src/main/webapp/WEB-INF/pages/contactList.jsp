@@ -10,65 +10,67 @@
 <body>
 	<jsp:include page="_userNavigation.jsp" />
 	<div id="main">
-	   	<input type="hidden" value="${base}" name="base" id="base"/>	
-		<div class="breadcrumbs">
-			<ul>
-				<li>
-					<a href="home">Home</a>
-					<i class="fa fa-angle-right"></i>
-				</li>
-				<li>
-					<a href="listContacts">Contact</a>
-				</li>
-			</ul>
-		</div>
-        <input type="hidden" value="userProfile" name="userProfile" /> 
-		<div align="center">
-   	    	<h5>
-   				<a href="addContact?userid=${userProfile.userid}" class='btn'>
-				<i class="fa fa-plus-circle"></i>New Contact</a>
-			</h5>
-		</div>
-		<div class="box box-color box-bordered">
-			<div class="box-title">
-				<h3>Contact</h3>
+		<div class="container-fluid">
+		   	<input type="hidden" value="${base}" name="base" id="base"/>	
+			<div class="breadcrumbs">
+				<ul>
+					<li>
+						<a href="home">Home</a>
+						<i class="fa fa-angle-right"></i>
+					</li>
+					<li>
+						<a href="listContacts">Contact</a>
+					</li>
+				</ul>
 			</div>
-			<div class="box-content nopadding">
-				<table class="table table-hover table-nomargin table-bordered usertable">
-					<thead>
-						<tr class="thefilter">
-							<th class="with-checkbox"></th>
-						    <th>Name</th>
-						    <th>Mobile</th>
-						    <th>Action</th>	
-						</tr>
-						<tr>
-							<th class="with-checkbox">
-								<input type="checkbox" name="check_all" id="check_all">
-							</th>
-						    <th>Name</th>
-						    <th>Mobile</th>
-						    <th>Action</th>	
-						</tr>
-					</thead>
-					<tbody>				
-						<c:forEach var="contact" items="${listContact}" varStatus="status">
-							<tr>
-								<td class="with-checkbox">
-									<input type="checkbox" name="check" value="1">
-								</td>
-							    <td>${contact.firstname} ${contact.lastname}</td>
-								<td>${contact.mobile}</td>
-								<td>
-									<button class="btn btn-small" onclick="window.location='editContact?contactid=${contact.contactid}';" >
-										<i class="fa fa-edit"></i></button>
-									<button class="btn btn-small" onclick="deleteContact(${contact.contactid})">
-										<i class="fa fa-trash-o"></i></button>
-							    </td>		                 
+	        <input type="hidden" value="userLogin" name="userLogin" /> 
+			<div align="center">
+	   	    	<h5>
+	   				<a href="addContact?userid=${userLogin.userid}" class='btn'>
+					<i class="fa fa-plus-circle"></i>New Contact</a>
+				</h5>
+			</div>
+			<div class="box box-color box-bordered">
+				<div class="box-title">
+					<h3>Contact</h3>
+				</div>
+				<div class="box-content nopadding">
+					<table class="table table-hover table-nomargin table-bordered usertable">
+						<thead>
+							<tr class="thefilter">
+								<th class="with-checkbox"></th>
+							    <th>Name</th>
+							    <th>Mobile</th>
+							    <th>Action</th>	
 							</tr>
-						</c:forEach>             
-					</tbody>
-				</table>
+							<tr>
+								<th class="with-checkbox">
+									<input type="checkbox" name="check_all" id="check_all">
+								</th>
+							    <th>Name</th>
+							    <th>Mobile</th>
+							    <th>Action</th>	
+							</tr>
+						</thead>
+						<tbody>				
+							<c:forEach var="contact" items="${listContact}" varStatus="status">
+								<tr>
+									<td class="with-checkbox">
+										<input type="checkbox" name="check" value="1">
+									</td>
+								    <td>${contact.firstname} ${contact.lastname}</td>
+									<td>${contact.mobile}</td>
+									<td>
+										<button class="btn btn-small" onclick="window.location='editContact?contactid=${contact.contactid}';" >
+											<i class="fa fa-edit"></i></button>
+										<button class="btn btn-small" onclick="deleteContact(${contact.contactid})">
+											<i class="fa fa-trash-o"></i></button>
+								    </td>		                 
+								</tr>
+							</c:forEach>             
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
