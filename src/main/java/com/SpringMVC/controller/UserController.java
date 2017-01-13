@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,7 +50,8 @@ public class UserController {
     @Autowired
     private TeamDAO teamDAO;
 
-    @RequestMapping(value = UserRestURIConstant.Get, method = RequestMethod.GET)
+    @SuppressWarnings("unchecked")
+	@RequestMapping(value = UserRestURIConstant.Get, method = RequestMethod.GET)
 	public @ResponseBody ApiReturn getUserProfile(@PathVariable String username) {
     	ObjectMapper mapper = new ObjectMapper();
     	ApiReturn apiReturn = new ApiReturn();
@@ -58,7 +60,9 @@ public class UserController {
 			jsonInString = mapper.writeValueAsString(userLoginDAO.get(username));
 			apiReturn.setstatus(true);
 			apiReturn.seterror_message("");
-			apiReturn.setjson(jsonInString);
+			JSONArray userInfo = new JSONArray();
+			userInfo.add(jsonInString);
+			apiReturn.setjson(userInfo);
 		} catch (JsonProcessingException e) {
 			apiReturn.setstatus(false);
 			apiReturn.seterror_message(e.getMessage());
@@ -66,7 +70,8 @@ public class UserController {
 		return apiReturn;
 	}
 
-    @RequestMapping(value = UserRestURIConstant.GetAll, method = RequestMethod.GET)
+    @SuppressWarnings("unchecked")
+	@RequestMapping(value = UserRestURIConstant.GetAll, method = RequestMethod.GET)
 	public @ResponseBody ApiReturn getAllUser(Principal principal) {
     	UserLogin userLogin = userLoginDAO.get(principal.getName());
     	ObjectMapper mapper = new ObjectMapper();
@@ -77,7 +82,9 @@ public class UserController {
 			jsonInString = mapper.writeValueAsString(userLoginDAO.list(userLogin.getrole(), userLogin.getcompanyid()));
 			apiReturn.setstatus(true);
 			apiReturn.seterror_message("");
-			apiReturn.setjson(jsonInString);
+			JSONArray userInfo = new JSONArray();
+			userInfo.add(jsonInString);
+			apiReturn.setjson(userInfo);
 		} catch (JsonProcessingException e) {
 			apiReturn.setstatus(false);
 			apiReturn.seterror_message(e.getMessage());
@@ -85,7 +92,8 @@ public class UserController {
 		return apiReturn;
 	}
 
-    @RequestMapping(value = UserRestURIConstant.Find, method = RequestMethod.GET)
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = UserRestURIConstant.Find, method = RequestMethod.GET)
 	public @ResponseBody ApiReturn getUserProfileByID(@PathVariable int userid) {
     	ObjectMapper mapper = new ObjectMapper();
     	ApiReturn apiReturn = new ApiReturn();
@@ -94,7 +102,9 @@ public class UserController {
 			jsonInString = mapper.writeValueAsString(userLoginDAO.findUser(userid));
 			apiReturn.setstatus(true);
 			apiReturn.seterror_message("");
-			apiReturn.setjson(jsonInString);
+			JSONArray userInfo = new JSONArray();
+			userInfo.add(jsonInString);
+			apiReturn.setjson(userInfo);
 		} catch (JsonProcessingException e) {
 			apiReturn.setstatus(false);
 			apiReturn.seterror_message(e.getMessage());
@@ -102,7 +112,8 @@ public class UserController {
 		return apiReturn;
 	}
 
-    @RequestMapping(value = UserRestURIConstant.Validate, method = RequestMethod.POST)
+    @SuppressWarnings("unchecked")
+	@RequestMapping(value = UserRestURIConstant.Validate, method = RequestMethod.POST)
     public @ResponseBody ApiReturn validateUser(@RequestBody UserValidate userValidate) throws IOException {
     	UserLogin userLogin = userLoginDAO.findUserEmail(userValidate.getemail());
     	ObjectMapper mapper = new ObjectMapper();
@@ -121,7 +132,9 @@ public class UserController {
 		jsonInString = mapper.writeValueAsString(userLoginDAO.findUser(userLogin.getuserid()));
 		apiReturn.setstatus(true);
 		apiReturn.seterror_message("");
-		apiReturn.setjson(jsonInString);
+		JSONArray userInfo = new JSONArray();
+		userInfo.add(jsonInString);
+		apiReturn.setjson(userInfo);
     	return apiReturn;
     }
 

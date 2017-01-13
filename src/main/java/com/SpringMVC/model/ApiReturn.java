@@ -1,14 +1,16 @@
 package com.SpringMVC.model;
 
+import org.json.simple.JSONArray;
+
 public class ApiReturn {
     private Boolean status;
     private String error_message;
-    private String json;
+    private JSONArray json;
 
     public ApiReturn() {
     }
  
-    public ApiReturn(Boolean status, String error_message, String json) {
+    public ApiReturn(Boolean status, String error_message, JSONArray json) {
         this.status = status;        
         this.error_message = error_message;
         this.json = json;
@@ -28,10 +30,10 @@ public class ApiReturn {
         this.error_message = error_message;
     }
 
-    public String getjson() {
+    public JSONArray getjson() {
         return json;
     }
-    public void setjson(String json) {
+    public void setjson(JSONArray json) {
         this.json = json;
     }
 }
