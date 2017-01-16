@@ -7,7 +7,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,7 +52,6 @@ public class UserController {
     @Autowired
     private TeamDAO teamDAO;
 
-    @SuppressWarnings("unchecked")
 	@RequestMapping(value = UserRestURIConstant.Get, method = RequestMethod.GET)
 	public @ResponseBody ApiReturn getUserProfile(@PathVariable String username) {
     	ObjectMapper mapper = new ObjectMapper();
@@ -60,9 +61,15 @@ public class UserController {
 			jsonInString = mapper.writeValueAsString(userLoginDAO.get(username));
 			apiReturn.setstatus(true);
 			apiReturn.seterror_message("");
-			JSONArray userInfo = new JSONArray();
-			userInfo.add(jsonInString);
-			apiReturn.setjson(userInfo);
+			JSONParser parser = new JSONParser();
+			JSONObject json = null;
+			try {
+				json = (JSONObject) parser.parse(jsonInString);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			apiReturn.setjson(json);
 		} catch (JsonProcessingException e) {
 			apiReturn.setstatus(false);
 			apiReturn.seterror_message(e.getMessage());
@@ -70,7 +77,6 @@ public class UserController {
 		return apiReturn;
 	}
 
-    @SuppressWarnings("unchecked")
 	@RequestMapping(value = UserRestURIConstant.GetAll, method = RequestMethod.GET)
 	public @ResponseBody ApiReturn getAllUser(Principal principal) {
     	UserLogin userLogin = userLoginDAO.get(principal.getName());
@@ -82,9 +88,15 @@ public class UserController {
 			jsonInString = mapper.writeValueAsString(userLoginDAO.list(userLogin.getrole(), userLogin.getcompanyid()));
 			apiReturn.setstatus(true);
 			apiReturn.seterror_message("");
-			JSONArray userInfo = new JSONArray();
-			userInfo.add(jsonInString);
-			apiReturn.setjson(userInfo);
+			JSONParser parser = new JSONParser();
+			JSONObject json = null;
+			try {
+				json = (JSONObject) parser.parse(jsonInString);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			apiReturn.setjson(json);
 		} catch (JsonProcessingException e) {
 			apiReturn.setstatus(false);
 			apiReturn.seterror_message(e.getMessage());
@@ -92,7 +104,6 @@ public class UserController {
 		return apiReturn;
 	}
 
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = UserRestURIConstant.Find, method = RequestMethod.GET)
 	public @ResponseBody ApiReturn getUserProfileByID(@PathVariable int userid) {
     	ObjectMapper mapper = new ObjectMapper();
@@ -102,9 +113,15 @@ public class UserController {
 			jsonInString = mapper.writeValueAsString(userLoginDAO.findUser(userid));
 			apiReturn.setstatus(true);
 			apiReturn.seterror_message("");
-			JSONArray userInfo = new JSONArray();
-			userInfo.add(jsonInString);
-			apiReturn.setjson(userInfo);
+			JSONParser parser = new JSONParser();
+			JSONObject json = null;
+			try {
+				json = (JSONObject) parser.parse(jsonInString);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			apiReturn.setjson(json);
 		} catch (JsonProcessingException e) {
 			apiReturn.setstatus(false);
 			apiReturn.seterror_message(e.getMessage());
@@ -112,7 +129,6 @@ public class UserController {
 		return apiReturn;
 	}
 
-    @SuppressWarnings("unchecked")
 	@RequestMapping(value = UserRestURIConstant.Validate, method = RequestMethod.POST)
     public @ResponseBody ApiReturn validateUser(@RequestBody UserValidate userValidate) throws IOException {
     	UserLogin userLogin = userLoginDAO.findUserEmail(userValidate.getemail());
@@ -132,9 +148,15 @@ public class UserController {
 		jsonInString = mapper.writeValueAsString(userLoginDAO.findUser(userLogin.getuserid()));
 		apiReturn.setstatus(true);
 		apiReturn.seterror_message("");
-		JSONArray userInfo = new JSONArray();
-		userInfo.add(jsonInString);
-		apiReturn.setjson(userInfo);
+		JSONParser parser = new JSONParser();
+		JSONObject json = null;
+		try {
+			json = (JSONObject) parser.parse(jsonInString);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		apiReturn.setjson(json);
     	return apiReturn;
     }
 
