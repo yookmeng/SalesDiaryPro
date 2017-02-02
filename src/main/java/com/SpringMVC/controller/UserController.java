@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -25,7 +23,6 @@ import com.SpringMVC.dao.CompanyDAO;
 import com.SpringMVC.dao.TeamDAO;
 import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.dao.UserMonthlySummaryDAO;
-import com.SpringMVC.model.ApiReturn;
 import com.SpringMVC.model.Branch;
 import com.SpringMVC.model.Company;
 import com.SpringMVC.model.MonthlySummary;
@@ -55,87 +52,53 @@ public class UserController {
     @Autowired
     private UserMonthlySummaryDAO userMonthlySummaryDAO;
 
-    @SuppressWarnings("unchecked")
 	@RequestMapping(value = UserRestURIConstant.Get, method = RequestMethod.GET)
-	public @ResponseBody ApiReturn getUserProfile(@PathVariable int userid) {
+	public String getUserProfile(@PathVariable int userid) {
     	ObjectMapper mapper = new ObjectMapper();
-    	ApiReturn apiReturn = new ApiReturn();
     	String jsonInString="";
 		try {
 			jsonInString = mapper.writeValueAsString(userLoginDAO.findUser(userid));
-			apiReturn.setstatus(true);
-			apiReturn.seterror_message("");
-			JSONObject json = new JSONObject();
-			json.put("userinfo", jsonInString);
-			apiReturn.setjson(json);
 		} catch (JsonProcessingException e) {
-			apiReturn.setstatus(false);
-			apiReturn.seterror_message(e.getMessage());
 		}
-		return apiReturn;
+		return jsonInString;
 	}
 
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = UserRestURIConstant.GetAll, method = RequestMethod.GET)
-	public @ResponseBody ApiReturn getAllUser(Principal principal) {
+	public String getAllUser(Principal principal) {
     	UserLogin userLogin = userLoginDAO.get(principal.getName());
     	ObjectMapper mapper = new ObjectMapper();
-    	ApiReturn apiReturn = new ApiReturn();
     	String jsonInString = "";
 		try {
 			jsonInString = mapper.writeValueAsString(userLoginDAO.list(userLogin.getrole(), userLogin.getcompanyid()));
-			apiReturn.setstatus(true);
-			apiReturn.seterror_message("");
-			JSONObject json = new JSONObject();
-			json.put("userinfo", jsonInString);
-			apiReturn.setjson(json);
 		} catch (JsonProcessingException e) {
-			apiReturn.setstatus(false);
-			apiReturn.seterror_message(e.getMessage());
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return apiReturn;
+		return jsonInString;
 	}
 
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = UserRestURIConstant.Validate, method = RequestMethod.POST)
-    public @ResponseBody ApiReturn validateUser(@RequestBody UserValidate userValidate) throws IOException {
+    public String validateUser(@RequestBody UserValidate userValidate) throws IOException {
     	UserLogin userLogin = userLoginDAO.findUserEmail(userValidate.getemail());
     	ObjectMapper mapper = new ObjectMapper();
-    	ApiReturn apiReturn = new ApiReturn();
     	String jsonInString="";
     	if (userLogin == null) {
-    		apiReturn.setstatus(false);
-    		apiReturn.seterror_message("Invalid user.");
-        	return apiReturn;
+        	return jsonInString;
         }
         if (!userLogin.getpassword().equals(userValidate.getpassword())){
-    		apiReturn.setstatus(false);
-    		apiReturn.seterror_message("Invalid password.");
-        	return apiReturn;
+        	return jsonInString;
         }
 		jsonInString = mapper.writeValueAsString(userLoginDAO.findUser(userLogin.getuserid()));
-		apiReturn.setstatus(true);
-		apiReturn.seterror_message("");
-		JSONObject json = new JSONObject();
-		json.put("userinfo", jsonInString);
-		apiReturn.setjson(json);
-    	return apiReturn;
+    	return jsonInString;
     }
 
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = UserRestURIConstant.MonthlySummary, method = RequestMethod.POST)
-    public @ResponseBody ApiReturn monthlySummary(@RequestBody MonthlySummary monthlySummary) throws IOException {
+    public String monthlySummary(@RequestBody MonthlySummary monthlySummary) throws IOException {
     	UserLogin userLogin = userLoginDAO.findUser(monthlySummary.getuserid());
     	ObjectMapper mapper = new ObjectMapper();
-    	ApiReturn apiReturn = new ApiReturn();
     	String jsonInString="";
 		jsonInString = mapper.writeValueAsString(userMonthlySummaryDAO.list(monthlySummary.getperiod(), userLogin.getuserid(), userLogin.getrole()));
-		apiReturn.setstatus(true);
-		apiReturn.seterror_message("");
-		JSONObject json = new JSONObject();
-		json.put("monthlysummary", jsonInString);
-		apiReturn.setjson(json);
-    	return apiReturn;
+    	return jsonInString;
     }
 
 	@RequestMapping(value = UserRestURIConstant.Create, method = RequestMethod.POST)
