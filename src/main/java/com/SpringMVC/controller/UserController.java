@@ -25,8 +25,10 @@ import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.dao.UserMonthlySummaryDAO;
 import com.SpringMVC.model.Branch;
 import com.SpringMVC.model.Company;
+import com.SpringMVC.model.MonthlySummary;
 import com.SpringMVC.model.Team;
 import com.SpringMVC.model.UserLogin;
+import com.SpringMVC.model.UserValidate;
 import com.SpringMVC.uriconstant.UserRestURIConstant;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -76,14 +78,14 @@ public class UserController {
 	}
 
 	@RequestMapping(value = UserRestURIConstant.Validate, method = RequestMethod.POST)
-    public String validateUser(@PathVariable String email, String password) throws IOException {
-    	UserLogin userLogin = userLoginDAO.findUserEmail(email);
+    public String validateUser(@RequestBody UserValidate userValidate) throws IOException {
+    	UserLogin userLogin = userLoginDAO.findUserEmail(userValidate.getemail());
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
     	if (userLogin == null) {
         	return jsonInString;
         }
-        if (!userLogin.getpassword().equals(password)){
+        if (!userLogin.getpassword().equals(userValidate.getpassword())){
         	return jsonInString;
         }
 		jsonInString = mapper.writeValueAsString(userLoginDAO.findUser(userLogin.getuserid()));
@@ -91,11 +93,11 @@ public class UserController {
     }
 
 	@RequestMapping(value = UserRestURIConstant.MonthlySummary, method = RequestMethod.POST)
-    public String monthlySummary(@PathVariable String email, String period) throws IOException {
-    	UserLogin userLogin = userLoginDAO.findUserEmail(email);
+    public String monthlySummary(@RequestBody MonthlySummary monthlySummary) throws IOException {
+    	UserLogin userLogin = userLoginDAO.findUser(monthlySummary.getuserid());
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
-		jsonInString = mapper.writeValueAsString(userMonthlySummaryDAO.list(period, userLogin.getuserid(), userLogin.getrole()));
+		jsonInString = mapper.writeValueAsString(userMonthlySummaryDAO.list(monthlySummary.getperiod(), userLogin.getuserid(), userLogin.getrole()));
     	return jsonInString;
     }
 
