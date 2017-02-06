@@ -18,8 +18,11 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.SpringMVC.dao.BrandDAO;
 import com.SpringMVC.dao.ModelDAO;
+import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.model.Brand;
+import com.SpringMVC.model.IonicUser;
 import com.SpringMVC.model.Model;
+import com.SpringMVC.model.UserLogin;
 import com.SpringMVC.uriconstant.ModelRestURIConstant;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,7 +37,10 @@ public class ModelController {
     @Autowired
     private ModelDAO modelDAO;
 
-    @RequestMapping(value = ModelRestURIConstant.Get, method = RequestMethod.GET)
+	@Autowired
+    private UserLoginDAO userLoginDAO;
+
+	@RequestMapping(value = ModelRestURIConstant.Get, method = RequestMethod.GET)
 	public String getModel(@PathVariable int modelid) {
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
@@ -46,12 +52,13 @@ public class ModelController {
 		return jsonInString;
 	}
 
-    @RequestMapping(value = ModelRestURIConstant.GetByBrand, method = RequestMethod.GET)
-	public String getAllModel(@PathVariable int brandid) {
+    @RequestMapping(value = ModelRestURIConstant.GetAll, method = RequestMethod.GET)
+	public String getModel(IonicUser ionicUser) {
+    	UserLogin userLogin = userLoginDAO.findUserEmail(ionicUser.getemail());
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
-			jsonInString = mapper.writeValueAsString(modelDAO.list(brandid));
+			jsonInString = mapper.writeValueAsString(modelDAO.list(userLogin.getcompanyid()));
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}

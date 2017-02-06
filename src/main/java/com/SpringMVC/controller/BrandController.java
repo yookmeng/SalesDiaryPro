@@ -19,6 +19,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import com.SpringMVC.dao.BrandDAO;
 import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.model.Brand;
+import com.SpringMVC.model.IonicUser;
 import com.SpringMVC.model.UserLogin;
 import com.SpringMVC.uriconstant.BrandRestURIConstant;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -47,8 +48,8 @@ public class BrandController {
 	}
 
     @RequestMapping(value = BrandRestURIConstant.GetAll, method = RequestMethod.GET)
-	public String getBrands(Principal principal) {
-    	UserLogin userLogin = userLoginDAO.get(principal.getName());
+	public String getBrands(IonicUser ionicUser) {
+    	UserLogin userLogin = userLoginDAO.findUserEmail(ionicUser.getemail());
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {

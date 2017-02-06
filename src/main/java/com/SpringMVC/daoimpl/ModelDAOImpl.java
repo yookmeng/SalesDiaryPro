@@ -69,8 +69,11 @@ public class ModelDAOImpl extends JdbcDaoSupport implements ModelDAO {
         this.getJdbcTemplate().update(sql, modelid);
     }
     
-    public List<Model> list(int brandid) {
-        String sql = "SELECT * FROM tblModel WHERE brandid = " + brandid;
+    public List<Model> list(int companyid) {
+        String sql = "SELECT * FROM tblModel m "
+        		+ "LEFT JOIN tblBrand b "
+        		+ "ON m.brandid = b.brandid "
+        		+ "WHERE b.companyid = " + companyid;
         ModelMapper mapper = new ModelMapper();
         List<Model> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
