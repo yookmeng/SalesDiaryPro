@@ -18,12 +18,20 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.SpringMVC.dao.BranchDAO;
+import com.SpringMVC.dao.BrandDAO;
 import com.SpringMVC.dao.CodeMasterDAO;
+import com.SpringMVC.dao.ModelDAO;
 import com.SpringMVC.dao.ProspectDAO;
+import com.SpringMVC.dao.QuestionaireDAO;
 import com.SpringMVC.dao.TeamDAO;
 import com.SpringMVC.dao.UserLoginDAO;
+import com.SpringMVC.model.APIProspect;
 import com.SpringMVC.model.Branch;
+import com.SpringMVC.model.Brand;
+import com.SpringMVC.model.IonicUser;
+import com.SpringMVC.model.Model;
 import com.SpringMVC.model.Prospect;
+import com.SpringMVC.model.Questionaire;
 import com.SpringMVC.model.Team;
 import com.SpringMVC.model.UserLogin;
 import com.SpringMVC.uriconstant.ProspectRestURIConstant;
@@ -42,6 +50,15 @@ public class ProspectController {
 
     @Autowired
     private BranchDAO branchDAO;
+
+    @Autowired
+    private BrandDAO brandDAO;
+
+    @Autowired
+    private ModelDAO modelDAO;
+
+    @Autowired
+    private QuestionaireDAO questionaireDAO;
 
     @Autowired
     private ProspectDAO prospectDAO;
@@ -65,9 +82,9 @@ public class ProspectController {
 		return jsonInString;
 	}
 
-    @RequestMapping(value = ProspectRestURIConstant.GetAll, method = RequestMethod.GET)
-	public String getAllProspect(Principal principal) {
-    	UserLogin userLogin = userLoginDAO.get(principal.getName());
+    @RequestMapping(value = ProspectRestURIConstant.GetAll, method = RequestMethod.POST)
+	public String getAllProspect(@RequestBody IonicUser ionicUser) {
+    	UserLogin userLogin = userLoginDAO.findUserEmail(ionicUser.getemail());
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
@@ -77,6 +94,24 @@ public class ProspectController {
 		}
 		return jsonInString;
 	}
+
+    @RequestMapping(value = ProspectRestURIConstant.Add, method = RequestMethod.POST)
+    public ResponseEntity<Questionaire> addProspect(@RequestBody APIProspect aPIProspect) throws IOException {
+    	Questionaire questionaire = new Questionaire();
+    	UserLogin userLogin = userLoginDAO.findUserEmail(aPIProspect.getuseremail());
+    	questionaire.setuserid(userLogin.getuserid());
+    	questionaire.setprospectname(aPIProspect.getprospectname());
+    	questionaire.setmobile(aPIProspect.getmobile());
+    	questionaire.setbrandname(aPIProspect.getbrandname());
+    	Brand brand = brandDAO.getByName(aPIProspect.getbrandname());
+    	questionaire.setbrandid(brand.getbrandid());
+    	questionaire.setmodelname(aPIProspect.getmodelname());
+    	Model model = modelDAO.getByName(aPIProspect.getmodelname());
+    	questionaire.setmodelid(model.getmodelid());
+    	questionaire.setsource(aPIProspect.getsource());
+    	questionaireDAO.save(questionaire);
+        return new ResponseEntity<Questionaire>(questionaire, HttpStatus.CREATED);
+    }
 
     @RequestMapping(value = ProspectRestURIConstant.Create, method = RequestMethod.POST)
     public ResponseEntity<Prospect> createProspect(@RequestBody Prospect prospect) throws IOException {
