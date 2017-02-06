@@ -52,8 +52,8 @@ public class ModelController {
 		return jsonInString;
 	}
 
-    @RequestMapping(value = ModelRestURIConstant.GetAll, method = RequestMethod.GET)
-	public String getModel(IonicUser ionicUser) {
+    @RequestMapping(value = ModelRestURIConstant.GetAll, method = RequestMethod.POST)
+	public String getModel(@RequestBody IonicUser ionicUser) {
     	UserLogin userLogin = userLoginDAO.findUserEmail(ionicUser.getemail());
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";

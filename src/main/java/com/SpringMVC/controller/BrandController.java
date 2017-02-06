@@ -47,8 +47,8 @@ public class BrandController {
 		return jsonInString;
 	}
 
-    @RequestMapping(value = BrandRestURIConstant.GetAll, method = RequestMethod.GET)
-	public String getBrands(IonicUser ionicUser) {
+    @RequestMapping(value = BrandRestURIConstant.GetAll, method = RequestMethod.POST)
+	public String getBrands(@RequestBody IonicUser ionicUser) {
     	UserLogin userLogin = userLoginDAO.findUserEmail(ionicUser.getemail());
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
