@@ -94,7 +94,7 @@ public class UserController {
 
 	@RequestMapping(value = UserRestURIConstant.MonthlySummary, method = RequestMethod.POST)
     public String monthlySummary(@RequestBody MonthlySummary monthlySummary) throws IOException {
-    	UserLogin userLogin = userLoginDAO.findUser(monthlySummary.getuserid());
+    	UserLogin userLogin = userLoginDAO.findUserEmail(monthlySummary.getemail());
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		jsonInString = mapper.writeValueAsString(userMonthlySummaryDAO.list(monthlySummary.getperiod(), userLogin.getuserid(), userLogin.getrole()));

@@ -1,22 +1,22 @@
 package com.SpringMVC.model;
 
 public class MonthlySummary {
-    private Integer userid;
+    private String email;
     private String period;
      
     public MonthlySummary()  {         
     }
  
-    public MonthlySummary(Integer userid, String period) {
-        this.userid = userid;
+    public MonthlySummary(String email, String period) {
+        this.email = email;
         this.period = period;
     }
  
-    public Integer getuserid() {
-        return userid;
+    public String getemail() {
+        return email;
     }
-    public void setuserid(Integer userid) {
-        this.userid = userid;
+    public void setemail(String email) {
+        this.email = email;
     }
 
     public String getperiod() {
