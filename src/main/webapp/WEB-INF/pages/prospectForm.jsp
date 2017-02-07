@@ -65,9 +65,9 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="age" class="control-label col-sm-2">Age</label>
-									<div class="col-sm-1">
-										<form:input type="text" name="age" path="age" id="age" class="form-control"/>
+									<label for="email" class="control-label col-sm-2">Email</label>
+									<div class="col-sm-5">
+										<form:input type="text" name="email" path="email" id="email" class="form-control"/>
 									</div>
 								</div>
 							</div>
@@ -221,7 +221,7 @@
 	    var wstreet = $('#wstreet').val(); 
 	    var wtelno = $('#wtelno').val(); 
 	    var occupation = $('#occupation').val(); 
-	    var age = $('#age').val(); 
+	    var email = $('#email').val(); 
 	    var gender = $('#gender').val(); 
 	    var income = $('#income').val(); 
 	    var email = $('#email').val(); 
