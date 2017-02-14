@@ -120,11 +120,11 @@ public class ProspectController {
     }
 
     @RequestMapping(value = ProspectRestURIConstant.Update, method = RequestMethod.POST)
-    public ResponseEntity<Prospect> updateProspect(@PathVariable("prospectid") int prospectid, @RequestBody Prospect prospect) {
-    	Prospect currentProspect = prospectDAO.get(prospectid);
+    public ResponseEntity<Prospect> updateProspect(@RequestBody Prospect prospect) {
+    	Prospect currentProspect = prospectDAO.get(prospect.getprospectid());
          
         if (currentProspect==null) {
-            return new ResponseEntity<Prospect>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Prospect>(prospect, HttpStatus.NOT_FOUND);
         }
         
         currentProspect.setfirstname(prospect.getfirstname());
@@ -148,14 +148,13 @@ public class ProspectController {
     }
 
     @RequestMapping(value = ProspectRestURIConstant.Delete, method = RequestMethod.DELETE)
-    public ResponseEntity<Prospect> deleteProspect(@PathVariable("prospectid") int prospectid) {
-    	Prospect prospect = prospectDAO.get(prospectid);
+    public ResponseEntity<Prospect> deleteProspect(@RequestBody Prospect prospect) {
         if (prospect == null) {
-            return new ResponseEntity<Prospect>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Prospect>(prospect, HttpStatus.NOT_FOUND);
         }
  
-        prospectDAO.delete(prospectid);
-        return new ResponseEntity<Prospect>(HttpStatus.OK);
+        prospectDAO.delete(prospect.getprospectid());
+        return new ResponseEntity<Prospect>(prospect, HttpStatus.OK);
     }
 
     @RequestMapping(value="/listProspects", method = RequestMethod.GET)

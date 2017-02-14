@@ -73,6 +73,9 @@
 						<div class="form-actions">
 							<input type="reset" class="btn" onclick="location.href='home'" value="Back" id="back">						
 							<input id="btnSave" type="submit" class="btn btn-primary" name="Save" value="Save">
+							<c:if test="${userid != '0'}">
+								<input id="btnDelete" type="button" class="btn" name="Delete" value="Delete">
+							</c:if>
 						</div>
 						</form:form>
 					</div>
@@ -131,7 +134,7 @@
 	    }
 	    else {
 	        $.ajax({
-	            url: base+"/user/update/"+userid,
+	            url: base+"/user/update",
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
@@ -148,6 +151,57 @@
 	            }
 	        });
 	    }
+	    return true;
+	})
+	
+	$('#btnDelete').click(function (e) {
+		e.preventDefault(); // <------------------ stop default behaviour of button
+
+		var base = $('#base').val();
+    	if (window.location.protocol === 'https:') {
+    	    base = base.replace("http", "https");
+    	}	    	
+
+    	var userid = $('#userid').val(); 
+	    var username = $('#username').val(); 
+	    var password = $('#password').val(); 
+	    var role = $('#role').val(); 
+	    var teamid = $('#teamid').val(); 
+	    var branchid = $('#branchid').val(); 
+	    var companyid = $('#companyid').val(); 
+	    var mobile = $('#mobile').val(); 
+	    var email = $('#email').val(); 
+	
+	    var json = {
+	    		"userid" : userid,
+	    		"username" : username,
+	    		"password" : password,
+	    		"role" : role,
+	    		"teamid" : teamid,
+	    		"branchid" : branchid,
+	    		"companyid" : companyid,
+	    		"mobile" : mobile,
+	    		"email" : email
+		};
+        $.ajax({
+            url: base+"/user/delete",
+            type: 'DELETE',
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(json), 
+            success:function(data, status, jqXHR){
+            	alert($('#loginusername').val());
+            	alert(username);
+                if ($('#loginusername').val()!=username){
+	                window.location.href = base+"/listUser";
+                }
+                else{
+	                window.location.href = base+"/home";	                	
+                }	                
+            },
+            error:function(jqXhr, status){
+            }
+	    });
 	    return true;
 	})
 	</script>	

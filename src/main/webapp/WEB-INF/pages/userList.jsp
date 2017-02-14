@@ -47,7 +47,6 @@
 						    <th>Team</th>	
 						    <th>Mobile</th>	
 						    <th>Email</th>	
-						    <th>Action</th>	
 						</tr>
 						<tr>
 							<th class="with-checkbox">
@@ -60,7 +59,6 @@
 						    <th>Team</th>	
 						    <th>Mobile</th>	
 						    <th>Email</th>	
-						    <th>Action</th>	
 						</tr>
 					</thead>
 					<tbody>
@@ -69,19 +67,13 @@
 								<td class="with-checkbox">
 									<input type="checkbox" name="check" value="1">
 								</td>
-						        <td>${user.username}</td>
+						        <td><a href="editUser?username=${user.username}">${user.username}</a></td>
 						        <td>${user.role}</td>
 						        <td>${user.companyname}</td>
 						        <td>${user.branchname}</td>
 						        <td>${user.teamname}</td>
 						        <td>${user.mobile}</td>
 						        <td>${user.email}</td>
-						        <td>
-									<button class="btn btn-small" onclick="window.location='editUser?username=${user.username}';" >
-								    	<i class="fa fa-edit"></i></button>
-									<button class="btn btn-small" onclick="deleteUser('${user.username}')">
-										<i class="fa fa-trash-o"></i></button>
-						        </td>
 						</c:forEach>
 					</tbody>
 				</table>
@@ -100,7 +92,7 @@
 	                sLengthMenu: "_MENU_ <span>entries per page</span>"
 	            },
 	            sDom: "lfrtip",
-	            aoColumnDefs: [{ bSortable: !1, aTargets: [0, 8]}]
+	            aoColumnDefs: [{ bSortable: !1, aTargets: [0, 7]}]
 			};
 			
 			l.sDom = "T" + l.sDom;
@@ -115,30 +107,10 @@
 	        d.columnFilter({
 	            sPlaceHolder: "head:after",
 	            sRangeFormat: "{from}{to}",
-	            aoColumns: [null, { type: "text" }, { type: "text" }, { type: "text" }, {type: "text" }, { type: "text" }, { type: "text" }, { type: "text" }, null]
+	            aoColumns: [null, { type: "text" }, { type: "text" }, { type: "text" }, {type: "text" }, { type: "text" }, { type: "text" }, { type: "text" }]
 	        });
 		};
 	})
-	
-    function deleteUser(username) {
-		var base = $('#base').val();
-    	if (window.location.protocol === 'https:') {
-    	    base = base.replace("http", "https");
-    	}	    	
-
-    	jQuery.ajax({
-            type: "DELETE",
-            url: base+"/user/delete/"+username,
-            contentType: "application/json",
-            data: "",
-            dataType: "",
-            success: function (data, status, jqXHR) {
-				location.replace(location);
-            },	        
-            error: function (jqXHR, status) {
-            }
-        });	
-    }
 	</script>
 </body>
 </html>

@@ -9,6 +9,6 @@ public class UserRestURIConstant {
 	public static final String Source = "/user/source";
 	public static final String MonthlySummary = "/user/monthlysummary";
 	public static final String Create = "/user/create";
-	public static final String Update = "/user/update/{userid}";
-	public static final String Delete = "/user/delete/{username}";
+	public static final String Update = "/user/update";
+	public static final String Delete = "/user/delete";
 }

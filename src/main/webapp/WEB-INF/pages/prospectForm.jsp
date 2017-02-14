@@ -273,7 +273,7 @@
 	    }
 	    else {
 	        $.ajax({
-	            url: base+"/prospect/update/"+prospectid,
+	            url: base+"/prospect/update",
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
@@ -370,7 +370,7 @@
 		    }
 		    else {
 		        $.ajax({
-		            url: base+"/prospect/update/"+prospectid,
+		            url: base+"/prospect/update",
 		            type: 'POST',
 		            contentType: "application/json",
 		            dataType: "json",

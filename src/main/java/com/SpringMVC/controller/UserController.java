@@ -108,11 +108,10 @@ public class UserController {
     }
 
     @RequestMapping(value = UserRestURIConstant.Update, method = RequestMethod.POST)
-    public ResponseEntity<UserLogin> updateUser(@PathVariable("userid") int userid, 
-    		@RequestBody UserLogin userLogin) {
-    	UserLogin currentUserLogin = userLoginDAO.findUser(userid);         
+    public ResponseEntity<UserLogin> updateUser(@RequestBody UserLogin userLogin) {
+    	UserLogin currentUserLogin = userLoginDAO.findUser(userLogin.getuserid());         
         if (currentUserLogin==null) {
-            return new ResponseEntity<UserLogin>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<UserLogin>(userLogin, HttpStatus.NOT_FOUND);
         }
 
         currentUserLogin.setpassword(userLogin.getpassword());
@@ -129,14 +128,12 @@ public class UserController {
     }
 
     @RequestMapping(value = UserRestURIConstant.Delete, method = RequestMethod.DELETE)
-    public ResponseEntity<UserLogin> deleteUserProfile(@PathVariable("username") String username) {
-    	UserLogin userLogin = userLoginDAO.get(username);
-        if (userLogin == null) {
-            return new ResponseEntity<UserLogin>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<UserLogin> deleteUser(@RequestBody UserLogin userLogin) {
+    	if (userLogin == null) {
+            return new ResponseEntity<UserLogin>(userLogin, HttpStatus.NOT_FOUND);
         }
- 
-        userLoginDAO.delete(username);
-        return new ResponseEntity<UserLogin>(HttpStatus.OK);
+        userLoginDAO.delete(userLogin.getusername());
+        return new ResponseEntity<UserLogin>(userLogin, HttpStatus.OK);
     }
     
 	@RequestMapping(value="/listUser")
