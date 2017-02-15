@@ -46,6 +46,7 @@
 				<div class="box">
 					<div class="box-content">
 				        <form:form id="entry-form" action="" method="post" modelAttribute="activity" class='form-horizontal form-wizard'>
+			            <form:hidden path="userid"/>        
 			            <form:hidden path="prospectid"/>        
 			            <form:hidden path="activityid"/>
 			            <form:hidden path="quotationid"/>
@@ -142,6 +143,7 @@
 							<input type="reset" class="btn" onclick="location.href='listActivity?prospectid=${activity.prospectid}'" value="Back" id="back">
 							<input type="submit" class="btn btn-primary" value="Save" id="next">
 							<input type="button" class="btn" value="Done" id="done">
+							<input type="button" class="btn" value="Delete" id="delete">
 						</div>
 						</form:form>
 					</div>
@@ -177,6 +179,7 @@
     	}	    	
 
     	var activityid = $('#activityid').val(); 
+	    var userid = $('#userid').val(); 
 	    var prospectid = $('#prospectid').val(); 
 	    var activitydate = $('#activitydate').val(); 
 	    var brandid = ""; 
@@ -199,6 +202,7 @@
 
 	    var json = {
 	    		"activityid" : activityid,
+	    		"userid" : userid,
 	    		"prospectid" : prospectid,
 	    		"activitydate" : activitydate,
 	    		"brandid" : brandid,
@@ -245,7 +249,7 @@
 	    }
 	    else {
 	        $.ajax({
-	            url: base+"/activity/update/"+activityid,
+	            url: base+"/activity/update",
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
@@ -290,6 +294,7 @@
 	    	}	    	
 	
 	    	var activityid = $('#activityid').val(); 
+		    var userid = $('#userid').val(); 
 		    var prospectid = $('#prospectid').val(); 
 		    var activitydate = $('#activitydate').val(); 
 		    var brandid = ""; 
@@ -312,6 +317,7 @@
 	
 		    var json = {
 		    		"activityid" : activityid,
+		    		"userid" : userid,
 		    		"prospectid" : prospectid,
 		    		"activitydate" : activitydate,
 		    		"brandid" : brandid,
@@ -350,7 +356,7 @@
 		    }
 		    else {
 		        $.ajax({
-		            url: base+"/activity/update/"+activityid,
+		            url: base+"/activity/update",
 		            type: 'POST',
 		            contentType: "application/json",
 		            dataType: "json",
@@ -365,6 +371,74 @@
 		    return true;
 		}
 	});
+	
+	$('#done').click(function (e) {
+		if(!$('#entry-form').valid()) return;
+
+		var base = $('#base').val();
+    	if (window.location.protocol === 'https:') {
+    	    base = base.replace("http", "https");
+    	}	    	
+
+    	var activityid = $('#activityid').val(); 
+	    var userid = $('#userid').val(); 
+	    var prospectid = $('#prospectid').val(); 
+	    var activitydate = $('#activitydate').val(); 
+	    var brandid = ""; 
+	    var brandname = $('#brandname').val(); 
+	    var modelid = ""; 
+	    var modelname = $('#modelname').val(); 
+	    var demo = $('#demo').prop('checked'); 
+	    var testdrive = $('#testdrive').prop('checked'); 
+	    var quotation = $('#quotation').prop('checked'); 
+	    var followup = $('#followup').prop('checked'); 
+	    var closed = $('#closed').prop('checked'); 
+	    var lost = $('#lost').prop('checked'); 
+	    var demostatus = $('#demostatus').prop('checked');  
+	    var testdrivestatus = $('#testdrivestatus').prop('checked');  
+	    var followupremark = $('#followupremark').val(); 
+	    var followupstatus = $('#followupstatus').prop('checked');  
+	    var quotationid = $('#quotationid').val(); 
+	    var closedid = $('#closedid').val(); 
+	    var lostremark = $('#lostremark').val();  
+
+	    var json = {
+	    		"activityid" : activityid,
+	    		"userid" : userid,
+	    		"prospectid" : prospectid,
+	    		"activitydate" : activitydate,
+	    		"brandid" : brandid,
+	    		"brandname" : brandname,
+	    		"modelid" : modelid,
+	    		"modelname" : modelname,
+	    		"demo" : demo,
+	    		"testdrive" : testdrive,
+	    		"quotation" : quotation,
+	    		"followup" : followup,
+	    		"closed" : closed,
+	    		"lost" : lost,
+	    		"demostatus" : demostatus,
+	    		"testdrivestatus" : testdrivestatus,
+	    		"followupremark" : followupremark,
+	    		"followupstatus" : followupstatus,
+	    		"quotationid" : quotationid,
+	    		"closedid" : closedid,
+	    		"lostremark" : lostremark
+	    		
+		};
+        $.ajax({
+            url: base+"/activity/delete",
+            type: 'POST',
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(json),
+            success:function(data, Textstatus, jqXHR){
+                window.location.href = base+"/listActivity?prospectid="+prospectid;
+            },
+            error:function(jqXhr, Textstatus){
+            }
+		})
+	});	    
 	</script>	
 </body>
 </html>

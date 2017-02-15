@@ -54,7 +54,6 @@
 								    <th>Branch</th>
 								    <th>Minute</th>	
 								    <th>By</th>	
-								    <th>Action</th>	
 								</tr>
 								<tr>
 									<th class="with-checkbox">
@@ -67,7 +66,6 @@
 								    <th>Branch</th>
 								    <th>Minute</th>	
 								    <th>By</th>	
-								    <th>Action</th>	
 								</tr>						
 							</thead>
 			            	<tbody>
@@ -78,19 +76,11 @@
 									</td>
 								    <td>${review.period}</td>
 								    <td>${review.reviewdate}</td>
-				                    <td>${review.username}</td>
+				                    <td><a href="editReview?reviewid=${review.reviewid}">${review.username}</a></td>
 				                    <td>${review.teamname}</td>
 				                    <td>${review.branchname}</td>
 				                    <td>${review.minute}</td>
 				                    <td>${review.reviewbyname}</td>
-				                    <td>
-										<button class="btn btn-small" onclick="window.location='editReview?reviewid=${review.reviewid}';">
-									    	<i class="fa fa-edit"></i></button>
-										<c:if test="${role != 'USER'}">
-											<button class="btn btn-small" onclick="deleteReview(${review.reviewid})" >
-												<i class="fa fa-trash-o"></i></button>
-				                    	</c:if>
-				                    </td>
 				                </tr>
 				                </c:forEach>             
 			            	</tbody>
@@ -111,7 +101,7 @@
 	                sLengthMenu: "_MENU_ <span>entries per page</span>"
 	            },
 	            sDom: "lfrtip",
-	            aoColumnDefs: [{ bSortable: !1, aTargets: [0, 8]}]
+	            aoColumnDefs: [{ bSortable: !1, aTargets: [0, 7]}]
 			};
 			
 			l.sDom = "T" + l.sDom;
@@ -144,26 +134,6 @@
 	        });
 		};
 	});
-	
-    function deleteReview(reviewid) {
-		var base = $('#base').val();
-    	if (window.location.protocol === 'https:') {
-    	    base = base.replace("http", "https");
-    	}	    	
-
-    	jQuery.ajax({
-            type: "DELETE",
-            url: base+"/review/delete/"+reviewid,
-            contentType: "application/json",
-            data: "",
-            dataType: "",
-            success: function (data, status, jqXHR) {
-				location.replace(location);
-            },	        
-            error: function (jqXHR, status) {
-            }
-        });	
-    }
 	</script>	
 </body>
 </html>

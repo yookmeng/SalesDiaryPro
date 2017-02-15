@@ -202,6 +202,7 @@ public class ActivityController {
         newActivity.setactivitydate(date);
         Prospect prospect = prospectDAO.get(prospectid);
         UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
+        newActivity.setuserid(userLogin.getuserid());
         ModelAndView mav = new ModelAndView("activityForm");
         List<String> brands = brandDAO.getSellingBrands(userLogin.getcompanyid());	
         mav.addObject("brandlist", brands);

@@ -27,8 +27,10 @@ import com.SpringMVC.dao.TeamDAO;
 import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.dao.UserMonthlySummaryDAO;
 import com.SpringMVC.dao.UserTargetDAO;
+import com.SpringMVC.model.APIReview;
 import com.SpringMVC.model.Branch;
 import com.SpringMVC.model.Company;
+import com.SpringMVC.model.IonicUser;
 import com.SpringMVC.model.Review;
 import com.SpringMVC.model.Team;
 import com.SpringMVC.model.UserLogin;
@@ -82,41 +84,63 @@ public class ReviewController {
 		return jsonInString;
 	}
 
-    @RequestMapping(value = ReviewRestURIConstant.GetByMember, method = RequestMethod.GET)
-	public String getReviewByMember(@PathVariable int userid) {
+    @RequestMapping(value = ReviewRestURIConstant.GetAll, method = RequestMethod.POST)
+	public String getReviewByMember(@RequestBody IonicUser ionicUser) {
+    	UserLogin userLogin = userLoginDAO.findUserEmail(ionicUser.getemail());
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
-			jsonInString = mapper.writeValueAsString(reviewDAO.list(userid));
+			Roles role = Roles.valueOf(userLogin.getrole()); 
+			switch (role){
+			case USER:
+				jsonInString = mapper.writeValueAsString(reviewDAO.list(userLogin.getuserid()));
+				break;    	   
+			case TL:
+				Team team = teamDAO.getByUser(userLogin.getuserid());
+				jsonInString = mapper.writeValueAsString(reviewDAO.listByTeam(team.getteamid()));
+				break;    	   
+			case MA:
+				Branch branch = branchDAO.getByMA(userLogin.getuserid());
+				jsonInString = mapper.writeValueAsString(reviewDAO.listByBranch(branch.getbranchid()));
+				break;    	   
+			case MD:
+				jsonInString = mapper.writeValueAsString(reviewDAO.listByCompany(userLogin.getcompanyid()));
+				break;
+			default:
+				break;	
+			}
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
 		return jsonInString;
 	}
 
-    @RequestMapping(value = ReviewRestURIConstant.GetByBranch, method = RequestMethod.GET)
-	public String getReviewByBranch(@PathVariable int branchid) {
-    	ObjectMapper mapper = new ObjectMapper();
-    	String jsonInString="";
-		try {
-			jsonInString = mapper.writeValueAsString(reviewDAO.listByBranch(branchid));
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		return jsonInString;
-	}
-
-    @RequestMapping(value = ReviewRestURIConstant.GetByCompany, method = RequestMethod.GET)
-	public String getReviewByCompany(@PathVariable int companyid) {
-    	ObjectMapper mapper = new ObjectMapper();
-    	String jsonInString="";
-		try {
-			jsonInString = mapper.writeValueAsString(reviewDAO.listByCompany(companyid));
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		return jsonInString;
-	}
+    @RequestMapping(value = ReviewRestURIConstant.Add, method = RequestMethod.POST)
+    public ResponseEntity<Review> addReview(@RequestBody APIReview aPIReview) throws IOException {
+    	UserLogin reviewBy = userLoginDAO.findUserEmail(aPIReview.getuseremail());
+    	UserLogin userLogin = userLoginDAO.findUserEmail(aPIReview.getemail());
+    	Review review = new Review();
+    	review.setreviewid(0);
+    	review.setuserid(userLogin.getuserid());
+    	review.setusername(userLogin.getusername());
+    	review.setteamid(userLogin.getteamid());
+    	review.setteamname(userLogin.getteamname());
+    	review.setbranchid(userLogin.getbranchid());
+    	review.setbranchname(userLogin.getbranchname());
+    	review.setcompanyid(userLogin.getcompanyid());
+    	review.setcompanyname(userLogin.getcompanyname());
+    	review.settargetid(aPIReview.gettargetid());
+    	review.setteamtargetid(aPIReview.getteamtargetid());
+    	review.setreviewdate(aPIReview.getreviewdate());
+    	review.setprospect(aPIReview.getprospect());
+    	review.settestdrive(aPIReview.getprospect());
+    	review.setclosed(aPIReview.getprospect());
+    	review.setminute(aPIReview.getminute());
+    	review.setreviewby(reviewBy.getuserid());
+    	review.setreviewbyname(reviewBy.getusername());
+    	reviewDAO.save(review);
+        return new ResponseEntity<Review>(review, HttpStatus.CREATED);
+    }
 
     @RequestMapping(value = ReviewRestURIConstant.Create, method = RequestMethod.POST)
     public ResponseEntity<Review> createReview(@RequestBody Review review) throws IOException {
@@ -125,8 +149,8 @@ public class ReviewController {
     }
 
     @RequestMapping(value = ReviewRestURIConstant.Update, method = RequestMethod.POST)
-    public ResponseEntity<Review> updateReview(@PathVariable("reviewid") int reviewid, @RequestBody Review review) {
-    	Review currentReview = reviewDAO.get(reviewid);
+    public ResponseEntity<Review> updateReview(@RequestBody Review review) {
+    	Review currentReview = reviewDAO.get(review.getreviewid());
          
         if (currentReview==null) {
             return new ResponseEntity<Review>(HttpStatus.NOT_FOUND);
@@ -143,13 +167,12 @@ public class ReviewController {
     }
 
     @RequestMapping(value = ReviewRestURIConstant.Delete, method = RequestMethod.DELETE)
-    public ResponseEntity<Review> deleteReview(@PathVariable("reviewid") int reviewid) {
-    	Review review = reviewDAO.get(reviewid);
+    public ResponseEntity<Review> deleteReview(@RequestBody Review review) {
         if (review == null) {
-            return new ResponseEntity<Review>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Review>(review, HttpStatus.NOT_FOUND);
         }
-        reviewDAO.delete(reviewid);
-        return new ResponseEntity<Review>(HttpStatus.OK);
+        reviewDAO.delete(review.getreviewid());
+        return new ResponseEntity<Review>(review, HttpStatus.OK);
     }
 
     @RequestMapping(value="/listReview", method = RequestMethod.GET)

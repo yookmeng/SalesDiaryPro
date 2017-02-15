@@ -16,7 +16,9 @@ public interface NotesDAO {
      
     public Notes get(int noteid);
      
-    public List<Notes> list(int prospectid);    
+    public List<Notes> listByProspect(int prospectid);    
+
+    public List<Notes> list(int userid);    
 
     public List<Notes> listByTeam(int teamid);    
 

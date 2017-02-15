@@ -41,14 +41,10 @@
 				    <th>Prospect</th>
 				    <th>Activities</th>
 				    <th>Links</th>
-				    <th>Action</th>
-				    <th></th>
-				    <th></th>
-				    <th></th>
 				</tr>
 				<c:forEach var="activity" items="${listActivity}" varStatus="status">
 					<tr>
-					    <td>${activity.activitydate}</td>
+					    <td><a href="editActivity?activityid=${activity.activityid}&step=1">${activity.activitydate}</a></td>
 						<td>${activity.prospectname}</td>
 						<td>
 							<ul class="minitiles">
@@ -119,15 +115,6 @@
 								<a href="${activity.quotationpdflink}">${activity.quotationpdflink}</a>
 							</c:if>
 						</td>
-						<td>
-							<button class="btn btn-small" onclick="window.location='editActivity?activityid=${activity.activityid}&step=1';" >
-						    	<i class="fa fa-edit"></i></button>
-							<c:if test="${role == 'USER'}">
-								&nbsp;&nbsp;&nbsp;&nbsp;
-								<button class="btn btn-small" onclick="deleteActivity(${activity.activityid})">
-									<i class="fa fa-trash-o"></i></button>
-							</c:if>
-					    </td>		                 
 					</tr>
 				</c:forEach>             
 				</table>

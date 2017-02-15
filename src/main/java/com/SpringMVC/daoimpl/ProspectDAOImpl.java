@@ -110,7 +110,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
     }
     
     public List<Prospect> list(int userid) {
-        String sql = "SELECT p.prospectid, firstname, lastname, userid, source, "
+        String sql = "SELECT p.prospectid, firstname, lastname, p.userid, source, "
         		+ "a.activitydate AS datecreated, a.modelid, m.modelname, "
         		+ "(homeaddress).country AS hcountry, (homeaddress).zipcode AS hzipcode, "
         		+ "(homeaddress).state as hstate, (homeaddress).city AS hcity, "
@@ -122,7 +122,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "FROM tblProspect p "
         		+ "LEFT JOIN tblActivity a ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblModel m ON a.modelid = m.modelid "
-        		+ "WHERE userid = " + userid + " "
+        		+ "WHERE p.userid = " + userid + " "
 				+ "AND (a.activitydate = (SELECT MIN(c.activitydate) FROM tblActivity c WHERE c.prospectid = p.prospectid) OR a.activitydate IS NULL) "
 				+ "ORDER BY firstname, lastname";
         ProspectMapper mapper = new ProspectMapper();
@@ -203,7 +203,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
     }
 
     public Prospect get(int prospectid) {
-        String sql = "SELECT p.prospectid, firstname, lastname, userid, source, "
+        String sql = "SELECT p.prospectid, firstname, lastname, p.userid, source, "
         		+ "a.activitydate AS datecreated, a.modelid, m.modelname, "
         		+ "(homeaddress).country AS hcountry, (homeaddress).zipcode AS hzipcode, "
         		+ "(homeaddress).state as hstate, (homeaddress).city AS hcity, "

@@ -53,9 +53,6 @@
 				    <th>Model</th>
 				    <th>Activities</th>
 				    <th>Link</th>
-				    <th></th>
-				    <th></th>
-				    <th></th>
 				</tr>
 				<c:forEach var="activity" items="${listActivity}" varStatus="status">
 					<tr>

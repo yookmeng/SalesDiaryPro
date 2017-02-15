@@ -178,7 +178,7 @@
 
 	    if (json.noteid=="0"){
 	        $.ajax({
-	            url: base+"/notes/create",
+	            url: base+"/note/create",
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
@@ -192,7 +192,7 @@
 	    }
 	    else {
 	        $.ajax({
-	            url: base+"/notes/update/"+noteid,
+	            url: base+"/note/update",
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",

@@ -80,7 +80,7 @@ public class NotesController {
 	}
 
     @RequestMapping(value = NotesRestURIConstant.GetAll, method = RequestMethod.POST)
-	public String getNotesByMember(@RequestBody IonicUser ionicUser) {
+	public String getAllNotes(@RequestBody IonicUser ionicUser) {
     	UserLogin userLogin = userLoginDAO.findUserEmail(ionicUser.getemail());
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
@@ -114,6 +114,8 @@ public class NotesController {
     public ResponseEntity<Notes> addNotes(@RequestBody APINotes aPINotes) throws IOException {
     	UserLogin userLogin = userLoginDAO.findUserEmail(aPINotes.getuseremail());
     	Notes notes = new Notes();
+    	notes.setnoteid(0);
+    	notes.setnotedate(aPINotes.getnotedate());
     	notes.setuserid(userLogin.getuserid());
     	notes.setusername(userLogin.getusername());
     	notes.setteamid(userLogin.getteamid());
@@ -138,9 +140,8 @@ public class NotesController {
     }
 
     @RequestMapping(value = NotesRestURIConstant.Update, method = RequestMethod.POST)
-    public ResponseEntity<Notes> updateNotes(@PathVariable("noteid") int noteid, 
-    		@RequestBody Notes notes) {
-    	Notes currentNotes = notesDAO.get(noteid);
+    public ResponseEntity<Notes> updateNotes(@RequestBody Notes notes) {
+    	Notes currentNotes = notesDAO.get(notes.getnoteid());
          
         if (currentNotes==null) {
             return new ResponseEntity<Notes>(HttpStatus.NOT_FOUND);
@@ -156,13 +157,12 @@ public class NotesController {
     }
 
     @RequestMapping(value = NotesRestURIConstant.Delete, method = RequestMethod.DELETE)
-    public ResponseEntity<Notes> deleteNotes(@PathVariable("noteid") int noteid) {
-    	Notes notes = notesDAO.get(noteid);
+    public ResponseEntity<Notes> deleteNotes(@RequestBody Notes notes) {
         if (notes == null) {
-            return new ResponseEntity<Notes>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Notes>(notes, HttpStatus.NOT_FOUND);
         }
-        notesDAO.delete(noteid);
-        return new ResponseEntity<Notes>(HttpStatus.OK);
+        notesDAO.delete(notes.getnoteid());
+        return new ResponseEntity<Notes>(notes, HttpStatus.OK);
     }
 
     @RequestMapping(value="/listNote", method = RequestMethod.GET)
@@ -172,7 +172,7 @@ public class NotesController {
         UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
         Team team = teamDAO.get(userLogin.getteamid());
  	    List<Activity> listActivity= activityDAO.list(prospectid);
- 	    List<Notes> listNotes= notesDAO.list(prospectid);
+ 	    List<Notes> listNotes= notesDAO.listByProspect(prospectid);
         ModelAndView mav = new ModelAndView("noteList");
 		mav.addObject("role", userLogin.getrole());
 		mav.addObject("team", team);

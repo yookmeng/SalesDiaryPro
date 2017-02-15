@@ -98,6 +98,7 @@
 									<c:if test="${role != 'USER'}">
 										<c:if test="${review.period == currentPeriod}">
 											<input id="btnSave" type="submit" class="btn btn-primary" name="Save" value="Save">
+											<input id="btnDelete" type="button" class="btn" name="Delete" value="Delete">
 				                    	</c:if>
 			                    	</c:if>
 								</div>
@@ -187,6 +188,67 @@
 	        });
 	    }
 	    return true;
+	})
+	
+	$('#btnDelete').click(function (e) {
+		e.preventDefault(); // <------------------ stop default behaviour of button
+		
+		var base = $('#base').val();
+    	if (window.location.protocol === 'https:') {
+    	    base = base.replace("http", "https");
+    	}	    	
+    	var reviewid = $('#reviewid').val(); 
+	    var period = $('#period').val(); 
+	    var userid = $('#userid').val(); 
+	    var username = $('#username').val(); 
+	    var teamid = $('#teamid').val();
+	    var teamname = $('#teamname').val();
+	    var branchid = $('#branchid').val();
+	    var branchname = $('#branchname').val();
+	    var companyid = $('#companyid').val();
+	    var companyname = $('#companyname').val();
+    	var reviewdate = $('#reviewdate').val(); 
+	    var targetid = $('#targetid').val();
+	    var teamtargetid = $('#teamtargetid').val();	    
+	    var reviewdate = $('#reviewdate').val(); 
+	    var prospect = $('#prospect').val(); 
+	    var testdrive = $('#testdrive').val(); 
+	    var closed = $('#closed').val(); 
+	    var minute = $('#minute').val(); 
+	    var reviewby = $('#reviewby').val(); 
+
+	    var json = {
+	    		"reviewid" : reviewid,
+	    		"period" : period,
+	    		"userid" : userid,
+	    		"username" : username,
+	    		"teamid" : teamid,
+	    		"teamname" : teamname,
+	    		"branchid" : branchid,
+	    		"branchname" : branchname,
+	    		"companyid" : companyid,
+	    		"companyname" : companyname,
+	    		"targetid" : targetid,
+	    		"teamtargetid" : teamtargetid,
+	    		"reviewdate" : reviewdate,
+	    		"prospect" : prospect,
+	    		"testdrive" : testdrive,
+	    		"closed" : closed,
+	    		"minute" : minute,
+	    		"reviewby" : reviewby
+		};
+        $.ajax({
+            url: base+"/review/delete",
+            type: 'POST',
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(json), 
+            success:function(data, Textstatus, jqXHR){
+				history.back(-1);
+            },
+            error:function(jqXhr, Textstatus){
+            }
+        });    	
 	})
 	</script>		
 </body>

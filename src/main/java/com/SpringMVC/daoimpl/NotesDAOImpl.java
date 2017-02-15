@@ -48,6 +48,27 @@ public class NotesDAOImpl extends JdbcDaoSupport implements NotesDAO {
         this.getJdbcTemplate().update(sql, noteid);
     }
     
+    public List<Notes> listByProspect(int prospectid) {
+	    String sql = "SELECT noteid, notedate, "
+	    		+ "n.userid, u.username, "
+	    		+ "n.teamid, t.teamname, "
+	    		+ "n.branchid, b.branchname, "
+	    		+ "n.companyid, c.companyname, "
+        		+ "n.prospectid, p.firstname AS prospectname, "
+        		+ "note, n.status, n.remark, reviewby, rb.username AS reviewbyname "
+        		+ "FROM tblNotes n "
+        		+ "LEFT JOIN tblUser u on u.userid = n.userid "
+        		+ "LEFT JOIN tblTeam t on t.teamid = n.teamid "
+        		+ "LEFT JOIN tblBranch b on b.branchid = n.branchid "
+        		+ "LEFT JOIN tblCompany c on c.companyid = n.companyid "
+        		+ "LEFT JOIN tblProspect p on p.prospectid = n.prospectid "
+        		+ "LEFT JOIN tblUser rb on rb.userid = n.reviewby "
+        		+ "WHERE n.prospectid = " + prospectid;
+	    NotesMapper mapper = new NotesMapper();
+        List<Notes> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }
+
     public List<Notes> list(int userid) {
 	    String sql = "SELECT noteid, notedate, "
 	    		+ "n.userid, u.username, "

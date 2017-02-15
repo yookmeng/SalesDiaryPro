@@ -190,8 +190,6 @@
             dataType: "json",
             data: JSON.stringify(json), 
             success:function(data, status, jqXHR){
-            	alert($('#loginusername').val());
-            	alert(username);
                 if ($('#loginusername').val()!=username){
 	                window.location.href = base+"/listUser";
                 }
