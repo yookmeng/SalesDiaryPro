@@ -25,9 +25,11 @@ import com.SpringMVC.dao.NotesDAO;
 import com.SpringMVC.dao.ProspectDAO;
 import com.SpringMVC.dao.TeamDAO;
 import com.SpringMVC.dao.UserLoginDAO;
+import com.SpringMVC.model.APINotes;
 import com.SpringMVC.model.Activity;
 import com.SpringMVC.model.Branch;
 import com.SpringMVC.model.Company;
+import com.SpringMVC.model.IonicUser;
 import com.SpringMVC.model.Notes;
 import com.SpringMVC.model.Prospect;
 import com.SpringMVC.model.Team;
@@ -77,41 +79,57 @@ public class NotesController {
 		return jsonInString;
 	}
 
-    @RequestMapping(value = NotesRestURIConstant.GetByMember, method = RequestMethod.GET)
-	public String getNotesByMember(@PathVariable int userid) {
+    @RequestMapping(value = NotesRestURIConstant.GetAll, method = RequestMethod.POST)
+	public String getNotesByMember(@RequestBody IonicUser ionicUser) {
+    	UserLogin userLogin = userLoginDAO.findUserEmail(ionicUser.getemail());
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
-			jsonInString = mapper.writeValueAsString(notesDAO.list(userid));
+			Roles role = Roles.valueOf(userLogin.getrole()); 
+			switch (role){
+			case USER:
+				jsonInString = mapper.writeValueAsString(notesDAO.list(userLogin.getuserid()));
+				break;    	   
+			case TL:
+				Team team = teamDAO.getByUser(userLogin.getuserid());
+				jsonInString = mapper.writeValueAsString(notesDAO.listByTeam(team.getteamid()));
+				break;    	   
+			case MA:
+				Branch branch = branchDAO.getByMA(userLogin.getuserid());
+				jsonInString = mapper.writeValueAsString(notesDAO.listByBranch(branch.getbranchid()));
+				break;    	   
+			case MD:
+				jsonInString = mapper.writeValueAsString(notesDAO.listByCompany(userLogin.getcompanyid()));
+				break;
+			default:
+				break;	
+			}
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
 		return jsonInString;
 	}
 
-    @RequestMapping(value = NotesRestURIConstant.GetByBranch, method = RequestMethod.GET)
-	public String getNotesByBranch(@PathVariable int branchid) {
-    	ObjectMapper mapper = new ObjectMapper();
-    	String jsonInString="";
-		try {
-			jsonInString = mapper.writeValueAsString(notesDAO.listByBranch(branchid));
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		return jsonInString;
-	}
-
-    @RequestMapping(value = NotesRestURIConstant.GetByCompany, method = RequestMethod.GET)
-	public String getNotesByCompany(@PathVariable int companyid) {
-    	ObjectMapper mapper = new ObjectMapper();
-    	String jsonInString="";
-		try {
-			jsonInString = mapper.writeValueAsString(notesDAO.listByCompany(companyid));
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		return jsonInString;
-	}
+    @RequestMapping(value = NotesRestURIConstant.Add, method = RequestMethod.POST)
+    public ResponseEntity<Notes> addNotes(@RequestBody APINotes aPINotes) throws IOException {
+    	UserLogin userLogin = userLoginDAO.findUserEmail(aPINotes.getuseremail());
+    	Notes notes = new Notes();
+    	notes.setuserid(userLogin.getuserid());
+    	notes.setusername(userLogin.getusername());
+    	notes.setteamid(userLogin.getteamid());
+    	notes.setteamname(userLogin.getteamname());
+    	notes.setbranchid(userLogin.getbranchid());
+    	notes.setbranchname(userLogin.getbranchname());
+    	notes.setcompanyid(userLogin.getcompanyid());
+    	notes.setcompanyname(userLogin.getcompanyname());
+    	notes.setprospectid(aPINotes.getprospectid());
+    	notes.setprospectname(aPINotes.getprospectname());
+    	notes.setnote(aPINotes.getnote());
+    	notes.setstatus(aPINotes.getstatus());
+    	notes.setremark(aPINotes.getremark());
+    	notesDAO.save(notes);
+        return new ResponseEntity<Notes>(notes, HttpStatus.CREATED);
+    }
 
     @RequestMapping(value = NotesRestURIConstant.Create, method = RequestMethod.POST)
     public ResponseEntity<Notes> createNotes(@RequestBody Notes notes) throws IOException {

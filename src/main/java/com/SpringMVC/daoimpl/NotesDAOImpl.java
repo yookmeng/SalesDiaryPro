@@ -48,7 +48,7 @@ public class NotesDAOImpl extends JdbcDaoSupport implements NotesDAO {
         this.getJdbcTemplate().update(sql, noteid);
     }
     
-    public List<Notes> list(int prospectid) {
+    public List<Notes> list(int userid) {
 	    String sql = "SELECT noteid, notedate, "
 	    		+ "n.userid, u.username, "
 	    		+ "n.teamid, t.teamname, "
@@ -63,7 +63,7 @@ public class NotesDAOImpl extends JdbcDaoSupport implements NotesDAO {
         		+ "LEFT JOIN tblCompany c on c.companyid = n.companyid "
         		+ "LEFT JOIN tblProspect p on p.prospectid = n.prospectid "
         		+ "LEFT JOIN tblUser rb on rb.userid = n.reviewby "
-        		+ "WHERE n.prospectid = " + prospectid;
+        		+ "WHERE n.userid = " + userid;
 	    NotesMapper mapper = new NotesMapper();
         List<Notes> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
