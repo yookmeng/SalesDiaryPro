@@ -160,18 +160,6 @@
 										<form:select name="source" path="source" id="source" items="${sourcelist}" />
 									</div>
 								</div>
-								<div class="form-group">
-									<label for="text" class="control-label col-sm-2">Occupation</label>
-									<div class="col-sm-3">
-										<form:input type="text" name="occupation" path="occupation" id="occupation" class="form-control" />
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="text" class="control-label col-sm-2">Income</label>
-									<div class="col-sm-3">
-										<form:input type="text" name="income" path="income" id="income" class="form-control" />
-									</div>
-								</div>
 							</div>
 							
 							<div class="form-actions">
@@ -220,10 +208,8 @@
 	    var wcity = $('#wcity').val(); 
 	    var wstreet = $('#wstreet').val(); 
 	    var wtelno = $('#wtelno').val(); 
-	    var occupation = $('#occupation').val(); 
 	    var email = $('#email').val(); 
 	    var gender = $('#gender').val(); 
-	    var income = $('#income').val(); 
 	    var email = $('#email').val(); 
 	    var status = $('#status').val(); 
 	
@@ -250,10 +236,7 @@
 	    			"street" : wstreet
 	    		},
 	    		"wtelno" : wtelno,
-	    		"occupation" : occupation,
-	    		"age" : age,
 	    		"gender" : gender,
-	    		"income" : income,
 	    		"email" : email,
 	    		"status" : status
 		};
@@ -317,10 +300,7 @@
 		    var wcity = $('#wcity').val(); 
 		    var wstreet = $('#wstreet').val(); 
 		    var wtelno = $('#wtelno').val(); 
-		    var occupation = $('#occupation').val(); 
-		    var age = $('#age').val(); 
 		    var gender = $('#gender').val(); 
-		    var income = $('#income').val(); 
 		    var email = $('#email').val(); 
 		    var status = $('#status').val(); 
 		
@@ -347,10 +327,7 @@
 		    			"street" : wstreet
 		    		},
 		    		"wtelno" : wtelno,
-		    		"occupation" : occupation,
-		    		"age" : age,
 		    		"gender" : gender,
-		    		"income" : income,
 		    		"email" : email,
 		    		"status" : status
 			};

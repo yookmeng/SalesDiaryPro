@@ -25,9 +25,11 @@ import com.SpringMVC.dao.ModelDAO;
 import com.SpringMVC.dao.ProspectDAO;
 import com.SpringMVC.dao.TeamDAO;
 import com.SpringMVC.dao.UserLoginDAO;
+import com.SpringMVC.model.APIActivity;
 import com.SpringMVC.model.Activity;
 import com.SpringMVC.model.Branch;
 import com.SpringMVC.model.Brand;
+import com.SpringMVC.model.IonicUser;
 import com.SpringMVC.model.Model;
 import com.SpringMVC.model.Prospect;
 import com.SpringMVC.model.Team;
@@ -77,17 +79,66 @@ public class ActivityController {
 		return jsonInString;
 	}
 
-    @RequestMapping(value = ActivityRestURIConstant.GetByProspect, method = RequestMethod.GET)
-	public String getAllActivity(@PathVariable int prospectid) {
+    @RequestMapping(value = ActivityRestURIConstant.GetAll, method = RequestMethod.POST)
+	public String getAllActivity(@RequestBody IonicUser ionicUser) {
+    	UserLogin userLogin = userLoginDAO.findUserEmail(ionicUser.getemail());
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
-			jsonInString = mapper.writeValueAsString(activityDAO.list(prospectid));
+			Roles role = Roles.valueOf(userLogin.getrole()); 
+			switch (role){
+			case USER:
+				jsonInString = mapper.writeValueAsString(activityDAO.listByUser(userLogin.getuserid()));
+				break;    	   
+			case TL:
+				Team team = teamDAO.getByUser(userLogin.getuserid());
+				jsonInString = mapper.writeValueAsString(activityDAO.listByTeam(team.getteamid()));
+				break;    	   
+			case MA:
+				Branch branch = branchDAO.getByMA(userLogin.getuserid());
+				jsonInString = mapper.writeValueAsString(activityDAO.listByBranch(branch.getbranchid()));
+				break;    	   
+			case MD:
+				jsonInString = mapper.writeValueAsString(activityDAO.listByCompany(userLogin.getcompanyid()));
+				break;
+			default:
+				break;	
+			}
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
 		return jsonInString;
 	}
+
+    @RequestMapping(value = ActivityRestURIConstant.Add, method = RequestMethod.POST)
+    public ResponseEntity<Activity> addActivity(@RequestBody APIActivity aPIActivity) throws IOException {
+    	UserLogin userLogin = userLoginDAO.findUserEmail(aPIActivity.getuseremail());
+    	Prospect prospect = prospectDAO.get(aPIActivity.getprospectid());
+    	Activity activity = new Activity();
+    	activity.setactivityid(aPIActivity.getactivityid());
+    	activity.setuserid(userLogin.getuserid());
+    	activity.setusername(userLogin.getusername());
+    	activity.setprospectid(aPIActivity.getprospectid());
+    	activity.setprospectname(prospect.getfirstname());
+    	activity.setactivitydate(aPIActivity.getactivitydate());
+    	activity.setbrandname(aPIActivity.getbrandname());
+    	Brand brand = brandDAO.getByName(aPIActivity.getbrandname());
+    	activity.setbrandid(brand.getbrandid());
+    	activity.setmodelname(aPIActivity.getmodelname());
+    	Model model = modelDAO.getByName(aPIActivity.getmodelname());
+    	activity.setmodelid(model.getmodelid());
+    	activity.setdemo(aPIActivity.getdemo());
+    	activity.settestdrive(aPIActivity.gettestdrive());
+    	activity.setquotation(aPIActivity.getquotation());
+    	activity.setfollowup(aPIActivity.getfollowup());
+    	activity.setclosed(aPIActivity.getclosed());
+    	activity.setlost(aPIActivity.getlost());
+    	activity.setfollowupremark(aPIActivity.getfollowupremark());
+    	activity.setlostremark(aPIActivity.getlostremark());
+
+    	activityDAO.save(activity);
+        return new ResponseEntity<Activity>(activity, HttpStatus.CREATED);
+    }
 
     @RequestMapping(value = ActivityRestURIConstant.Create, method = RequestMethod.POST)
     public ResponseEntity<Activity> createActivity(@RequestBody Activity activity) throws IOException {
@@ -101,8 +152,8 @@ public class ActivityController {
     }
 
     @RequestMapping(value = ActivityRestURIConstant.Update, method = RequestMethod.POST)
-    public ResponseEntity<Activity> updateActivity(@PathVariable("activityid") int activityid, @RequestBody Activity activity) {
-    	Activity currentActivity = activityDAO.get(activityid);         
+    public ResponseEntity<Activity> updateActivity(@RequestBody Activity activity) {
+    	Activity currentActivity = activityDAO.get(activity.getactivityid());         
         if (currentActivity==null) {
             return new ResponseEntity<Activity>(HttpStatus.NOT_FOUND);
         }
@@ -136,14 +187,13 @@ public class ActivityController {
     }
 
     @RequestMapping(value = ActivityRestURIConstant.Delete, method = RequestMethod.DELETE)
-    public ResponseEntity<Activity> deleteActivity(@PathVariable("activityid") int activityid) {
-    	Activity activity = activityDAO.get(activityid);
+    public ResponseEntity<Activity> deleteActivity(@RequestBody Activity activity) {
         if (activity == null) {
-            return new ResponseEntity<Activity>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Activity>(activity, HttpStatus.NOT_FOUND);
         }
  
-        activityDAO.delete(activityid);
-        return new ResponseEntity<Activity>(HttpStatus.OK);
+        activityDAO.delete(activity.getactivityid());
+        return new ResponseEntity<Activity>(activity, HttpStatus.OK);
     }
     
     @RequestMapping(value="/listActivity", method = RequestMethod.GET)

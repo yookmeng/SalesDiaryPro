@@ -51,6 +51,7 @@
 							    <th>Name</th>
 							    <th>Mobile</th>
 							    <th>Date Created</th>
+							    <th>Brand</th>
 							    <th>Model</th>
 							    <th>Status</th>	
 							    <th>Notes</th>	
@@ -63,6 +64,7 @@
 							    <th>Name</th>
 							    <th>Mobile</th>
 							    <th>Date Created</th>
+							    <th>Brand</th>
 							    <th>Model</th>
 							    <th>Status</th>	
 							    <th>Notes</th>	
@@ -78,6 +80,7 @@
 							    <td><a href="editProspect?prospectid=${prospect.prospectid}">${prospect.firstname}</a></td>
 							    <td>${prospect.mobile}</td>
 							    <td>${prospect.datecreated}</td>
+							    <td>${prospect.brandname}</td>
 							    <td>${prospect.modelname}</td>
 							    <td>${prospect.status}</td>
 								<td>
@@ -107,7 +110,7 @@
 	                sLengthMenu: "_MENU_ <span>entries per page</span>"
 	            },
 	            sDom: "lfrtip",
-	            aoColumnDefs: [{ bSortable: !1, aTargets: [0, 7]}]
+	            aoColumnDefs: [{ bSortable: !1, aTargets: [0, 8]}]
 			};
 			
 			l.sDom = "T" + l.sDom;
@@ -122,7 +125,7 @@
 	        d.columnFilter({
 	            sPlaceHolder: "head:after",
 	            sRangeFormat: "{from}{to}",
-	            aoColumns: [null, { type: "text" }, { type: "text" }, { type: "date-range" }, {type: "text" }, { type: "select", bCaseSensitive: !0, values: ["Hot", "Cold", "Closed", "Warm", "Lost"], selected: "Hot" }, null, null]
+	            aoColumns: [null, { type: "text" }, { type: "text" }, { type: "date-range" }, {type: "text" }, {type: "text" }, { type: "select", bCaseSensitive: !0, values: ["Hot", "Cold", "Closed", "Warm", "Lost"], selected: "Hot" }, null, null]
 	        });
 		};
 	})

@@ -17,15 +17,20 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.SpringMVC.dao.ActivityDAO;
+import com.SpringMVC.dao.BranchDAO;
 import com.SpringMVC.dao.CodeMasterDAO;
 import com.SpringMVC.dao.ModelDAO;
 import com.SpringMVC.dao.ProspectDAO;
 import com.SpringMVC.dao.QuotationDAO;
+import com.SpringMVC.dao.TeamDAO;
 import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.model.Activity;
+import com.SpringMVC.model.Branch;
+import com.SpringMVC.model.IonicUser;
 import com.SpringMVC.model.Model;
 import com.SpringMVC.model.Prospect;
 import com.SpringMVC.model.Quotation;
+import com.SpringMVC.model.Team;
 import com.SpringMVC.model.UserLogin;
 import com.SpringMVC.uriconstant.QuotationRestURIConstant;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -51,7 +56,17 @@ public class QuotationController {
     private CodeMasterDAO codeMasterDAO;
 
     @Autowired
+    private TeamDAO teamDAO;
+
+    @Autowired
+    private BranchDAO branchDAO;
+
+    @Autowired
     private QuotationDAO quotationDAO;
+
+    private enum Roles {
+        USER, SA, MD, MA, TL, DEV;
+    }
 
     @RequestMapping(value = QuotationRestURIConstant.Get, method = RequestMethod.GET)
 	public String getQuotation(@PathVariable int quotationid) {
@@ -65,12 +80,31 @@ public class QuotationController {
 		return jsonInString;
 	}
 
-    @RequestMapping(value = QuotationRestURIConstant.GetByProspect, method = RequestMethod.GET)
-	public String getQuotationByProspect(int prospectid) {
+    @RequestMapping(value = QuotationRestURIConstant.GetAll, method = RequestMethod.POST)
+	public String getQuotationByProspect(@RequestBody IonicUser ionicUser) {
+    	UserLogin userLogin = userLoginDAO.findUserEmail(ionicUser.getemail());
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
-			jsonInString = mapper.writeValueAsString(quotationDAO.list(prospectid));
+			Roles role = Roles.valueOf(userLogin.getrole()); 
+			switch (role){
+			case USER:
+				jsonInString = mapper.writeValueAsString(quotationDAO.list(userLogin.getuserid()));
+				break;    	   
+			case TL:
+				Team team = teamDAO.getByUser(userLogin.getuserid());
+				jsonInString = mapper.writeValueAsString(quotationDAO.listByTeam(team.getteamid()));
+				break;    	   
+			case MA:
+				Branch branch = branchDAO.getByMA(userLogin.getuserid());
+				jsonInString = mapper.writeValueAsString(quotationDAO.listByBranch(branch.getbranchid()));
+				break;    	   
+			case MD:
+				jsonInString = mapper.writeValueAsString(quotationDAO.listByCompany(userLogin.getcompanyid()));
+				break;
+			default:
+				break;	
+			}
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}

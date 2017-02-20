@@ -20,5 +20,13 @@ public interface QuotationDAO {
          
     public List<Quotation> list(int prospectid);    
 
+    public List<Quotation> listByUser(int userid);    
+
+    public List<Quotation> listByTeam(int teamid);    
+
+    public List<Quotation> listByBranch(int branchid);    
+
+    public List<Quotation> listByCompany(int companyid);    
+
     public int getlastquotationid(int prospectid);
 }

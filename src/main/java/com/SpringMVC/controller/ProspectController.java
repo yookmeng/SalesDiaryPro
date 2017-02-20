@@ -154,10 +154,7 @@ public class ProspectController {
         currentProspect.setworkaddress(prospect.getworkaddress());
         currentProspect.setwtelno(prospect.getwtelno());
         currentProspect.setemail(prospect.getemail());
-        currentProspect.setoccupation(prospect.getoccupation());
-        currentProspect.setage(prospect.getage());
         currentProspect.setgender(prospect.getgender());
-        currentProspect.setincome(prospect.getincome());
         currentProspect.setemail(prospect.getemail());
         currentProspect.setstatus(prospect.getstatus());
 

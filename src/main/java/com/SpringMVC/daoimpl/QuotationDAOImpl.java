@@ -474,6 +474,77 @@ public class QuotationDAOImpl extends JdbcDaoSupport implements QuotationDAO {
         return list;
     }
 
+    public List<Quotation> listByUser(int userid) {
+	    String sql = "SELECT quotationid, quotationdate, q.prospectid, p.firstname AS prospectname, "
+	    		+ "activityid, q.brandid, b.brandname, q.modelid, m.modelname, m.colour, "
+	    		+ "retailprice, q.suminsured, ncd, q.premium, q.roadtax, "
+	    		+ "registrationfee, handlingcharges, extendedwarranty, othercharges,"
+	    		+ "discount, quoteamount, term, remark "
+	    		+ "FROM tblQuotation q "
+	    		+ "LEFT JOIN tblProspect p ON p.prospectid = q.prospectid "
+	    		+ "LEFT JOIN tblBrand b ON b.brandid = q.brandid "
+	    		+ "LEFT JOIN tblModel m ON m.brandid = q.brandid AND m.modelid = q.modelid "
+	    		+ "WHERE p.userid="+userid+" "
+				+ "ORDER BY quotationid ";
+	    QuotationMapper mapper = new QuotationMapper();
+        List<Quotation> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }
+
+    public List<Quotation> listByTeam(int teamid) {
+	    String sql = "SELECT quotationid, quotationdate, q.prospectid, p.firstname AS prospectname, "
+	    		+ "activityid, q.brandid, b.brandname, q.modelid, m.modelname, m.colour, "
+	    		+ "retailprice, q.suminsured, ncd, q.premium, q.roadtax, "
+	    		+ "registrationfee, handlingcharges, extendedwarranty, othercharges,"
+	    		+ "discount, quoteamount, term, remark "
+	    		+ "FROM tblQuotation q "
+	    		+ "LEFT JOIN tblProspect p ON p.prospectid = q.prospectid "
+	    		+ "LEFT JOIN tblUser u ON p.userid = u.userid "
+	    		+ "LEFT JOIN tblBrand b ON b.brandid = q.brandid "
+	    		+ "LEFT JOIN tblModel m ON m.brandid = q.brandid AND m.modelid = q.modelid "
+	    		+ "WHERE u.teamid="+teamid+" "
+				+ "ORDER BY quotationid ";
+	    QuotationMapper mapper = new QuotationMapper();
+        List<Quotation> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }
+
+    public List<Quotation> listByBranch(int branchid) {
+	    String sql = "SELECT quotationid, quotationdate, q.prospectid, p.firstname AS prospectname, "
+	    		+ "activityid, q.brandid, b.brandname, q.modelid, m.modelname, m.colour, "
+	    		+ "retailprice, q.suminsured, ncd, q.premium, q.roadtax, "
+	    		+ "registrationfee, handlingcharges, extendedwarranty, othercharges,"
+	    		+ "discount, quoteamount, term, remark "
+	    		+ "FROM tblQuotation q "
+	    		+ "LEFT JOIN tblProspect p ON p.prospectid = q.prospectid "
+	    		+ "LEFT JOIN tblUser u ON p.userid = u.userid "
+	    		+ "LEFT JOIN tblBrand b ON b.brandid = q.brandid "
+	    		+ "LEFT JOIN tblModel m ON m.brandid = q.brandid AND m.modelid = q.modelid "
+	    		+ "WHERE u.branchid="+branchid+" "
+				+ "ORDER BY quotationid ";
+	    QuotationMapper mapper = new QuotationMapper();
+        List<Quotation> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }
+
+    public List<Quotation> listByCompany(int companyid) {
+	    String sql = "SELECT quotationid, quotationdate, q.prospectid, p.firstname AS prospectname, "
+	    		+ "activityid, q.brandid, b.brandname, q.modelid, m.modelname, m.colour, "
+	    		+ "retailprice, q.suminsured, ncd, q.premium, q.roadtax, "
+	    		+ "registrationfee, handlingcharges, extendedwarranty, othercharges,"
+	    		+ "discount, quoteamount, term, remark "
+	    		+ "FROM tblQuotation q "
+	    		+ "LEFT JOIN tblProspect p ON p.prospectid = q.prospectid "
+	    		+ "LEFT JOIN tblUser u ON p.userid = u.userid "
+	    		+ "LEFT JOIN tblBrand b ON b.brandid = q.brandid "
+	    		+ "LEFT JOIN tblModel m ON m.brandid = q.brandid AND m.modelid = q.modelid "
+	    		+ "WHERE u.companyid="+companyid+" "
+				+ "ORDER BY quotationid ";
+	    QuotationMapper mapper = new QuotationMapper();
+        List<Quotation> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }
+
     public int getlastquotationid(int prospectid) {
     	String sql = "SELECT MAX(quotationid) FROM tblQuotation WHERE prospectid = ?";
         int quotationid = (int)getJdbcTemplate().queryForObject(sql, new Object[] {prospectid}, int.class);

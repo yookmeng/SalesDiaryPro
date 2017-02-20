@@ -9,6 +9,8 @@ public class Prospect {
     private int userid;
     private String source;
     private Date datecreated;
+    private int brandid;
+    private String brandname;
     private int modelid;
     private String modelname;
     private Address homeaddress;
@@ -17,27 +19,27 @@ public class Prospect {
     private int contactid;
     private Address workaddress;
     private String wtelno;
-    private String occupation;
-    private int age;
     private String gender;    
-    private String income;
     private String email;
     private String status;
 
     public Prospect() {
     }
  
-    public Prospect(int prospectid, String firstname, String lastname, int userid, String source,  
-    		Date datecreated, int modelid, String modelname,
+    public Prospect(int prospectid, String firstname, String lastname, 
+    		int userid, String source,  Date datecreated, 
+    		int brandid, String brandname, int modelid, String modelname,
     		Address homeaddress, String mobile, String htelno, int contactid,
     		Address workaddress, String wtelno, 
-    		String occupation, int age, String gender, String income, String email, String status) {
+    		String gender, String email, String status) {
         this.prospectid = prospectid;
         this.firstname = firstname;
         this.lastname = lastname;
         this.userid = userid;
         this.source = source;
         this.datecreated = datecreated;
+        this.brandid = brandid;
+        this.brandname = brandname;
         this.modelid = modelid;
         this.modelname = modelname;
         this.homeaddress = homeaddress;
@@ -46,10 +48,7 @@ public class Prospect {
         this.contactid = contactid;
         this.workaddress = workaddress;
         this.wtelno = wtelno;
-        this.occupation = occupation;
-        this.age = age;
         this.gender = gender;
-        this.income = income;
         this.email = email;
         this.status = status;
     }
@@ -94,6 +93,20 @@ public class Prospect {
     }
     public void setdatecreated(Date datecreated) {
         this.datecreated = datecreated;
+    }
+
+    public int getbrandid() {
+        return brandid;
+    }
+    public void setbrandid(int brandid) {
+        this.brandid = brandid;
+    }
+
+    public String getbrandname() {
+        return brandname;
+    }
+    public void setbrandname(String brandname) {
+        this.brandname = brandname;
     }
 
     public int getmodelid() {
@@ -150,27 +163,6 @@ public class Prospect {
     }
     public void setwtelno(String wtelno) {
         this.wtelno = wtelno;
-    }
-
-    public String getoccupation() {
-        return occupation;
-    }
-    public void setoccupation(String occupation) {
-        this.occupation = occupation;
-    }
-
-    public int getage() {
-        return age;
-    }
-    public void setage(int age) {
-        this.age = age;
-    }
-
-    public String getincome() {
-        return income;
-    }
-    public void setincome(String income) {
-        this.income = income;
     }
 
     public String getgender() {

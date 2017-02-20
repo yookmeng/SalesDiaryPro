@@ -18,6 +18,8 @@ public class ProspectMapper implements RowMapper<Prospect> {
         int userid = rs.getInt("userid");
         String source = rs.getString("source");
         Date datecreated = rs.getDate("datecreated");
+        int brandid = rs.getInt("brandid");
+        String brandname = rs.getString("brandname");
         int modelid = rs.getInt("modelid");
         String modelname = rs.getString("modelname");
         Address homeaddress = new Address();
@@ -36,17 +38,15 @@ public class ProspectMapper implements RowMapper<Prospect> {
         workaddress.setcity(rs.getString("wcity"));
         workaddress.setstreet(rs.getString("wstreet"));
         String wtelno = rs.getString("wtelno");
-        String occupation = rs.getString("occupation");
-        int age = rs.getInt("age");
         String gender = rs.getString("gender");
-        String income = rs.getString("income");
         String email = rs.getString("email");
         String status = rs.getString("status");
         
-        return new Prospect(prospectid, firstname, lastname, userid, source, 
-        		datecreated, modelid, modelname, 
+        return new Prospect(prospectid, firstname, lastname, 
+        		userid, source, datecreated, 
+        		brandid, brandname, modelid, modelname, 
         		homeaddress, mobile, htelno, contactid,
         		workaddress, wtelno, 
-        		occupation, age, gender, income, email, status);
+        		gender, email, status);
     } 
 }

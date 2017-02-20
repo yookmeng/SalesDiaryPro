@@ -114,7 +114,7 @@ public class NotesController {
     public ResponseEntity<Notes> addNotes(@RequestBody APINotes aPINotes) throws IOException {
     	UserLogin userLogin = userLoginDAO.findUserEmail(aPINotes.getuseremail());
     	Notes notes = new Notes();
-    	notes.setnoteid(0);
+    	notes.setnoteid(aPINotes.getnoteid());
     	notes.setnotedate(aPINotes.getnotedate());
     	notes.setuserid(userLogin.getuserid());
     	notes.setusername(userLogin.getusername());
