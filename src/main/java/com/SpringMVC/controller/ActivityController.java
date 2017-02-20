@@ -128,9 +128,12 @@ public class ActivityController {
     	Model model = modelDAO.getByName(aPIActivity.getmodelname());
     	activity.setmodelid(model.getmodelid());
     	activity.setdemo(aPIActivity.getdemo());
+    	activity.setdemostatus(aPIActivity.getdemo());
     	activity.settestdrive(aPIActivity.gettestdrive());
+    	activity.settestdrivestatus(aPIActivity.gettestdrive());
     	activity.setquotation(aPIActivity.getquotation());
     	activity.setfollowup(aPIActivity.getfollowup());
+    	activity.setfollowupstatus(aPIActivity.getfollowup());
     	activity.setclosed(aPIActivity.getclosed());
     	activity.setlost(aPIActivity.getlost());
     	activity.setfollowupremark(aPIActivity.getfollowupremark());
