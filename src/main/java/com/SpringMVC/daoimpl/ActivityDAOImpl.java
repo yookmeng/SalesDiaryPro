@@ -147,10 +147,6 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
         		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
         		+ "LEFT JOIN tblModel m ON m.modelid = a.modelid "
         		+ "WHERE a.userid = " + userid + " "
-				+ "AND p.status IN ('Hot', 'Warm') "
-        		+ "AND ((demo = 'TRUE' AND demostatus = 'FALSE') OR "
-        		+ "(testdrive = 'TRUE' AND testdrivestatus = 'FALSE') OR "
-        		+ "(followup = 'TRUE' AND followupstatus = 'FALSE'))"        		
         		+ "ORDER BY activitydate ";
         ActivityMapper mapper = new ActivityMapper();
         List<Activity> list = this.getJdbcTemplate().query(sql, mapper);
@@ -171,10 +167,6 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
         		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
         		+ "LEFT JOIN tblModel m ON m.modelid = a.modelid "
         		+ "WHERE u.teamid = " + teamid + " "
-				+ "AND p.status IN ('Hot', 'Warm') "
-        		+ "AND ((demo = 'TRUE' AND demostatus = 'FALSE') OR "
-        		+ "(testdrive = 'TRUE' AND testdrivestatus = 'FALSE') OR "
-        		+ "(followup = 'TRUE' AND followupstatus = 'FALSE'))"        		
         		+ "ORDER BY activitydate ";
         ActivityMapper mapper = new ActivityMapper();
         List<Activity> list = this.getJdbcTemplate().query(sql, mapper);
@@ -195,10 +187,6 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
         		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
         		+ "LEFT JOIN tblModel m ON m.modelid = a.modelid "
         		+ "WHERE u.branchid = " + branchid + " "
-				+ "AND p.status IN ('Hot', 'Warm') "
-        		+ "AND ((demo = 'TRUE' AND demostatus = 'FALSE') OR "
-        		+ "(testdrive = 'TRUE' AND testdrivestatus = 'FALSE') OR "
-        		+ "(followup = 'TRUE' AND followupstatus = 'FALSE'))"        		
         		+ "ORDER BY activitydate ";
         ActivityMapper mapper = new ActivityMapper();
         List<Activity> list = this.getJdbcTemplate().query(sql, mapper);
@@ -219,10 +207,6 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
         		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
         		+ "LEFT JOIN tblModel m ON m.modelid = a.modelid "
         		+ "WHERE u.companyid = " + companyid + " "
-				+ "AND p.status IN ('Hot', 'Warm') "
-        		+ "AND ((demo = 'TRUE' AND demostatus = 'FALSE') OR "
-        		+ "(testdrive = 'TRUE' AND testdrivestatus = 'FALSE') OR "
-        		+ "(followup = 'TRUE' AND followupstatus = 'FALSE'))"        		
         		+ "ORDER BY activitydate ";
         ActivityMapper mapper = new ActivityMapper();
         List<Activity> list = this.getJdbcTemplate().query(sql, mapper);
