@@ -25,6 +25,7 @@ import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.dao.UserMonthlySummaryDAO;
 import com.SpringMVC.model.Branch;
 import com.SpringMVC.model.Company;
+import com.SpringMVC.model.IonicUser;
 import com.SpringMVC.model.MonthlySummary;
 import com.SpringMVC.model.Team;
 import com.SpringMVC.model.UserLogin;
@@ -63,9 +64,9 @@ public class UserController {
 		return jsonInString;
 	}
 
-	@RequestMapping(value = UserRestURIConstant.GetAll, method = RequestMethod.GET)
-	public String getAllUser(Principal principal) {
-    	UserLogin userLogin = userLoginDAO.get(principal.getName());
+	@RequestMapping(value = UserRestURIConstant.GetAll, method = RequestMethod.POST)
+	public String getAllUser(@RequestBody IonicUser ionicUser) {
+    	UserLogin userLogin = userLoginDAO.findUserEmail(ionicUser.getemail());
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString = "";
 		try {

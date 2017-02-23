@@ -10,10 +10,13 @@ public class APIActivity {
     private String brandname;
     private String modelname;
     private boolean demo;
+    private boolean demostatus;
     private boolean testdrive;
+    private boolean testdrivestatus;
     private boolean quotation;
     private boolean followup;
     private String followupremark;
+    private boolean followupstatus;
     private boolean lost;
     private String lostremark;
     private boolean closed;
@@ -23,8 +26,8 @@ public class APIActivity {
  
     public APIActivity(String useremail, int activityid, Date activitydate, 
     		int prospectid, String brandname, String modelname, 
-    		boolean demo, boolean testdrive, boolean quotation, 
-    		boolean followup, String followupremark, 
+    		boolean demo, boolean demostatus, boolean testdrive, boolean testdrivestatus, boolean quotation, 
+    		boolean followup, String followupremark, boolean followupstatus, 
     		boolean lost, String lostremark,
     		boolean closed) {
         this.useremail = useremail;
@@ -34,10 +37,13 @@ public class APIActivity {
         this.brandname = brandname;
         this.modelname = modelname;
         this.demo = demo;
+        this.demostatus = demostatus;
         this.testdrive = testdrive;
+        this.testdrivestatus = testdrivestatus;
         this.quotation = quotation;
         this.followup = followup;
         this.followupremark = followupremark;
+        this.followupstatus = followupstatus;
         this.lost = lost;
         this.lostremark = lostremark;
         this.closed = closed;
@@ -92,11 +98,25 @@ public class APIActivity {
         this.demo = demo;
     }
 
+    public boolean getdemostatus() {
+        return demostatus;
+    }  
+    public void setdemostatus(boolean demostatus) {
+        this.demo = demostatus;
+    }
+
     public boolean gettestdrive() {
         return testdrive;
     }  
     public void settestdrive(boolean testdrive) {
         this.testdrive = testdrive;
+    }
+
+    public boolean gettestdrivestatus() {
+        return testdrivestatus;
+    }  
+    public void settestdrivestatus(boolean testdrivestatus) {
+        this.testdrivestatus = testdrivestatus;
     }
 
     public boolean getquotation() {
@@ -118,6 +138,13 @@ public class APIActivity {
     }  
     public void setfollowupremark(String followupremark) {
         this.followupremark = followupremark;
+    }
+
+    public boolean getfollowupstatus() {
+        return followupstatus;
+    }  
+    public void setfollowupstatus(boolean followupstatus) {
+        this.followupstatus = followupstatus;
     }
 
     public boolean getlost() {

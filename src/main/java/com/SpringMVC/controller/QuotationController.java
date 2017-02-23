@@ -122,9 +122,9 @@ public class QuotationController {
     }
 
     @RequestMapping(value = QuotationRestURIConstant.Update, method = RequestMethod.POST)
-    public ResponseEntity<Quotation> updateQuotation(@PathVariable("quotationid") int quotationid, 
-    		@RequestBody Quotation quotation, HttpServletRequest request) {
-    	Quotation currentQuotation = quotationDAO.get(quotationid);
+    public ResponseEntity<Quotation> updateQuotation(@RequestBody Quotation quotation, 
+    		HttpServletRequest request) {
+    	Quotation currentQuotation = quotationDAO.get(quotation.getquotationid());
          
         if (currentQuotation==null) {
             return new ResponseEntity<Quotation>(HttpStatus.NOT_FOUND);
@@ -156,14 +156,13 @@ public class QuotationController {
     }
 
     @RequestMapping(value = QuotationRestURIConstant.Delete, method = RequestMethod.DELETE)
-    public ResponseEntity<Quotation> deleteQuotation(@PathVariable("quotationid") int quotationid) {
-    	Quotation quotation = quotationDAO.get(quotationid);
+    public ResponseEntity<Quotation> deleteQuotation(@RequestBody Quotation quotation) {
         if (quotation == null) {
-            return new ResponseEntity<Quotation>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Quotation>(quotation, HttpStatus.NOT_FOUND);
         }
  
-        quotationDAO.delete(quotationid);
-        return new ResponseEntity<Quotation>(HttpStatus.OK);
+        quotationDAO.delete(quotation.getquotationid());
+        return new ResponseEntity<Quotation>(quotation, HttpStatus.OK);
     }
 
     @RequestMapping(value="/listQuotation", method = RequestMethod.GET)

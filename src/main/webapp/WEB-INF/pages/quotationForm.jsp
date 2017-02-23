@@ -216,7 +216,7 @@
 	    }
 	    else {
 	        $.ajax({
-	            url: base+"/quotation/update/"+quotationid,
+	            url: base+"/quotation/update",
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
