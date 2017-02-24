@@ -123,6 +123,9 @@
 							<input type="reset" class="btn" onclick="location.href='listBranch?companyid=${branch.companyid}'" value="Back" id="back">						
 						</c:if>   				
 						<input id="btnSave" type="submit" class="btn btn-primary" name="Save" value="Save">
+						<c:if test="${role == 'SA'}">
+							<input id="btnDelete" type="button" class="btn" name="Delete" value="Delete">
+						</c:if>   				
 					</div>
 					</form:form>
 					</div>
@@ -196,7 +199,7 @@
 	    }
 	    else {
 	        $.ajax({
-	            url: base+"/branch/update/"+branchid,
+	            url: base+"/branch/update",
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
@@ -215,6 +218,70 @@
 	    }
 	    return true;
 	})
+	
+	$('#btnDelete').click(function (e) {
+		e.preventDefault(); // <------------------ stop default behaviour of button
+
+		var base = $('#base').val();
+    	if (window.location.protocol === 'https:') {
+    	    base = base.replace("http", "https");
+    	}	    	
+
+    	var branchid = $('#branchid').val(); 
+	    var branchname = $('#branchname').val(); 
+	    var companyid = $('#companyid').val(); 
+	    var regno = $('#regno').val(); 
+	    var maid = ""; 
+	    var maname = $('#maname').val(); 
+	    var country = $('#country').val(); 
+	    var zipcode = $('#zipcode').val(); 
+	    var state = $('#state').val(); 
+	    var city = $('#city').val(); 
+	    var street = $('#street').val(); 
+	    var telephone = $('#telephone').val(); 
+	    var fax = $('#fax').val(); 
+	    var email = $('#email').val(); 
+	    var website = $('#website').val(); 
+
+	    var json = {
+	    		"branchid" : branchid,
+	    		"branchname" : branchname,
+	    		"companyid" : companyid,
+	    		"regno" : regno,
+	    		"maid" : maid,
+	    		"maname" : maname,
+	    		"address" : {
+		    		"country" : country,
+		    		"zipcode" : zipcode,
+		    		"state" : state,
+		    		"city" : city,
+	    			"street" : street
+	    		},
+	    		"telephone" : telephone,
+	    		"fax" : fax,
+	    		"email" : email,
+	    		"website" : website
+	    		
+		};
+	    $.ajax({
+            url: base+"/branch/delete",
+            type: 'DELETE',
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(json),
+            success:function(data, Textstatus, jqXHR){
+                if ($('#role').val()=="SA"){
+	                window.location.href = base+"/listBranch";
+                }
+                else{
+	                window.location.href = base+"/home";	                	
+                }	                
+            },
+            error:function(jqXhr, Textstatus){
+            }
+	    });
+	    return true;
+	})	
 	</script>	
 </body>
 </html>

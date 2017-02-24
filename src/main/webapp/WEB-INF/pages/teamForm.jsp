@@ -68,6 +68,9 @@
 								<input type="reset" class="btn" onclick="location.href='listTeam?branchid=${team.branchid}'" value="Back" id="back">						
 							</c:if>
 							<input id="btnSave" type="submit" class="btn btn-primary" name="Save" value="Save">
+							<c:if test="${role != 'TL'}">
+								<input id="btnDelete" type="button" class="btn" name="Delete" value="Delete">
+							</c:if>
 						</div>
 						</form:form>
 					</div>
@@ -118,7 +121,7 @@
 	    }
 	    else {
 	        $.ajax({
-	            url: base+"/team/update/"+teamid,
+	            url: base+"/team/update",
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
@@ -137,6 +140,47 @@
 	    }
 	    return true;
 	})
+	
+	$('#btnDelete').click(function (e) {
+		e.preventDefault(); // <------------------ stop default behaviour of button
+
+		var base = $('#base').val();
+    	if (window.location.protocol === 'https:') {
+    	    base = base.replace("http", "https");
+    	}	    	
+
+    	var teamid = $('#teamid').val(); 
+	    var teamname = $('#teamname').val(); 	    
+	    var branchid = $('#branchid').val(); 
+	    var leaderid = ""; 
+	    var leadername = $('#leadername').val(); 	    
+	
+	    var json = {
+	    		"teamid" : teamid,
+	    		"teamname" : teamname,	    		
+	    		"branchid" : branchid,
+	    		"leaderid" : leaderid,
+	    		"leadername" : leadername
+	    };
+	    $.ajax({
+            url: base+"/team/delete",
+            type: 'DELETE',
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(json),
+            success:function(data, Textstatus, jqXHR){
+                if ($('#role').val()=="TL"){
+	                window.location.href = base+"/home";
+                }
+                else{
+	                window.location.href = base+"/listTeam?branchid="+branchid;	                	
+                }	                
+            },
+            error:function(jqXhr, Textstatus){
+            }
+	    });
+	    return true;
+	})		
 	</script>	
 </body>
 </html>

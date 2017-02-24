@@ -78,8 +78,6 @@
 											<c:if test="${role == 'SA'}">		
 												<button class="btn btn-small" onclick="window.location='editTeam?teamid=${team.teamid}';" >
 											    	<i class="fa fa-edit"></i></button>
-												<button class="btn btn-small" onclick="deleteTeam(${team.teamid})">
-													<i class="fa fa-trash-o"></i></button>
 											</c:if>
 											<a href="listMember?teamid=${team.teamid}">Member</a>				
 									    </td>		                 
@@ -121,27 +119,7 @@
 	            aoColumns: [null, { type: "text" }, { type: "text" }, null]
 	        });
 		};		
-	})
-	
-	function deleteTeam(branchid) {
-		var base = $('#base').val();
-	    if (window.location.protocol === 'https:') {
-	    	base = base.replace("http", "https");
-	    }	    	
-
-	    jQuery.ajax({
-	        type: "DELETE",
-	        url: base+"/team/delete/"+teamid,
-	        contentType: "application/json",
-	        data: "",
-	        dataType: "",
-	        success: function (data, status, jqXHR) {
-	        	location.replace(location);
-	        },	        
-	        error: function (jqXHR, status) {
-	        }
-	    });	
-	}
+	})	
 	</script>		
 </body>
 </html>

@@ -21,6 +21,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import com.SpringMVC.dao.BranchDAO;
 import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.model.Branch;
+import com.SpringMVC.model.IonicUser;
 import com.SpringMVC.model.UserLogin;
 import com.SpringMVC.uriconstant.BranchRestURIConstant;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -36,7 +37,6 @@ public class BranchController {
     @Autowired
     private BranchDAO branchDAO;
 
-
     @RequestMapping(value = BranchRestURIConstant.Get, method = RequestMethod.GET)
 	public String getBranch(@PathVariable int branchid) {
     	ObjectMapper mapper = new ObjectMapper();
@@ -49,9 +49,9 @@ public class BranchController {
 		return jsonInString;
 	}
 
-    @RequestMapping(value = BranchRestURIConstant.GetAll, method = RequestMethod.GET)
-	public String getBranchs(Principal principal) {
-    	UserLogin userLogin = userLoginDAO.get(principal.getName());
+    @RequestMapping(value = BranchRestURIConstant.GetAll, method = RequestMethod.POST)
+	public String getBranchs(@RequestBody IonicUser ionicUser) {
+    	UserLogin userLogin = userLoginDAO.findUserEmail(ionicUser.getemail());
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
@@ -75,8 +75,8 @@ public class BranchController {
     }
 
     @RequestMapping(value = BranchRestURIConstant.Update, method = RequestMethod.POST)
-    public ResponseEntity<Branch> updateBranch(@PathVariable("branchid") int branchid, @RequestBody Branch branch) {
-    	Branch currentBranch = branchDAO.get(branchid);
+    public ResponseEntity<Branch> updateBranch(@RequestBody Branch branch) {
+    	Branch currentBranch = branchDAO.get(branch.getbranchid());
          
         if (currentBranch==null) {
             return new ResponseEntity<Branch>(HttpStatus.NOT_FOUND);
@@ -108,18 +108,16 @@ public class BranchController {
     }
 
     @RequestMapping(value = BranchRestURIConstant.Delete, method = RequestMethod.DELETE)
-    public ResponseEntity<Branch> deleteBranch(@PathVariable("branchid") int branchid) {
-    	Branch branch = branchDAO.get(branchid);
+    public ResponseEntity<Branch> deleteBranch(@RequestBody Branch branch) {
         if (branch == null) {
-            return new ResponseEntity<Branch>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Branch>(branch, HttpStatus.NOT_FOUND);
         }
- 
     	UserLogin userLogin = userLoginDAO.get(branch.getmaname());
     	userLogin.setcompanyid(0);
     	userLogin.setbranchid(0);
     	userLoginDAO.update(userLogin);
-    	branchDAO.delete(branchid);
-        return new ResponseEntity<Branch>(HttpStatus.OK);
+    	branchDAO.delete(branch.getbranchid());
+        return new ResponseEntity<Branch>(branch, HttpStatus.OK);
     }
 
     @RequestMapping(value="/listBranch", method = RequestMethod.GET)

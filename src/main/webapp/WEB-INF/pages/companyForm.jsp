@@ -110,6 +110,9 @@
 							<input type="reset" class="btn" onclick="location.href='listCompany'" value="Back" id="back">						
 						</c:if>   
 						<input id="btnSave" type="submit" class="btn btn-primary" name="Save" value="Save">
+						<c:if test="${role == 'DEV'}">
+							<input id="btnDelete" type="button" class="btn" name="Delete" value="Delete">
+						</c:if>   
 					</div>
 					</form:form>
 					</div>

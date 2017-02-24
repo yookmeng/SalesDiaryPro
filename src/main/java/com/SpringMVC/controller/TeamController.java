@@ -21,6 +21,7 @@ import com.SpringMVC.dao.BranchDAO;
 import com.SpringMVC.dao.TeamDAO;
 import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.model.Branch;
+import com.SpringMVC.model.IonicUser;
 import com.SpringMVC.model.Team;
 import com.SpringMVC.model.UserLogin;
 import com.SpringMVC.uriconstant.TeamRestURIConstant;
@@ -52,13 +53,15 @@ public class TeamController {
 		return jsonInString;
 	}
 
-    @RequestMapping(value = TeamRestURIConstant.GetByBranch, method = RequestMethod.GET)
-	public String getAllTeam(@PathVariable int branchid) {
+    @RequestMapping(value = TeamRestURIConstant.GetAll, method = RequestMethod.POST)
+	public String getAllTeam(@RequestBody IonicUser ionicUser) {
+    	UserLogin userLogin = userLoginDAO.findUserEmail(ionicUser.getemail());
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
-		try {
-			jsonInString = mapper.writeValueAsString(teamDAO.list(branchid));
-		} catch (JsonProcessingException e) {
+		try {			
+			jsonInString = mapper.writeValueAsString(teamDAO.list(userLogin.getbranchid()));
+		} 
+			catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
 		return jsonInString;
@@ -79,8 +82,8 @@ public class TeamController {
     }
 
     @RequestMapping(value = TeamRestURIConstant.Update, method = RequestMethod.POST)
-    public ResponseEntity<Team> updateTeam(@PathVariable("teamid") int teamid, @RequestBody Team team) {
-    	Team currentTeam = teamDAO.get(teamid);
+    public ResponseEntity<Team> updateTeam(@RequestBody Team team) {
+    	Team currentTeam = teamDAO.get(team.getteamid());
          
         if (currentTeam==null) {
             return new ResponseEntity<Team>(HttpStatus.NOT_FOUND);
@@ -109,18 +112,17 @@ public class TeamController {
     }
 
     @RequestMapping(value = TeamRestURIConstant.Delete, method = RequestMethod.DELETE)
-    public ResponseEntity<Team> deleteTeam(@PathVariable("teamid") int teamid) {
-    	Team team = teamDAO.get(teamid);
+    public ResponseEntity<Team> deleteTeam(@RequestBody Team team) {
         if (team == null) {
-            return new ResponseEntity<Team>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Team>(team, HttpStatus.NOT_FOUND);
         }
     	UserLogin userLogin = userLoginDAO.get(team.getleadername());
     	userLogin.setcompanyid(0);
     	userLogin.setbranchid(0);
     	userLogin.setteamid(0);
     	userLoginDAO.update(userLogin);
-        teamDAO.delete(teamid);
-        return new ResponseEntity<Team>(HttpStatus.OK);
+        teamDAO.delete(team.getteamid());
+        return new ResponseEntity<Team>(team, HttpStatus.OK);
     }
     
     @RequestMapping(value="/listTeam", method = RequestMethod.GET)

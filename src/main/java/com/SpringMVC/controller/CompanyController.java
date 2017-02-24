@@ -115,7 +115,7 @@ public class CompanyController {
     @RequestMapping(value = CompanyRestURIConstant.Delete, method = RequestMethod.DELETE)
     public ResponseEntity<Company> deleteCompany(@RequestBody Company company) {
         if (company == null) {
-            return new ResponseEntity<Company>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Company>(company, HttpStatus.NOT_FOUND);
         }
         
     	UserLogin userLoginMD = userLoginDAO.get(company.getmdname());
@@ -126,7 +126,7 @@ public class CompanyController {
     	userLoginDAO.update(userLoginSA);    	
 
     	companyDAO.delete(company);
-        return new ResponseEntity<Company>(HttpStatus.OK);
+        return new ResponseEntity<Company>(company, HttpStatus.OK);
     }
 
     @RequestMapping(value="/listCompany", method = RequestMethod.GET)

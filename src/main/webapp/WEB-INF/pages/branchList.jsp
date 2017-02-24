@@ -72,8 +72,6 @@
 									<c:if test="${role == 'SA'}">		
 										<button class="btn btn-small" onclick="window.location='editBranch?branchid=${branch.branchid}';" >
 									    	<i class="fa fa-edit"></i></button>
-										<button class="btn btn-small" onclick="deleteBranch(${branch.branchid})">
-											<i class="fa fa-trash-o"></i></button>
 									</c:if>
 									<a href="listTeam?branchid=${branch.branchid}">Team</a>				
 							    </td>		                 
@@ -115,26 +113,6 @@
 	        });
 		};		
 	})
-	
-	function deleteBranch(branchid) {
-			var base = $('#base').val();
-	    	if (window.location.protocol === 'https:') {
-	    	    base = base.replace("http", "https");
-	    	}	    	
-	    	
-	    	jQuery.ajax({
-	            type: "DELETE",
-	            url: base+"/branch/delete/"+branchid,
-	            contentType: "application/json",
-	            data: "",
-	            dataType: "",
-	            success: function (data, status, jqXHR) {
-					location.replace(location);
-	            },	        
-	            error: function (jqXHR, status) {
-	            }
-	        });	
-	    }
 	</script>		
 </body>
 </html>
