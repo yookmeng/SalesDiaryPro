@@ -21,6 +21,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import com.SpringMVC.dao.CompanyDAO;
 import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.model.Company;
+import com.SpringMVC.model.IonicUser;
 import com.SpringMVC.model.UserLogin;
 import com.SpringMVC.uriconstant.CompanyRestURIConstant;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -48,8 +49,8 @@ public class CompanyController {
 		return jsonInString;
 	}
 
-    @RequestMapping(value = CompanyRestURIConstant.GetAll, method = RequestMethod.GET)
-	public String getCompanys(Principal principal) {
+    @RequestMapping(value = CompanyRestURIConstant.GetAll, method = RequestMethod.POST)
+	public String getCompanys(@RequestBody IonicUser ionicUser) {
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
@@ -75,8 +76,8 @@ public class CompanyController {
     }
 
     @RequestMapping(value = CompanyRestURIConstant.Update, method = RequestMethod.POST)
-    public ResponseEntity<Company> updateCompany(@PathVariable("companyid") int companyid, @RequestBody Company company) {
-    	Company currentCompany = companyDAO.get(companyid);
+    public ResponseEntity<Company> updateCompany(@RequestBody Company company) {
+    	Company currentCompany = companyDAO.get(company.getcompanyid());
         if (currentCompany==null) {
             return new ResponseEntity<Company>(HttpStatus.NOT_FOUND);
         }
@@ -112,8 +113,7 @@ public class CompanyController {
     }
 
     @RequestMapping(value = CompanyRestURIConstant.Delete, method = RequestMethod.DELETE)
-    public ResponseEntity<Company> deleteCompany(@PathVariable("companyid") int companyid) {
-    	Company company = companyDAO.get(companyid);
+    public ResponseEntity<Company> deleteCompany(@RequestBody Company company) {
         if (company == null) {
             return new ResponseEntity<Company>(HttpStatus.NOT_FOUND);
         }

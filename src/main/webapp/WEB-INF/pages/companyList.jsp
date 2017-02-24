@@ -20,46 +20,18 @@
 		            <th>Registration No</th>
 		            <th>Person In Charge</th>
 		            <th>Telephone</th>
-		            <th>Action</th>
 		        </tr>
 	            <c:forEach var="Company" items="${listCompany}" varStatus="status">
 					<tr>
-					    <td>${Company.companyname}</td>
+					    <td><a href="editCompany?companyid=${Company.companyid}">${Company.companyname}</a></td>
 					    <td>${Company.regno}</td>
 					    <td>${Company.mdname}</td>
 					    <td>${Company.telephone}</td>
-					    <td>
-							<button class="btn btn-small" onclick="window.location='editCompany?companyid=${Company.companyid}';" >
-						    	<i class="fa fa-edit"></i></button>
-							&nbsp;&nbsp;&nbsp;&nbsp;
-							<button class="btn btn-small" onclick="deleteCompany(${Company.companyid})">
-								<i class="fa fa-trash-o"></i></button>
-					    </td>                             
 					</tr>
 				</c:forEach>             
 				</table>
 			</div>
 		</div>	
 	</div>
-	<script>
-	    function deleteCompany(companyid) {
-			var base = $('#base').val();
-	    	if (window.location.protocol === 'https:') {
-	    	    base = base.replace("http", "https");
-	    	}	    	
-	    	jQuery.ajax({
-	            type: "DELETE",
-	            url: base+"/company/delete/"+companyid,
-	            contentType: "application/json",
-	            data: "",
-	            dataType: "",
-	            success: function (data, status, jqXHR) {
-					location.replace(location);
-	            },	        
-	            error: function (jqXHR, status) {
-	            }
-	        });	
-	    }
-	</script>		
 </body>
 </html>
