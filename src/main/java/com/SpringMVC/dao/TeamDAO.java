@@ -22,5 +22,7 @@ public interface TeamDAO {
 
     public List<Team> list(int branchid);
     
+    public List<Team> listByCompany(int companyid);
+
     public List<String> teamList(int branchid);
 }

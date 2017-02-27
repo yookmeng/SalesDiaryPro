@@ -41,6 +41,10 @@ public class TeamController {
     @Autowired
     private TeamDAO teamDAO;
 
+    private enum Roles {
+        USER, SA, MD, MA, TL, DEV;
+    }
+
     @RequestMapping(value = TeamRestURIConstant.Get, method = RequestMethod.GET)
 	public String getTeam(@PathVariable int teamid) {
     	ObjectMapper mapper = new ObjectMapper();
@@ -59,7 +63,17 @@ public class TeamController {
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {			
-			jsonInString = mapper.writeValueAsString(teamDAO.list(userLogin.getbranchid()));
+			Roles role = Roles.valueOf(userLogin.getrole()); 
+			switch (role){
+				case MA:
+					jsonInString = mapper.writeValueAsString(teamDAO.list(userLogin.getbranchid()));
+					break;    	   
+				case SA:
+					jsonInString = mapper.writeValueAsString(teamDAO.listByCompany(userLogin.getcompanyid()));
+					break;
+				default:
+					break;	
+			}
 		} 
 			catch (JsonProcessingException e) {
 			e.printStackTrace();

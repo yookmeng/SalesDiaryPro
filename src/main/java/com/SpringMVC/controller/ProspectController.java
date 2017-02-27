@@ -90,22 +90,22 @@ public class ProspectController {
 		try {
 			Roles role = Roles.valueOf(userLogin.getrole()); 
 			switch (role){
-			case USER:
-				jsonInString = mapper.writeValueAsString(prospectDAO.list(userLogin.getuserid()));
-				break;    	   
-			case TL:
-				Team team = teamDAO.getByUser(userLogin.getuserid());
-				jsonInString = mapper.writeValueAsString(prospectDAO.listByTeam(team.getteamid()));
-				break;    	   
-			case MA:
-				Branch branch = branchDAO.getByMA(userLogin.getuserid());
-				jsonInString = mapper.writeValueAsString(prospectDAO.listByBranch(branch.getbranchid()));
-				break;    	   
-			case MD:
-				jsonInString = mapper.writeValueAsString(prospectDAO.listByCompany(userLogin.getcompanyid()));
-				break;
-			default:
-				break;	
+				case USER:
+					jsonInString = mapper.writeValueAsString(prospectDAO.list(userLogin.getuserid()));
+					break;    	   
+				case TL:
+					Team team = teamDAO.getByUser(userLogin.getuserid());
+					jsonInString = mapper.writeValueAsString(prospectDAO.listByTeam(team.getteamid()));
+					break;    	   
+				case MA:
+					Branch branch = branchDAO.getByMA(userLogin.getuserid());
+					jsonInString = mapper.writeValueAsString(prospectDAO.listByBranch(branch.getbranchid()));
+					break;    	   
+				case MD:
+					jsonInString = mapper.writeValueAsString(prospectDAO.listByCompany(userLogin.getcompanyid()));
+					break;
+				default:
+					break;	
 			}
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();

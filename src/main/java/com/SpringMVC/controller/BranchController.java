@@ -50,7 +50,7 @@ public class BranchController {
 	}
 
     @RequestMapping(value = BranchRestURIConstant.GetAll, method = RequestMethod.POST)
-	public String getBranchs(@RequestBody IonicUser ionicUser) {
+	public String getBranches(@RequestBody IonicUser ionicUser) {
     	UserLogin userLogin = userLoginDAO.findUserEmail(ionicUser.getemail());
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";

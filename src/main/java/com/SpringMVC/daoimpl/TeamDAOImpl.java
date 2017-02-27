@@ -58,6 +58,20 @@ public class TeamDAOImpl extends JdbcDaoSupport implements TeamDAO {
         return list;
     }
     
+    public List<Team> listByCompany(int companyid) {
+        String sql = "SELECT t.teamid AS teamid, "
+        		+ "t.teamname AS teamname, "
+        		+ "t.branchid AS branchid, "
+        		+ "t.leaderid AS leaderid, "
+        		+ "u.username AS leadername "
+        		+ "FROM tblTeam t "
+	    		+ "LEFT JOIN tblUser u on t.leaderid = u.userid "
+        		+ "WHERE u.companyid = " + companyid;
+        TeamMapper mapper = new TeamMapper();
+        List<Team> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }
+
     public List<String> teamList(int branchid) {
         String sql = "SELECT teamname FROM tblTeam WHERE branchid =" + branchid;
         List<String> list = this.getJdbcTemplate().queryForList(sql, String.class);
