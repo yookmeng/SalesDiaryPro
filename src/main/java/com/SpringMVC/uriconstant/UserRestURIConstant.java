@@ -3,6 +3,7 @@ package com.SpringMVC.uriconstant;
 public class UserRestURIConstant {
 	public static final String Get = "/user/{userid}";
 	public static final String GetAll = "/users";
+	public static final String GetByTeam = "/user/team";
 	public static final String Validate = "/user/validate";
 	public static final String MonthlySummary = "/user/monthlysummary";
 	public static final String Create = "/user/create";

@@ -78,6 +78,20 @@ public class UserController {
 		return jsonInString;
 	}
 
+	@RequestMapping(value = UserRestURIConstant.GetByTeam, method = RequestMethod.POST)
+	public String getAllUserByTeam(@RequestBody IonicUser ionicUser) {
+    	UserLogin userLogin = userLoginDAO.findUserEmail(ionicUser.getemail());
+    	ObjectMapper mapper = new ObjectMapper();
+    	String jsonInString = "";
+		try {
+			jsonInString = mapper.writeValueAsString(userLoginDAO.listByTeam(userLogin.getteamid()));
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return jsonInString;
+	}
+
 	@RequestMapping(value = UserRestURIConstant.Validate, method = RequestMethod.POST)
     public String validateUser(@RequestBody UserValidate userValidate) throws IOException {
     	UserLogin userLogin = userLoginDAO.findUserEmail(userValidate.getemail());
