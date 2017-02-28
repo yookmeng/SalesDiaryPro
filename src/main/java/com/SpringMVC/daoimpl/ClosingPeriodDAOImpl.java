@@ -85,20 +85,17 @@ public class ClosingPeriodDAOImpl extends JdbcDaoSupport implements ClosingPerio
         int currentyear = Calendar.getInstance().get(Calendar.YEAR);
         int currentmonth = Calendar.getInstance().get(Calendar.MONTH)+1;
         String period = "";
-        if (currentmonth-3<1){
-        	period = String.valueOf(currentyear-1)+"-"+String.valueOf(currentmonth+12);
+        if (currentmonth<4){
+        	period = String.valueOf(currentyear-1)+"-"+String.valueOf(currentmonth+9);
         };
-        if (currentmonth-3>0 && currentmonth-3<13){
+        if (currentmonth>3){
         	period = String.valueOf(currentyear)+"-"+String.valueOf(currentmonth);
-        };
-        if (currentmonth-3>13){
-        	period = String.valueOf(currentyear+1)+"-"+String.valueOf(currentmonth-12);
         };
 	    String sql = "SELECT id, companyid, period, "
 	    		+ "opendate, closedate, closed "
 	    		+ "FROM tblClosingPeriod "	    
 	    		+ "WHERE companyid=" + companyid + " "
-	    		+ "AND period=" + period + " "
+	    		+ "AND period>='" + period + "' "
 				+ "ORDER BY period";
         ClosingPeriodMapper mapper = new ClosingPeriodMapper();
         List<ClosingPeriod> list = this.getJdbcTemplate().query(sql, mapper);
