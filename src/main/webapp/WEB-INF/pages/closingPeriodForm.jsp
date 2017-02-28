@@ -109,7 +109,7 @@
 	    }
 	    else {
 	        $.ajax({
-	            url: base+"/closingperiod/update/"+id,
+	            url: base+"/closingperiod/update",
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",

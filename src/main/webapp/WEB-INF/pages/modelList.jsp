@@ -46,7 +46,6 @@
 						    <th>Name</th>
 						    <th>Price</th>
 						    <th>Commission</th>
-						    <th>Action</th>
 						</tr>
 						<tr>
 							<th class="with-checkbox">
@@ -55,7 +54,6 @@
 						    <th>Name</th>
 						    <th>Price</th>
 						    <th>Commission</th>
-						    <th>Action</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -64,15 +62,9 @@
 							<td class="with-checkbox">
 								<input type="checkbox" name="check" value="1">
 							</td>
-						    <td>${model.modelname}</td>
+						    <td><a href="editModel?modelid=${model.modelid}">${model.modelname}</a></td>
 						    <td><fmt:formatNumber value="${model.price}"/></td>
 						    <td><fmt:formatNumber value="${model.commission}"/></td>
-							<td>
-								<button class="btn btn-small" onclick="window.location='editModel?modelid=${model.modelid}';" >
-							    	<i class="fa fa-edit"></i></button>
-								<button class="btn btn-small" onclick="deleteModel(${model.modelid})">
-									<i class="fa fa-trash-o"></i></button>
-						    </td>		                 
 						</tr>
 					</c:forEach>             
 					</tbody>
@@ -92,7 +84,7 @@
 	                sLengthMenu: "_MENU_ <span>entries per page</span>"
 	            },
 	            sDom: "lfrtip",
-	            aoColumnDefs: [{ bSortable: !1, aTargets: [0, 4]}]
+	            aoColumnDefs: [{ bSortable: !1, aTargets: [0, 3]}]
 			};
 			
 			l.sDom = "T" + l.sDom;
@@ -107,30 +99,10 @@
 	        d.columnFilter({
 	            sPlaceHolder: "head:after",
 	            sRangeFormat: "{from}{to}",
-	            aoColumns: [null, { type: "text" }, { type: "text" }, { type: "text" }, null]
+	            aoColumns: [null, { type: "text" }, { type: "text" }, { type: "text" }]
 	        });
 		};		
 	})
-
-	function deleteModel(modelid) {
-		var base = $('#base').val();
-    	if (window.location.protocol === 'https:') {
-    	    base = base.replace("http", "https");
-    	}	    	
-
-    	jQuery.ajax({
-	    	type: "DELETE",
-            url: base+"/model/delete/"+modelid,
-            contentType: "application/json",
-            data: "",
-            dataType: "",
-            success: function (data, status, jqXHR) {
-				location.replace(location);
-            },	        
-            error: function (jqXHR, status) {
-            }
-        });	
-    }
 	</script>			
 </body>
 </html>

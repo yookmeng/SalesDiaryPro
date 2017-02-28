@@ -67,11 +67,11 @@ public class BrandController {
     }
 
     @RequestMapping(value = BrandRestURIConstant.Update, method = RequestMethod.POST)
-    public ResponseEntity<Brand> updateBrand(@PathVariable("brandid") int brandid, @RequestBody Brand brand) {
-    	Brand currentBrand = brandDAO.get(brandid);
+    public ResponseEntity<Brand> updateBrand(@RequestBody Brand brand) {
+    	Brand currentBrand = brandDAO.get(brand.getbrandid());
          
         if (currentBrand==null) {
-            return new ResponseEntity<Brand>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Brand>(brand, HttpStatus.NOT_FOUND);
         }
         
         currentBrand.setbrandname(brand.getbrandname());
@@ -82,14 +82,13 @@ public class BrandController {
     }
 
     @RequestMapping(value = BrandRestURIConstant.Delete, method = RequestMethod.DELETE)
-    public ResponseEntity<Brand> deleteBrand(@PathVariable("brandid") int brandid) {
-    	Brand brand = brandDAO.get(brandid);
+    public ResponseEntity<Brand> deleteBrand(@RequestBody Brand brand) {
         if (brand == null) {
-            return new ResponseEntity<Brand>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Brand>(brand, HttpStatus.NOT_FOUND);
         }
  
-        brandDAO.delete(brandid);
-        return new ResponseEntity<Brand>(HttpStatus.OK);
+        brandDAO.delete(brand.getbrandid());
+        return new ResponseEntity<Brand>(brand, HttpStatus.OK);
     }
     
     @RequestMapping(value="/listBrand", method = RequestMethod.GET)

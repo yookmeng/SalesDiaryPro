@@ -45,6 +45,7 @@
 					<div class="form-actions">
 						<input type="reset" class="btn" onclick="location.href='listBrand?companyid=${brand.companyid}'" value="Back" id="back">						
 						<input id="btnSave" type="submit" class="btn btn-primary" name="Save" value="Save">
+						<input id="btnDelete" type="button" class="btn" name="Delete" value="Delete">
 					</div>
 					</form:form>
 					</div>
@@ -88,7 +89,7 @@
 	    }
 	    else {
 	        $.ajax({
-	            url: base+"/brand/update/"+brandid,
+	            url: base+"/brand/update",
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
@@ -102,6 +103,40 @@
 	    }
 	    return true;
 	})
-	</script>		
+
+	$('#btnDelete').click(function (e) {
+		e.preventDefault(); // <------------------ stop default behaviour of button
+
+		var base = $('#base').val();
+    	if (window.location.protocol === 'https:') {
+    	    base = base.replace("http", "https");
+    	}	    	
+	
+    	var brandid = $('#brandid').val(); 
+	    var brandname = $('#brandname').val(); 
+	    var companyid = $('#companyid').val(); 
+	    var sellingbrand = $('#sellingbrand').prop('checked');
+	
+	    var json = {
+	    		"brandid" : brandid,
+	    		"brandname" : brandname,
+	    		"companyid" : companyid,
+	    		"sellingbrand" : sellingbrand
+		};
+	    
+        $.ajax({
+            url: base+"/brand/delete",
+            type: 'POST',
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(json),
+            success:function(data, Textstatus, jqXHR){
+                window.location.href = base+"/listBrand";
+            },
+            error:function(jqXhr, Textstatus){
+            }
+        });
+	})		
+    </script>		
 </body>
 </html>

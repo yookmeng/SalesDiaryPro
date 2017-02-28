@@ -72,8 +72,8 @@ public class ModelController {
     }
 
     @RequestMapping(value = ModelRestURIConstant.Update, method = RequestMethod.POST)
-    public ResponseEntity<Model> updateModel(@PathVariable("modelid") int modelid, @RequestBody Model model) {
-    	Model currentModel = modelDAO.get(modelid);
+    public ResponseEntity<Model> updateModel(@RequestBody Model model) {
+    	Model currentModel = modelDAO.get(model.getmodelid());
          
         if (currentModel==null) {
             return new ResponseEntity<Model>(HttpStatus.NOT_FOUND);
@@ -98,13 +98,12 @@ public class ModelController {
     }
 
     @RequestMapping(value = ModelRestURIConstant.Delete, method = RequestMethod.DELETE)
-    public ResponseEntity<Model> deleteModel(@PathVariable("modelid") int modelid) {
-    	Model model = modelDAO.get(modelid);
+    public ResponseEntity<Model> deleteModel(@RequestBody Model model) {
         if (model == null) {
-            return new ResponseEntity<Model>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Model>(model, HttpStatus.NOT_FOUND);
         }
-        modelDAO.delete(modelid);
-        return new ResponseEntity<Model>(HttpStatus.OK);
+        modelDAO.delete(model.getmodelid());
+        return new ResponseEntity<Model>(model, HttpStatus.OK);
     }
     
     @RequestMapping(value="/listModel", method = RequestMethod.GET)

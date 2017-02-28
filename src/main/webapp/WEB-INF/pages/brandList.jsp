@@ -54,12 +54,8 @@
 									<td class="with-checkbox">
 										<input type="checkbox" name="check" value="1">
 									</td>
-								    <td>${brand.brandname}</td>
+								    <td><a href="editBrand?brandid=${brand.brandid}">${brand.brandname}</a></td>
 									<td>
-										<button class="btn btn-small" onclick="window.location='editBrand?brandid=${brand.brandid}';" >
-									    	<i class="fa fa-edit"></i></button>
-										<button class="btn btn-small" onclick="deleteBrand(${brand.brandid})">
-											<i class="fa fa-trash-o"></i></button>
 										<a href="listModel?brandid=${brand.brandid}">Model</a>				
 								    </td>		                 
 								</tr>
@@ -100,27 +96,7 @@
 	            aoColumns: [null, { type: "text" }, null]
 	        });
 		};		
-	})
-	
-	function deleteBrand(brandid) {
-		var base = $('#base').val();
-    	if (window.location.protocol === 'https:') {
-    	    base = base.replace("http", "https");
-    	}	    	
-
-    	jQuery.ajax({
-            type: "DELETE",
-            url: base+"/brand/delete/"+brandid,
-            contentType: "application/json",
-            data: "",
-            dataType: "",
-            success: function (data, status, jqXHR) {
-				location.replace(location);
-            },	        
-            error: function (jqXHR, status) {
-            }
-        });	
-    }
+	})	
 	</script>		
 </body>
 </html>

@@ -21,6 +21,7 @@ import com.SpringMVC.dao.ClosingPeriodDAO;
 import com.SpringMVC.dao.CommonDAO;
 import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.model.ClosingPeriod;
+import com.SpringMVC.model.IonicUser;
 import com.SpringMVC.model.UserLogin;
 import com.SpringMVC.uriconstant.ClosingPeriodRestURIConstant;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -51,9 +52,9 @@ public class ClosingPeriodController {
 		return jsonInString;
 	}
 
-    @RequestMapping(value = ClosingPeriodRestURIConstant.GetAll, method = RequestMethod.GET)
-	public String getAllClosingPeriod(Principal principal) {
-    	UserLogin userLogin = userLoginDAO.get(principal.getName());
+    @RequestMapping(value = ClosingPeriodRestURIConstant.GetAll, method = RequestMethod.POST)
+	public String getAllClosingPeriod(@RequestBody IonicUser ionicUser) {
+    	UserLogin userLogin = userLoginDAO.findUserEmail(ionicUser.getemail());
     	int companyid = userLogin.getcompanyid();
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
@@ -72,11 +73,11 @@ public class ClosingPeriodController {
     }
 
     @RequestMapping(value = ClosingPeriodRestURIConstant.Update, method = RequestMethod.POST)
-    public ResponseEntity<ClosingPeriod> updateClosingPeriod(@PathVariable("id") int id, @RequestBody ClosingPeriod closingPeriod) {
-    	ClosingPeriod currentClosingPeriod = closingPeriodDAO.get(id);
+    public ResponseEntity<ClosingPeriod> updateClosingPeriod(@RequestBody ClosingPeriod closingPeriod) {
+    	ClosingPeriod currentClosingPeriod = closingPeriodDAO.get(closingPeriod.getid());
          
         if (currentClosingPeriod==null) {
-            return new ResponseEntity<ClosingPeriod>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<ClosingPeriod>(closingPeriod, HttpStatus.NOT_FOUND);
         }
         
     	currentClosingPeriod.setopendate(closingPeriod.getopendate());
@@ -88,14 +89,13 @@ public class ClosingPeriodController {
     }
 
     @RequestMapping(value = ClosingPeriodRestURIConstant.Delete, method = RequestMethod.DELETE)
-    public ResponseEntity<ClosingPeriod> deleteClosingPeriod(@PathVariable("id") int id) {
-    	ClosingPeriod closingPeriod = closingPeriodDAO.get(id);
+    public ResponseEntity<ClosingPeriod> deleteClosingPeriod(@RequestBody ClosingPeriod closingPeriod) {
         if (closingPeriod == null) {
-            return new ResponseEntity<ClosingPeriod>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<ClosingPeriod>(closingPeriod, HttpStatus.NOT_FOUND);
         }
  
-        closingPeriodDAO.delete(id);
-        return new ResponseEntity<ClosingPeriod>(HttpStatus.OK);
+        closingPeriodDAO.delete(closingPeriod.getid());
+        return new ResponseEntity<ClosingPeriod>(closingPeriod, HttpStatus.OK);
     }
 
     @RequestMapping(value="/listClosingPeriod", method = RequestMethod.GET)

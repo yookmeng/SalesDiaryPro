@@ -123,6 +123,7 @@
 					<div class="form-actions">
 						<input type="reset" class="btn" onclick="location.href='listModel?brandid=${model.brandid}'" value="Back" id="back">						
 						<input id="btnSave" type="submit" class="btn btn-primary" name="Save" value="Save">
+						<input id="btnDelete" type="button" class="btn" name="Delete" value="Delete">
 					</div>
 					</form:form>
 					</div>
@@ -191,7 +192,7 @@
 	    }
 	    else {
 	        $.ajax({
-	            url: base+"/model/update/"+modelid,
+	            url: base+"/model/update",
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
@@ -205,6 +206,65 @@
 	    }
 	    return true;
 	})
+	
+	$('#btnDelete').click(function (e) {
+		e.preventDefault(); // <------------------ stop default behaviour of button
+
+		var base = $('#base').val();
+    	if (window.location.protocol === 'https:') {
+    	    base = base.replace("http", "https");
+    	}	    	
+	
+    	var brandid = $('#brandid').val(); 
+	    var modelid = $('#modelid').val(); 
+	    var modelname = $('#modelname').val(); 	    
+	    var colour = $('#colour').val(); 	    
+	    var sellingmodel = $('#sellingmodel').prop('checked');
+	    var commission = $('#commission').val(); 
+	    var price = $('#price').val(); 
+	    var suminsured = $('#suminsured').val(); 
+	    var premium = $('#premium').val(); 
+	    var roadtax = $('#roadtax').val(); 
+		var enginetype = $('#enginetype').val();	
+		var fuelsupplysystem = $('#fuelsupplysystem').val();	
+		var displacement = $('#displacement').val();	
+		var maxpower = $('#maxpower').val();	
+		var maxtorque = $('#maxtorque').val();	
+		var transmission = $('#transmission').val();	
+
+		var json = {
+	    		"modelid" : modelid,
+	    		"modelname" : modelname,	    		
+	    		"brandid" : brandid,
+	    		"sellingmodel" : sellingmodel,
+	    		"commission" : commission,
+	    		"price" : price,
+	    		"suminsured" : suminsured,
+	    		"premium" : premium,
+	    		"roadtax" : roadtax,
+	    		"colour" : colour,
+	    		"enginetype" : enginetype,
+	    		"fuelsupplysystem" : fuelsupplysystem,
+	    		"displacement" : displacement,
+	    		"maxpower" : maxpower,
+	    		"maxtorque" : maxtorque,
+	    		"transmission" : transmission
+
+		};
+		
+        $.ajax({
+            url: base+"/model/delete",
+            type: 'POST',
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(json),
+            success:function(data, Textstatus, jqXHR){
+                window.location.href = base+"/listModel?brandid="+brandid;
+            },
+            error:function(jqXhr, Textstatus){
+            }
+        });
+	})		
 	</script>	
 </body>
 </html>
