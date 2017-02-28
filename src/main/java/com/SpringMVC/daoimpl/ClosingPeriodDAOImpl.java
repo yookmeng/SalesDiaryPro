@@ -80,11 +80,11 @@ public class ClosingPeriodDAOImpl extends JdbcDaoSupport implements ClosingPerio
     }
 
     public List<ClosingPeriod> list(int companyid) {
-	    String sql = "SELECT id, companyid, period, "
+	    String sql = "SELECT top 7 id, companyid, period, "
 	    		+ "opendate, closedate, closed "
 	    		+ "FROM tblClosingPeriod "	    
 	    		+ "WHERE companyid=" + companyid + " "
-				+ "ORDER BY period";
+				+ "ORDER BY period DESC";
         ClosingPeriodMapper mapper = new ClosingPeriodMapper();
         List<ClosingPeriod> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
