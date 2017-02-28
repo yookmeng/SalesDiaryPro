@@ -2,6 +2,7 @@ package com.SpringMVC.daoimpl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.List;
  
 import javax.sql.DataSource;
@@ -80,11 +81,25 @@ public class ClosingPeriodDAOImpl extends JdbcDaoSupport implements ClosingPerio
     }
 
     public List<ClosingPeriod> list(int companyid) {
-	    String sql = "SELECT top 7 id, companyid, period, "
+    	//only get data greater than or equal current month - 3
+        int currentyear = Calendar.getInstance().get(Calendar.YEAR);
+        int currentmonth = Calendar.getInstance().get(Calendar.MONTH)+1;
+        String period = "";
+        if (currentmonth-3<1){
+        	period = String.valueOf(currentyear-1)+"-"+String.valueOf(currentmonth+12);
+        };
+        if (currentmonth-3>0 && currentmonth-3<13){
+        	period = String.valueOf(currentyear)+"-"+String.valueOf(currentmonth);
+        };
+        if (currentmonth-3>13){
+        	period = String.valueOf(currentyear+1)+"-"+String.valueOf(currentmonth-12);
+        };
+	    String sql = "SELECT id, companyid, period, "
 	    		+ "opendate, closedate, closed "
 	    		+ "FROM tblClosingPeriod "	    
 	    		+ "WHERE companyid=" + companyid + " "
-				+ "ORDER BY period DESC";
+	    		+ "AND period=" + period + " "
+				+ "ORDER BY period";
         ClosingPeriodMapper mapper = new ClosingPeriodMapper();
         List<ClosingPeriod> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
