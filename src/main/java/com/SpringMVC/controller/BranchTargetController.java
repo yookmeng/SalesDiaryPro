@@ -25,6 +25,7 @@ import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.model.Branch;
 import com.SpringMVC.model.BranchTarget;
 import com.SpringMVC.model.CompanyTarget;
+import com.SpringMVC.model.IonicUser;
 import com.SpringMVC.model.UserLogin;
 import com.SpringMVC.uriconstant.BranchTargetRestURIConstant;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -49,6 +50,10 @@ public class BranchTargetController {
     @Autowired
     private BranchTargetDAO branchTargetDAO;
 
+    private enum Roles {
+        USER, SA, MD, MA, TL, DEV;
+    }
+
     @RequestMapping(value = BranchTargetRestURIConstant.Get, method = RequestMethod.GET)
 	public String getBranchTarget(@PathVariable int targetid) {
     	ObjectMapper mapper = new ObjectMapper();
@@ -61,26 +66,25 @@ public class BranchTargetController {
 		return jsonInString;
 	}
 
-    @RequestMapping(value = BranchTargetRestURIConstant.GetAll, method = RequestMethod.GET)
-	public String getAllBranchTarget(@PathVariable String period, Principal principal) {
-    	UserLogin userLogin = userLoginDAO.get(principal.getName());
-    	int companyid = userLogin.getcompanyid();
+    @RequestMapping(value = BranchTargetRestURIConstant.GetAll, method = RequestMethod.POST)
+	public String getAllBranchTarget(@RequestBody IonicUser ionicUser) {
+    	UserLogin userLogin = userLoginDAO.findUserEmail(ionicUser.getemail());
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
-			jsonInString = mapper.writeValueAsString(branchTargetDAO.list(period, companyid));
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		return jsonInString;
-	}
-
-    @RequestMapping(value = BranchTargetRestURIConstant.GetByBranch, method = RequestMethod.GET)
-	public String getBranchTargetByBranch(@PathVariable int branchid) {
-    	ObjectMapper mapper = new ObjectMapper();
-    	String jsonInString="";
-		try {
-			jsonInString = mapper.writeValueAsString(branchTargetDAO.listByBranch(branchid));
+			Roles role = Roles.valueOf(userLogin.getrole()); 
+			switch (role){
+				case MD:
+			    	int companyid = userLogin.getcompanyid();
+					jsonInString = mapper.writeValueAsString(branchTargetDAO.listByCompany(companyid));
+					break;    	   
+				case MA:
+			    	int branchid = userLogin.getbranchid();
+					jsonInString = mapper.writeValueAsString(branchTargetDAO.listByBranch(branchid));
+					break;
+				default:
+					break;	
+			}
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
@@ -96,10 +100,10 @@ public class BranchTargetController {
     }
 
     @RequestMapping(value = BranchTargetRestURIConstant.Update, method = RequestMethod.POST)
-    public ResponseEntity<BranchTarget> updateBranchTarget(@PathVariable("targetid") int targetid, @RequestBody BranchTarget branchTarget) {
-    	BranchTarget currentBranchTarget = branchTargetDAO.get(targetid);         
+    public ResponseEntity<BranchTarget> updateBranchTarget(@RequestBody BranchTarget branchTarget) {
+    	BranchTarget currentBranchTarget = branchTargetDAO.get(branchTarget.gettargetid());         
         if (currentBranchTarget==null) {
-            return new ResponseEntity<BranchTarget>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<BranchTarget>(branchTarget, HttpStatus.NOT_FOUND);
         }
 
         currentBranchTarget.setprospect(branchTarget.getprospect());
@@ -111,14 +115,13 @@ public class BranchTargetController {
     }
 
     @RequestMapping(value = BranchTargetRestURIConstant.Delete, method = RequestMethod.DELETE)
-    public ResponseEntity<BranchTarget> deleteBranchTarget(@PathVariable("targetid") int targetid) {
-    	BranchTarget branchTarget = branchTargetDAO.get(targetid);
+    public ResponseEntity<BranchTarget> deleteBranchTarget(@RequestBody BranchTarget branchTarget) {
         if (branchTarget == null) {
-            return new ResponseEntity<BranchTarget>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<BranchTarget>(branchTarget, HttpStatus.NOT_FOUND);
         }
  
-        branchTargetDAO.delete(targetid);
-        return new ResponseEntity<BranchTarget>(HttpStatus.OK);
+        branchTargetDAO.delete(branchTarget.gettargetid());
+        return new ResponseEntity<BranchTarget>(branchTarget, HttpStatus.OK);
     }
     
     @RequestMapping(value="/listBranchTarget", method = RequestMethod.GET)

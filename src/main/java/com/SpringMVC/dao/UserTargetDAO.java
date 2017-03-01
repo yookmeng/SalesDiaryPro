@@ -20,5 +20,8 @@ public interface UserTargetDAO {
 
     public List<UserTarget> list(String period, int teamid);
 
+    public List<UserTarget> listByCompany(int companyid);
+    public List<UserTarget> listByBranch(int branchid);
+    public List<UserTarget> listByTeam(int teamid);
     public List<UserTarget> listByUser(int userid);
 }

@@ -2,6 +2,7 @@ package com.SpringMVC.daoimpl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.List;
  
 import javax.sql.DataSource;
@@ -132,7 +133,17 @@ public class UserTargetDAOImpl extends JdbcDaoSupport implements UserTargetDAO {
         return list;
     }
 
-    public List<UserTarget> listByUser(int userid) {
+    public List<UserTarget> listByCompany(int companyid) {
+    	//only get data greater than or equal current month - 3
+        int currentyear = Calendar.getInstance().get(Calendar.YEAR);
+        int currentmonth = Calendar.getInstance().get(Calendar.MONTH)+1;
+        String period = "";
+        if (currentmonth<4){
+        	period = String.valueOf(currentyear-1)+"-"+String.valueOf(currentmonth+9);
+        };
+        if (currentmonth>3){
+        	period = String.valueOf(currentyear)+"-"+String.valueOf(currentmonth);
+        };
 	    String sql = "SELECT ut.targetid AS targetid, "
 	    		+ "ut.userid AS userid, "
 	    		+ "u.username AS username, "
@@ -143,7 +154,92 @@ public class UserTargetDAOImpl extends JdbcDaoSupport implements UserTargetDAO {
 	    		+ "ut.closed AS closed "
 	    		+ "FROM tblUserTarget ut "
 	    		+ "LEFT JOIN tblUser u ON u.userid = ut.userid "	    		
-        		+ "WHERE ut.userid ="+userid;
+        		+ "WHERE u.companyid = " + companyid + " "
+	    		+ "AND period >= '" + period + "' ";
+        UserTargetMapper mapper = new UserTargetMapper();
+        List<UserTarget> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }
+
+    public List<UserTarget> listByBranch(int branchid) {
+    	//only get data greater than or equal current month - 3
+        int currentyear = Calendar.getInstance().get(Calendar.YEAR);
+        int currentmonth = Calendar.getInstance().get(Calendar.MONTH)+1;
+        String period = "";
+        if (currentmonth<4){
+        	period = String.valueOf(currentyear-1)+"-"+String.valueOf(currentmonth+9);
+        };
+        if (currentmonth>3){
+        	period = String.valueOf(currentyear)+"-"+String.valueOf(currentmonth);
+        };
+	    String sql = "SELECT ut.targetid AS targetid, "
+	    		+ "ut.userid AS userid, "
+	    		+ "u.username AS username, "
+	    		+ "ut.period AS period, "
+	    		+ "ut.teamtargetid AS teamtargetid, "
+	    		+ "ut.prospect AS prospect, "
+	    		+ "ut.testdrive AS testdrive, "
+	    		+ "ut.closed AS closed "
+	    		+ "FROM tblUserTarget ut "
+	    		+ "LEFT JOIN tblUser u ON u.userid = ut.userid "	    		
+        		+ "WHERE u.branchid = " + branchid + " "
+	    		+ "AND period >= '" + period + "' ";
+        UserTargetMapper mapper = new UserTargetMapper();
+        List<UserTarget> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }
+
+    public List<UserTarget> listByTeam(int teamid) {
+    	//only get data greater than or equal current month - 3
+        int currentyear = Calendar.getInstance().get(Calendar.YEAR);
+        int currentmonth = Calendar.getInstance().get(Calendar.MONTH)+1;
+        String period = "";
+        if (currentmonth<4){
+        	period = String.valueOf(currentyear-1)+"-"+String.valueOf(currentmonth+9);
+        };
+        if (currentmonth>3){
+        	period = String.valueOf(currentyear)+"-"+String.valueOf(currentmonth);
+        };
+	    String sql = "SELECT ut.targetid AS targetid, "
+	    		+ "ut.userid AS userid, "
+	    		+ "u.username AS username, "
+	    		+ "ut.period AS period, "
+	    		+ "ut.teamtargetid AS teamtargetid, "
+	    		+ "ut.prospect AS prospect, "
+	    		+ "ut.testdrive AS testdrive, "
+	    		+ "ut.closed AS closed "
+	    		+ "FROM tblUserTarget ut "
+	    		+ "LEFT JOIN tblUser u ON u.userid = ut.userid "	    		
+        		+ "WHERE u.teamid = " + teamid + " "
+	    		+ "AND period >= '" + period + "' ";
+        UserTargetMapper mapper = new UserTargetMapper();
+        List<UserTarget> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }
+
+    public List<UserTarget> listByUser(int userid) {
+    	//only get data greater than or equal current month - 3
+        int currentyear = Calendar.getInstance().get(Calendar.YEAR);
+        int currentmonth = Calendar.getInstance().get(Calendar.MONTH)+1;
+        String period = "";
+        if (currentmonth<4){
+        	period = String.valueOf(currentyear-1)+"-"+String.valueOf(currentmonth+9);
+        };
+        if (currentmonth>3){
+        	period = String.valueOf(currentyear)+"-"+String.valueOf(currentmonth);
+        };
+	    String sql = "SELECT ut.targetid AS targetid, "
+	    		+ "ut.userid AS userid, "
+	    		+ "u.username AS username, "
+	    		+ "ut.period AS period, "
+	    		+ "ut.teamtargetid AS teamtargetid, "
+	    		+ "ut.prospect AS prospect, "
+	    		+ "ut.testdrive AS testdrive, "
+	    		+ "ut.closed AS closed "
+	    		+ "FROM tblUserTarget ut "
+	    		+ "LEFT JOIN tblUser u ON u.userid = ut.userid "	    		
+        		+ "WHERE ut.userid = " + userid + " "
+	    		+ "AND period >= '" + period + "' ";
         UserTargetMapper mapper = new UserTargetMapper();
         List<UserTarget> list = this.getJdbcTemplate().query(sql, mapper);
         return list;

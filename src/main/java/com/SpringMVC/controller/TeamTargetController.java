@@ -25,6 +25,7 @@ import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.exceptions.ServiceException;
 import com.SpringMVC.model.Branch;
 import com.SpringMVC.model.BranchTarget;
+import com.SpringMVC.model.IonicUser;
 import com.SpringMVC.model.Team;
 import com.SpringMVC.model.TeamTarget;
 import com.SpringMVC.model.UserLogin;
@@ -54,6 +55,10 @@ public class TeamTargetController {
     @Autowired
     private TeamTargetDAO teamTargetDAO;
 
+    private enum Roles {
+    	USER, SA, MD, MA, TL, DEV;
+    }
+
     @RequestMapping(value = TeamTargetRestURIConstant.Get, method = RequestMethod.GET)
 	public String getTeamTarget(@PathVariable int targetid) {
     	ObjectMapper mapper = new ObjectMapper();
@@ -66,36 +71,29 @@ public class TeamTargetController {
 		return jsonInString;
 	}
 
-    @RequestMapping(value = TeamTargetRestURIConstant.GetByPeriodTeam, method = RequestMethod.GET)
-	public String getAllTeamTargetByPeriodTeam(@PathVariable String period, int teamid) {
+    @RequestMapping(value = TeamTargetRestURIConstant.GetAll, method = RequestMethod.POST)
+	public String getAllTeamTargetByPeriodTeam(@RequestBody IonicUser ionicUser) {
+    	UserLogin userLogin = userLoginDAO.findUserEmail(ionicUser.getemail());
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
-			jsonInString = mapper.writeValueAsString(teamTargetDAO.getByPeriod(period, teamid));
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		return jsonInString;
-	}
-
-    @RequestMapping(value = TeamTargetRestURIConstant.GetByPeriodBranch, method = RequestMethod.GET)
-	public String getAllTeamTargetByPeriodBranch(@PathVariable String period, int branchid) {
-    	ObjectMapper mapper = new ObjectMapper();
-    	String jsonInString="";
-		try {
-			jsonInString = mapper.writeValueAsString(teamTargetDAO.list(period, branchid));
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		return jsonInString;
-	}
-
-    @RequestMapping(value = TeamTargetRestURIConstant.GetByTeam, method = RequestMethod.GET)
-	public String getAllTeamTargetByTeam(@PathVariable int teamid) {
-    	ObjectMapper mapper = new ObjectMapper();
-    	String jsonInString="";
-		try {
-			jsonInString = mapper.writeValueAsString(teamTargetDAO.getByTeam(teamid));
+			Roles role = Roles.valueOf(userLogin.getrole()); 
+			switch (role){
+				case MD:
+			    	int companyid = userLogin.getcompanyid();
+					jsonInString = mapper.writeValueAsString(teamTargetDAO.listByCompany(companyid));
+					break;    	   
+				case MA:
+			    	int branchid = userLogin.getbranchid();
+					jsonInString = mapper.writeValueAsString(teamTargetDAO.listByBranch(branchid));
+					break;
+				case TL:
+			    	int teamid = userLogin.getteamid();
+					jsonInString = mapper.writeValueAsString(teamTargetDAO.listByTeam(teamid));
+					break;
+				default:
+					break;	
+			}			
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
@@ -111,10 +109,10 @@ public class TeamTargetController {
     }
 
     @RequestMapping(value = TeamTargetRestURIConstant.Update, method = RequestMethod.POST)
-    public ResponseEntity<TeamTarget> updateTeamTarget(@PathVariable("targetid") int targetid, @RequestBody TeamTarget teamTarget) {
-    	TeamTarget currentTeamTarget = teamTargetDAO.get(targetid);         
+    public ResponseEntity<TeamTarget> updateTeamTarget(@RequestBody TeamTarget teamTarget) {
+    	TeamTarget currentTeamTarget = teamTargetDAO.get(teamTarget.gettargetid());         
         if (currentTeamTarget==null) {
-            return new ResponseEntity<TeamTarget>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<TeamTarget>(teamTarget, HttpStatus.NOT_FOUND);
         }
 
         currentTeamTarget.setprospect(teamTarget.getprospect());
@@ -126,14 +124,13 @@ public class TeamTargetController {
     }
 
     @RequestMapping(value = TeamTargetRestURIConstant.Delete, method = RequestMethod.DELETE)
-    public ResponseEntity<TeamTarget> deleteTeamTarget(@PathVariable("targetid") int targetid) {
-    	TeamTarget teamTarget = teamTargetDAO.get(targetid);
+    public ResponseEntity<TeamTarget> deleteTeamTarget(@RequestBody TeamTarget teamTarget) {
         if (teamTarget == null) {
-            return new ResponseEntity<TeamTarget>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<TeamTarget>(teamTarget, HttpStatus.NOT_FOUND);
         }
  
-        teamTargetDAO.delete(targetid);
-        return new ResponseEntity<TeamTarget>(HttpStatus.OK);
+        teamTargetDAO.delete(teamTarget.gettargetid());
+        return new ResponseEntity<TeamTarget>(teamTarget, HttpStatus.OK);
     }
 
     @RequestMapping(value="/listTeamTarget", method = RequestMethod.GET)

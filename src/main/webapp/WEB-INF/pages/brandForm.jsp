@@ -126,7 +126,7 @@
 	    
         $.ajax({
             url: base+"/brand/delete",
-            type: 'POST',
+            type: 'DELETE',
             contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(json),

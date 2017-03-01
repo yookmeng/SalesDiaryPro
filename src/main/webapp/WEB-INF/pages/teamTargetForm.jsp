@@ -69,6 +69,7 @@
 						<div class="form-actions">
 							<input type="reset" class="btn" onclick="location.href='listTeamTarget?targetid=${teamTarget.branchtargetid}'" value="Back" id="back">
 							<input id="btnSave" type="submit" class="btn btn-primary" name="Save" value="Save">
+							<input id="btnDelete" type="button" class="btn" name="Delete" value="Delete">
 						</div>
 						</form:form>
 					</div>
@@ -122,7 +123,7 @@
 	    }
 	    else {
 	        $.ajax({
-	            url: base+"/teamtarget/update/"+targetid,
+	            url: base+"/teamtarget/update",
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
@@ -136,6 +137,51 @@
 	            }
 	        });
 	    }
+	    return true;
+	})
+	$('#btnDelete').click(function (e) {
+		e.preventDefault(); // <------------------ stop default behaviour of button
+
+		var base = $('#base').val();
+    	if (window.location.protocol === 'https:') {
+    	    base = base.replace("http", "https");
+    	}	    	
+
+    	var targetid = $('#targetid').val(); 
+	    var teamid = ""; 
+	    var teamname = $('#teamname').val(); 
+	    var branchtargetid = $('#branchtargetid').val(); 
+	    var period = $('#period').val(); 
+	    var displayperiod = ""; 
+	    var prospect = $('#prospect').val(); 
+	    var testdrive = $('#testdrive').val(); 
+	    var closed = $('#closed').val(); 
+	
+	    var json = {
+	    		"targetid" : targetid,
+	    		"teamid" : teamid,
+	    		"teamname" : teamname,
+	    		"branchtargetid" : branchtargetid,
+	    		"period" : period,
+	    		"displayperiod" : displayperiod,
+	    		"prospect" : prospect,
+	    		"testdrive" : testdrive,
+	    		"closed" : closed
+		};
+        $.ajax({
+            url: base+"/teamtarget/delete",
+            type: 'DELETE',
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(json),
+            success:function(data, Textstatus, jqXHR){
+                alert("Record updated!");
+                window.location.href = base+"/listTeamTarget?targetid="+branchtargetid;
+            },
+            error:function(jqXhr, Textstatus){
+                alert("Update failed!");
+            }
+        });
 	    return true;
 	})
 	</script>	

@@ -56,9 +56,6 @@
 						<td>
 						<button class="btn btn-small" onclick="window.location='editUserTarget?targetid=${userTarget.targetid}';" >
 					    	<i class="fa fa-edit"></i></button>
-						&nbsp;&nbsp;&nbsp;&nbsp;
-						<button class="btn btn-small" onclick="deleteUserTarget(${userTarget.targetid})">
-							<i class="fa fa-trash-o"></i></button>
 					    </td>		                 
 	                </tr>
 	                </c:forEach>             
@@ -66,26 +63,5 @@
         	</div>
 		</div>
 	</div>
-	<script>
-	    function deleteUserTarget(targetid) {
-			var base = $('#base').val();
-	    	if (window.location.protocol === 'https:') {
-	    	    base = base.replace("http", "https");
-	    	}	    	
-
-	    	jQuery.ajax({
-	            type: "DELETE",
-	            url: base+"/usertarget/delete/"+targetid,
-	            contentType: "application/json",
-	            data: "",
-	            dataType: "",
-	            success: function (data, status, jqXHR) {
-					location.replace(location);
-	            },	        
-	            error: function (jqXHR, status) {
-	            }
-	        });	
-	    }
-	</script>
 </body>
 </html>

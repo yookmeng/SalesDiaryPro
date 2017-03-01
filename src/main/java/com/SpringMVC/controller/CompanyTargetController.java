@@ -24,6 +24,7 @@ import com.SpringMVC.dao.CompanyTargetDAO;
 import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.model.Company;
 import com.SpringMVC.model.CompanyTarget;
+import com.SpringMVC.model.IonicUser;
 import com.SpringMVC.model.UserLogin;
 import com.SpringMVC.uriconstant.CompanyTargetRestURIConstant;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -60,9 +61,9 @@ public class CompanyTargetController {
 		return jsonInString;
 	}
 
-    @RequestMapping(value = CompanyTargetRestURIConstant.GetAll, method = RequestMethod.GET)
-	public String getAllCompanyTarget(Principal principal) {
-    	UserLogin userLogin = userLoginDAO.get(principal.getName());
+    @RequestMapping(value = CompanyTargetRestURIConstant.GetAll, method = RequestMethod.POST)
+	public String getAllCompanyTarget(@RequestBody IonicUser ionicUser) {
+    	UserLogin userLogin = userLoginDAO.findUserEmail(ionicUser.getemail());
     	int companyid = userLogin.getcompanyid();
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
@@ -81,10 +82,10 @@ public class CompanyTargetController {
     }
 
     @RequestMapping(value = CompanyTargetRestURIConstant.Update, method = RequestMethod.POST)
-    public ResponseEntity<CompanyTarget> updateCompanyTarget(@PathVariable("targetid") int targetid, @RequestBody CompanyTarget companyTarget) {
-    	CompanyTarget currentCompanyTarget = companyTargetDAO.get(targetid);         
+    public ResponseEntity<CompanyTarget> updateCompanyTarget(@RequestBody CompanyTarget companyTarget) {
+    	CompanyTarget currentCompanyTarget = companyTargetDAO.get(companyTarget.gettargetid());         
         if (currentCompanyTarget==null) {
-            return new ResponseEntity<CompanyTarget>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<CompanyTarget>(companyTarget, HttpStatus.NOT_FOUND);
         }
 
         currentCompanyTarget.setprospect(companyTarget.getprospect());
@@ -96,14 +97,13 @@ public class CompanyTargetController {
     }
 
     @RequestMapping(value = CompanyTargetRestURIConstant.Delete, method = RequestMethod.DELETE)
-    public ResponseEntity<CompanyTarget> deleteCompanyTarget(@PathVariable("targetid") int targetid) {
-    	CompanyTarget companyTarget = companyTargetDAO.get(targetid);
+    public ResponseEntity<CompanyTarget> deleteCompanyTarget(@RequestBody CompanyTarget companyTarget) {
         if (companyTarget == null) {
-            return new ResponseEntity<CompanyTarget>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<CompanyTarget>(companyTarget, HttpStatus.NOT_FOUND);
         }
  
-        companyTargetDAO.delete(targetid);
-        return new ResponseEntity<CompanyTarget>(HttpStatus.OK);
+        companyTargetDAO.delete(companyTarget.gettargetid());
+        return new ResponseEntity<CompanyTarget>(companyTarget, HttpStatus.OK);
     }
     
     @RequestMapping(value="/listCompanyTarget", method = RequestMethod.GET)

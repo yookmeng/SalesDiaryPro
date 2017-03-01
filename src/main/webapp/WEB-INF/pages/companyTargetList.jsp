@@ -70,8 +70,6 @@
 								<td>
 									<button class="btn btn-small" onclick="window.location='editCompanyTarget?targetid=${companyTarget.targetid}';" >
 								    	<i class="fa fa-edit"></i></button>
-									<button class="btn btn-small" onclick="deleteCompanyTarget(${companyTarget.targetid})">
-										<i class="fa fa-trash-o"></i></button>
 			                        <a href="listBranchTarget?targetid=${companyTarget.targetid}">Branch Target</a>
 							    </td>		                 
 							</tr>
@@ -127,26 +125,6 @@
 	        });
 		};
 	})
-	
-	function deleteCompanyTarget(targetid) {
-		var base = $('#base').val();
-    	if (window.location.protocol === 'https:') {
-    	    base = base.replace("http", "https");
-    	}	    	
-
-    	jQuery.ajax({
-            type: "DELETE",
-            url: base+"/companytarget/delete/"+targetid,
-            contentType: "application/json",
-            data: "",
-            dataType: "",
-            success: function (data, status, jqXHR) {
-				location.replace(location);
-            },	        
-            error: function (jqXHR, status) {
-            }
-        });	
-    }
 	</script>		
 </body>
 </html>

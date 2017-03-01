@@ -69,6 +69,7 @@
 					<div class="form-actions">
 						<input type="reset" class="btn" onclick="location.href='listUserTarget?targetid=${userTarget.teamtargetid}'" value="Back" id="back">
 						<input id="btnSave" type="submit" class="btn btn-primary" name="Save" value="Save">
+						<input id="btnDelete" type="button" class="btn" name="Delete" value="Delete">
 					</div>
 					</form:form>
 					</div>
@@ -122,7 +123,7 @@
 	    }
 	    else {
 	        $.ajax({
-	            url: base+"/usertarget/update/"+targetid,
+	            url: base+"/usertarget/update",
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
@@ -134,6 +135,49 @@
 	            }
 	        });
 	    }
+	    return true;
+	})
+	$('#btnDelete').click(function (e) {
+		e.preventDefault(); // <------------------ stop default behaviour of button
+
+		var base = $('#base').val();
+    	if (window.location.protocol === 'https:') {
+    	    base = base.replace("http", "https");
+    	}	    	
+
+    	var targetid = $('#targetid').val(); 
+	    var userid = ""; 
+	    var username = $('#username').val(); 
+	    var period = $('#period').val(); 
+	    var displayperiod = ""; 
+	    var teamtargetid = $('#teamtargetid').val(); 
+	    var prospect = $('#prospect').val(); 
+	    var testdrive = $('#testdrive').val(); 
+	    var closed = $('#closed').val(); 
+	
+	    var json = {
+	    		"targetid" : targetid,
+	    		"userid" : userid,
+	    		"username" : username,
+	    		"period" : period,
+	    		"displayperiod" : displayperiod,
+	    		"teamtargetid" : teamtargetid,
+	    		"prospect" : prospect,
+	    		"testdrive" : testdrive,
+	    		"closed" : closed
+		};
+        $.ajax({
+            url: base+"/usertarget/delete",
+            type: 'DELETE',
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(json),
+            success:function(data, Textstatus, jqXHR){
+                window.location.href = base+"/listUserTarget?targetid="+teamtargetid;
+            },
+            error:function(jqXhr, Textstatus){
+            }
+        });
 	    return true;
 	})
 	</script>	

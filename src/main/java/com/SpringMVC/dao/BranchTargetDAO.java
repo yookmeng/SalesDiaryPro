@@ -20,5 +20,7 @@ public interface BranchTargetDAO {
 
     public List<BranchTarget> list(String period, int companyid);
 
+    public List<BranchTarget> listByCompany(int companyid);
+
     public List<BranchTarget> listByBranch(int branchid);
 }
