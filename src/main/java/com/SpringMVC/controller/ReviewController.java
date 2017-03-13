@@ -121,6 +121,7 @@ public class ReviewController {
     	UserLogin userLogin = userLoginDAO.findUserEmail(aPIReview.getemail());
     	Review review = new Review();
     	review.setreviewid(0);
+    	review.setperiod(aPIReview.getperiod());
     	review.setuserid(userLogin.getuserid());
     	review.setusername(userLogin.getusername());
     	review.setteamid(userLogin.getteamid());

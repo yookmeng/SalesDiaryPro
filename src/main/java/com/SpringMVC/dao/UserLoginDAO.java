@@ -35,4 +35,6 @@ public interface UserLoginDAO {
     public void update(UserLogin userLogin);
 
     public void delete(String username);
+
+    public boolean isExist(UserLogin userLogin);
 }

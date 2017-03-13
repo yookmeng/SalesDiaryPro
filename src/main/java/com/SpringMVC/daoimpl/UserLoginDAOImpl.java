@@ -306,4 +306,8 @@ public class UserLoginDAOImpl extends JdbcDaoSupport implements UserLoginDAO {
 	        }
         });
     }
+    
+    public boolean isExist(UserLogin userLogin) {
+        return findUserEmail(userLogin.getemail())!=null;
+    }    
 }

@@ -118,7 +118,11 @@ public class UserController {
 
 	@RequestMapping(value = UserRestURIConstant.Create, method = RequestMethod.POST)
     public ResponseEntity<UserLogin> createUser(@RequestBody UserLogin userLogin) throws IOException {
-    	userLoginDAO.save(userLogin);
+		if (userLoginDAO.isExist(userLogin)){
+            return new ResponseEntity<UserLogin>(userLogin, HttpStatus.CONFLICT);			
+		}
+		
+		userLoginDAO.save(userLogin);
         return new ResponseEntity<UserLogin>(userLogin, HttpStatus.CREATED);
     }
 
