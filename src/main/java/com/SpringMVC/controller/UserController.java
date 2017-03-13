@@ -133,6 +133,12 @@ public class UserController {
             return new ResponseEntity<UserLogin>(userLogin, HttpStatus.NOT_FOUND);
         }
 
+        //updated email shouldn't duplicate with other user
+        if (currentUserLogin.getemail() != userLogin.getemail()){
+    		if (userLoginDAO.isExist(userLogin)){
+                return new ResponseEntity<UserLogin>(userLogin, HttpStatus.CONFLICT);			
+    		}        	
+        }
         currentUserLogin.setpassword(userLogin.getpassword());
         currentUserLogin.setteamid(userLogin.getteamid());
         currentUserLogin.setbranchid(userLogin.getbranchid());
