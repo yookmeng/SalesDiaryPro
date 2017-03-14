@@ -216,7 +216,7 @@ public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMon
 			    		+ "LEFT JOIN tblCompany c ON ms.companyid = c.companyid "
 			    		+ "WHERE period = '" + period + "' "
 						+ "AND ms.branchid = " + branchid + " "
-						+ "ORDER BY t.teamname, ms.username";
+						+ "ORDER BY t.teamid, ms.username";
 				break;
 			case MD:
 		        sql = "Select companyid from tblCompany where mdid = ? ";
@@ -233,7 +233,7 @@ public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMon
 			    		+ "LEFT JOIN tblCompany c ON ms.companyid = c.companyid "
 			    		+ "WHERE period = '" + period + "' "
 						+ "AND ms.companyid = " + companyid + " "
-						+ "ORDER BY b.branchname, t.teamname, ms.username";
+						+ "ORDER BY b.branchid, t.teamid, ms.username";
 				break;
 			default:
 		}    	
