@@ -9,12 +9,12 @@ public class Questionaire {
     private int modelid;
     private String modelname;
     private String source;
-    private Boolean demo;
-    private Boolean testdrive;
-    private Boolean quotation;
-    private Boolean lost;
+    private boolean demo;
+    private boolean testdrive;
+    private boolean quotation;
+    private boolean lost;
     private String lostremark;
-    private Boolean closed;
+    private boolean closed;
 
     public int getuserid() {
         return userid;
@@ -72,31 +72,31 @@ public class Questionaire {
         this.source = source;
     }
 
-    public Boolean getdemo() {
+    public boolean getdemo() {
         return demo;
     }
-    public void setdemo(Boolean demo) {
+    public void setdemo(boolean demo) {
         this.demo = demo;
     }
     
-    public Boolean gettestdrive() {
+    public boolean gettestdrive() {
         return testdrive;
     }
-    public void settestdrive(Boolean testdrive) {
+    public void settestdrive(boolean testdrive) {
         this.testdrive = testdrive;
     }
 
-    public Boolean getquotation() {
+    public boolean getquotation() {
         return quotation;
     }
-    public void setquotation(Boolean quotation) {
+    public void setquotation(boolean quotation) {
         this.quotation = quotation;
     }
 
-    public Boolean getlost() {
+    public boolean getlost() {
         return lost;
     }
-    public void setlost(Boolean lost) {
+    public void setlost(boolean lost) {
         this.lost = lost;
     }
 
@@ -107,10 +107,10 @@ public class Questionaire {
         this.lostremark = lostremark;
     }
 
-    public Boolean getclosed() {
+    public boolean getclosed() {
         return closed;
     }
-    public void setclosed(Boolean closed) {
+    public void setclosed(boolean closed) {
         this.closed = closed;
     }
 }

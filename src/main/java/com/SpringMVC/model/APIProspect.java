@@ -7,12 +7,12 @@ public class APIProspect {
     private String brandname;
     private String modelname;
     private String source;
-    private Boolean demo;
-    private Boolean testdrive;
-    private Boolean quotation;
-    private Boolean lost;
+    private boolean demo;
+    private boolean testdrive;
+    private boolean quotation;
+    private boolean lost;
     private String lostremark;
-    private Boolean closed;
+    private boolean closed;
 
 
     public APIProspect() {
@@ -20,8 +20,8 @@ public class APIProspect {
  
     public APIProspect(String useremail, String prospectname, String mobile, 
     		String brandname, String modelname, String source,
-    		Boolean demo, Boolean testdrive, Boolean quotation, 
-    		Boolean lost, String lostremark, Boolean closed) {
+    		boolean demo, boolean testdrive, boolean quotation, 
+    		boolean lost, String lostremark, boolean closed) {
         this.useremail = useremail;
         this.prospectname = prospectname;
         this.mobile = mobile;
@@ -78,31 +78,31 @@ public class APIProspect {
         this.source = source;
     }
 
-    public Boolean getdemo() {
+    public boolean getdemo() {
         return demo;
     }
-    public void setdemo(Boolean demo) {
+    public void setdemo(boolean demo) {
         this.demo = demo;
     }
     
-    public Boolean gettestdrive() {
+    public boolean gettestdrive() {
         return testdrive;
     }
-    public void settestdrive(Boolean testdrive) {
+    public void settestdrive(boolean testdrive) {
         this.testdrive = testdrive;
     }
 
-    public Boolean getquotation() {
+    public boolean getquotation() {
         return quotation;
     }
-    public void setquotation(Boolean quotation) {
+    public void setquotation(boolean quotation) {
         this.quotation = quotation;
     }
 
-    public Boolean getlost() {
+    public boolean getlost() {
         return lost;
     }
-    public void setlost(Boolean lost) {
+    public void setlost(boolean lost) {
         this.lost = lost;
     }
 
@@ -113,10 +113,10 @@ public class APIProspect {
         this.lostremark = lostremark;
     }
 
-    public Boolean getclosed() {
+    public boolean getclosed() {
         return closed;
     }
-    public void setclosed(Boolean closed) {
+    public void setclosed(boolean closed) {
         this.closed = closed;
     }
 }
