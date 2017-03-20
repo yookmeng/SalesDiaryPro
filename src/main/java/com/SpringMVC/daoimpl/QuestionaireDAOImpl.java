@@ -33,6 +33,12 @@ public class QuestionaireDAOImpl extends JdbcDaoSupport implements QuestionaireD
 	    	proc.setInt(5, questionaire.getbrandid());
 	    	proc.setInt(6, questionaire.getmodelid());
 	    	proc.setString(7, questionaire.getsource());
+	    	proc.setBoolean(8, questionaire.getdemo());
+	    	proc.setBoolean(9, questionaire.gettestdrive());
+	    	proc.setBoolean(10, questionaire.getquotation());
+	    	proc.setBoolean(11, questionaire.getlost());
+	    	proc.setString(12, questionaire.getlostremark());
+	    	proc.setBoolean(13, questionaire.getclosed());
 	    	proc.execute();
 	    	proc.close();
 		} catch (SQLException e) {

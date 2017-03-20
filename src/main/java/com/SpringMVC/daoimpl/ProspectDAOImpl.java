@@ -55,7 +55,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
     		homeaddress.getcountry(), homeaddress.getzipcode(), homeaddress.getstate(), 
     		homeaddress.getcity(), homeaddress.getstreet());
 
-//        get ctreated prospectid and contactid
+//        get created prospectid and contactid
         sql = "Select prospectid from tblProspect "
     		+ "where userid=? AND firstname=? AND lastname=? AND mobile=?";
         int prospectid = (int)getJdbcTemplate().queryForObject(sql, new Object[] {

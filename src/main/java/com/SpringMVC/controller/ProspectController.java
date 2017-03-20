@@ -127,6 +127,12 @@ public class ProspectController {
     	Model model = modelDAO.getByName(aPIProspect.getmodelname());
     	questionaire.setmodelid(model.getmodelid());
     	questionaire.setsource(aPIProspect.getsource());
+    	questionaire.setdemo(aPIProspect.getdemo());
+    	questionaire.settestdrive(aPIProspect.gettestdrive());
+    	questionaire.setquotation(aPIProspect.getquotation());
+    	questionaire.setlost(aPIProspect.getlost());
+    	questionaire.setlostremark(aPIProspect.getlostremark());
+    	questionaire.setclosed(aPIProspect.getclosed());
     	questionaireDAO.save(questionaire);
         return new ResponseEntity<Questionaire>(questionaire, HttpStatus.CREATED);
     }

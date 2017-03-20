@@ -69,6 +69,12 @@ public class QuestionaireController {
     	questionaire.setbrandid(brand.getbrandid());
     	Model model = modelDAO.getByName(questionaire.getmodelname());
     	questionaire.setmodelid(model.getmodelid());
+    	questionaire.setdemo(false);
+    	questionaire.settestdrive(false);
+    	questionaire.setquotation(false);
+    	questionaire.setlost(false);
+    	questionaire.setlostremark("");
+    	questionaire.setclosed(false);
     	questionaireDAO.save(questionaire);
         return new ResponseEntity<Questionaire>(questionaire, HttpStatus.CREATED);
     }    
