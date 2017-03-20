@@ -25,4 +25,6 @@ public interface ProspectDAO {
     public List<Prospect> listByCompany(int companyid);
 
     public List<String> prospectList();
+
+    public int getlastprospectid(int userid);
 }

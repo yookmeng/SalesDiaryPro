@@ -270,4 +270,9 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         });
     }
 
+    public int getlastprospectid(int userid) {
+    	String sql = "SELECT MAX(prospectid) FROM tblProspect WHERE userid = ?";
+        int prospectid = (int)getJdbcTemplate().queryForObject(sql, new Object[] {userid}, int.class);
+        return prospectid;
+    }
 }

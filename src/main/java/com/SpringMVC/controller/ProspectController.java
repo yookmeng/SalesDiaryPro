@@ -23,6 +23,7 @@ import com.SpringMVC.dao.CodeMasterDAO;
 import com.SpringMVC.dao.ModelDAO;
 import com.SpringMVC.dao.ProspectDAO;
 import com.SpringMVC.dao.QuestionaireDAO;
+import com.SpringMVC.dao.QuotationDAO;
 import com.SpringMVC.dao.TeamDAO;
 import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.model.APIProspect;
@@ -32,6 +33,7 @@ import com.SpringMVC.model.IonicUser;
 import com.SpringMVC.model.Model;
 import com.SpringMVC.model.Prospect;
 import com.SpringMVC.model.Questionaire;
+import com.SpringMVC.model.Quotation;
 import com.SpringMVC.model.Team;
 import com.SpringMVC.model.UserLogin;
 import com.SpringMVC.uriconstant.ProspectRestURIConstant;
@@ -59,6 +61,9 @@ public class ProspectController {
 
     @Autowired
     private QuestionaireDAO questionaireDAO;
+
+    @Autowired
+    private QuotationDAO quotationDAO;
 
     @Autowired
     private ProspectDAO prospectDAO;
@@ -114,7 +119,8 @@ public class ProspectController {
 	}
 
     @RequestMapping(value = ProspectRestURIConstant.Add, method = RequestMethod.POST)
-    public ResponseEntity<Questionaire> addProspect(@RequestBody APIProspect aPIProspect) throws IOException {
+    public ResponseEntity<Questionaire> addProspect(@RequestBody APIProspect aPIProspect, 
+    		HttpServletRequest request) throws IOException {
     	Questionaire questionaire = new Questionaire();
     	UserLogin userLogin = userLoginDAO.findUserEmail(aPIProspect.getuseremail());
     	questionaire.setuserid(userLogin.getuserid());
@@ -134,6 +140,12 @@ public class ProspectController {
     	questionaire.setlostremark(aPIProspect.getlostremark());
     	questionaire.setclosed(aPIProspect.getclosed());
     	questionaireDAO.save(questionaire);
+    	
+    	int prospectid = prospectDAO.getlastprospectid(userLogin.getuserid());
+        int quotationid = quotationDAO.getlastquotationid(prospectid);
+        Quotation newQuotation = quotationDAO.get(quotationid);
+    	quotationDAO.createpdf(newQuotation, request);
+    	
         return new ResponseEntity<Questionaire>(questionaire, HttpStatus.CREATED);
     }
 

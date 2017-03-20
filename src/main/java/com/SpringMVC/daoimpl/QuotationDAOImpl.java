@@ -549,4 +549,5 @@ public class QuotationDAOImpl extends JdbcDaoSupport implements QuotationDAO {
     	String sql = "SELECT MAX(quotationid) FROM tblQuotation WHERE prospectid = ?";
         int quotationid = (int)getJdbcTemplate().queryForObject(sql, new Object[] {prospectid}, int.class);
         return quotationid;
-    }}
+    }
+}
