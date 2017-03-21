@@ -52,7 +52,7 @@ public class QuestionaireController {
     	Questionaire newQuestionaire = new Questionaire();
     	newQuestionaire.setuserid(userLogin.getuserid());
         ModelAndView mav = new ModelAndView("questionaireForm");
-        List<String> sources = codeMasterDAO.getCode("SOURCE");	
+        List<String> sources = codeMasterDAO.getType("SOURCE");	
         mav.addObject("sourcelist", sources);
         List<String> brands = brandDAO.getSellingBrands(companyid);
         mav.addObject("brandlist", brands);

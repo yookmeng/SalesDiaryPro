@@ -198,7 +198,7 @@ public class QuotationController {
         newQuotation.setroadtax(model.getroadtax());
         newQuotation.setcolour(model.getcolour());
         ModelAndView mav = new ModelAndView("quotationForm");
-        List<String> ncds = codeMasterDAO.getCode("NCD");	
+        List<String> ncds = codeMasterDAO.getType("NCD");	
         mav.addObject("role", userLogin.getrole());
         mav.addObject("prospect", prospect);
         mav.addObject("activity", activity);
@@ -215,7 +215,7 @@ public class QuotationController {
         Prospect prospect = prospectDAO.get(activity.getprospectid());
         UserLogin userLogin = userLoginDAO.get(request.getUserPrincipal().getName());
         ModelAndView mav = new ModelAndView("quotationForm");
-        List<String> ncds = codeMasterDAO.getCode("NCD");	
+        List<String> ncds = codeMasterDAO.getType("NCD");	
  	   	mav.addObject("role", userLogin.getrole());
         mav.addObject("prospect", prospect);
         mav.addObject("activity", activity);
