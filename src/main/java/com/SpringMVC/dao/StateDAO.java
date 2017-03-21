@@ -1,5 +1,7 @@
 package com.SpringMVC.dao;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.SpringMVC.model.State;
@@ -15,5 +17,5 @@ public interface StateDAO {
     
    public State get(int stateid);
 
-   public State getAll();
+   public List<State> list();
 }

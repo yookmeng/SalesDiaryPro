@@ -2,9 +2,11 @@ package com.SpringMVC.daoimpl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
- 
+import java.util.List;
+
 import javax.sql.DataSource; 
 import com.SpringMVC.dao.CityDAO;
+import com.SpringMVC.mapper.CityMapper;
 import com.SpringMVC.model.City;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,30 +65,14 @@ public class CityDAOImpl extends JdbcDaoSupport implements CityDAO {
         });
     }
     
-    @Override
-    public City getAll() {
+    public List<City> list() {
 	    String sql = "SELECT ct.cityid, ct.countryid, c.countryname, "
 	    		   + "ct.stateid, s.statename, ct.cityname "
 	    		   + "FROM tblCity ct "
 	    		   + "LEFT JOIN tblCountry c ON c.countryid = ct.countryid "
 	    		   + "LEFT JOIN tblState s ON s.stateid = ct.stateid ";
-	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<City>() {
-	 
-			@Override
-	        public City extractData(ResultSet rs) throws SQLException,
-	                DataAccessException {
-	            if (rs.next()) {
-	            	City city = new City();
-	            	city.setcityid(rs.getInt("cityid"));
-	            	city.setcountryid(rs.getInt("countryid"));
-	            	city.setstateid(rs.getInt("stateid"));
-	            	city.setcountryname(rs.getString("countryname"));
-	            	city.setstatename(rs.getString("statename"));
-	            	city.setcityname(rs.getString("cityname"));
-	                return city;
-	            }	 
-	            return null;
-	        }
-	    });
-    }
+        CityMapper mapper = new CityMapper();
+        List<City> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }                    
 }

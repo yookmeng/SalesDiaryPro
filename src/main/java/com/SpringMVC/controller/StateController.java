@@ -42,7 +42,7 @@ public class StateController {
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
-			jsonInString = mapper.writeValueAsString(stateDAO.getAll());
+			jsonInString = mapper.writeValueAsString(stateDAO.list());
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}

@@ -1,5 +1,7 @@
 package com.SpringMVC.dao;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.SpringMVC.model.Country;
@@ -15,5 +17,5 @@ public interface CountryDAO {
     
    public Country get(int countryid);
 
-   public Country getAll();
+   public List<Country> list();
 }

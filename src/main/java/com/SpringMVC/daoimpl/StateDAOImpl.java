@@ -2,9 +2,11 @@ package com.SpringMVC.daoimpl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
- 
+import java.util.List;
+
 import javax.sql.DataSource; 
 import com.SpringMVC.dao.StateDAO;
+import com.SpringMVC.mapper.StateMapper;
 import com.SpringMVC.model.State;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,27 +61,12 @@ public class StateDAOImpl extends JdbcDaoSupport implements StateDAO {
         });
     }
     
-    @Override
-    public State getAll() {
+    public List<State> list() {
 	    String sql = "SELECT s.stateid, s.countryid, c.countryname, s.statename "
 	    		   + "FROM tblState s "
 	    		   + "LEFT JOIN tblCountry c ON c.countryid = s.countryid ";
-	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<State>() {
-	 
-			@Override
-	        public State extractData(ResultSet rs) throws SQLException,
-	                DataAccessException {
-	            if (rs.next()) {
-	            	State state = new State();
-	            	state.setstateid(rs.getInt("stateid"));
-	            	state.setcountryid(rs.getInt("countryid"));
-	            	state.setcountryname(rs.getString("countryname"));
-	            	state.setstatename(rs.getString("statename"));
-	                return state;
-	            }	 
-	            return null;
-	        }
-     });
-}
-
+        StateMapper mapper = new StateMapper();
+        List<State> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }                    
 }

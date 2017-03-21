@@ -1,5 +1,7 @@
 package com.SpringMVC.dao;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.SpringMVC.model.City;
@@ -15,5 +17,5 @@ public interface CityDAO {
     
    public City get(int cityid);
 
-   public City getAll();
+   public List<City> list();
 }

@@ -42,7 +42,7 @@ public class CountryController {
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
-			jsonInString = mapper.writeValueAsString(countryDAO.getAll());
+			jsonInString = mapper.writeValueAsString(countryDAO.list());
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}

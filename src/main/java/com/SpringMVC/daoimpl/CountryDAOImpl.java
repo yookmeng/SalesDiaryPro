@@ -2,9 +2,11 @@ package com.SpringMVC.daoimpl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
- 
+import java.util.List;
+
 import javax.sql.DataSource; 
 import com.SpringMVC.dao.CountryDAO;
+import com.SpringMVC.mapper.CountryMapper;
 import com.SpringMVC.model.Country;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,25 +61,10 @@ public class CountryDAOImpl extends JdbcDaoSupport implements CountryDAO {
         });
     }
     
-    @Override
-    public Country getAll() {
+    public List<Country> list() {
 	    String sql = "SELECT countryid, countrycode, countryname, iddcode FROM tblCountry";
-	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<Country>() {
-	 
-			@Override
-	        public Country extractData(ResultSet rs) throws SQLException,
-	                DataAccessException {
-	            if (rs.next()) {
-	            	Country country = new Country();
-	            	country.setcountryid(rs.getInt("countryid"));
-	            	country.setcountrycode(rs.getString("countrycode"));
-	            	country.setcountryname(rs.getString("countryname"));
-	            	country.setiddcode(rs.getString("iddcode"));
-	                return country;
-	            }	 
-	            return null;
-	        }
-     });
-}
-
+        CountryMapper mapper = new CountryMapper();
+        List<Country> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }                    
 }

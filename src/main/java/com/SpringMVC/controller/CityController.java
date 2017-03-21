@@ -42,7 +42,7 @@ public class CityController {
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
-			jsonInString = mapper.writeValueAsString(cityDAO.getAll());
+			jsonInString = mapper.writeValueAsString(cityDAO.list());
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
