@@ -38,11 +38,11 @@ public class CodeMasterController {
 	}
 
     @RequestMapping(value = CodeMasterRestURIConstant.GetType, method = RequestMethod.GET)
-	public String getType(@PathVariable String codeType) {
+	public String getType(@PathVariable String codetype) {
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
-			jsonInString = mapper.writeValueAsString(codeMasterDAO.list(codeType));
+			jsonInString = mapper.writeValueAsString(codeMasterDAO.list(codetype));
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
