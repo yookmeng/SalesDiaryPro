@@ -6,6 +6,7 @@ import java.util.List;
  
 import javax.sql.DataSource; 
 import com.SpringMVC.dao.CodeMasterDAO;
+import com.SpringMVC.mapper.CodeMasterMapper;
 import com.SpringMVC.model.CodeMaster;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,14 @@ public class CodeMasterDAOImpl extends JdbcDaoSupport implements CodeMasterDAO {
         });
     }
     
+    public List<CodeMaster> list(String codetype) {
+	    String sql = "SELECT codetype, codeid, codename FROM tblCodeMaster WHERE codetype='"+codetype+"'";
+	    
+        CodeMasterMapper mapper = new CodeMasterMapper();
+        List<CodeMaster> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }                    
+
     @Override
     public List<String> getType(String codetype) {
         String sql = "SELECT codename FROM tblCodeMaster WHERE codetype = ? ORDER BY codeid";

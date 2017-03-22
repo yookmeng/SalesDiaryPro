@@ -17,5 +17,7 @@ public interface CodeMasterDAO {
     
    public CodeMaster get(String codeid);
 
+   public List<CodeMaster> list(String codetype);
+
    public List<String> getType(String codetype);
 }

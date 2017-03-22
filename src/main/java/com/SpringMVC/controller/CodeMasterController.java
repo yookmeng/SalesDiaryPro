@@ -42,7 +42,7 @@ public class CodeMasterController {
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
-			jsonInString = mapper.writeValueAsString(codeMasterDAO.getType(codeType));
+			jsonInString = mapper.writeValueAsString(codeMasterDAO.list(codeType));
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
