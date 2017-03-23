@@ -66,8 +66,8 @@ public class CityDAOImpl extends JdbcDaoSupport implements CityDAO {
     }
     
     public List<City> list() {
-	    String sql = "SELECT ct.cityid, ct.countryid, c.countryname, "
-	    		   + "ct.stateid, s.statename, ct.cityname "
+	    String sql = "SELECT ct.cityid, ct.stateid, ct.countryid, "
+	    		   + "c.countryname, s.statename, ct.cityname "
 	    		   + "FROM tblCity ct "
 	    		   + "LEFT JOIN tblCountry c ON c.countryid = ct.countryid "
 	    		   + "LEFT JOIN tblState s ON s.stateid = ct.stateid ";
