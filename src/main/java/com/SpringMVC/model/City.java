@@ -11,11 +11,11 @@ public class City {
     public City() {
     }
  
-    public City(int cityid, int countryid, int stateid, 
+    public City(int cityid, int stateid, int countryid, 
     		String countryname, String statename, String cityname) {
         this.cityid = cityid;
-        this.countryid = countryid;
         this.stateid = stateid;
+        this.countryid = countryid;
         this.countryname = countryname;
         this.statename = statename;
         this.cityname = cityname;
@@ -28,13 +28,6 @@ public class City {
         this.cityid = cityid;
     }
 
-    public int getcountryid() {
-        return countryid;
-    }      
-    public void setcountryid(int countryid) {
-        this.countryid = countryid;
-    }
-    
     public int getstateid() {
         return stateid;
     }  
@@ -42,6 +35,13 @@ public class City {
         this.stateid = stateid;
     }
 
+    public int getcountryid() {
+        return countryid;
+    }      
+    public void setcountryid(int countryid) {
+        this.countryid = countryid;
+    }
+    
     public String getcountryname() {
         return countryname;
     }      
