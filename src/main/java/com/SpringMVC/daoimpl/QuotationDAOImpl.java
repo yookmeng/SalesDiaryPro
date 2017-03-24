@@ -409,13 +409,14 @@ public class QuotationDAOImpl extends JdbcDaoSupport implements QuotationDAO {
     }
 
     public Quotation get(int quotationid) {
-	    String sql = "SELECT quotationid, quotationdate, q.prospectid, p.firstname AS prospectname, "
-	    		+ "activityid, q.brandid, b.brandname, q.modelid, m.modelname, m.colour, "
-	    		+ "retailprice, q.suminsured, ncd, q.premium, q.premiumafterncd, q.roadtax, "
-	    		+ "registrationfee, handlingcharges, extendedwarranty, othercharges,"
-	    		+ "discount, quoteamount, term, remark "
+	    String sql = "SELECT q.quotationid, q.quotationdate, q.prospectid, p.firstname AS prospectname, "
+	    		+ "q.activityid, q.brandid, b.brandname, q.modelid, m.modelname, m.colour, "
+	    		+ "q.retailprice, q.suminsured, q.ncd, q.premium, q.premiumafterncd, q.roadtax, "
+	    		+ "q.registrationfee, q.handlingcharges, q.extendedwarranty, q.othercharges,"
+	    		+ "q.discount, q.quoteamount, q.term, q.remark, a.quotationpdflink "
 	    		+ "FROM tblQuotation q "
 	    		+ "LEFT JOIN tblProspect p ON p.prospectid = q.prospectid "
+	    		+ "LEFT JOIN tblActivity a ON a.activityid = q.activityid "	    		
 	    		+ "LEFT JOIN tblBrand b ON b.brandid = q.brandid "
 	    		+ "LEFT JOIN tblModel m ON m.brandid = q.brandid AND m.modelid = q.modelid "
 	    		+ "WHERE quotationid="+quotationid;
@@ -450,6 +451,7 @@ public class QuotationDAOImpl extends JdbcDaoSupport implements QuotationDAO {
 	            	quotation.setquoteamount(rs.getFloat("quoteamount"));
 	            	quotation.setterm(rs.getString("term"));
 	            	quotation.setremark(rs.getString("remark"));
+	            	quotation.setquotationpdflink(rs.getString("quotationpdflink"));
 	                return quotation;
 	            }	 
 	            return null;
@@ -458,13 +460,14 @@ public class QuotationDAOImpl extends JdbcDaoSupport implements QuotationDAO {
     }
 
     public List<Quotation> list(int prospectid) {
-	    String sql = "SELECT quotationid, quotationdate, q.prospectid, p.firstname AS prospectname, "
-	    		+ "activityid, q.brandid, b.brandname, q.modelid, m.modelname, m.colour, "
-	    		+ "retailprice, q.suminsured, ncd, q.premium, q.premiumafterncd, q.roadtax, "
-	    		+ "registrationfee, handlingcharges, extendedwarranty, othercharges,"
-	    		+ "discount, quoteamount, term, remark "
+	    String sql = "SELECT q.quotationid, q.quotationdate, q.prospectid, p.firstname AS prospectname, "
+	    		+ "q.activityid, q.brandid, b.brandname, q.modelid, m.modelname, m.colour, "
+	    		+ "q.retailprice, q.suminsured, q.ncd, q.premium, q.premiumafterncd, q.roadtax, "
+	    		+ "registrationfee, q.handlingcharges, q.extendedwarranty, q.othercharges,"
+	    		+ "q.discount, q.quoteamount, q.term, q.remark, a.quotationpdfink "
 	    		+ "FROM tblQuotation q "
 	    		+ "LEFT JOIN tblProspect p ON p.prospectid = q.prospectid "
+	    		+ "LEFT JOIN tblActivity a ON a.activityid = q.activityid "	    		
 	    		+ "LEFT JOIN tblBrand b ON b.brandid = q.brandid "
 	    		+ "LEFT JOIN tblModel m ON m.brandid = q.brandid AND m.modelid = q.modelid "
 	    		+ "WHERE q.prospectid="+prospectid+" "
@@ -479,9 +482,10 @@ public class QuotationDAOImpl extends JdbcDaoSupport implements QuotationDAO {
 	    		+ "q.activityid, q.brandid, b.brandname, q.modelid, m.modelname, m.colour, "
 	    		+ "q.retailprice, q.suminsured, q.ncd, q.premium, q.premiumafterncd, q.roadtax, "
 	    		+ "q.registrationfee, q.handlingcharges, q.extendedwarranty, q.othercharges,"
-	    		+ "q.discount, q.quoteamount, q.term, q.remark "
+	    		+ "q.discount, q.quoteamount, q.term, q.remark, a.quotationpdfink "
 	    		+ "FROM tblQuotation q "
 	    		+ "LEFT JOIN tblProspect p ON p.prospectid = q.prospectid "
+	    		+ "LEFT JOIN tblActivity a ON a.activityid = q.activityid "	    		
 	    		+ "LEFT JOIN tblBrand b ON b.brandid = q.brandid "
 	    		+ "LEFT JOIN tblModel m ON m.brandid = q.brandid AND m.modelid = q.modelid "
 	    		+ "WHERE p.userid="+userid+" "
@@ -496,9 +500,10 @@ public class QuotationDAOImpl extends JdbcDaoSupport implements QuotationDAO {
 	    		+ "q.activityid, q.brandid, b.brandname, q.modelid, m.modelname, m.colour, "
 	    		+ "q.retailprice, q.suminsured, q.ncd, q.premium, q.premiumafterncd, q.roadtax, "
 	    		+ "q.registrationfee, q.handlingcharges, q.extendedwarranty, q.othercharges,"
-	    		+ "q.discount, q.quoteamount, q.term, q.remark "
+	    		+ "q.discount, q.quoteamount, q.term, q.remark, a.quotationpdfink "
 	    		+ "FROM tblQuotation q "
 	    		+ "LEFT JOIN tblProspect p ON p.prospectid = q.prospectid "
+	    		+ "LEFT JOIN tblActivity a ON a.activityid = q.activityid "	    		
 	    		+ "LEFT JOIN tblUser u ON p.userid = u.userid "
 	    		+ "LEFT JOIN tblBrand b ON b.brandid = q.brandid "
 	    		+ "LEFT JOIN tblModel m ON m.brandid = q.brandid AND m.modelid = q.modelid "
@@ -514,9 +519,10 @@ public class QuotationDAOImpl extends JdbcDaoSupport implements QuotationDAO {
 	    		+ "q.activityid, q.brandid, b.brandname, q.modelid, m.modelname, m.colour, "
 	    		+ "q.retailprice, q.suminsured, q.ncd, q.premium, q.premiumafterncd, q.roadtax, "
 	    		+ "q.registrationfee, q.handlingcharges, q.extendedwarranty, q.othercharges,"
-	    		+ "q.discount, q.quoteamount, q.term, q.remark "
+	    		+ "q.discount, q.quoteamount, q.term, q.remark, a.quotationpdfink "
 	    		+ "FROM tblQuotation q "
 	    		+ "LEFT JOIN tblProspect p ON p.prospectid = q.prospectid "
+	    		+ "LEFT JOIN tblActivity a ON a.activityid = q.activityid "	    		
 	    		+ "LEFT JOIN tblUser u ON p.userid = u.userid "
 	    		+ "LEFT JOIN tblBrand b ON b.brandid = q.brandid "
 	    		+ "LEFT JOIN tblModel m ON m.brandid = q.brandid AND m.modelid = q.modelid "
@@ -532,9 +538,10 @@ public class QuotationDAOImpl extends JdbcDaoSupport implements QuotationDAO {
 	    		+ "q.activityid, q.brandid, b.brandname, q.modelid, m.modelname, m.colour, "
 	    		+ "q.retailprice, q.suminsured, q.ncd, q.premium, q.premiumafterncd, q.roadtax, "
 	    		+ "q.registrationfee, q.handlingcharges, q.extendedwarranty, q.othercharges,"
-	    		+ "q.discount, q.quoteamount, q.term, q.remark "
+	    		+ "q.discount, q.quoteamount, q.term, q.remark, a.quotationpdfink "
 	    		+ "FROM tblQuotation q "
 	    		+ "LEFT JOIN tblProspect p ON p.prospectid = q.prospectid "
+	    		+ "LEFT JOIN tblActivity a ON a.activityid = q.activityid "	    		
 	    		+ "LEFT JOIN tblUser u ON p.userid = u.userid "
 	    		+ "LEFT JOIN tblBrand b ON b.brandid = q.brandid "
 	    		+ "LEFT JOIN tblModel m ON m.brandid = q.brandid AND m.modelid = q.modelid "

@@ -27,7 +27,8 @@ public class Quotation {
     private float quoteamount;
     private String term;
     private String remark;
-
+    private String quotationpdflink;
+    
     public Quotation() {
     }
  
@@ -36,7 +37,7 @@ public class Quotation {
     		float retailprice, float suminsured, String ncd, float premium, float premiumafterncd,
     		float roadtax, float registrationfee, float handlingcharges, float extendedwarranty,
     		float othercharges, float discount, float quoteamount, 
-    		String term, String remark) {
+    		String term, String remark, String quotationpdflink) {
 
     	this.quotationid = quotationid;
     	this.quotationdate = quotationdate;
@@ -62,6 +63,7 @@ public class Quotation {
         this.quoteamount = quoteamount;
         this.term = term;
         this.remark = remark;
+        this.quotationpdflink = quotationpdflink;
     }
  
     public int getquotationid() {
@@ -231,4 +233,11 @@ public class Quotation {
     public void setremark(String remark) {
         this.remark = remark;
     }
+
+    public String getquotationpdflink() {
+        return quotationpdflink;
+    }  
+    public void setquotationpdflink(String quotationpdflink) {
+        this.quotationpdflink = quotationpdflink;
+    }    
 }

@@ -35,11 +35,13 @@ public class QuotationMapper implements RowMapper<Quotation> {
         float quoteamount = rs.getFloat("quoteamount");
         String term = rs.getString("term");
         String remark = rs.getString("remark");
+        String quotationpdflink = rs.getString("quotationpdflink");
 
         return new Quotation(quotationid, quotationdate, prospectid, prospectname,
         		activityid, brandid, brandname, modelid, modelname, colour,
         		retailprice, suminsured, ncd, premium, premiumafterncd, roadtax,
         		registrationfee, handlingcharges, extendedwarranty,
-        		othercharges, discount, quoteamount, term, remark);        
+        		othercharges, discount, quoteamount, term, remark,
+        		quotationpdflink);        
     }
 }
