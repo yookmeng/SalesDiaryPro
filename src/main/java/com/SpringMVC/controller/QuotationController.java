@@ -89,7 +89,7 @@ public class QuotationController {
 			Roles role = Roles.valueOf(userLogin.getrole()); 
 			switch (role){
 			case USER:
-				jsonInString = mapper.writeValueAsString(quotationDAO.list(userLogin.getuserid()));
+				jsonInString = mapper.writeValueAsString(quotationDAO.listByUser(userLogin.getuserid()));
 				break;    	   
 			case TL:
 				Team team = teamDAO.getByUser(userLogin.getuserid());
