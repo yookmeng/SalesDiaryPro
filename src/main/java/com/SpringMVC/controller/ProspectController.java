@@ -133,12 +133,16 @@ public class ProspectController {
     	Model model = modelDAO.getByName(aPIProspect.getmodelname());
     	questionaire.setmodelid(model.getmodelid());
     	questionaire.setsource(aPIProspect.getsource());
+    	questionaire.setstatus(aPIProspect.getstatus());
     	questionaire.setdemo(aPIProspect.getdemo());
+    	questionaire.setdemodate(aPIProspect.getdemodate());
+    	questionaire.setdemotime(aPIProspect.getdemotime());
     	questionaire.settestdrive(aPIProspect.gettestdrive());
+    	questionaire.settestdrivedate(aPIProspect.gettestdrivedate());
+    	questionaire.settestdrivetime(aPIProspect.gettestdrivetime());
     	questionaire.setquotation(aPIProspect.getquotation());
-    	questionaire.setlost(aPIProspect.getlost());
-    	questionaire.setlostremark(aPIProspect.getlostremark());
-    	questionaire.setclosed(aPIProspect.getclosed());
+    	questionaire.setquotationdate(aPIProspect.getquotationdate());
+    	questionaire.setquotationtime(aPIProspect.getquotationtime());
     	questionaireDAO.save(questionaire);
     	
     	int prospectid = prospectDAO.getlastprospectid(userLogin.getuserid());

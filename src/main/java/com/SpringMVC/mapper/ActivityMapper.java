@@ -2,6 +2,7 @@ package com.SpringMVC.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.sql.Date;
 
 import com.SpringMVC.model.Activity;
@@ -17,30 +18,30 @@ public class ActivityMapper implements RowMapper<Activity> {
         int prospectid = rs.getInt("prospectid");        
         String prospectname = rs.getString("prospectname");        
         Date activitydate = rs.getDate("activitydate");
+        Time activitytime = rs.getTime("activitytime");
         int brandid = rs.getInt("brandid");
         String brandname = rs.getString("brandname");
         int modelid = rs.getInt("modelid");
         String modelname = rs.getString("modelname");
         boolean demo = rs.getBoolean("demo");
+        Date demodate = rs.getDate("demodate");
+        Time demotime = rs.getTime("demotime");
         boolean testdrive = rs.getBoolean("testdrive");
+        Date testdrivedate = rs.getDate("testdrivedate");
+        Time testdrivetime = rs.getTime("testdrivetime");
         boolean quotation = rs.getBoolean("quotation");
-        boolean followup = rs.getBoolean("followup");
-        boolean closed = rs.getBoolean("closed");
-        boolean lost = rs.getBoolean("lost");
-        boolean demostatus = rs.getBoolean("demostatus");
-        boolean testdrivestatus = rs.getBoolean("testdrivestatus");
-        String followupremark = rs.getString("followupremark");
-        boolean followupstatus = rs.getBoolean("followupstatus");
+        Date quotationdate = rs.getDate("quotationdate");
+        Time quotationtime = rs.getTime("quotationtime");
         int quotationid = rs.getInt("quotationid");
         String quotationpdflink = rs.getString("quotationpdflink");
-        int closedid = rs.getInt("closedid");
-        String lostremark = rs.getString("lostremark");
         
         return new Activity(activityid, userid, username, 
-        		prospectid, prospectname, activitydate, 
+        		prospectid, prospectname, 
+        		activitydate, activitytime, 
         		brandid, brandname, modelid, modelname,
-        		demo, testdrive, quotation, followup, closed, lost, 
-        		demostatus, testdrivestatus, followupremark, followupstatus,        		
-        		quotationid, quotationpdflink, closedid, lostremark);
+        		demo, demodate, demotime, 
+        		testdrive, testdrivedate, testdrivetime,
+        		quotation, quotationdate, quotationtime,
+        		quotationid, quotationpdflink);
     }
 }

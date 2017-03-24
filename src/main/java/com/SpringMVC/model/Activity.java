@@ -1,6 +1,7 @@
 package com.SpringMVC.model;
 
 import java.sql.Date;
+import java.sql.Time;
 
 public class Activity {
     private int activityid;
@@ -9,60 +10,56 @@ public class Activity {
     private int prospectid;
     private String prospectname;
     private Date activitydate;
+    private Time activitytime;
     private int brandid;
     private String brandname;
     private int modelid;
     private String modelname;
     private boolean demo;
+    private Date demodate;
+    private Time demotime;
     private boolean testdrive;
+    private Date testdrivedate;
+    private Time testdrivetime;
     private boolean quotation;
-    private boolean followup;
-    private boolean closed;
-    private boolean lost;
-    private Boolean demostatus;
-    private Boolean testdrivestatus;
-    private String followupremark;
-    private Boolean followupstatus;
+    private Date quotationdate;
+    private Time quotationtime;
     private int quotationid;
     private String quotationpdflink;
-    private int closedid;
-    private String lostremark;
     
     public Activity() {
     }
  
     public Activity(int activityid, int userid, String username, 
-    		int prospectid, String prospectname, Date activitydate, 
+    		int prospectid, String prospectname, 
+    		Date activitydate, Time activitytime,
     		int brandid, String brandname, int modelid, String modelname, 
-    		boolean demo, boolean testdrive, boolean quotation, 
-    		boolean followup, boolean closed, boolean lost, 
-    		boolean demostatus, boolean testdrivestatus, 
-    		String followupremark, boolean followupstatus,    		
-    		int quotationid, String quotationpdflink, int closedid, String lostremark) {
+    		boolean demo, Date demodate, Time demotime,
+    		boolean testdrive, Date testdrivedate, Time testdrivetime,
+    		boolean quotation, Date quotationdate, Time quotationtime,
+    		int quotationid, String quotationpdflink) {
         this.activityid = activityid;
         this.userid = userid;
         this.username = username;
         this.prospectid = prospectid;
         this.prospectname = prospectname;
         this.activitydate = activitydate;
+        this.activitytime = activitytime;
         this.brandid = brandid;
         this.brandname = brandname;
         this.modelid = modelid;
         this.modelname = modelname;
         this.demo = demo;
+        this.demodate = demodate;
+        this.demotime = demotime;
         this.testdrive = testdrive;
+        this.testdrivedate = testdrivedate;
+        this.testdrivetime = testdrivetime;
         this.quotation = quotation;
-        this.followup = followup;
-        this.closed= closed;
-        this.lost = lost;
-        this.demostatus = demostatus;
-        this.testdrivestatus = testdrivestatus;
-        this.followupremark = followupremark;
-        this.followupstatus = followupstatus;
+        this.quotationdate = quotationdate;
+        this.quotationtime = quotationtime;
         this.quotationid = quotationid;
         this.quotationpdflink = quotationpdflink;
-        this.closedid = closedid;
-        this.lostremark = lostremark;
     }
  
     public int getactivityid() {
@@ -107,6 +104,13 @@ public class Activity {
         this.activitydate = activitydate;
     }
 
+    public Time getactivitytime() {
+        return activitytime;
+    }  
+    public void setactivitytime(Time activitytime) {
+        this.activitytime = activitytime;
+    }
+
     public int getbrandid() {
         return brandid;
     }  
@@ -142,6 +146,20 @@ public class Activity {
         this.demo = demo;
     }
 
+    public Date getdemodate() {
+        return demodate;
+    }
+    public void setdemodate(Date demodate) {
+        this.demodate = demodate;
+    }
+
+    public Time getdemotime() {
+        return demotime;
+    }
+    public void setdemotime(Time demotime) {
+        this.demotime = demotime;
+    }
+
     public boolean gettestdrive() {
         return testdrive;
     }  
@@ -149,6 +167,20 @@ public class Activity {
         this.testdrive = testdrive;
     }
 
+    public Date gettestdrivedate() {
+        return testdrivedate;
+    }
+    public void settestdrivedate(Date testdrivedate) {
+        this.testdrivedate = testdrivedate;
+    }
+
+    public Time gettestdrivetime() {
+        return testdrivetime;
+    }
+    public void settestdrivetime(Time testdrivetime) {
+        this.testdrivetime = testdrivetime;
+    }
+    
     public boolean getquotation() {
         return quotation;
     }  
@@ -156,53 +188,18 @@ public class Activity {
         this.quotation = quotation;
     }
 
-    public boolean getfollowup() {
-        return followup;
-    }  
-    public void setfollowup(boolean followup) {
-        this.followup = followup;
+    public Date getquotationdate() {
+        return quotationdate;
+    }
+    public void setquotationdate(Date quotationdate) {
+        this.quotationdate = quotationdate;
     }
 
-    public boolean getclosed() {
-        return closed;
-    }  
-    public void setclosed(boolean closed) {
-        this.closed = closed;
+    public Time getquotationtime() {
+        return quotationtime;
     }
-
-    public boolean getlost() {
-        return lost;
-    }  
-    public void setlost(boolean lost) {
-        this.lost = lost;
-    }
-
-    public Boolean getdemostatus() {
-        return demostatus;
-    }  
-    public void setdemostatus(Boolean demostatus) {
-        this.demostatus = demostatus;
-    }
-
-    public Boolean gettestdrivestatus() {
-        return testdrivestatus;
-    }  
-    public void settestdrivestatus(Boolean testdrivestatus) {
-        this.testdrivestatus = testdrivestatus;
-    }
-
-    public String getfollowupremark() {
-        return followupremark;
-    }  
-    public void setfollowupremark(String followupremark) {
-        this.followupremark = followupremark;
-    }
-
-    public Boolean getfollowupstatus() {
-        return followupstatus;
-    }  
-    public void setfollowupstatus(Boolean followupstatus) {
-        this.followupstatus = followupstatus;
+    public void setquotationtime(Time quotationtime) {
+        this.quotationtime = quotationtime;
     }
     
     public int getquotationid() {
@@ -217,19 +214,5 @@ public class Activity {
     }  
     public void setquotationpdflink(String quotationpdflink) {
         this.quotationpdflink = quotationpdflink;
-    }
-
-    public int getclosedid() {
-        return closedid;
-    }  
-    public void setclosedid(int closedid) {
-        this.closedid = closedid;
-    }
-
-    public String getlostremark() {
-        return lostremark;
-    }  
-    public void setlostremark(String lostremark) {
-        this.lostremark = lostremark;
     }
 }

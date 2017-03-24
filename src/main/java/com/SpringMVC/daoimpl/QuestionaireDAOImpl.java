@@ -25,20 +25,27 @@ public class QuestionaireDAOImpl extends JdbcDaoSupport implements QuestionaireD
 		Connection conn = this.getConnection();
     	try {
 			conn.setAutoCommit(true);
-	    	CallableStatement proc = conn.prepareCall("{ ? = call spQuestionaire(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }");
+	    	CallableStatement proc = conn.prepareCall("{ ? = call spQuestionaire("
+	    			+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
+	    			+ "?, ?, ?, ?, ?, ?, ?) }");
 	    	proc.registerOutParameter(1, Types.OTHER);
 	    	proc.setInt(2, questionaire.getuserid());
 	    	proc.setString(3, questionaire.getprospectname());
 	    	proc.setString(4, questionaire.getmobile());
-	    	proc.setInt(5, questionaire.getbrandid());
-	    	proc.setInt(6, questionaire.getmodelid());
-	    	proc.setString(7, questionaire.getsource());
-	    	proc.setBoolean(8, questionaire.getdemo());
-	    	proc.setBoolean(9, questionaire.gettestdrive());
-	    	proc.setBoolean(10, questionaire.getquotation());
-	    	proc.setBoolean(11, questionaire.getlost());
-	    	proc.setString(12, questionaire.getlostremark());
-	    	proc.setBoolean(13, questionaire.getclosed());
+	    	proc.setString(5, questionaire.getemail());
+	    	proc.setInt(6, questionaire.getbrandid());
+	    	proc.setInt(7, questionaire.getmodelid());
+	    	proc.setString(8, questionaire.getsource());
+	    	proc.setString(9, questionaire.getstatus());
+	    	proc.setBoolean(10, questionaire.getdemo());
+	    	proc.setDate(11, questionaire.getdemodate());
+	    	proc.setTime(12, questionaire.getdemotime());
+	    	proc.setBoolean(13, questionaire.gettestdrive());
+	    	proc.setDate(14, questionaire.gettestdrivedate());
+	    	proc.setTime(15, questionaire.gettestdrivetime());
+	    	proc.setBoolean(16, questionaire.getquotation());
+	    	proc.setDate(17, questionaire.getquotationdate());
+	    	proc.setTime(18, questionaire.getquotationtime());
 	    	proc.execute();
 	    	proc.close();
 		} catch (SQLException e) {

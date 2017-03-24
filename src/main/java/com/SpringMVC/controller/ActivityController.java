@@ -121,6 +121,7 @@ public class ActivityController {
     	activity.setprospectid(aPIActivity.getprospectid());
     	activity.setprospectname(prospect.getfirstname());
     	activity.setactivitydate(aPIActivity.getactivitydate());
+    	activity.setactivitytime(aPIActivity.getactivitytime());
     	activity.setbrandname(aPIActivity.getbrandname());
     	Brand brand = brandDAO.getByName(aPIActivity.getbrandname());
     	activity.setbrandid(brand.getbrandid());
@@ -128,16 +129,14 @@ public class ActivityController {
     	Model model = modelDAO.getByName(aPIActivity.getmodelname());
     	activity.setmodelid(model.getmodelid());
     	activity.setdemo(aPIActivity.getdemo());
-    	activity.setdemostatus(aPIActivity.getdemostatus());
+    	activity.setdemodate(aPIActivity.getdemodate());
+    	activity.setdemotime(aPIActivity.getdemotime());
     	activity.settestdrive(aPIActivity.gettestdrive());
-    	activity.settestdrivestatus(aPIActivity.gettestdrivestatus());
+    	activity.settestdrivedate(aPIActivity.gettestdrivedate());
+    	activity.settestdrivetime(aPIActivity.gettestdrivetime());
     	activity.setquotation(aPIActivity.getquotation());
-    	activity.setfollowup(aPIActivity.getfollowup());
-    	activity.setfollowupstatus(aPIActivity.getfollowupstatus());
-    	activity.setclosed(aPIActivity.getclosed());
-    	activity.setlost(aPIActivity.getlost());
-    	activity.setfollowupremark(aPIActivity.getfollowupremark());
-    	activity.setlostremark(aPIActivity.getlostremark());
+    	activity.setquotationdate(aPIActivity.getquotationdate());
+    	activity.setquotationtime(aPIActivity.getquotationtime());
 
     	activityDAO.save(activity);
         return new ResponseEntity<Activity>(activity, HttpStatus.CREATED);
@@ -167,23 +166,21 @@ public class ActivityController {
     	activity.setmodelid(model.getmodelid());
         
         currentActivity.setactivitydate(activity.getactivitydate());
+        currentActivity.setactivitytime(activity.getactivitytime());
         currentActivity.setbrandid(activity.getbrandid());
         currentActivity.setbrandname(activity.getbrandname());
         currentActivity.setmodelid(activity.getmodelid());
         currentActivity.setmodelname(activity.getmodelname());
         currentActivity.setdemo(activity.getdemo());
+        currentActivity.setdemodate(activity.getdemodate());
+        currentActivity.setdemotime(activity.getdemotime());
         currentActivity.settestdrive(activity.gettestdrive());
+        currentActivity.settestdrivedate(activity.gettestdrivedate());
+        currentActivity.settestdrivetime(activity.gettestdrivetime());
         currentActivity.setquotation(activity.getquotation());
-        currentActivity.setfollowup(activity.getfollowup());
-        currentActivity.setclosed(activity.getclosed());
-        currentActivity.setlost(activity.getlost());
-        currentActivity.setdemostatus(activity.getdemostatus());
-        currentActivity.settestdrivestatus(activity.gettestdrivestatus());
-        currentActivity.setfollowupremark(activity.getfollowupremark());
-        currentActivity.setfollowupstatus(activity.getfollowupstatus());
+        currentActivity.setquotationdate(activity.getquotationdate());
+        currentActivity.setquotationtime(activity.getquotationtime());
         currentActivity.setquotationid(activity.getquotationid());
-        currentActivity.setclosedid(activity.getclosedid());
-        currentActivity.setlostremark(activity.getlostremark());
 
         activityDAO.update(currentActivity);
         return new ResponseEntity<Activity>(activity, HttpStatus.OK);

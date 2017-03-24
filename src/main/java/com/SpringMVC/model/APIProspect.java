@@ -1,39 +1,57 @@
 package com.SpringMVC.model;
 
+import java.sql.Date;
+import java.sql.Time;
+
 public class APIProspect {
     private String useremail;
     private String prospectname;
     private String mobile;
+    private String email;
     private String brandname;
     private String modelname;
     private String source;
+    private String status;
     private boolean demo;
+    private Date demodate;
+    private Time demotime;
     private boolean testdrive;
+    private Date testdrivedate;
+    private Time testdrivetime;
     private boolean quotation;
-    private boolean lost;
-    private String lostremark;
-    private boolean closed;
-
+    private Date quotationdate;
+    private Time quotationtime;
+    private Date statusdate;
+    private Time statustime;
 
     public APIProspect() {
     }
  
-    public APIProspect(String useremail, String prospectname, String mobile, 
-    		String brandname, String modelname, String source,
-    		boolean demo, boolean testdrive, boolean quotation, 
-    		boolean lost, String lostremark, boolean closed) {
+    public APIProspect(String useremail, String prospectname, String mobile, String email,
+    		String brandname, String modelname, String source, String status,
+    		boolean demo, Date demodate, Time demotime,
+    		boolean testdrive, Date testdrivedate, Time testdrivetime,
+    		boolean quotation, Date quotationdate, Time quotationtime,
+    		Date statusdate, Time statustime) {
         this.useremail = useremail;
         this.prospectname = prospectname;
         this.mobile = mobile;
+        this.email = email;
         this.brandname = brandname;
         this.modelname = modelname;
         this.source = source;
+        this.status = status;
         this.demo = demo;
+        this.demodate = demodate;
+        this.demotime = demotime;
         this.testdrive = testdrive;
+        this.testdrivedate = testdrivedate;
+        this.testdrivetime = testdrivetime;
         this.quotation = quotation;
-        this.lost = lost;
-        this.lostremark = lostremark;
-        this.closed = closed;
+        this.quotationdate = quotationdate;
+        this.quotationtime = quotationtime;
+        this.statusdate = statusdate;
+        this.statustime = statustime;
     }
  
     public String getuseremail() {
@@ -57,6 +75,13 @@ public class APIProspect {
         this.mobile = mobile;
     }
 
+    public String getemail() {
+        return email;
+    }
+    public void setemail(String email) {
+        this.email = email;
+    }
+
     public String getbrandname() {
         return brandname;
     }
@@ -78,6 +103,13 @@ public class APIProspect {
         this.source = source;
     }
 
+    public String getstatus() {
+        return status;
+    }
+    public void setstatus(String status) {
+        this.status = status;
+    }
+
     public boolean getdemo() {
         return demo;
     }
@@ -85,6 +117,20 @@ public class APIProspect {
         this.demo = demo;
     }
     
+    public Date getdemodate() {
+        return demodate;
+    }
+    public void setdemodate(Date demodate) {
+        this.demodate = demodate;
+    }
+
+    public Time getdemotime() {
+        return demotime;
+    }
+    public void setdemotime(Time demotime) {
+        this.demotime = demotime;
+    }
+
     public boolean gettestdrive() {
         return testdrive;
     }
@@ -92,6 +138,20 @@ public class APIProspect {
         this.testdrive = testdrive;
     }
 
+    public Date gettestdrivedate() {
+        return testdrivedate;
+    }
+    public void settestdrivedate(Date testdrivedate) {
+        this.testdrivedate = testdrivedate;
+    }
+
+    public Time gettestdrivetime() {
+        return testdrivetime;
+    }
+    public void settestdrivetime(Time testdrivetime) {
+        this.testdrivetime = testdrivetime;
+    }
+    
     public boolean getquotation() {
         return quotation;
     }
@@ -99,24 +159,31 @@ public class APIProspect {
         this.quotation = quotation;
     }
 
-    public boolean getlost() {
-        return lost;
+    public Date getquotationdate() {
+        return quotationdate;
     }
-    public void setlost(boolean lost) {
-        this.lost = lost;
-    }
-
-    public String getlostremark() {
-        return lostremark;
-    }
-    public void setlostremark(String lostremark) {
-        this.lostremark = lostremark;
+    public void setquotationdate(Date quotationdate) {
+        this.quotationdate = quotationdate;
     }
 
-    public boolean getclosed() {
-        return closed;
+    public Time getquotationtime() {
+        return quotationtime;
     }
-    public void setclosed(boolean closed) {
-        this.closed = closed;
+    public void setquotationtime(Time quotationtime) {
+        this.quotationtime = quotationtime;
+    }
+    
+    public Date getstatusdate() {
+        return statusdate;
+    }
+    public void setstatusdate(Date statusdate) {
+        this.statusdate = statusdate;
+    }
+
+    public Time getstatustime() {
+        return statustime;
+    }
+    public void setstatustime(Time statustime) {
+        this.statustime = statustime;
     }
 }

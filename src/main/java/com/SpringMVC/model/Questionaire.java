@@ -1,20 +1,28 @@
 package com.SpringMVC.model;
 
+import java.sql.Date;
+import java.sql.Time;
+
 public class Questionaire {
     private int userid;
     private String prospectname;
     private String mobile;
+    private String email;
     private int brandid;
     private String brandname;
     private int modelid;
     private String modelname;
     private String source;
+    private String status;
     private boolean demo;
+    private Date demodate;
+    private Time demotime;
     private boolean testdrive;
+    private Date testdrivedate;
+    private Time testdrivetime;
     private boolean quotation;
-    private boolean lost;
-    private String lostremark;
-    private boolean closed;
+    private Date quotationdate;
+    private Time quotationtime;
 
     public int getuserid() {
         return userid;
@@ -35,6 +43,13 @@ public class Questionaire {
     }  
     public void setmobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    public String getemail() {
+        return email;
+    }  
+    public void setemail(String email) {
+        this.email = email;
     }
 
     public int getbrandid() {
@@ -72,6 +87,13 @@ public class Questionaire {
         this.source = source;
     }
 
+    public String getstatus() {
+        return status;
+    }  
+    public void setstatus(String status) {
+        this.status = status;
+    }
+
     public boolean getdemo() {
         return demo;
     }
@@ -79,11 +101,39 @@ public class Questionaire {
         this.demo = demo;
     }
     
+    public Date getdemodate() {
+        return demodate;
+    }
+    public void setdemodate(Date demodate) {
+        this.demodate = demodate;
+    }
+
+    public Time getdemotime() {
+        return demotime;
+    }
+    public void setdemotime(Time demotime) {
+        this.demotime = demotime;
+    }
+
     public boolean gettestdrive() {
         return testdrive;
     }
     public void settestdrive(boolean testdrive) {
         this.testdrive = testdrive;
+    }
+
+    public Date gettestdrivedate() {
+        return testdrivedate;
+    }
+    public void settestdrivedate(Date testdrivedate) {
+        this.testdrivedate = testdrivedate;
+    }
+
+    public Time gettestdrivetime() {
+        return testdrivetime;
+    }
+    public void settestdrivetime(Time testdrivetime) {
+        this.testdrivetime = testdrivetime;
     }
 
     public boolean getquotation() {
@@ -93,24 +143,17 @@ public class Questionaire {
         this.quotation = quotation;
     }
 
-    public boolean getlost() {
-        return lost;
+    public Date getquotationdate() {
+        return quotationdate;
     }
-    public void setlost(boolean lost) {
-        this.lost = lost;
-    }
-
-    public String getlostremark() {
-        return lostremark;
-    }
-    public void setlostremark(String lostremark) {
-        this.lostremark = lostremark;
+    public void setquotationdate(Date quotationdate) {
+        this.quotationdate = quotationdate;
     }
 
-    public boolean getclosed() {
-        return closed;
+    public Time getquotationtime() {
+        return quotationtime;
     }
-    public void setclosed(boolean closed) {
-        this.closed = closed;
+    public void setquotationtime(Time quotationtime) {
+        this.quotationtime = quotationtime;
     }
 }

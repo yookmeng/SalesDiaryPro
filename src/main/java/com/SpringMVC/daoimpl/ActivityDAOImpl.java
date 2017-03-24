@@ -32,28 +32,26 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 			conn.setAutoCommit(true);
 	    	CallableStatement proc = conn.prepareCall("{ ? = call spActivityInsUpd("
 	    			+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
-	    			+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }");
+	    			+ "?, ?, ?, ?, ?, ?, ?, ?) }");
 	    	proc.registerOutParameter(1, Types.OTHER);
 	    	proc.setString(2, "0");
 	    	proc.setInt(3, activity.getactivityid());
 	    	proc.setInt(4, activity.getuserid());
 	    	proc.setInt(5, activity.getprospectid());
 	    	proc.setDate(6, activity.getactivitydate());
-	    	proc.setInt(7, activity.getbrandid());
-	    	proc.setInt(8, activity.getmodelid());
-	    	proc.setBoolean(9, activity.getdemo());
-	    	proc.setBoolean(10, activity.gettestdrive());
-	    	proc.setBoolean(11, activity.getquotation());
-	    	proc.setBoolean(12, activity.getfollowup());
-	    	proc.setBoolean(13, activity.getclosed());
-	    	proc.setBoolean(14, activity.getlost());
-	    	proc.setBoolean(15, activity.getdemostatus());
-	    	proc.setBoolean(16, activity.gettestdrivestatus());
-	    	proc.setString(17, activity.getfollowupremark());
-	    	proc.setBoolean(18, activity.getfollowupstatus());
+	    	proc.setTime(7, activity.getactivitytime());
+	    	proc.setInt(8, activity.getbrandid());
+	    	proc.setInt(9, activity.getmodelid());
+	    	proc.setBoolean(10, activity.getdemo());
+	    	proc.setDate(11, activity.getdemodate());
+	    	proc.setTime(12, activity.getdemotime());
+	    	proc.setBoolean(13, activity.gettestdrive());
+	    	proc.setDate(14, activity.gettestdrivedate());
+	    	proc.setTime(15, activity.gettestdrivetime());
+	    	proc.setBoolean(16, activity.getquotation());
+	    	proc.setDate(17, activity.getquotationdate());
+	    	proc.setTime(18, activity.getquotationtime());
 	    	proc.setInt(19, activity.getquotationid());
-	    	proc.setInt(20, activity.getclosedid());
-	    	proc.setString(21, activity.getlostremark());
 	    	proc.execute();
 	    	proc.close();
 		} catch (SQLException e) {
@@ -68,28 +66,26 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 			conn.setAutoCommit(true);
 	    	CallableStatement proc = conn.prepareCall("{ ? = call spActivityInsUpd("
 	    			+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
-	    			+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }");
+	    			+ "?, ?, ?, ?, ?, ?, ?, ?) }");
 	    	proc.registerOutParameter(1, Types.OTHER);
 	    	proc.setString(2, "1");
 	    	proc.setInt(3, activity.getactivityid());
 	    	proc.setInt(4, activity.getuserid());
 	    	proc.setInt(5, activity.getprospectid());
 	    	proc.setDate(6, activity.getactivitydate());
-	    	proc.setInt(7, activity.getbrandid());
-	    	proc.setInt(8, activity.getmodelid());
-	    	proc.setBoolean(9, activity.getdemo());
-	    	proc.setBoolean(10, activity.gettestdrive());
-	    	proc.setBoolean(11, activity.getquotation());
-	    	proc.setBoolean(12, activity.getfollowup());
-	    	proc.setBoolean(13, activity.getclosed());
-	    	proc.setBoolean(14, activity.getlost());
-	    	proc.setBoolean(15, activity.getdemostatus());
-	    	proc.setBoolean(16, activity.gettestdrivestatus());
-	    	proc.setString(17, activity.getfollowupremark());
-	    	proc.setBoolean(18, activity.getfollowupstatus());
+	    	proc.setTime(7, activity.getactivitytime());
+	    	proc.setInt(8, activity.getbrandid());
+	    	proc.setInt(9, activity.getmodelid());
+	    	proc.setBoolean(10, activity.getdemo());
+	    	proc.setDate(11, activity.getdemodate());
+	    	proc.setTime(12, activity.getdemotime());
+	    	proc.setBoolean(13, activity.gettestdrive());
+	    	proc.setDate(14, activity.gettestdrivedate());
+	    	proc.setTime(15, activity.gettestdrivetime());
+	    	proc.setBoolean(16, activity.getquotation());
+	    	proc.setDate(17, activity.getquotationdate());
+	    	proc.setTime(18, activity.getquotationtime());
 	    	proc.setInt(19, activity.getquotationid());
-	    	proc.setInt(20, activity.getclosedid());
-	    	proc.setString(21, activity.getlostremark());
 	    	proc.execute();
 	    	proc.close();
 		} catch (SQLException e) {
@@ -115,19 +111,21 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
     
     public List<Activity> list(int prospectid) {
         String sql = "SELECT activityid, a.userid, u.username AS username, "
-        		+ "a.prospectid, p.firstname AS prospectname, activitydate, "
+        		+ "a.prospectid, p.firstname + ' ' + p.lastname AS prospectname, "
+        		+ "a.activitydate, a.activitytime, "
         		+ "a.brandid AS brandid, a.modelid AS modelid, "
         		+ "b.brandname AS brandname, m.modelname AS modelname, "
-        		+ "demo, testdrive, quotation, followup, closed, lost, "
-        		+ "demostatus, testdrivestatus, followupremark, followupstatus, "
-        		+ "quotationid, quotationpdflink, closedid, lostremark "
+        		+ "demo, demodate, demotime, "
+        		+ "testdrive, testdrivedate, testdrivetime, "
+        		+ "quotation, quotationdate, quotationtime, "
+        		+ "quotationid, quotationpdflink"
         		+ "FROM tblActivity a "
         		+ "LEFT JOIN tblProspect p ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblUser u ON u.userid = a.userid "
         		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
         		+ "LEFT JOIN tblModel m ON m.modelid = a.modelid "
         		+ "WHERE a.prospectid = " + prospectid + " "
-        		+ "ORDER BY activitydate ";
+        		+ "ORDER BY activitydate, activitytime ";
         ActivityMapper mapper = new ActivityMapper();
         List<Activity> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
@@ -135,19 +133,21 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 
     public List<Activity> listByUser(int userid) {
         String sql = "SELECT activityid, a.userid, u.username AS username, "
-        		+ "a.prospectid, p.firstname AS prospectname, activitydate, "
+        		+ "a.prospectid, p.firstname + ' ' + p.lastname AS prospectname, "
+        		+ "activitydate, activitytime, "
         		+ "a.brandid AS brandid, a.modelid AS modelid, "
         		+ "b.brandname AS brandname, m.modelname AS modelname, "
-        		+ "demo, testdrive, quotation, followup, closed, lost, "
-        		+ "demostatus, testdrivestatus, followupremark, followupstatus, "
-        		+ "quotationid, quotationpdflink, closedid, lostremark "
+        		+ "demo, demodate, demotime, "
+        		+ "testdrive, testdrivedate, testdrivetime, "
+        		+ "quotation, quotationdate, quotationtime, "
+        		+ "quotationid, quotationpdflink"
         		+ "FROM tblActivity a "
         		+ "LEFT JOIN tblProspect p ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblUser u ON u.userid = a.userid "
         		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
         		+ "LEFT JOIN tblModel m ON m.modelid = a.modelid "
         		+ "WHERE a.userid = " + userid + " "
-        		+ "ORDER BY activitydate ";
+        		+ "ORDER BY activitydate, activitytime ";
         ActivityMapper mapper = new ActivityMapper();
         List<Activity> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
@@ -155,12 +155,14 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 
     public List<Activity> listByTeam(int teamid) {
         String sql = "SELECT activityid, a.userid, u.username AS username, "
-        		+ "a.prospectid, p.firstname AS prospectname, activitydate, "
+        		+ "a.prospectid, p.firstname + ' ' + p.lastname AS prospectname, "
+        		+ "a.activitydate, a.activitytime, "
         		+ "a.brandid AS brandid, a.modelid AS modelid, "
         		+ "b.brandname AS brandname, m.modelname AS modelname, "
-        		+ "demo, testdrive, quotation, followup, closed, lost, "
-        		+ "demostatus, testdrivestatus, followupremark, followupstatus, "
-        		+ "quotationid, quotationpdflink, closedid, lostremark "
+        		+ "demo, demodate, demotime, "
+        		+ "testdrive, testdrivedate, testdrivetime, "
+        		+ "quotation, quotationdate, quotationtime, "
+        		+ "quotationid, quotationpdflink"
         		+ "FROM tblActivity a "
         		+ "LEFT JOIN tblProspect p ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblUser u ON u.userid = a.userid "
@@ -175,12 +177,14 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 
     public List<Activity> listByBranch(int branchid) {
         String sql = "SELECT activityid, a.userid, u.username AS username, "
-        		+ "a.prospectid, p.firstname AS prospectname, activitydate, "
+        		+ "a.prospectid, p.firstname + ' ' + p.lastname  AS prospectname, "
+        		+ "a.activitydate, a.activitytime, "
         		+ "a.brandid AS brandid, a.modelid AS modelid, "
         		+ "b.brandname AS brandname, m.modelname AS modelname, "
-        		+ "demo, testdrive, quotation, followup, closed, lost, "
-        		+ "demostatus, testdrivestatus, followupremark, followupstatus, "
-        		+ "quotationid, quotationpdflink, closedid, lostremark "
+        		+ "demo, demodate, demotime, "
+        		+ "testdrive, testdrivedate, testdrivetime, "
+        		+ "quotation, quotationdate, quotationtime, "
+        		+ "quotationid, quotationpdflink"
         		+ "FROM tblActivity a "
         		+ "LEFT JOIN tblProspect p ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblUser u ON u.userid = a.userid "
@@ -195,12 +199,14 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 
     public List<Activity> listByCompany(int companyid) {
         String sql = "SELECT activityid, a.userid, u.username AS username, "
-        		+ "a.prospectid, p.firstname AS prospectname, activitydate, "
+        		+ "a.prospectid, p.firstname + ' ' + p.lastname AS prospectname, "
+        		+ "a.activitydate, a.activitytime, "
         		+ "a.brandid AS brandid, a.modelid AS modelid, "
         		+ "b.brandname AS brandname, m.modelname AS modelname, "
-        		+ "demo, testdrive, quotation, followup, closed, lost, "
-        		+ "demostatus, testdrivestatus, followupremark, followupstatus, "
-        		+ "quotationid, quotationpdflink, closedid, lostremark "
+        		+ "demo, demodate, demotime, "
+        		+ "testdrive, testdrivedate, testdrivetime, "
+        		+ "quotation, quotationdate, quotationtime, "
+        		+ "quotationid, quotationpdflink"
         		+ "FROM tblActivity a "
         		+ "LEFT JOIN tblProspect p ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblUser u ON u.userid = a.userid "
@@ -215,12 +221,14 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 
     public Activity get(int activityid) {
         String sql = "SELECT activityid, a.userid, u.username AS username, "
-        		+ "a.prospectid, p.firstname AS prospectname, activitydate, "
+        		+ "a.prospectid, p.firstname + ' ' + p.lastname AS prospectname, "
+        		+ "a.activitydate, a.activitytime, "
         		+ "a.brandid AS brandid, a.modelid AS modelid, "
         		+ "b.brandname AS brandname, m.modelname AS modelname, "
-        		+ "demo, testdrive, quotation, followup, closed, lost, "
-        		+ "demostatus, testdrivestatus, followupremark, followupstatus, "
-        		+ "quotationid, quotationpdflink, closedid, lostremark "
+        		+ "demo, demodate, demotime, "
+        		+ "testdrive, testdrivedate, testdrivetime, "
+        		+ "quotation, quotationdate, quotationtime, "
+        		+ "quotationid, quotationpdflink"
         		+ "FROM tblActivity a "
         		+ "LEFT JOIN tblProspect p ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblUser u ON u.userid = a.userid "
@@ -240,24 +248,22 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 	                activity.setprospectid(rs.getInt("prospectid"));
 	                activity.setprospectname(rs.getString("prospectname"));
 	                activity.setactivitydate(rs.getDate("activitydate"));
+	                activity.setactivitytime(rs.getTime("activitytime"));
 	                activity.setbrandid(rs.getInt("brandid"));
 	                activity.setbrandname(rs.getString("brandname"));
 	                activity.setmodelid(rs.getInt("modelid"));
 	                activity.setmodelname(rs.getString("modelname"));
 	                activity.setdemo(rs.getBoolean("demo"));
+	                activity.setdemodate(rs.getDate("demodate"));
+	                activity.setdemotime(rs.getTime("demotime"));
 	                activity.settestdrive(rs.getBoolean("testdrive"));
+	                activity.settestdrivedate(rs.getDate("testdrivedate"));
+	                activity.settestdrivetime(rs.getTime("testdrivetime"));
 	                activity.setquotation(rs.getBoolean("quotation"));
-	                activity.setfollowup(rs.getBoolean("followup"));
-	                activity.setclosed(rs.getBoolean("closed"));
-	                activity.setlost(rs.getBoolean("lost"));
-	                activity.setdemostatus(rs.getBoolean("demostatus"));
-	                activity.settestdrivestatus(rs.getBoolean("testdrivestatus"));
-	                activity.setfollowupremark(rs.getString("followupremark"));
-	                activity.setfollowupstatus(rs.getBoolean("followupstatus"));
+	                activity.setquotationdate(rs.getDate("quotationdate"));
+	                activity.setquotationtime(rs.getTime("quotationtime"));
 	                activity.setquotationid(rs.getInt("quotationid"));
 	                activity.setquotationpdflink(rs.getString("quotationpdflink"));
-	                activity.setclosedid(rs.getInt("closedid"));
-	                activity.setlostremark(rs.getString("lostremark"));
 	                return activity;
 	            }	 
 	            return null;

@@ -1,52 +1,51 @@
 package com.SpringMVC.model;
 
 import java.sql.Date;
+import java.sql.Time;
 
 public class APIActivity {
     private String useremail;
     private int activityid;
     private Date activitydate;
+    private Time activitytime;
     private int prospectid;
     private String brandname;
     private String modelname;
     private boolean demo;
-    private boolean demostatus;
+    private Date demodate;
+    private Time demotime;
     private boolean testdrive;
-    private boolean testdrivestatus;
+    private Date testdrivedate;
+    private Time testdrivetime;
     private boolean quotation;
-    private boolean followup;
-    private String followupremark;
-    private boolean followupstatus;
-    private boolean lost;
-    private String lostremark;
-    private boolean closed;
+    private Date quotationdate;
+    private Time quotationtime;
     
     public APIActivity() {
     }
  
-    public APIActivity(String useremail, int activityid, Date activitydate, 
+    public APIActivity(String useremail, int activityid, 
+    		Date activitydate, Time activitytime, 
     		int prospectid, String brandname, String modelname, 
-    		boolean demo, boolean demostatus, boolean testdrive, boolean testdrivestatus, boolean quotation, 
-    		boolean followup, String followupremark, boolean followupstatus, 
-    		boolean lost, String lostremark,
-    		boolean closed) {
+    		boolean demo, Date demodate, Time demotime, 
+    		boolean testdrive, Date testdrivedate, Time testdrivetime,
+    		boolean quotation, Date quotationdate, Time quotationtime) {
         this.useremail = useremail;
         this.activityid = activityid;
         this.activitydate = activitydate;
+        this.activitytime = activitytime;
         this.prospectid = prospectid;
         this.brandname = brandname;
         this.modelname = modelname;
         this.demo = demo;
-        this.demostatus = demostatus;
+        this.demodate = demodate;
+        this.demotime = demotime;
         this.testdrive = testdrive;
-        this.testdrivestatus = testdrivestatus;
+        this.testdrivedate= testdrivedate;
+        this.testdrivetime= testdrivetime;
         this.quotation = quotation;
-        this.followup = followup;
-        this.followupremark = followupremark;
-        this.followupstatus = followupstatus;
-        this.lost = lost;
-        this.lostremark = lostremark;
-        this.closed = closed;
+        this.quotationdate = quotationdate;
+        this.quotationtime = quotationtime;
     }
  
     public String getuseremail() {
@@ -68,6 +67,13 @@ public class APIActivity {
     }  
     public void setactivitydate(Date activitydate) {
         this.activitydate = activitydate;
+    }
+
+    public Time getactivitytime() {
+        return activitytime;
+    }  
+    public void setactivitytime(Time activitytime) {
+        this.activitytime = activitytime;
     }
 
     public int getprospectid() {
@@ -98,11 +104,18 @@ public class APIActivity {
         this.demo = demo;
     }
 
-    public boolean getdemostatus() {
-        return demostatus;
+    public Date getdemodate() {
+        return demodate;
     }  
-    public void setdemostatus(boolean demostatus) {
-        this.demo = demostatus;
+    public void setdemodate(Date demodate) {
+        this.demodate = demodate;
+    }
+
+    public Time getdemotime() {
+        return demotime;
+    }  
+    public void setdemotime(Time demotime) {
+        this.demotime = demotime;
     }
 
     public boolean gettestdrive() {
@@ -112,11 +125,18 @@ public class APIActivity {
         this.testdrive = testdrive;
     }
 
-    public boolean gettestdrivestatus() {
-        return testdrivestatus;
+    public Date gettestdrivedate() {
+        return testdrivedate;
     }  
-    public void settestdrivestatus(boolean testdrivestatus) {
-        this.testdrivestatus = testdrivestatus;
+    public void settestdrivedate(Date testdrivedate) {
+        this.testdrivedate = testdrivedate;
+    }
+
+    public Time gettestdrivetime() {
+        return testdrivetime;
+    }  
+    public void settestdrivetime(Time testdrivetime) {
+        this.testdrivetime = testdrivetime;
     }
 
     public boolean getquotation() {
@@ -126,45 +146,17 @@ public class APIActivity {
         this.quotation = quotation;
     }
 
-    public boolean getfollowup() {
-        return followup;
+    public Date getquotationdate() {
+        return quotationdate;
     }  
-    public void setfollowup(boolean followup) {
-        this.followup = followup;
+    public void setquotationdate(Date quotationdate) {
+        this.quotationdate = quotationdate;
     }
 
-    public String getfollowupremark() {
-        return followupremark;
+    public Time getquotationtime() {
+        return quotationtime;
     }  
-    public void setfollowupremark(String followupremark) {
-        this.followupremark = followupremark;
-    }
-
-    public boolean getfollowupstatus() {
-        return followupstatus;
-    }  
-    public void setfollowupstatus(boolean followupstatus) {
-        this.followupstatus = followupstatus;
-    }
-
-    public boolean getlost() {
-        return lost;
-    }  
-    public void setlost(boolean lost) {
-        this.lost = lost;
-    }
-
-    public String getlostremark() {
-        return lostremark;
-    }  
-    public void setlostremark(String lostremark) {
-        this.lostremark = lostremark;
-    }
-
-    public boolean getclosed() {
-        return closed;
-    }  
-    public void setclosed(boolean closed) {
-        this.closed = closed;
+    public void setquotationtime(Time quotationtime) {
+        this.quotationtime = quotationtime;
     }
 }
