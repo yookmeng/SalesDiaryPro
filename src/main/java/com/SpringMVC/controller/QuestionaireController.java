@@ -72,9 +72,6 @@ public class QuestionaireController {
     	questionaire.setdemo(false);
     	questionaire.settestdrive(false);
     	questionaire.setquotation(false);
-    	questionaire.setlost(false);
-    	questionaire.setlostremark("");
-    	questionaire.setclosed(false);
     	questionaireDAO.save(questionaire);
         return new ResponseEntity<Questionaire>(questionaire, HttpStatus.CREATED);
     }    
