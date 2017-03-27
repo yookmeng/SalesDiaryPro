@@ -419,7 +419,7 @@ public class QuotationDAOImpl extends JdbcDaoSupport implements QuotationDAO {
 	    		+ "LEFT JOIN tblActivity a ON a.activityid = q.activityid "	    		
 	    		+ "LEFT JOIN tblBrand b ON b.brandid = q.brandid "
 	    		+ "LEFT JOIN tblModel m ON m.brandid = q.brandid AND m.modelid = q.modelid "
-	    		+ "WHERE quotationid="+quotationid;
+	    		+ "WHERE q.quotationid="+quotationid;
 	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<Quotation>() {
 	 
 			@Override

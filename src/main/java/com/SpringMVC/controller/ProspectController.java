@@ -2,6 +2,10 @@ package com.SpringMVC.controller;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.sql.Time;
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -120,7 +124,13 @@ public class ProspectController {
 
     @RequestMapping(value = ProspectRestURIConstant.Add, method = RequestMethod.POST)
     public ResponseEntity<Questionaire> addProspect(@RequestBody APIProspect aPIProspect, 
-    		HttpServletRequest request) throws IOException {
+    		HttpServletRequest request) throws IOException, ParseException {
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    	SimpleDateFormat stf = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
+    	Date convertDate = new Date();
+    	Date convertTime = new Date();
+    	String stringDate = "";
+    	
     	Questionaire questionaire = new Questionaire();
     	UserLogin userLogin = userLoginDAO.findUserEmail(aPIProspect.getuseremail());
     	questionaire.setuserid(userLogin.getuserid());
@@ -134,22 +144,53 @@ public class ProspectController {
     	questionaire.setmodelid(model.getmodelid());
     	questionaire.setsource(aPIProspect.getsource());
     	questionaire.setstatus(aPIProspect.getstatus());
-    	questionaire.setdemo(aPIProspect.getdemo());
-    	questionaire.setdemodate(aPIProspect.getdemodate());
-    	questionaire.setdemotime(aPIProspect.getdemotime());
+
+    	questionaire.setdemo(aPIProspect.getdemo()); 
+    	if (aPIProspect.getdemo()){
+        	convertDate = sdf.parse(aPIProspect.getdemodate());
+        	stringDate = sdf.format(convertDate);
+        	convertTime = stf.parse(aPIProspect.getdemodate());
+        	Time demoTime = new Time(convertTime.getTime());
+        	questionaire.setdemodate(java.sql.Date.valueOf(stringDate));
+        	questionaire.setdemotime(demoTime);    		
+    	};
+
     	questionaire.settestdrive(aPIProspect.gettestdrive());
-    	questionaire.settestdrivedate(aPIProspect.gettestdrivedate());
-    	questionaire.settestdrivetime(aPIProspect.gettestdrivetime());
+    	if (aPIProspect.gettestdrive()){
+        	convertDate = sdf.parse(aPIProspect.gettestdrivedate());
+        	stringDate = sdf.format(convertDate);
+        	convertTime = stf.parse(aPIProspect.gettestdrivedate());    	
+        	Time testDriveTime = new Time(convertTime.getTime());
+        	questionaire.settestdrivedate(java.sql.Date.valueOf(stringDate));
+        	questionaire.settestdrivetime(testDriveTime);    		
+    	};
+
     	questionaire.setquotation(aPIProspect.getquotation());
-    	questionaire.setquotationdate(aPIProspect.getquotationdate());
-    	questionaire.setquotationtime(aPIProspect.getquotationtime());
+    	if (aPIProspect.getquotation()) {
+        	convertDate = sdf.parse(aPIProspect.getquotationdate());
+        	stringDate = sdf.format(convertDate);
+        	convertTime = stf.parse(aPIProspect.getquotationdate());    	
+        	Time quotationTime = new Time(convertTime.getTime());
+        	questionaire.setquotationdate(java.sql.Date.valueOf(stringDate));
+        	questionaire.setquotationtime(quotationTime);    		
+    	};
+
+    	if (aPIProspect.getstatus()=="4"){
+        	convertDate = sdf.parse(aPIProspect.getstatusdate());
+        	stringDate = sdf.format(convertDate);
+        	convertTime = stf.parse(aPIProspect.getstatusdate());    	
+        	Time statusTime = new Time(convertTime.getTime());
+        	questionaire.setstatusdate(java.sql.Date.valueOf(stringDate));
+        	questionaire.setstatustime(statusTime);    		
+    	};
+    	
     	questionaireDAO.save(questionaire);
     	
     	int prospectid = prospectDAO.getlastprospectid(userLogin.getuserid());
         int quotationid = quotationDAO.getlastquotationid(prospectid);
         Quotation newQuotation = quotationDAO.get(quotationid);
     	quotationDAO.createpdf(newQuotation, request);
-    	
+   	
         return new ResponseEntity<Questionaire>(questionaire, HttpStatus.CREATED);
     }
 

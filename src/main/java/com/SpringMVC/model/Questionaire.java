@@ -23,6 +23,8 @@ public class Questionaire {
     private boolean quotation;
     private Date quotationdate;
     private Time quotationtime;
+    private Date statusdate;
+    private Time statustime;
 
     public int getuserid() {
         return userid;
@@ -155,5 +157,19 @@ public class Questionaire {
     }
     public void setquotationtime(Time quotationtime) {
         this.quotationtime = quotationtime;
+    }
+
+    public Date getstatusdate() {
+        return statusdate;
+    }
+    public void setstatusdate(Date statusdate) {
+        this.statusdate = statusdate;
+    }
+
+    public Time getstatustime() {
+        return statustime;
+    }
+    public void setstatustime(Time statustime) {
+        this.statustime = statustime;
     }
 }
