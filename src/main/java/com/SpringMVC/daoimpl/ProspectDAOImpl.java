@@ -117,11 +117,12 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "(workaddress).country AS wcountry, (workaddress).zipcode AS wzipcode, "
         		+ "(workaddress).state as wstate, (workaddress).city AS wcity, "
         		+ "(workaddress).street AS wstreet, wtelno, "
-        		+ "gender, email, status "
+        		+ "gender, email, status, cm.codename AS statusname "
         		+ "FROM tblProspect p "
         		+ "LEFT JOIN tblActivity a ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblBrand b ON a.brandid = b.brandid "
         		+ "LEFT JOIN tblModel m ON a.modelid = m.modelid "
+        		+ "LEFT JOIN tblCodeMaster cm ON cm.codetype = 'STATUS' AND codeid = p.status "
         		+ "WHERE p.userid = " + userid + " "
 				+ "AND (a.activitydate = (SELECT MIN(c.activitydate) FROM tblActivity c WHERE c.prospectid = p.prospectid) OR a.activitydate IS NULL) "
 				+ "ORDER BY firstname, lastname";
@@ -140,12 +141,13 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "(workaddress).country AS wcountry, (workaddress).zipcode AS wzipcode, "
         		+ "(workaddress).state as wstate, (workaddress).city AS wcity, "
         		+ "(workaddress).street AS wstreet, wtelno, "
-        		+ "occupation, age, gender, income, p.email, status "
+        		+ "occupation, age, gender, income, p.email, status, cm.codename AS statusname "
         		+ "FROM tblProspect p "
         		+ "LEFT JOIN tblActivity a ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblBrand b ON a.brandid = b.brandid "
         		+ "LEFT JOIN tblModel m ON a.modelid = m.modelid "
         		+ "LEFT JOIN tblUser u ON u.userid = p.userid "
+        		+ "LEFT JOIN tblCodeMaster cm ON cm.codetype = 'STATUS' AND codeid = p.status "
         		+ "WHERE u.teamid = " + teamid + " "
 				+ "AND (a.activitydate = (SELECT MIN(c.activitydate) FROM tblActivity c WHERE c.prospectid = p.prospectid) OR a.activitydate IS NULL) "
 				+ "ORDER BY firstname, lastname";
@@ -164,12 +166,13 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "(workaddress).country AS wcountry, (workaddress).zipcode AS wzipcode, "
         		+ "(workaddress).state as wstate, (workaddress).city AS wcity, "
         		+ "(workaddress).street AS wstreet, wtelno, "
-        		+ "occupation, age, gender, income, p.email, status "
+        		+ "occupation, age, gender, income, p.email, status, cm.codename AS statusname "
         		+ "FROM tblProspect p "
         		+ "LEFT JOIN tblActivity a ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblBrand b ON a.brandid = b.brandid "
         		+ "LEFT JOIN tblModel m ON a.modelid = m.modelid "
         		+ "LEFT JOIN tblUser u ON u.userid = p.userid "
+        		+ "LEFT JOIN tblCodeMaster cm ON cm.codetype = 'STATUS' AND codeid = p.status "
         		+ "WHERE u.branchid = " + branchid + " "
 				+ "AND (a.activitydate = (SELECT MIN(c.activitydate) FROM tblActivity c WHERE c.prospectid = p.prospectid) OR a.activitydate IS NULL) "
         		+ "ORDER BY firstname, lastname";
@@ -188,12 +191,13 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "(workaddress).country AS wcountry, (workaddress).zipcode AS wzipcode, "
         		+ "(workaddress).state as wstate, (workaddress).city AS wcity, "
         		+ "(workaddress).street AS wstreet, wtelno, "
-        		+ "occupation, age, gender, income, p.email, status "
+        		+ "occupation, age, gender, income, p.email, status, cm.codename AS statusname "
         		+ "FROM tblProspect p "
         		+ "LEFT JOIN tblActivity a ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblBrand b ON a.brandid = b.brandid "
         		+ "LEFT JOIN tblModel m ON a.modelid = m.modelid "
         		+ "LEFT JOIN tblUser u ON up.userid = p.userid "
+        		+ "LEFT JOIN tblCodeMaster cm ON cm.codetype = 'STATUS' AND codeid = p.status "
         		+ "WHERE u.companyid = " + companyid + " "
 				+ "AND a.activitydate = (SELECT MIN(c.activitydate) FROM tblActivity c WHERE c.prospectid = p.prospectid) "
         		+ "ORDER BY firstname, lastname";
@@ -218,11 +222,12 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "(workaddress).country AS wcountry, (workaddress).zipcode AS wzipcode, "
         		+ "(workaddress).state as wstate, (workaddress).city AS wcity, "
         		+ "(workaddress).street AS wstreet, wtelno, "
-        		+ "occupation, age, gender, income, email, status "
+        		+ "occupation, age, gender, income, email, status, cm.codename "
         		+ "FROM tblProspect p "
         		+ "LEFT JOIN tblActivity a ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblBrand b ON a.brandid = b.brandid "
         		+ "LEFT JOIN tblModel m ON a.modelid = m.modelid "
+        		+ "LEFT JOIN tblCodeMaster cm ON cm.codetype = 'STATUS' AND codeid = p.status "
         		+ "WHERE p.prospectid=" + prospectid + " "
         		+ "AND (a.activitydate = (SELECT MIN(c.activitydate) FROM tblActivity c WHERE c.prospectid = p.prospectid) OR a.activitydate IS NULL) ";
 	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<Prospect>() {
@@ -263,6 +268,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
 	            	prospect.setgender(rs.getString("gender"));
 	            	prospect.setemail(rs.getString("email"));
 	            	prospect.setstatus(rs.getString("status"));
+	            	prospect.setstatusname(rs.getString("codename"));
 	                return prospect;
 	            }	 
 	            return null;

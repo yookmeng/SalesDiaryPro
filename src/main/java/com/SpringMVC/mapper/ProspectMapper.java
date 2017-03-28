@@ -41,12 +41,13 @@ public class ProspectMapper implements RowMapper<Prospect> {
         String gender = rs.getString("gender");
         String email = rs.getString("email");
         String status = rs.getString("status");
+        String statusname = rs.getString("statusname");
         
         return new Prospect(prospectid, firstname, lastname, 
         		userid, source, datecreated, 
         		brandid, brandname, modelid, modelname, 
         		homeaddress, mobile, htelno, contactid,
         		workaddress, wtelno, 
-        		gender, email, status);
+        		gender, email, status, statusname);
     } 
 }

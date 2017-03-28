@@ -22,6 +22,7 @@ public class Prospect {
     private String gender;    
     private String email;
     private String status;
+    private String statusname;
 
     public Prospect() {
     }
@@ -31,7 +32,7 @@ public class Prospect {
     		int brandid, String brandname, int modelid, String modelname,
     		Address homeaddress, String mobile, String htelno, int contactid,
     		Address workaddress, String wtelno, 
-    		String gender, String email, String status) {
+    		String gender, String email, String status, String statusname) {
         this.prospectid = prospectid;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -51,6 +52,7 @@ public class Prospect {
         this.gender = gender;
         this.email = email;
         this.status = status;
+        this.statusname = statusname;
     }
  
     public int getprospectid() {
@@ -184,5 +186,12 @@ public class Prospect {
     }  
     public void setstatus(String status) {
         this.status = status;
+    }
+
+    public String getstatusname() {
+        return statusname;
+    }  
+    public void setstatusname(String statusname) {
+        this.statusname = statusname;
     }
 }
