@@ -32,7 +32,8 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 			conn.setAutoCommit(true);
 	    	CallableStatement proc = conn.prepareCall("{ ? = call spActivityInsUpd("
 	    			+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
-	    			+ "?, ?, ?, ?, ?, ?, ?, ?) }");
+	    			+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?,"
+	    			+ "?) }");
 	    	proc.registerOutParameter(1, Types.OTHER);
 	    	proc.setString(2, "0");
 	    	proc.setInt(3, activity.getactivityid());
@@ -52,6 +53,9 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 	    	proc.setDate(17, activity.getquotationdate());
 	    	proc.setTime(18, activity.getquotationtime());
 	    	proc.setInt(19, activity.getquotationid());
+	    	proc.setBoolean(20, activity.getclosed());
+	    	proc.setDate(21, activity.getcloseddate());
+	    	proc.setTime(22, activity.getclosedtime());
 	    	proc.execute();
 	    	proc.close();
 		} catch (SQLException e) {
@@ -66,7 +70,8 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 			conn.setAutoCommit(true);
 	    	CallableStatement proc = conn.prepareCall("{ ? = call spActivityInsUpd("
 	    			+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
-	    			+ "?, ?, ?, ?, ?, ?, ?, ?) }");
+	    			+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
+	    			+ "?) }");
 	    	proc.registerOutParameter(1, Types.OTHER);
 	    	proc.setString(2, "1");
 	    	proc.setInt(3, activity.getactivityid());
@@ -86,6 +91,9 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 	    	proc.setDate(17, activity.getquotationdate());
 	    	proc.setTime(18, activity.getquotationtime());
 	    	proc.setInt(19, activity.getquotationid());
+	    	proc.setBoolean(20, activity.getclosed());
+	    	proc.setDate(21, activity.getcloseddate());
+	    	proc.setTime(22, activity.getclosedtime());
 	    	proc.execute();
 	    	proc.close();
 		} catch (SQLException e) {
@@ -110,51 +118,51 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
     }
     
     public List<Activity> list(int prospectid) {
-        String sql = "SELECT activityid, a.userid, u.username AS username, "
+        String sql = "SELECT a.activityid, a.userid, u.username, "
         		+ "a.prospectid, p.firstname + ' ' + p.lastname AS prospectname, "
         		+ "a.activitydate, a.activitytime, "
-        		+ "a.brandid AS brandid, a.modelid AS modelid, "
-        		+ "b.brandname AS brandname, m.modelname AS modelname, "
-        		+ "demo, demodate, demotime, "
-        		+ "testdrive, testdrivedate, testdrivetime, "
-        		+ "quotation, quotationdate, quotationtime, "
-        		+ "quotationid, quotationpdflink"
+        		+ "a.brandid, a.modelid, b.brandname, m.modelname, "
+        		+ "a.demo, a.demodate, a.demotime, "
+        		+ "a.testdrive, a.testdrivedate, a.testdrivetime, "
+        		+ "a.quotation, a.quotationdate, a.quotationtime, "
+        		+ "a.quotationid, a.quotationpdflink, "
+        		+ "a.closed, a.closeddate, a.closedtime "
         		+ "FROM tblActivity a "
         		+ "LEFT JOIN tblProspect p ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblUser u ON u.userid = a.userid "
         		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
         		+ "LEFT JOIN tblModel m ON m.modelid = a.modelid "
         		+ "WHERE a.prospectid = " + prospectid + " "
-        		+ "ORDER BY activitydate, activitytime ";
+        		+ "ORDER BY a.activitydate, a.activitytime ";
         ActivityMapper mapper = new ActivityMapper();
         List<Activity> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
     }
 
     public List<Activity> listByUser(int userid) {
-        String sql = "SELECT activityid, a.userid, u.username AS username, "
+        String sql = "SELECT a.activityid, a.userid, u.username, "
         		+ "a.prospectid, p.firstname + ' ' + p.lastname AS prospectname, "
-        		+ "activitydate, activitytime, "
-        		+ "a.brandid AS brandid, a.modelid AS modelid, "
-        		+ "b.brandname AS brandname, m.modelname AS modelname, "
-        		+ "demo, demodate, demotime, "
-        		+ "testdrive, testdrivedate, testdrivetime, "
-        		+ "quotation, quotationdate, quotationtime, "
-        		+ "quotationid, quotationpdflink"
+        		+ "a.activitydate, a.activitytime, "
+        		+ "a.brandid, a.modelid, b.brandname, m.modelname, "
+        		+ "a.demo, a.demodate, a.demotime, "
+        		+ "a.testdrive, a.testdrivedate, a.testdrivetime, "
+        		+ "a.quotation, a.quotationdate, a.quotationtime, "
+        		+ "a.quotationid, a.quotationpdflink, "
+        		+ "a.closed, a.closeddate, a.closedtime "
         		+ "FROM tblActivity a "
         		+ "LEFT JOIN tblProspect p ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblUser u ON u.userid = a.userid "
         		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
         		+ "LEFT JOIN tblModel m ON m.modelid = a.modelid "
         		+ "WHERE a.userid = " + userid + " "
-        		+ "ORDER BY activitydate, activitytime ";
+        		+ "ORDER BY a.activitydate, a.activitytime ";
         ActivityMapper mapper = new ActivityMapper();
         List<Activity> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
     }
 
     public List<Activity> listByTeam(int teamid) {
-        String sql = "SELECT activityid, a.userid, u.username AS username, "
+        String sql = "SELECT a.activityid, a.userid, u.username, "
         		+ "a.prospectid, p.firstname + ' ' + p.lastname AS prospectname, "
         		+ "a.activitydate, a.activitytime, "
         		+ "a.brandid AS brandid, a.modelid AS modelid, "
@@ -162,73 +170,76 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
         		+ "demo, demodate, demotime, "
         		+ "testdrive, testdrivedate, testdrivetime, "
         		+ "quotation, quotationdate, quotationtime, "
-        		+ "quotationid, quotationpdflink"
+        		+ "a.quotationid, a.quotationpdflink, "
+        		+ "a.closed, a.closeddate, a.closedtime "
         		+ "FROM tblActivity a "
         		+ "LEFT JOIN tblProspect p ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblUser u ON u.userid = a.userid "
         		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
         		+ "LEFT JOIN tblModel m ON m.modelid = a.modelid "
         		+ "WHERE u.teamid = " + teamid + " "
-        		+ "ORDER BY activitydate ";
+        		+ "ORDER BY a.activitydate, a.activitytime";
         ActivityMapper mapper = new ActivityMapper();
         List<Activity> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
     }
 
     public List<Activity> listByBranch(int branchid) {
-        String sql = "SELECT activityid, a.userid, u.username AS username, "
+        String sql = "SELECT a.activityid, a.userid, u.username, "
         		+ "a.prospectid, p.firstname + ' ' + p.lastname  AS prospectname, "
         		+ "a.activitydate, a.activitytime, "
         		+ "a.brandid AS brandid, a.modelid AS modelid, "
         		+ "b.brandname AS brandname, m.modelname AS modelname, "
-        		+ "demo, demodate, demotime, "
-        		+ "testdrive, testdrivedate, testdrivetime, "
-        		+ "quotation, quotationdate, quotationtime, "
-        		+ "quotationid, quotationpdflink"
+        		+ "a.demo, a.demodate, a.demotime, "
+        		+ "a.testdrive, a.testdrivedate, a.testdrivetime, "
+        		+ "a.quotation, a.quotationdate, a.quotationtime, "
+        		+ "a.quotationid, a.quotationpdflink"
+        		+ "a.quotationid, a.quotationpdflink, "
+        		+ "a.closed, a.closeddate, a.closedtime "
         		+ "FROM tblActivity a "
         		+ "LEFT JOIN tblProspect p ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblUser u ON u.userid = a.userid "
         		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
         		+ "LEFT JOIN tblModel m ON m.modelid = a.modelid "
         		+ "WHERE u.branchid = " + branchid + " "
-        		+ "ORDER BY activitydate ";
+        		+ "ORDER BY a.activitydate, a.activitytime ";
         ActivityMapper mapper = new ActivityMapper();
         List<Activity> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
     }
 
     public List<Activity> listByCompany(int companyid) {
-        String sql = "SELECT activityid, a.userid, u.username AS username, "
+        String sql = "SELECT a.activityid, a.userid, u.username AS username, "
         		+ "a.prospectid, p.firstname + ' ' + p.lastname AS prospectname, "
         		+ "a.activitydate, a.activitytime, "
-        		+ "a.brandid AS brandid, a.modelid AS modelid, "
-        		+ "b.brandname AS brandname, m.modelname AS modelname, "
-        		+ "demo, demodate, demotime, "
-        		+ "testdrive, testdrivedate, testdrivetime, "
-        		+ "quotation, quotationdate, quotationtime, "
-        		+ "quotationid, quotationpdflink"
+        		+ "a.brandid, a.modelid, b.brandname, m.modelname, "
+        		+ "a.demo, a.demodate, demotime, "
+        		+ "a.testdrive, a.testdrivedate, a.testdrivetime, "
+        		+ "a.quotation, a.quotationdate, a.quotationtime, "
+        		+ "a.quotationid, a.quotationpdflink, "
+        		+ "a.closed, a.closeddate, a.closedtime "
         		+ "FROM tblActivity a "
         		+ "LEFT JOIN tblProspect p ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblUser u ON u.userid = a.userid "
         		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
         		+ "LEFT JOIN tblModel m ON m.modelid = a.modelid "
         		+ "WHERE u.companyid = " + companyid + " "
-        		+ "ORDER BY activitydate ";
+        		+ "ORDER BY a.activitydate, a.activitytime ";
         ActivityMapper mapper = new ActivityMapper();
         List<Activity> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
     }
 
     public Activity get(int activityid) {
-        String sql = "SELECT activityid, a.userid, u.username AS username, "
+        String sql = "SELECT a.activityid, a.userid, u.username, "
         		+ "a.prospectid, p.firstname + ' ' + p.lastname AS prospectname, "
         		+ "a.activitydate, a.activitytime, "
-        		+ "a.brandid AS brandid, a.modelid AS modelid, "
-        		+ "b.brandname AS brandname, m.modelname AS modelname, "
-        		+ "demo, demodate, demotime, "
-        		+ "testdrive, testdrivedate, testdrivetime, "
-        		+ "quotation, quotationdate, quotationtime, "
-        		+ "quotationid, quotationpdflink"
+        		+ "a.brandid, a.modelid, b.brandname, m.modelname, "
+        		+ "a.demo, a.demodate, a.demotime, "
+        		+ "a.testdrive, a.testdrivedate, a.testdrivetime, "
+        		+ "a.quotation, a.quotationdate, a.quotationtime, "
+        		+ "a.quotationid, a.quotationpdflink, "
+        		+ "a.closed, a.closeddate, a.closedtime "
         		+ "FROM tblActivity a "
         		+ "LEFT JOIN tblProspect p ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblUser u ON u.userid = a.userid "
@@ -264,6 +275,9 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 	                activity.setquotationtime(rs.getTime("quotationtime"));
 	                activity.setquotationid(rs.getInt("quotationid"));
 	                activity.setquotationpdflink(rs.getString("quotationpdflink"));
+	                activity.setclosed(rs.getBoolean("closed"));
+	                activity.setcloseddate(rs.getDate("closeddate"));
+	                activity.setclosedtime(rs.getTime("closedtime"));
 	                return activity;
 	            }	 
 	            return null;

@@ -20,6 +20,9 @@ public class APIActivity {
     private boolean quotation;
     private Date quotationdate;
     private Time quotationtime;
+    private boolean closed;
+    private Date closeddate;
+    private Time closedtime;
     
     public APIActivity() {
     }
@@ -29,7 +32,8 @@ public class APIActivity {
     		int prospectid, String brandname, String modelname, 
     		boolean demo, Date demodate, Time demotime, 
     		boolean testdrive, Date testdrivedate, Time testdrivetime,
-    		boolean quotation, Date quotationdate, Time quotationtime) {
+    		boolean quotation, Date quotationdate, Time quotationtime,
+    		boolean closed, Date closeddate, Time closedtime) {
         this.useremail = useremail;
         this.activityid = activityid;
         this.activitydate = activitydate;
@@ -46,6 +50,9 @@ public class APIActivity {
         this.quotation = quotation;
         this.quotationdate = quotationdate;
         this.quotationtime = quotationtime;
+        this.closed = closed;
+        this.closeddate = closeddate;
+        this.closedtime = closedtime;
     }
  
     public String getuseremail() {
@@ -158,5 +165,26 @@ public class APIActivity {
     }  
     public void setquotationtime(Time quotationtime) {
         this.quotationtime = quotationtime;
+    }
+
+    public boolean getclosed() {
+        return closed;
+    }  
+    public void setclosed(boolean closed) {
+        this.closed = closed;
+    }
+
+    public Date getcloseddate() {
+        return closeddate;
+    }
+    public void setcloseddate(Date closeddate) {
+        this.closeddate = closeddate;
+    }
+
+    public Time getclosedtime() {
+        return closedtime;
+    }
+    public void setclosedtime(Time closedtime) {
+        this.closedtime = closedtime;
     }
 }

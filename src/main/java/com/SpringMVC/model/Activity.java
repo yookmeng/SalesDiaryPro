@@ -26,6 +26,9 @@ public class Activity {
     private Time quotationtime;
     private int quotationid;
     private String quotationpdflink;
+    private boolean closed;
+    private Date closeddate;
+    private Time closedtime;
     
     public Activity() {
     }
@@ -37,7 +40,8 @@ public class Activity {
     		boolean demo, Date demodate, Time demotime,
     		boolean testdrive, Date testdrivedate, Time testdrivetime,
     		boolean quotation, Date quotationdate, Time quotationtime,
-    		int quotationid, String quotationpdflink) {
+    		int quotationid, String quotationpdflink, 
+    		boolean closed, Date closeddate, Time closedtime) {
         this.activityid = activityid;
         this.userid = userid;
         this.username = username;
@@ -60,6 +64,9 @@ public class Activity {
         this.quotationtime = quotationtime;
         this.quotationid = quotationid;
         this.quotationpdflink = quotationpdflink;
+        this.closed = closed;
+        this.closeddate = closeddate;
+        this.closedtime = closedtime;
     }
  
     public int getactivityid() {
@@ -214,5 +221,26 @@ public class Activity {
     }  
     public void setquotationpdflink(String quotationpdflink) {
         this.quotationpdflink = quotationpdflink;
+    }
+
+    public boolean getclosed() {
+        return closed;
+    }  
+    public void setclosed(boolean closed) {
+        this.closed = closed;
+    }
+
+    public Date getcloseddate() {
+        return closeddate;
+    }
+    public void setcloseddate(Date closeddate) {
+        this.closeddate = closeddate;
+    }
+
+    public Time getclosedtime() {
+        return closedtime;
+    }
+    public void setclosedtime(Time closedtime) {
+        this.closedtime = closedtime;
     }
 }

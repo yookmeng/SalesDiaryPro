@@ -34,6 +34,9 @@ public class ActivityMapper implements RowMapper<Activity> {
         Time quotationtime = rs.getTime("quotationtime");
         int quotationid = rs.getInt("quotationid");
         String quotationpdflink = rs.getString("quotationpdflink");
+        boolean closed = rs.getBoolean("closed");
+        Date closeddate = rs.getDate("closeddate");
+        Time closedtime = rs.getTime("closedtime");
         
         return new Activity(activityid, userid, username, 
         		prospectid, prospectname, 
@@ -42,6 +45,7 @@ public class ActivityMapper implements RowMapper<Activity> {
         		demo, demodate, demotime, 
         		testdrive, testdrivedate, testdrivetime,
         		quotation, quotationdate, quotationtime,
-        		quotationid, quotationpdflink);
+        		quotationid, quotationpdflink,
+        		closed, closeddate, closedtime);
     }
 }

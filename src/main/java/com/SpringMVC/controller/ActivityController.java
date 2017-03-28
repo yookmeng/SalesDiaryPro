@@ -137,6 +137,9 @@ public class ActivityController {
     	activity.setquotation(aPIActivity.getquotation());
     	activity.setquotationdate(aPIActivity.getquotationdate());
     	activity.setquotationtime(aPIActivity.getquotationtime());
+    	activity.setclosed(aPIActivity.getdemo());
+    	activity.setcloseddate(aPIActivity.getcloseddate());
+    	activity.setclosedtime(aPIActivity.getclosedtime());
 
     	activityDAO.save(activity);
         return new ResponseEntity<Activity>(activity, HttpStatus.CREATED);
@@ -181,6 +184,9 @@ public class ActivityController {
         currentActivity.setquotationdate(activity.getquotationdate());
         currentActivity.setquotationtime(activity.getquotationtime());
         currentActivity.setquotationid(activity.getquotationid());
+        currentActivity.setclosed(activity.getclosed());
+        currentActivity.setcloseddate(activity.getcloseddate());
+        currentActivity.setclosedtime(activity.getclosedtime());
 
         activityDAO.update(currentActivity);
         return new ResponseEntity<Activity>(activity, HttpStatus.OK);
