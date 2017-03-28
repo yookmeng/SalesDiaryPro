@@ -1,10 +1,12 @@
 package com.SpringMVC.model;
 
 import java.sql.Date;
+import java.sql.Time;
 
 public class Notes {
     private int noteid;
     private Date notedate;
+    private Time notetime;
     private int userid;
     private String username;
     private int teamid;
@@ -20,15 +22,19 @@ public class Notes {
     private String remark;
     private int reviewby;
     private String reviewbyname;
+    private Date reviewdate;
+    private Time reviewtime;
     public Notes() {
     }
  
-    public Notes(int noteid, Date notedate, int userid, String username, int teamid, String teamname, 
-    		int branchid, String branchname, int companyid, String companyname,
-    		int prospectid, String prospectname, String note, int status, 
-    		String remark, int reviewby, String reviewbyname) {
+    public Notes(int noteid, Date notedate, Time notetime, int userid, String username, 
+    		int teamid, String teamname, int branchid, String branchname, 
+    		int companyid, String companyname, int prospectid, String prospectname, 
+    		String note, int status, String remark, int reviewby, String reviewbyname,
+    		Date reviewdate, Time reviewtime) {
         this.noteid = noteid;
         this.notedate = notedate;
+        this.notetime = notetime;
         this.userid = userid;
         this.username = username;
         this.teamid = teamid;
@@ -44,6 +50,8 @@ public class Notes {
         this.remark = remark;
         this.reviewby = reviewby;
         this.reviewbyname = reviewbyname;
+        this.reviewdate = reviewdate;
+        this.reviewtime = reviewtime;
     }
  
     public int getnoteid() {
@@ -58,6 +66,13 @@ public class Notes {
     }  
     public void setnotedate(Date notedate) {
         this.notedate = notedate;
+    }
+
+    public Time getnotetime() {
+        return notetime;
+    }  
+    public void setnotetime(Time notetime) {
+        this.notetime = notetime;
     }
 
     public int getuserid() {
@@ -163,5 +178,19 @@ public class Notes {
     }  
     public void setreviewbyname(String reviewbyname) {
         this.reviewbyname = reviewbyname;
+    }
+
+    public Date getreviewdate() {
+        return reviewdate;
+    }  
+    public void setreviewdate(Date reviewdate) {
+        this.reviewdate = reviewdate;
+    }
+
+    public Time getreviewtime() {
+        return reviewtime;
+    }  
+    public void setreviewtime(Time reviewtime) {
+        this.reviewtime = reviewtime;
     }
 }

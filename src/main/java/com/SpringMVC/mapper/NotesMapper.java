@@ -2,6 +2,7 @@ package com.SpringMVC.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.sql.Date;
 
 import com.SpringMVC.model.Notes;
@@ -13,6 +14,7 @@ public class NotesMapper implements RowMapper<Notes> {
     public Notes mapRow(ResultSet rs, int rowNum) throws SQLException { 
         int noteid = rs.getInt("noteid");
         Date notedate = rs.getDate("notedate");
+        Time notetime = rs.getTime("notetime");
         int userid = rs.getInt("userid");        
         String username = rs.getString("username");        
         int teamid = rs.getInt("teamid");        
@@ -28,10 +30,12 @@ public class NotesMapper implements RowMapper<Notes> {
         String remark = rs.getString("remark");
         int reviewby = rs.getInt("reviewby");
         String reviewbyname = rs.getString("reviewbyname");
+        Date reviewdate = rs.getDate("reviewdate");
+        Time reviewtime = rs.getTime("reviewtime");
         
-        return new Notes(noteid, notedate, userid, username, teamid, teamname, 
+        return new Notes(noteid, notedate, notetime, userid, username, teamid, teamname, 
         		branchid, branchname, companyid, companyname, 
         		prospectid, prospectname, note, status, remark, 
-        		reviewby, reviewbyname);
+        		reviewby, reviewbyname, reviewdate, reviewtime);
     }
 }

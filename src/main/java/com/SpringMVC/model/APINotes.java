@@ -1,11 +1,13 @@
 package com.SpringMVC.model;
 
 import java.sql.Date;
+import java.sql.Time;
 
 public class APINotes {
     private String useremail;
     private int noteid;
     private Date notedate;
+    private Time notetime;
     private int prospectid;
     private String prospectname;
     private String note;
@@ -14,12 +16,13 @@ public class APINotes {
     public APINotes() {
     }
  
-    public APINotes(String useremail, int noteid, Date notedate, 
+    public APINotes(String useremail, int noteid, Date notedate, Time notetime,
     		int prospectid, String prospectname, String note, 
     		int status, String remark) {
         this.useremail = useremail;
         this.noteid = noteid;
         this.notedate = notedate;
+        this.notetime = notetime;
         this.prospectid = prospectid;
         this.prospectname = prospectname;
         this.note = note;
@@ -46,6 +49,13 @@ public class APINotes {
     }  
     public void setnotedate(Date notedate) {
         this.notedate = notedate;
+    }
+
+    public Time getnotetime() {
+        return notetime;
+    }  
+    public void setnotetime(Time notetime) {
+        this.notetime = notetime;
     }
 
     public int getprospectid() {

@@ -1,7 +1,8 @@
 package com.SpringMVC.controller;
 
 import java.io.IOException;
-import java.sql.Date;
+import java.util.Date;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.List;
 
@@ -111,11 +112,12 @@ public class NotesController {
 	}
 
     @RequestMapping(value = NotesRestURIConstant.Add, method = RequestMethod.POST)
-    public ResponseEntity<Notes> addNotes(@RequestBody APINotes aPINotes) throws IOException {
+    public ResponseEntity<Notes> addNotes(@RequestBody APINotes aPINotes) throws IOException, ParseException  {
     	UserLogin userLogin = userLoginDAO.findUserEmail(aPINotes.getuseremail());
     	Notes notes = new Notes();
     	notes.setnoteid(aPINotes.getnoteid());
     	notes.setnotedate(aPINotes.getnotedate());
+    	notes.setnotetime(aPINotes.getnotetime());    		
     	notes.setuserid(userLogin.getuserid());
     	notes.setusername(userLogin.getusername());
     	notes.setteamid(userLogin.getteamid());
@@ -147,10 +149,13 @@ public class NotesController {
             return new ResponseEntity<Notes>(HttpStatus.NOT_FOUND);
         }
         currentNotes.setnotedate(notes.getnotedate());
+        currentNotes.setnotetime(notes.getnotetime());
         currentNotes.setnote(notes.getnote());
         currentNotes.setstatus(notes.getstatus());
         currentNotes.setremark(notes.getremark());
         currentNotes.setreviewby(notes.getreviewby());
+        currentNotes.setreviewdate(notes.getreviewdate());
+        currentNotes.setreviewtime(notes.getreviewtime());
 
         notesDAO.update(currentNotes);
         return new ResponseEntity<Notes>(notes, HttpStatus.OK);
@@ -217,7 +222,7 @@ public class NotesController {
         Company company = companyDAO.get(userLogin.getcompanyid());
         Notes newNotes = new Notes();
         Date date = new Date(Calendar.getInstance().getTime().getTime());
-        newNotes.setnotedate(date);
+        newNotes.setnotedate(java.sql.Date.valueOf(date.toString()));
         newNotes.setuserid(userLogin.getuserid());
         newNotes.setusername(userLogin.getusername());
         newNotes.setteamid(team.getteamid());

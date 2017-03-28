@@ -1,5 +1,8 @@
 package com.SpringMVC.model;
 
+import java.sql.Date;
+import java.sql.Time;
+
 public class APIProspect {
     private String useremail;
     private String prospectname;
@@ -10,20 +13,26 @@ public class APIProspect {
     private String source;
     private String status;
     private boolean demo;
-    private String demodate;
+    private Date demodate;
+    private Time demotime;
     private boolean testdrive;
-    private String testdrivedate;
+    private Date testdrivedate;
+    private Time testdrivetime;
     private boolean quotation;
-    private String quotationdate;
-    private String statusdate;
+    private Date quotationdate;
+    private Time quotationtime;
+    private Date statusdate;
+    private Time statustime;
 
     public APIProspect() {
     }
  
     public APIProspect(String useremail, String prospectname, String mobile, String email,
     		String brandname, String modelname, String source, String status,
-    		boolean demo, String demodate, boolean testdrive, String testdrivedate, 
-    		boolean quotation, String quotationdate, String statusdate) {
+    		boolean demo, Date demodate, Time demotime, 
+    		boolean testdrive, Date testdrivedate, Time testdrivetime, 
+    		boolean quotation, Date quotationdate, Time quotationtime,
+    		Date statusdate, Time statustime) {
         this.useremail = useremail;
         this.prospectname = prospectname;
         this.mobile = mobile;
@@ -34,11 +43,15 @@ public class APIProspect {
         this.status = status;
         this.demo = demo;
         this.demodate = demodate;
+        this.demotime = demotime;
         this.testdrive = testdrive;
         this.testdrivedate = testdrivedate;
+        this.testdrivetime = testdrivetime;
         this.quotation = quotation;
         this.quotationdate = quotationdate;
+        this.quotationtime = quotationtime;
         this.statusdate = statusdate;
+        this.statustime = statustime;
     }
  
     public String getuseremail() {
@@ -104,11 +117,18 @@ public class APIProspect {
         this.demo = demo;
     }
     
-    public String getdemodate() {
+    public Date getdemodate() {
         return demodate;
     }
-    public void setdemodate(String demodate) {
+    public void setdemodate(Date demodate) {
         this.demodate = demodate;
+    }
+
+    public Time getdemotime() {
+        return demotime;
+    }
+    public void setdemotime(Time demotime) {
+        this.demotime = demotime;
     }
 
     public boolean gettestdrive() {
@@ -118,11 +138,18 @@ public class APIProspect {
         this.testdrive = testdrive;
     }
 
-    public String gettestdrivedate() {
+    public Date gettestdrivedate() {
         return testdrivedate;
     }
-    public void settestdrivedate(String testdrivedate) {
+    public void settestdrivedate(Date testdrivedate) {
         this.testdrivedate = testdrivedate;
+    }
+
+    public Time gettestdrivetime() {
+        return testdrivetime;
+    }
+    public void settestdrivetime(Time testdrivetime) {
+        this.testdrivetime = testdrivetime;
     }
 
     public boolean getquotation() {
@@ -132,17 +159,31 @@ public class APIProspect {
         this.quotation = quotation;
     }
 
-    public String getquotationdate() {
+    public Date getquotationdate() {
         return quotationdate;
     }
-    public void setquotationdate(String quotationdate) {
+    public void setquotationdate(Date quotationdate) {
         this.quotationdate = quotationdate;
     }
 
-    public String getstatusdate() {
+    public Time getquotationtime() {
+        return quotationtime;
+    }
+    public void setquotationtime(Time quotationtime) {
+        this.quotationtime = quotationtime;
+    }
+
+    public Date getstatusdate() {
         return statusdate;
     }
-    public void setstatusdate(String statusdate) {
+    public void setstatusdate(Date statusdate) {
         this.statusdate = statusdate;
+    }
+
+    public Time getstatustime() {
+        return statustime;
+    }
+    public void setstatustime(Time statustime) {
+        this.statustime = statustime;
     }
 }

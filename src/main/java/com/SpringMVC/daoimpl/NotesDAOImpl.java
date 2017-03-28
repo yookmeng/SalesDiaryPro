@@ -25,22 +25,23 @@ public class NotesDAOImpl extends JdbcDaoSupport implements NotesDAO {
 	
     public void save(Notes notes) {
         String sql = "INSERT INTO tblNotes "
-        		+ "(notedate, userid, teamid, branchid, companyid, prospectid, "
-        		+ "note, status, remark, reviewby) "
-        		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        		+ "(notedate, notetime, userid, teamid, branchid, companyid, prospectid, "
+        		+ "note, status, remark, reviewby, reviewdate, reviewtime) "
+        		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         this.getJdbcTemplate().update(sql, 
-        		notes.getnotedate(), notes.getuserid(), notes.getteamid(), notes.getbranchid(), 
-        		notes.getcompanyid(), notes.getprospectid(), notes.getnote(), notes.getstatus(), 
-        		notes.getremark(), notes.getreviewby());
+        		notes.getnotedate(), notes.getnotetime(), notes.getuserid(), 
+        		notes.getteamid(), notes.getbranchid(), notes.getcompanyid(), 
+        		notes.getprospectid(), notes.getnote(), notes.getstatus(), 
+        		notes.getremark(), notes.getreviewby(), notes.getreviewdate(),
+        		notes.getreviewtime());
     }
     
     public void update(Notes notes) {
         String sql = "UPDATE tblNotes "
-        		+ "SET notedate=?, note=?, status=?, remark=?, reviewby=? "
+        		+ "SET note=?, status=?, remark=?, reviewby=?, reviewdate=?, reviewtime=? "
         		+ "WHERE noteid=?";
-        this.getJdbcTemplate().update(sql, notes.getnotedate(), 
-        		notes.getnote(), notes.getstatus(), notes.getremark(), 
-        		notes.getreviewby(), notes.getnoteid());
+        this.getJdbcTemplate().update(sql, notes.getnote(), notes.getstatus(), notes.getremark(), 
+        		notes.getreviewby(), notes.getreviewdate(), notes.getreviewtime(), notes.getnoteid());
     }
     
     public void delete(int noteid) {
@@ -49,13 +50,14 @@ public class NotesDAOImpl extends JdbcDaoSupport implements NotesDAO {
     }
     
     public List<Notes> listByProspect(int prospectid) {
-	    String sql = "SELECT noteid, notedate, "
+	    String sql = "SELECT noteid, notedate, notetime, "
 	    		+ "n.userid, u.username, "
 	    		+ "n.teamid, t.teamname, "
 	    		+ "n.branchid, b.branchname, "
 	    		+ "n.companyid, c.companyname, "
         		+ "n.prospectid, p.firstname AS prospectname, "
-        		+ "note, n.status, n.remark, reviewby, rb.username AS reviewbyname "
+        		+ "note, n.status, n.remark, reviewby, rb.username AS reviewbyname, "
+        		+ "reviewdate, reviewtime "
         		+ "FROM tblNotes n "
         		+ "LEFT JOIN tblUser u on u.userid = n.userid "
         		+ "LEFT JOIN tblTeam t on t.teamid = n.teamid "
@@ -70,13 +72,14 @@ public class NotesDAOImpl extends JdbcDaoSupport implements NotesDAO {
     }
 
     public List<Notes> list(int userid) {
-	    String sql = "SELECT noteid, notedate, "
+	    String sql = "SELECT noteid, notedate, notetime, "
 	    		+ "n.userid, u.username, "
 	    		+ "n.teamid, t.teamname, "
 	    		+ "n.branchid, b.branchname, "
 	    		+ "n.companyid, c.companyname, "
         		+ "n.prospectid, p.firstname AS prospectname, "
-        		+ "note, n.status, n.remark, reviewby, rb.username AS reviewbyname "
+        		+ "note, n.status, n.remark, reviewby, rb.username AS reviewbyname, "
+        		+ "reviewdate, reviewtime "
         		+ "FROM tblNotes n "
         		+ "LEFT JOIN tblUser u on u.userid = n.userid "
         		+ "LEFT JOIN tblTeam t on t.teamid = n.teamid "
@@ -91,13 +94,14 @@ public class NotesDAOImpl extends JdbcDaoSupport implements NotesDAO {
     }
 
     public List<Notes> listByTeam(int teamid) {
-	    String sql = "SELECT noteid, notedate, "
+	    String sql = "SELECT noteid, notedate, notetime, "
 	    		+ "n.userid, u.username, "
 	    		+ "n.teamid, t.teamname, "
 	    		+ "n.branchid, b.branchname, "
 	    		+ "n.companyid, c.companyname, "
         		+ "n.prospectid, p.firstname AS prospectname, "
-        		+ "note, n.status, n.remark, reviewby, rb.username AS reviewbyname "
+        		+ "note, n.status, n.remark, reviewby, rb.username AS reviewbyname, "
+        		+ "reviewdate, reviewtime "
         		+ "FROM tblNotes n "
         		+ "LEFT JOIN tblUser u on u.userid = n.userid "
         		+ "LEFT JOIN tblTeam t on t.teamid = n.teamid "
@@ -112,13 +116,14 @@ public class NotesDAOImpl extends JdbcDaoSupport implements NotesDAO {
     }
 
     public List<Notes> listByBranch(int branchid) {
-	    String sql = "SELECT noteid, notedate, "
+	    String sql = "SELECT noteid, notedate, notetime, "
 	    		+ "n.userid, u.username, "
 	    		+ "n.teamid, t.teamname, "
 	    		+ "n.branchid, b.branchname, "
 	    		+ "n.companyid, c.companyname, "
         		+ "n.prospectid, p.firstname AS prospectname, "
-        		+ "note, n.status, n.remark, reviewby, rb.username AS reviewbyname "
+        		+ "note, n.status, n.remark, reviewby, rb.username AS reviewbyname, "
+        		+ "reviewdate, reviewtime "
         		+ "FROM tblNotes n "
         		+ "LEFT JOIN tblUser u on u.userid = n.userid "
         		+ "LEFT JOIN tblTeam t on t.teamid = n.teamid "
@@ -133,13 +138,14 @@ public class NotesDAOImpl extends JdbcDaoSupport implements NotesDAO {
     }
 
     public List<Notes> listByCompany(int companyid) {
-	    String sql = "SELECT noteid, notedate, "
+	    String sql = "SELECT noteid, notedate, notetime, "
 	    		+ "n.userid, u.username, "
 	    		+ "n.teamid, t.teamname, "
 	    		+ "n.branchid, b.branchname, "
 	    		+ "n.companyid, c.companyname, "
         		+ "n.prospectid, p.firstname AS prospectname, "
-        		+ "note, n.status, n.remark, reviewby, rb.username AS reviewbyname "
+        		+ "note, n.status, n.remark, reviewby, rb.username AS reviewbyname, "
+        		+ "reviewdate, reviewtime "
         		+ "FROM tblNotes n "
         		+ "LEFT JOIN tblUser u on u.userid = n.userid "
         		+ "LEFT JOIN tblTeam t on t.teamid = n.teamid "
@@ -154,13 +160,14 @@ public class NotesDAOImpl extends JdbcDaoSupport implements NotesDAO {
     }
 
     public Notes get(int noteid) {
-	    String sql = "SELECT noteid,  notedate, "
+	    String sql = "SELECT noteid,  notedate, notetime, "
 	    		+ "n.userid, u.username, "
 	    		+ "n.teamid, t.teamname, "
 	    		+ "n.branchid, b.branchname, "
 	    		+ "n.companyid, c.companyname, "
         		+ "n.prospectid, p.firstname AS prospectname, "
-        		+ "note, n.status, n.remark, reviewby, rb.username AS reviewbyname "
+        		+ "note, n.status, n.remark, reviewby, rb.username AS reviewbyname, "
+        		+ "reviewdate, reviewtime "
         		+ "FROM tblNotes n "
         		+ "LEFT JOIN tblUser u on u.userid = n.userid "
         		+ "LEFT JOIN tblTeam t on t.teamid = n.teamid "
@@ -178,6 +185,7 @@ public class NotesDAOImpl extends JdbcDaoSupport implements NotesDAO {
 	                Notes notes = new Notes();
 	                notes.setnoteid(rs.getInt("noteid"));
 	                notes.setnotedate(rs.getDate("notedate"));
+	                notes.setnotetime(rs.getTime("notetime"));
 	                notes.setuserid(rs.getInt("userid"));
 	                notes.setusername(rs.getString("username"));
 	                notes.setteamid(rs.getInt("teamid"));
@@ -193,6 +201,8 @@ public class NotesDAOImpl extends JdbcDaoSupport implements NotesDAO {
 	                notes.setremark(rs.getString("remark"));
 	                notes.setreviewby(rs.getInt("reviewby"));
 	                notes.setreviewbyname(rs.getString("reviewbyname"));
+	                notes.setreviewdate(rs.getDate("reviewdate"));
+	                notes.setreviewtime(rs.getTime("reviewtime"));
 	                return notes;
 	            }	 
 	            return null;
