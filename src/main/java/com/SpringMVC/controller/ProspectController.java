@@ -136,6 +136,7 @@ public class ProspectController {
     	questionaire.setuserid(userLogin.getuserid());
     	questionaire.setprospectname(aPIProspect.getprospectname());
     	questionaire.setmobile(aPIProspect.getmobile());
+    	questionaire.setemail(aPIProspect.getemail());
     	questionaire.setbrandname(aPIProspect.getbrandname());
     	Brand brand = brandDAO.getByName(aPIProspect.getbrandname());
     	questionaire.setbrandid(brand.getbrandid());
@@ -175,7 +176,7 @@ public class ProspectController {
         	questionaire.setquotationtime(quotationTime);    		
     	};
 
-    	if (aPIProspect.getstatus()=="4"){
+    	if (aPIProspect.getstatus()=="3"){
         	convertDate = sdf.parse(aPIProspect.getstatusdate());
         	stringDate = sdf.format(convertDate);
         	convertTime = stf.parse(aPIProspect.getstatusdate());    	
