@@ -119,7 +119,7 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
     
     public List<Activity> list(int prospectid) {
         String sql = "SELECT a.activityid, a.userid, u.username, "
-        		+ "a.prospectid, p.firstname + ' ' + p.lastname AS prospectname, "
+        		+ "a.prospectid, p.firstname, p.lastname, "
         		+ "a.activitydate, a.activitytime, "
         		+ "a.brandid, a.modelid, b.brandname, m.modelname, "
         		+ "a.demo, a.demodate, a.demotime, "
@@ -141,7 +141,7 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 
     public List<Activity> listByUser(int userid) {
         String sql = "SELECT a.activityid, a.userid, u.username, "
-        		+ "a.prospectid, p.firstname + ' ' + p.lastname AS prospectname, "
+        		+ "a.prospectid, p.firstname, p.lastname, "
         		+ "a.activitydate, a.activitytime, "
         		+ "a.brandid, a.modelid, b.brandname, m.modelname, "
         		+ "a.demo, a.demodate, a.demotime, "
@@ -163,7 +163,7 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 
     public List<Activity> listByTeam(int teamid) {
         String sql = "SELECT a.activityid, a.userid, u.username, "
-        		+ "a.prospectid, p.firstname + ' ' + p.lastname AS prospectname, "
+        		+ "a.prospectid, p.firstname, p.lastname, "
         		+ "a.activitydate, a.activitytime, "
         		+ "a.brandid AS brandid, a.modelid AS modelid, "
         		+ "b.brandname AS brandname, m.modelname AS modelname, "
@@ -186,7 +186,7 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 
     public List<Activity> listByBranch(int branchid) {
         String sql = "SELECT a.activityid, a.userid, u.username, "
-        		+ "a.prospectid, p.firstname + ' ' + p.lastname  AS prospectname, "
+        		+ "a.prospectid, p.firstname, p.lastname, "
         		+ "a.activitydate, a.activitytime, "
         		+ "a.brandid AS brandid, a.modelid AS modelid, "
         		+ "b.brandname AS brandname, m.modelname AS modelname, "
@@ -210,7 +210,7 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 
     public List<Activity> listByCompany(int companyid) {
         String sql = "SELECT a.activityid, a.userid, u.username AS username, "
-        		+ "a.prospectid, p.firstname + ' ' + p.lastname AS prospectname, "
+        		+ "a.prospectid, p.firstname, p.lastname, "
         		+ "a.activitydate, a.activitytime, "
         		+ "a.brandid, a.modelid, b.brandname, m.modelname, "
         		+ "a.demo, a.demodate, demotime, "
@@ -232,7 +232,7 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 
     public Activity get(int activityid) {
         String sql = "SELECT a.activityid, a.userid, u.username, "
-        		+ "a.prospectid, p.firstname + ' ' + p.lastname AS prospectname, "
+        		+ "a.prospectid, p.firstname, p.lastname, "
         		+ "a.activitydate, a.activitytime, "
         		+ "a.brandid, a.modelid, b.brandname, m.modelname, "
         		+ "a.demo, a.demodate, a.demotime, "
@@ -257,7 +257,8 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
 	                activity.setuserid(rs.getInt("userid"));
 	                activity.setusername(rs.getString("username"));
 	                activity.setprospectid(rs.getInt("prospectid"));
-	                activity.setprospectname(rs.getString("prospectname"));
+	                activity.setfirstname(rs.getString("firstname"));
+	                activity.setlastname(rs.getString("lastname"));
 	                activity.setactivitydate(rs.getDate("activitydate"));
 	                activity.setactivitytime(rs.getTime("activitytime"));
 	                activity.setbrandid(rs.getInt("brandid"));

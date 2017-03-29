@@ -15,8 +15,9 @@ public class ActivityMapper implements RowMapper<Activity> {
         int activityid = rs.getInt("activityid");
         int userid = rs.getInt("userid");        
         String username = rs.getString("username");        
-        int prospectid = rs.getInt("prospectid");        
-        String prospectname = rs.getString("prospectname");        
+        int prospectid = rs.getInt("prospectid");
+        String firstname = rs.getString("firstname");
+        String lastname = rs.getString("lastname");
         Date activitydate = rs.getDate("activitydate");
         Time activitytime = rs.getTime("activitytime");
         int brandid = rs.getInt("brandid");
@@ -39,7 +40,7 @@ public class ActivityMapper implements RowMapper<Activity> {
         Time closedtime = rs.getTime("closedtime");
         
         return new Activity(activityid, userid, username, 
-        		prospectid, prospectname, 
+        		prospectid, firstname, lastname,
         		activitydate, activitytime, 
         		brandid, brandname, modelid, modelname,
         		demo, demodate, demotime, 

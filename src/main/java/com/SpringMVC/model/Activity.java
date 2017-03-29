@@ -8,7 +8,8 @@ public class Activity {
     private int userid;
     private String username;
     private int prospectid;
-    private String prospectname;
+    private String firstname;
+    private String lastname;
     private Date activitydate;
     private Time activitytime;
     private int brandid;
@@ -34,7 +35,7 @@ public class Activity {
     }
  
     public Activity(int activityid, int userid, String username, 
-    		int prospectid, String prospectname, 
+    		int prospectid, String firstname, String lastname, 
     		Date activitydate, Time activitytime,
     		int brandid, String brandname, int modelid, String modelname, 
     		boolean demo, Date demodate, Time demotime,
@@ -46,7 +47,8 @@ public class Activity {
         this.userid = userid;
         this.username = username;
         this.prospectid = prospectid;
-        this.prospectname = prospectname;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.activitydate = activitydate;
         this.activitytime = activitytime;
         this.brandid = brandid;
@@ -97,11 +99,18 @@ public class Activity {
         this.prospectid = prospectid;
     }
 
-    public String getprospectname() {
-        return prospectname;
+    public String getfirstname() {
+        return firstname;
     }  
-    public void setprospectname(String prospectname) {
-        this.prospectname = prospectname;
+    public void setfirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getlastname() {
+        return lastname;
+    }  
+    public void setlastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public Date getactivitydate() {
