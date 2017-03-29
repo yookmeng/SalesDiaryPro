@@ -196,7 +196,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "LEFT JOIN tblActivity a ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblBrand b ON a.brandid = b.brandid "
         		+ "LEFT JOIN tblModel m ON a.modelid = m.modelid "
-        		+ "LEFT JOIN tblUser u ON up.userid = p.userid "
+        		+ "LEFT JOIN tblUser u ON u.userid = p.userid "
         		+ "LEFT JOIN tblCodeMaster cm ON cm.codetype = 'STATUS' AND codeid = p.status "
         		+ "WHERE u.companyid = " + companyid + " "
 				+ "AND a.activitydate = (SELECT MIN(c.activitydate) FROM tblActivity c WHERE c.prospectid = p.prospectid) "

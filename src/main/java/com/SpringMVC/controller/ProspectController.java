@@ -18,24 +18,20 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import com.SpringMVC.dao.BranchDAO;
 import com.SpringMVC.dao.BrandDAO;
 import com.SpringMVC.dao.CodeMasterDAO;
 import com.SpringMVC.dao.ModelDAO;
 import com.SpringMVC.dao.ProspectDAO;
 import com.SpringMVC.dao.QuestionaireDAO;
 import com.SpringMVC.dao.QuotationDAO;
-import com.SpringMVC.dao.TeamDAO;
 import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.model.APIProspect;
-import com.SpringMVC.model.Branch;
 import com.SpringMVC.model.Brand;
 import com.SpringMVC.model.IonicUser;
 import com.SpringMVC.model.Model;
 import com.SpringMVC.model.Prospect;
 import com.SpringMVC.model.Questionaire;
 import com.SpringMVC.model.Quotation;
-import com.SpringMVC.model.Team;
 import com.SpringMVC.model.UserLogin;
 import com.SpringMVC.uriconstant.ProspectRestURIConstant;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -47,12 +43,6 @@ public class ProspectController {
 
 	@Autowired
     private UserLoginDAO userLoginDAO;
-
-    @Autowired
-    private TeamDAO teamDAO;
-
-    @Autowired
-    private BranchDAO branchDAO;
 
     @Autowired
     private BrandDAO brandDAO;
@@ -100,12 +90,10 @@ public class ProspectController {
 					jsonInString = mapper.writeValueAsString(prospectDAO.list(userLogin.getuserid()));
 					break;    	   
 				case TL:
-					Team team = teamDAO.getByUser(userLogin.getuserid());
-					jsonInString = mapper.writeValueAsString(prospectDAO.listByTeam(team.getteamid()));
+					jsonInString = mapper.writeValueAsString(prospectDAO.listByTeam(userLogin.getteamid()));
 					break;    	   
 				case MA:
-					Branch branch = branchDAO.getByMA(userLogin.getuserid());
-					jsonInString = mapper.writeValueAsString(prospectDAO.listByBranch(branch.getbranchid()));
+					jsonInString = mapper.writeValueAsString(prospectDAO.listByBranch(userLogin.getbranchid()));
 					break;    	   
 				case MD:
 					jsonInString = mapper.writeValueAsString(prospectDAO.listByCompany(userLogin.getcompanyid()));
@@ -222,12 +210,10 @@ public class ProspectController {
 			mav.addObject("listProspect", prospectDAO.list(userLogin.getuserid()));
 			break;    	   
 		case TL:
-			Team team = teamDAO.getByUser(userLogin.getuserid());
-			mav.addObject("listProspect", prospectDAO.listByTeam(team.getteamid()));			
+			mav.addObject("listProspect", prospectDAO.listByTeam(userLogin.getteamid()));			
 			break;    	   
 		case MA:
-			Branch branch = branchDAO.getByMA(userLogin.getuserid());
-			mav.addObject("listProspect", prospectDAO.listByBranch(branch.getbranchid()));			
+			mav.addObject("listProspect", prospectDAO.listByBranch(userLogin.getbranchid()));			
 			break;    	   
 		case MD:
 			mav.addObject("listProspect", prospectDAO.listByCompany(userLogin.getcompanyid()));			
