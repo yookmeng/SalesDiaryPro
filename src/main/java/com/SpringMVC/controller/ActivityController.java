@@ -119,7 +119,8 @@ public class ActivityController {
     	activity.setuserid(userLogin.getuserid());
     	activity.setusername(userLogin.getusername());
     	activity.setprospectid(aPIActivity.getprospectid());
-    	activity.setprospectname(prospect.getfirstname());
+    	activity.setfirstname(prospect.getfirstname());
+    	activity.setlastname(prospect.getlastname());
     	activity.setactivitydate(aPIActivity.getactivitydate());
     	activity.setactivitytime(aPIActivity.getactivitytime());
     	activity.setbrandname(aPIActivity.getbrandname());
