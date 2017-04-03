@@ -43,7 +43,7 @@ public class EventController {
 		return jsonInString;
 	}
 
-    @RequestMapping(value = EventRestURIConstant.GetAll, method = RequestMethod.GET)
+    @RequestMapping(value = EventRestURIConstant.GetAll, method = RequestMethod.POST)
 	public String getEvents(@RequestBody IonicUser ionicUser) {
     	UserLogin userLogin = userLoginDAO.findUserEmail(ionicUser.getemail());
     	ObjectMapper mapper = new ObjectMapper();
