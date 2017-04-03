@@ -53,11 +53,13 @@ public class EventDAOImpl extends JdbcDaoSupport implements EventDAO {
     
     public List<Event> list(int userid) {
         String sql = "SELECT e.id, e.userid, e.prospectid, p.firstname, p.lastname, p.mobile, "
-        		+ "e.activityid, a.quotationpdflink, e.title, e.remark, "
+        		+ "e.activityid, b.brandname, m.modelname, a.quotationpdflink, e.title, e.remark, "
         		+ "e.startdate, e.starttime, e.enddate, e.endtime, e.url, e.allDay "	    		
         		+ "FROM tblEvent e "
         		+ "LEFT JOIN tblProspect p ON p.prospectid = e.prospectid "
         		+ "LEFT JOIN tblActivity a ON a.activityid = e.activityid "
+        		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
+        		+ "LEFT JOIN tblModel m ON m.modelid = a.modelid "
         		+ "WHERE e.userid = " + userid;
         EventMapper mapper = new EventMapper();
         List<Event> list = this.getJdbcTemplate().query(sql, mapper);
@@ -66,11 +68,13 @@ public class EventDAOImpl extends JdbcDaoSupport implements EventDAO {
 
     public Event get(int eventid) {
         String sql = "SELECT e.id, e.userid, e.prospectid, p.firstname, p.lastname, p.mobile, "
-        		+ "e.activityid, a.quotationpdflink, e.title, e.remark, "
+        		+ "e.activityid, b.brandname, m.modelname, a.quotationpdflink, e.title, e.remark, "
         		+ "e.startdate, e.starttime, e.enddate, e.endtime, e.url, e.allDay "	    		
         		+ "FROM tblEvent e "
         		+ "LEFT JOIN tblProspect p ON p.prospectid = e.prospectid "
         		+ "LEFT JOIN tblActivity a ON a.activityid = e.activityid "
+        		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
+        		+ "LEFT JOIN tblModel m ON m.modelid = a.modelid "
 	    		+ "WHERE e.id=" + eventid;
 	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<Event>() {
 	 
@@ -86,6 +90,8 @@ public class EventDAOImpl extends JdbcDaoSupport implements EventDAO {
 	            	event.setlastname(rs.getString("lastname"));
 	            	event.setmobile(rs.getString("mobile"));
 	            	event.setactivityid(rs.getInt("activityid"));
+	            	event.setbrandname(rs.getString("brandname"));
+	            	event.setmodelname(rs.getString("modelname"));
 	            	event.setquotationpdflink(rs.getString("quotationpdflink"));
 	            	event.settitle(rs.getString("title"));
 	            	event.setremark(rs.getString("remark"));

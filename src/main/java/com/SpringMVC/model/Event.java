@@ -11,6 +11,8 @@ public class Event {
     private String lastname;
     private String mobile;
     private int activityid;
+    private String brandname;
+    private String modelname;
     private String quotationpdflink;
     private String title;
     private String remark;    
@@ -26,7 +28,8 @@ public class Event {
  
     public Event(int id, int userid, 
     		int prospectid, String firstname, String lastname, String mobile,
-    		int activityid, String quotationpdflink, String title, String remark, 
+    		int activityid, String brandname, String modelname, String quotationpdflink, 
+    		String title, String remark, 
     		Date startdate, Time starttime, Date enddate, Time endtime,
     		String url, boolean allDay) {
         this.id = id;
@@ -36,6 +39,8 @@ public class Event {
         this.lastname = lastname;
         this.mobile = mobile;
         this.activityid = activityid;
+        this.brandname = brandname;
+        this.modelname = modelname;
         this.quotationpdflink = quotationpdflink;
         this.title = title;
         this.remark = remark;
@@ -94,6 +99,20 @@ public class Event {
     }  
     public void setactivityid(int activityid) {
         this.activityid = activityid;
+    }
+
+    public String getbrandname() {
+        return brandname;
+    }  
+    public void setbrandname(String brandname) {
+        this.brandname = brandname;
+    }
+
+    public String getmodelname() {
+        return modelname;
+    }  
+    public void setmodelname(String modelname) {
+        this.modelname = modelname;
     }
 
     public String getquotationpdflink() {

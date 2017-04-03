@@ -19,6 +19,8 @@ public class EventMapper implements RowMapper<Event> {
         String lastname = rs.getString("lastname");
         String mobile = rs.getString("mobile");
         int activityid = rs.getInt("activityid");
+        String brandname = rs.getString("brandname");
+        String modelname = rs.getString("modelname");
         String quotationpdflink = rs.getString("quotationpdflink");
         String title = rs.getString("title");
         String remark = rs.getString("remark");
@@ -30,7 +32,8 @@ public class EventMapper implements RowMapper<Event> {
         boolean allDay = rs.getBoolean("allDay");
         
         return new Event(id, userid, prospectid, firstname, lastname, mobile, 
-        		activityid, quotationpdflink, title, remark, 
+        		activityid, brandname, modelname, quotationpdflink, 
+        		title, remark, 
         		startdate, starttime, enddate, endtime, url, allDay);
     }
 }
