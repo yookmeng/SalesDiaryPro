@@ -72,6 +72,7 @@ public class EventController {
         
         currentEvent.settitle(event.gettitle());
         currentEvent.setremark(event.getremark());
+        currentEvent.setperiod(event.getperiod());
         currentEvent.setstartdate(event.getstartdate());
         currentEvent.setstarttime(event.getstarttime());
         currentEvent.setenddate(event.getenddate());

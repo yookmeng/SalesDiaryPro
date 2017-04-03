@@ -15,7 +15,8 @@ public class Event {
     private String modelname;
     private String quotationpdflink;
     private String title;
-    private String remark;    
+    private String remark;
+    private String period;
     private Date startdate;
     private Time starttime;
     private Date enddate;
@@ -29,7 +30,7 @@ public class Event {
     public Event(int id, int userid, 
     		int prospectid, String firstname, String lastname, String mobile,
     		int activityid, String brandname, String modelname, String quotationpdflink, 
-    		String title, String remark, 
+    		String title, String remark, String period,
     		Date startdate, Time starttime, Date enddate, Time endtime,
     		String url, boolean allDay) {
         this.id = id;
@@ -44,6 +45,7 @@ public class Event {
         this.quotationpdflink = quotationpdflink;
         this.title = title;
         this.remark = remark;
+        this.period = period;
         this.startdate = startdate;
         this.starttime = starttime;
         this.enddate = enddate;
@@ -134,6 +136,13 @@ public class Event {
     }  
     public void setremark(String remark) {
         this.remark = remark;
+    }
+
+    public String getperiod() {
+        return period;
+    }  
+    public void setperiod(String period) {
+        this.period = period;
     }
 
     public Date getstartdate() {

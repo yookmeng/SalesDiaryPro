@@ -24,6 +24,7 @@ public class EventMapper implements RowMapper<Event> {
         String quotationpdflink = rs.getString("quotationpdflink");
         String title = rs.getString("title");
         String remark = rs.getString("remark");
+        String period = rs.getString("period");
         Date startdate = rs.getDate("startdate");
         Time starttime = rs.getTime("startdate");
         Date enddate = rs.getDate("enddate");
@@ -33,7 +34,7 @@ public class EventMapper implements RowMapper<Event> {
         
         return new Event(id, userid, prospectid, firstname, lastname, mobile, 
         		activityid, brandname, modelname, quotationpdflink, 
-        		title, remark, 
+        		title, remark, period,
         		startdate, starttime, enddate, endtime, url, allDay);
     }
 }
