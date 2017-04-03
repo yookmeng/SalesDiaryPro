@@ -26,9 +26,9 @@ public class EventMapper implements RowMapper<Event> {
         String remark = rs.getString("remark");
         String period = rs.getString("period");
         Date startdate = rs.getDate("startdate");
-        Time starttime = rs.getTime("startdate");
+        Time starttime = rs.getTime("starttime");
         Date enddate = rs.getDate("enddate");
-        Time endtime = rs.getTime("enddate");
+        Time endtime = rs.getTime("endtime");
         String url = rs.getString("url");
         boolean allDay = rs.getBoolean("allDay");
         
