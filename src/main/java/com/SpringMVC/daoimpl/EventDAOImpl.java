@@ -5,11 +5,10 @@ import java.sql.SQLException;
 import java.util.List;
 import javax.sql.DataSource;
 
-import com.SpringMVC.model.Calendar;
 import com.SpringMVC.model.Event;
 
 import com.SpringMVC.dao.EventDAO;
-import com.SpringMVC.mapper.CalendarMapper;
+import com.SpringMVC.mapper.EventMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -26,20 +25,25 @@ public class EventDAOImpl extends JdbcDaoSupport implements EventDAO {
 	
     public void save(Event event) {
         String sql = "INSERT INTO tblEvent "
-        		+ "(userid, period, title, remark, starts, ends, url, allDay, activityid) "
-        		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        		+ "(userid, prospect, activityid, "
+        		+ "title, remark, "
+        		+ "startdate, starttime, enddate, endtime, "
+        		+ "url, allDay) "
+        		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         this.getJdbcTemplate().update(sql, 
-        		event.getid(), event.getuserid(), event.getperiod(), event.gettitle(), 
-        		event.getremark(), event.getstart(), event.getend(), event.geturl(), 
-        		event.getallDay(), event.getactivityid());
+        		event.getuserid(), event.getprospectid(), event.getactivityid(), 
+        		event.gettitle(), event.getremark(), 
+        		event.getstartdate(), event.getstarttime(), event.getenddate(), event.getendtime(), 
+        		event.geturl(), event.getallDay());
         }
     
     public void update(Event event) {
-        String sql = "UPDATE tblEvent SET title=?, remark=?, starts=?, ends=?, url=?, allDay=? "
+        String sql = "UPDATE tblEvent "
+        		+ "SET title=?, remark=?, startdate=?, starttime=?, enddate=?, endtime=?, url=?, allDay=? "
         		+ "WHERE id=?";
         this.getJdbcTemplate().update(sql, event.gettitle(), event.getremark(), 
-        		event.getstart(), event.getend(), event.geturl(), event.getallDay(),
-        		event.getid());
+        		event.getstartdate(), event.getstarttime(), event.getenddate(), event.getendtime(), 
+        		event.geturl(), event.getallDay(),event.getid());
     }
 
     public void delete(int id) {
@@ -47,21 +51,27 @@ public class EventDAOImpl extends JdbcDaoSupport implements EventDAO {
         this.getJdbcTemplate().update(sql, id);
     }
     
-    public List<Calendar> list(int userid, String period) {
-        String sql = "SELECT id, title, starts, ends, url, allDay "	    		
-        		+ "FROM tblEvent "
-        		+ "WHERE userid = " + userid + " "
-        		+ "AND period = '" + period + "'";
-        CalendarMapper mapper = new CalendarMapper();
-        List<Calendar> list = this.getJdbcTemplate().query(sql, mapper);
+    public List<Event> list(int userid) {
+        String sql = "SELECT e.id, e.userid, e.prospectid, p.firstname, p.lastname, p.mobile, "
+        		+ "e.activityid, a.quotationpdflink, e.title, e.remark, "
+        		+ "e.startdate, e.starttime, e.enddate, e.endtime, e.url, e.allDay "	    		
+        		+ "FROM tblEvent e "
+        		+ "LEFT JOIN tblProspect p ON p.prospectid = e.prospectid "
+        		+ "LEFT JOIN tblActivity a ON a.activityid = e.activityid "
+        		+ "WHERE e.userid = " + userid;
+        EventMapper mapper = new EventMapper();
+        List<Event> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
     }
 
     public Event get(int eventid) {
-	    String sql = "SELECT id, userid, period, title, remark, "
-	    		+ "starts, ends, url, allDay, activityid "	    		
-        		+ "FROM tblEvent "
-	    		+ "WHERE eventid=" + eventid;
+        String sql = "SELECT e.id, e.userid, e.prospectid, p.firstname, p.lastname, p.mobile, "
+        		+ "e.activityid, a.quotationpdflink, e.title, e.remark, "
+        		+ "e.startdate, e.starttime, e.enddate, e.endtime, e.url, e.allDay "	    		
+        		+ "FROM tblEvent e "
+        		+ "LEFT JOIN tblProspect p ON p.prospectid = e.prospectid "
+        		+ "LEFT JOIN tblActivity a ON a.activityid = e.activityid "
+	    		+ "WHERE e.id=" + eventid;
 	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<Event>() {
 	 
 	        @Override
@@ -71,14 +81,20 @@ public class EventDAOImpl extends JdbcDaoSupport implements EventDAO {
 	            	Event event = new Event();
 	            	event.setid(rs.getInt("id"));
 	            	event.setuserid(rs.getInt("userid"));
-	            	event.setperiod(rs.getString("period"));
+	            	event.setprospectid(rs.getInt("prospectid"));
+	            	event.setfirstname(rs.getString("firstname"));
+	            	event.setlastname(rs.getString("lastname"));
+	            	event.setmobile(rs.getString("mobile"));
+	            	event.setactivityid(rs.getInt("activityid"));
+	            	event.setquotationpdflink(rs.getString("quotationpdflink"));
 	            	event.settitle(rs.getString("title"));
-	            	event.setremark(rs.getString("remark"));	            	
-	            	event.setstart(rs.getString("starts"));
-	            	event.setend(rs.getString("ends"));
+	            	event.setremark(rs.getString("remark"));
+	            	event.setstartdate(rs.getDate("startdate"));
+	            	event.setstarttime(rs.getTime("starttime"));
+	            	event.setenddate(rs.getDate("enddate"));
+	            	event.setendtime(rs.getTime("endtime"));
 	            	event.seturl(rs.getString("url"));
 	            	event.setallDay(rs.getBoolean("allDay"));
-	            	event.setactivityid(rs.getInt("activityid"));
 	                return event;
 	            }	 
 	            return null;

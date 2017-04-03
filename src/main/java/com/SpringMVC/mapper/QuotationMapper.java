@@ -14,7 +14,8 @@ public class QuotationMapper implements RowMapper<Quotation> {
         int quotationid = rs.getInt("quotationid");
         Date quotationdate = rs.getDate("quotationdate");
         int prospectid = rs.getInt("prospectid");
-        String prospectname = rs.getString("prospectname");
+        String firstname = rs.getString("firstname");
+        String lastname = rs.getString("lastname");
         int activityid = rs.getInt("activityid");
         int brandid = rs.getInt("brandid");
         String brandname = rs.getString("brandname");
@@ -37,7 +38,7 @@ public class QuotationMapper implements RowMapper<Quotation> {
         String remark = rs.getString("remark");
         String quotationpdflink = rs.getString("quotationpdflink");
 
-        return new Quotation(quotationid, quotationdate, prospectid, prospectname,
+        return new Quotation(quotationid, quotationdate, prospectid, firstname, lastname,
         		activityid, brandid, brandname, modelid, modelname, colour,
         		retailprice, suminsured, ncd, premium, premiumafterncd, roadtax,
         		registrationfee, handlingcharges, extendedwarranty,

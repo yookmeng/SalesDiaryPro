@@ -6,7 +6,8 @@ public class Quotation {
     private int quotationid;
     private Date quotationdate;
     private int prospectid;
-    private String prospectname;
+    private String firstname;
+    private String lastname;
     private int activityid;
     private int brandid;
     private String brandname;
@@ -32,7 +33,7 @@ public class Quotation {
     public Quotation() {
     }
  
-    public Quotation(int quotationid, Date quotationdate, int prospectid, String prospectname, 
+    public Quotation(int quotationid, Date quotationdate, int prospectid, String firstname, String lastname,
     		int activityid, int brandid, String brandname, int modelid, String modelname, String colour,
     		float retailprice, float suminsured, String ncd, float premium, float premiumafterncd,
     		float roadtax, float registrationfee, float handlingcharges, float extendedwarranty,
@@ -42,7 +43,8 @@ public class Quotation {
     	this.quotationid = quotationid;
     	this.quotationdate = quotationdate;
         this.prospectid = prospectid;
-        this.prospectname = prospectname;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.activityid = activityid;
         this.brandid = brandid;
         this.brandname = brandname;
@@ -87,11 +89,18 @@ public class Quotation {
         this.prospectid = prospectid;
     }
 
-    public String getprospectname() {
-        return prospectname;
+    public String getfirstname() {
+        return firstname;
     }  
-    public void setprospectname(String prospectname) {
-        this.prospectname = prospectname;
+    public void setfirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getlastname() {
+        return lastname;
+    }  
+    public void setlastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public int getactivityid() {

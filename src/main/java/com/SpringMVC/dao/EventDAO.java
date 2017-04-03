@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.SpringMVC.model.Calendar;
 import com.SpringMVC.model.Event;
 @Repository 
 public interface EventDAO {
@@ -17,5 +16,5 @@ public interface EventDAO {
      
     public Event get(int eventid);
      
-    public List<Calendar> list(int userid, String period);    
+    public List<Event> list(int userid);    
 }

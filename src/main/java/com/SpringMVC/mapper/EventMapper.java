@@ -1,7 +1,9 @@
 package com.SpringMVC.mapper;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 
 import com.SpringMVC.model.Event;
 import org.springframework.jdbc.core.RowMapper;
@@ -12,15 +14,23 @@ public class EventMapper implements RowMapper<Event> {
     public Event mapRow(ResultSet rs, int rowNum) throws SQLException { 
         int id = rs.getInt("id");
         int userid = rs.getInt("userid");
-        String period = rs.getString("period");
+        int prospectid = rs.getInt("prospectid");
+        String firstname = rs.getString("firstname");
+        String lastname = rs.getString("lastname");
+        String mobile = rs.getString("mobile");
+        int activityid = rs.getInt("activityid");
+        String quotationpdflink = rs.getString("quotationpdflink");
         String title = rs.getString("title");
         String remark = rs.getString("remark");
-        String start = rs.getString("start");
-        String end = rs.getString("end");
+        Date startdate = rs.getDate("startdate");
+        Time starttime = rs.getTime("startdate");
+        Date enddate = rs.getDate("enddate");
+        Time endtime = rs.getTime("enddate");
         String url = rs.getString("url");
         boolean allDay = rs.getBoolean("allDay");
-        int activityid = rs.getInt("activityid");
         
-        return new Event(id, userid, period, title, remark, start, end, url, allDay, activityid);
+        return new Event(id, userid, prospectid, firstname, lastname, mobile, 
+        		activityid, quotationpdflink, title, remark, 
+        		startdate, starttime, enddate, endtime, url, allDay);
     }
 }

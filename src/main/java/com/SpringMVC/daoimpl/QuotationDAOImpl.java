@@ -160,7 +160,7 @@ public class QuotationDAOImpl extends JdbcDaoSupport implements QuotationDAO {
            document.add(new Phrase("\n"));
            document.add(new Phrase("\n"));
            document.add(new Paragraph(quotation.getquotationdate().toString(), BodyFont));           
-           document.add(new Paragraph(quotation.getprospectname(), BodyFont));           
+           document.add(new Paragraph(quotation.getfirstname() + quotation.getlastname(), BodyFont));           
            document.add(new Paragraph("Dear Sir,", BodyFont));
            document.add( Chunk.NEWLINE );
            Paragraph paragraphTitle = new Paragraph("QUOTATION FOR "+quotation.getmodelname(), TitleFont);
@@ -409,7 +409,7 @@ public class QuotationDAOImpl extends JdbcDaoSupport implements QuotationDAO {
     }
 
     public Quotation get(int quotationid) {
-	    String sql = "SELECT q.quotationid, q.quotationdate, q.prospectid, p.firstname AS prospectname, "
+	    String sql = "SELECT q.quotationid, q.quotationdate, q.prospectid, p.firstname, p.lastname, "
 	    		+ "q.activityid, q.brandid, b.brandname, q.modelid, m.modelname, m.colour, "
 	    		+ "q.retailprice, q.suminsured, q.ncd, q.premium, q.premiumafterncd, q.roadtax, "
 	    		+ "q.registrationfee, q.handlingcharges, q.extendedwarranty, q.othercharges,"
@@ -430,7 +430,8 @@ public class QuotationDAOImpl extends JdbcDaoSupport implements QuotationDAO {
 	            	quotation.setquotationid(rs.getInt("quotationid"));
 	            	quotation.setquotationdate(rs.getDate("quotationdate"));
 	            	quotation.setprospectid(rs.getInt("prospectid"));
-	            	quotation.setprospectname(rs.getString("prospectname"));
+	            	quotation.setfirstname(rs.getString("firstname"));
+	            	quotation.setlastname(rs.getString("lastname"));
 	            	quotation.setactivityid(rs.getInt("activityid"));
 	            	quotation.setbrandid(rs.getInt("brandid"));
 	            	quotation.setbrandname(rs.getString("brandname"));

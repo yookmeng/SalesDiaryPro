@@ -1,32 +1,50 @@
 package com.SpringMVC.model;
 
+import java.sql.Date;
+import java.sql.Time;
+
 public class Event {
     private int id;
     private int userid;    
-    private String period;
+    private int prospectid;
+    private String firstname;
+    private String lastname;
+    private String mobile;
+    private int activityid;
+    private String quotationpdflink;
     private String title;
     private String remark;    
-    private String start;
-    private String end;
+    private Date startdate;
+    private Time starttime;
+    private Date enddate;
+    private Time endtime;
     private String url;    
     private boolean allDay;
-    private int activityid;        
     
     public Event() {
     }
  
-    public Event(int id, int userid, String period, String title, String remark, 
-    		String start, String end, String url, boolean allDay, int activityid) {
+    public Event(int id, int userid, 
+    		int prospectid, String firstname, String lastname, String mobile,
+    		int activityid, String quotationpdflink, String title, String remark, 
+    		Date startdate, Time starttime, Date enddate, Time endtime,
+    		String url, boolean allDay) {
         this.id = id;
         this.userid = userid;
-        this.period = period;
+        this.prospectid = prospectid;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.mobile = mobile;
+        this.activityid = activityid;
+        this.quotationpdflink = quotationpdflink;
         this.title = title;
         this.remark = remark;
-        this.start= start;
-        this.end = end;
+        this.startdate = startdate;
+        this.starttime = starttime;
+        this.enddate = enddate;
+        this.endtime = endtime;
         this.url = url;
         this.allDay = allDay;
-        this.activityid = activityid;
     }
  
     public int getid() {
@@ -43,11 +61,46 @@ public class Event {
         this.userid = userid;
     }
 
-    public String getperiod() {
-        return period;
+    public int getprospectid() {
+        return prospectid;
     }  
-    public void setperiod(String period) {
-        this.period = period;
+    public void setprospectid(int prospectid) {
+        this.prospectid = prospectid;
+    }
+
+    public String getfirstname() {
+        return firstname;
+    }  
+    public void setfirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getlastname() {
+        return lastname;
+    }  
+    public void setlastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getmobile() {
+        return mobile;
+    }  
+    public void setmobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public int getactivityid() {
+        return activityid;
+    }  
+    public void setactivityid(int activityid) {
+        this.activityid = activityid;
+    }
+
+    public String getquotationpdflink() {
+        return quotationpdflink;
+    }  
+    public void setquotationpdflink(String quotationpdflink) {
+        this.quotationpdflink = quotationpdflink;
     }
 
     public String gettitle() {
@@ -64,18 +117,32 @@ public class Event {
         this.remark = remark;
     }
 
-    public String getstart() {
-        return start;
+    public Date getstartdate() {
+        return startdate;
     }  
-    public void setstart(String start) {
-        this.start = start;
+    public void setstartdate(Date startdate) {
+        this.startdate = startdate;
     }
 
-    public String getend() {
-        return end;
+    public Time getstarttime() {
+        return starttime;
     }  
-    public void setend(String end) {
-        this.end = end;
+    public void setstarttime(Time starttime) {
+        this.starttime = starttime;
+    }
+
+    public Date getenddate() {
+        return enddate;
+    }  
+    public void setenddate(Date enddate) {
+        this.enddate = enddate;
+    }
+
+    public Time getendtime() {
+        return endtime;
+    }  
+    public void setendtime(Time endtime) {
+        this.endtime = endtime;
     }
 
     public String geturl() {
@@ -90,11 +157,5 @@ public class Event {
     }  
     public void setallDay(boolean allDay) {
         this.allDay = allDay;
-    }
-    public int getactivityid() {
-        return activityid;
-    }  
-    public void setactivityid(int activityid) {
-        this.activityid = activityid;
     }
 }

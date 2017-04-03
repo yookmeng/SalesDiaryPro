@@ -26,7 +26,7 @@ public class UserCalendarController {
         ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
-			jsonInString = mapper.writeValueAsString(eventDAO.list(userid, period));
+			jsonInString = mapper.writeValueAsString(eventDAO.list(userid));
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
