@@ -25,7 +25,7 @@ public class EventDAOImpl extends JdbcDaoSupport implements EventDAO {
 	
     public void save(Event event) {
         String sql = "INSERT INTO tblEvent "
-        		+ "(userid, prospect, activityid, "
+        		+ "(userid, prospectid, activityid, "
         		+ "title, remark, period, "
         		+ "startdate, starttime, enddate, endtime, "
         		+ "url, allDay) "
