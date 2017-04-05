@@ -2,7 +2,6 @@ package com.SpringMVC.daoimpl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Calendar;
 import java.util.List;
  
 import javax.sql.DataSource;
@@ -189,16 +188,6 @@ public class TeamTargetDAOImpl extends JdbcDaoSupport implements TeamTargetDAO {
     }
 
     public List<TeamTarget> listByCompany(int companyid) {
-    	//only get data greater than or equal current month - 3
-        int currentyear = Calendar.getInstance().get(Calendar.YEAR);
-        int currentmonth = Calendar.getInstance().get(Calendar.MONTH)+1;
-        String period = "";
-        if (currentmonth<4){
-        	period = String.valueOf(currentyear-1)+"-"+String.valueOf(currentmonth+9);
-        };
-        if (currentmonth>3){
-        	period = String.valueOf(currentyear)+"-"+String.valueOf(currentmonth);
-        };
 	    String sql = "SELECT tt.targetid AS targetid, "
 	    		+ "tt.teamid AS teamid, "
 	    		+ "t.teamname AS teamname, "
@@ -211,7 +200,6 @@ public class TeamTargetDAOImpl extends JdbcDaoSupport implements TeamTargetDAO {
         		+ "LEFT JOIN tblTeam t ON t.teamid = tt.teamid "	    		
         		+ "LEFT JOIN tblBranch b ON b.branchid = t.branchid "	    		
         		+ "WHERE b.companyid = " + companyid + " "
-	    		+ "AND period >= '" + period + "' "
         		+ "ORDER BY period";
 
         TeamTargetMapper mapper = new TeamTargetMapper();
@@ -220,16 +208,6 @@ public class TeamTargetDAOImpl extends JdbcDaoSupport implements TeamTargetDAO {
     }
 
     public List<TeamTarget> listByBranch(int branchid) {
-    	//only get data greater than or equal current month - 3
-        int currentyear = Calendar.getInstance().get(Calendar.YEAR);
-        int currentmonth = Calendar.getInstance().get(Calendar.MONTH)+1;
-        String period = "";
-        if (currentmonth<4){
-        	period = String.valueOf(currentyear-1)+"-"+String.valueOf(currentmonth+9);
-        };
-        if (currentmonth>3){
-        	period = String.valueOf(currentyear)+"-"+String.valueOf(currentmonth);
-        };
 	    String sql = "SELECT tt.targetid AS targetid, "
 	    		+ "tt.teamid AS teamid, "
 	    		+ "t.teamname AS teamname, "
@@ -241,7 +219,6 @@ public class TeamTargetDAOImpl extends JdbcDaoSupport implements TeamTargetDAO {
 	    		+ "FROM tblTeamTarget tt "
         		+ "LEFT JOIN tblTeam t ON t.teamid = tt.teamid "	    		
         		+ "WHERE t.branchid = " + branchid + " "
-	    		+ "AND period >= '" + period + "' "
         		+ "ORDER BY period";
 
         TeamTargetMapper mapper = new TeamTargetMapper();
@@ -250,16 +227,6 @@ public class TeamTargetDAOImpl extends JdbcDaoSupport implements TeamTargetDAO {
     }
 
     public List<TeamTarget> listByTeam(int teamid) {
-    	//only get data greater than or equal current month - 3
-        int currentyear = Calendar.getInstance().get(Calendar.YEAR);
-        int currentmonth = Calendar.getInstance().get(Calendar.MONTH)+1;
-        String period = "";
-        if (currentmonth<4){
-        	period = String.valueOf(currentyear-1)+"-"+String.valueOf(currentmonth+9);
-        };
-        if (currentmonth>3){
-        	period = String.valueOf(currentyear)+"-"+String.valueOf(currentmonth);
-        };
 	    String sql = "SELECT tt.targetid AS targetid, "
 	    		+ "tt.teamid AS teamid, "
 	    		+ "t.teamname AS teamname, "
@@ -271,7 +238,6 @@ public class TeamTargetDAOImpl extends JdbcDaoSupport implements TeamTargetDAO {
 	    		+ "FROM tblTeamTarget tt "
         		+ "LEFT JOIN tblTeam t ON t.teamid = tt.teamid "	    		
         		+ "WHERE t.teamid = " + teamid + " "
-	    		+ "AND period >= '" + period + "' "
         		+ "ORDER BY period";
 
         TeamTargetMapper mapper = new TeamTargetMapper();

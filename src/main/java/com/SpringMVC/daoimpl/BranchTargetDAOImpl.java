@@ -2,7 +2,6 @@ package com.SpringMVC.daoimpl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Calendar;
 import java.util.List;
  
 import javax.sql.DataSource;
@@ -128,16 +127,6 @@ public class BranchTargetDAOImpl extends JdbcDaoSupport implements BranchTargetD
     }
 
     public List<BranchTarget> listByCompany(int companyid) {
-    	//only get data greater than or equal current month - 3
-        int currentyear = Calendar.getInstance().get(Calendar.YEAR);
-        int currentmonth = Calendar.getInstance().get(Calendar.MONTH)+1;
-        String period = "";
-        if (currentmonth<4){
-        	period = String.valueOf(currentyear-1)+"-"+String.valueOf(currentmonth+9);
-        };
-        if (currentmonth>3){
-        	period = String.valueOf(currentyear)+"-"+String.valueOf(currentmonth);
-        };
         String sql = "SELECT bt.targetid AS targetid, "
         		+ "bt.branchid AS branchid, "
         		+ "b.branchname AS branchname, "
@@ -149,7 +138,6 @@ public class BranchTargetDAOImpl extends JdbcDaoSupport implements BranchTargetD
         		+ "FROM tblBranchTarget bt "
         		+ "LEFT JOIN tblBranch b ON b.branchid = bt.branchid "
         		+ "WHERE b.companyid = " + companyid + " "
-	    		+ "AND period >= '" + period + "' "
         		+ "ORDER BY period";
         BranchTargetMapper mapper = new BranchTargetMapper();
         List<BranchTarget> list = this.getJdbcTemplate().query(sql, mapper);
@@ -157,16 +145,6 @@ public class BranchTargetDAOImpl extends JdbcDaoSupport implements BranchTargetD
     }
 
     public List<BranchTarget> listByBranch(int branchid) {
-    	//only get data greater than or equal current month - 3
-        int currentyear = Calendar.getInstance().get(Calendar.YEAR);
-        int currentmonth = Calendar.getInstance().get(Calendar.MONTH)+1;
-        String period = "";
-        if (currentmonth<4){
-        	period = String.valueOf(currentyear-1)+"-"+String.valueOf(currentmonth+9);
-        };
-        if (currentmonth>3){
-        	period = String.valueOf(currentyear)+"-"+String.valueOf(currentmonth);
-        };
         String sql = "SELECT bt.targetid AS targetid, "
         		+ "bt.branchid AS branchid, "
         		+ "b.branchname AS branchname, "
@@ -178,7 +156,6 @@ public class BranchTargetDAOImpl extends JdbcDaoSupport implements BranchTargetD
         		+ "FROM tblBranchTarget bt "
         		+ "LEFT JOIN tblBranch b ON b.branchid = bt.branchid "
         		+ "WHERE bt.branchid = " + branchid + " "
-	    		+ "AND period >= '" + period + "' "
         		+ "ORDER BY period";
         BranchTargetMapper mapper = new BranchTargetMapper();
         List<BranchTarget> list = this.getJdbcTemplate().query(sql, mapper);
