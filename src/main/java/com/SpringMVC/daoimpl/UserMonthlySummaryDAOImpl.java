@@ -180,8 +180,7 @@ public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMon
 			    		+ "LEFT JOIN tblTeam t ON ms.teamid = t.teamid "
 			    		+ "LEFT JOIN tblBranch b ON ms.branchid = b.branchid "
 			    		+ "LEFT JOIN tblCompany c ON ms.companyid = c.companyid "
-			    		+ "WHERE period = '" + period + "' "
-						+ "AND userid = " + userid;
+			    		+ "WHERE userid = " + userid;
 				break;
 			case TL:
 		        sql = "Select teamid from tblTeam where leaderid = ? ";
@@ -197,9 +196,7 @@ public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMon
 			    		+ "LEFT JOIN tblTeam t ON ms.teamid = t.teamid "
 			    		+ "LEFT JOIN tblBranch b ON ms.branchid = b.branchid "
 			    		+ "LEFT JOIN tblCompany c ON ms.companyid = c.companyid "
-			    		+ "WHERE period = '" + period + "' "
-						+ "AND ms.teamid = " + teamid + " "
-						+ "ORDER BY ms.username";
+			    		+ "WHERE ms.teamid = " + teamid;
 				break;
 			case MA:
 		        sql = "Select branchid from tblBranch where maid = ? ";
@@ -214,9 +211,7 @@ public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMon
 			    		+ "LEFT JOIN tblTeam t ON ms.teamid = t.teamid "
 			    		+ "LEFT JOIN tblBranch b ON ms.branchid = b.branchid "
 			    		+ "LEFT JOIN tblCompany c ON ms.companyid = c.companyid "
-			    		+ "WHERE period = '" + period + "' "
-						+ "AND ms.branchid = " + branchid + " "
-						+ "ORDER BY t.teamid, ms.username";
+			    		+ "WHERE ms.branchid = " + branchid;
 				break;
 			case MD:
 		        sql = "Select companyid from tblCompany where mdid = ? ";
@@ -231,9 +226,7 @@ public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMon
 			    		+ "LEFT JOIN tblTeam t ON ms.teamid = t.teamid "
 			    		+ "LEFT JOIN tblBranch b ON ms.branchid = b.branchid "
 			    		+ "LEFT JOIN tblCompany c ON ms.companyid = c.companyid "
-			    		+ "WHERE period = '" + period + "' "
-						+ "AND ms.companyid = " + companyid + " "
-						+ "ORDER BY b.branchid, t.teamid, ms.username";
+			    		+ "WHERE ms.companyid = " + companyid;
 				break;
 			default:
 		}    	
