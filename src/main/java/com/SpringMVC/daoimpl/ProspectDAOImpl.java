@@ -124,7 +124,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "LEFT JOIN tblModel m ON a.modelid = m.modelid "
         		+ "LEFT JOIN tblCodeMaster cm ON cm.codetype = 'STATUS' AND codeid = p.status "
         		+ "WHERE p.userid = " + userid + " "
-				+ "AND (a.activitydate = (SELECT MIN(c.activitydate) FROM tblActivity c WHERE c.prospectid = p.prospectid) OR a.activitydate IS NULL) "
+				+ "AND (a.activityid = (SELECT MIN(c.activityid) FROM tblActivity c WHERE c.prospectid = p.prospectid) OR a.activitydate IS NULL) "
 				+ "ORDER BY firstname, lastname";
         ProspectMapper mapper = new ProspectMapper();
         List<Prospect> list = this.getJdbcTemplate().query(sql, mapper);
@@ -149,7 +149,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "LEFT JOIN tblUser u ON u.userid = p.userid "
         		+ "LEFT JOIN tblCodeMaster cm ON cm.codetype = 'STATUS' AND codeid = p.status "
         		+ "WHERE u.teamid = " + teamid + " "
-				+ "AND (a.activitydate = (SELECT MIN(c.activitydate) FROM tblActivity c WHERE c.prospectid = p.prospectid) OR a.activitydate IS NULL) "
+				+ "AND (a.activityid = (SELECT MIN(c.activityid) FROM tblActivity c WHERE c.prospectid = p.prospectid) OR a.activitydate IS NULL) "
 				+ "ORDER BY firstname, lastname";
         ProspectMapper mapper = new ProspectMapper();
         List<Prospect> list = this.getJdbcTemplate().query(sql, mapper);
@@ -174,7 +174,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "LEFT JOIN tblUser u ON u.userid = p.userid "
         		+ "LEFT JOIN tblCodeMaster cm ON cm.codetype = 'STATUS' AND codeid = p.status "
         		+ "WHERE u.branchid = " + branchid + " "
-				+ "AND (a.activitydate = (SELECT MIN(c.activitydate) FROM tblActivity c WHERE c.prospectid = p.prospectid) OR a.activitydate IS NULL) "
+				+ "AND (a.activityid = (SELECT MIN(c.activityid) FROM tblActivity c WHERE c.prospectid = p.prospectid) OR a.activitydate IS NULL) "
         		+ "ORDER BY firstname, lastname";
         ProspectMapper mapper = new ProspectMapper();
         List<Prospect> list = this.getJdbcTemplate().query(sql, mapper);
@@ -199,7 +199,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "LEFT JOIN tblUser u ON u.userid = p.userid "
         		+ "LEFT JOIN tblCodeMaster cm ON cm.codetype = 'STATUS' AND codeid = p.status "
         		+ "WHERE u.companyid = " + companyid + " "
-				+ "AND a.activitydate = (SELECT MIN(c.activitydate) FROM tblActivity c WHERE c.prospectid = p.prospectid) "
+				+ "AND a.activityid = (SELECT MIN(c.activityid) FROM tblActivity c WHERE c.prospectid = p.prospectid) "
         		+ "ORDER BY firstname, lastname";
         ProspectMapper mapper = new ProspectMapper();
         List<Prospect> list = this.getJdbcTemplate().query(sql, mapper);
