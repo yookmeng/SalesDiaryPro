@@ -19,10 +19,13 @@ public class Event {
     private String period;
     private Date startdate;
     private Time starttime;
+    private String startdatetime;
     private Date enddate;
     private Time endtime;
+    private String enddatetime;
     private String url;    
     private boolean allDay;
+    private boolean status;
     
     public Event() {
     }
@@ -31,8 +34,9 @@ public class Event {
     		int prospectid, String firstname, String lastname, String mobile,
     		int activityid, String brandname, String modelname, String quotationpdflink, 
     		String title, String remark, String period,
-    		Date startdate, Time starttime, Date enddate, Time endtime,
-    		String url, boolean allDay) {
+    		Date startdate, Time starttime, String startdatetime, 
+    		Date enddate, Time endtime, String enddatetime,
+    		String url, boolean allDay, boolean status) {
         this.id = id;
         this.userid = userid;
         this.prospectid = prospectid;
@@ -48,10 +52,13 @@ public class Event {
         this.period = period;
         this.startdate = startdate;
         this.starttime = starttime;
+        this.startdatetime = startdatetime;
         this.enddate = enddate;
         this.endtime = endtime;
+        this.enddatetime = enddatetime;
         this.url = url;
         this.allDay = allDay;
+        this.status = status;
     }
  
     public int getid() {
@@ -159,6 +166,13 @@ public class Event {
         this.starttime = starttime;
     }
 
+    public String getstartdatetime() {
+        return startdatetime;
+    }  
+    public void setstartdatetime(String startdatetime) {
+        this.startdatetime = startdatetime;
+    }
+
     public Date getenddate() {
         return enddate;
     }  
@@ -173,6 +187,13 @@ public class Event {
         this.endtime = endtime;
     }
 
+    public String getenddatetime() {
+        return enddatetime;
+    }  
+    public void setenddatetime(String enddatetime) {
+        this.enddatetime = enddatetime;
+    }
+
     public String geturl() {
         return url;
     }  
@@ -185,5 +206,12 @@ public class Event {
     }  
     public void setallDay(boolean allDay) {
         this.allDay = allDay;
+    }
+
+    public boolean getstatus() {
+        return status;
+    }  
+    public void setstatus(boolean status) {
+        this.status = status;
     }
 }
