@@ -27,11 +27,19 @@ public class EventMapper implements RowMapper<Event> {
         String period = rs.getString("period");
         Date startdate = rs.getDate("startdate");
         Time starttime = rs.getTime("starttime");
-        String startdatetime = rs.getDate("startdate").toString() + " " + rs.getTime("starttime").toString();
-        Date enddate = rs.getDate("enddate");
+    	String startdatetime = "";
+        if (rs.getDate("startdate").equals(null)){
+        } else {
+        	startdatetime = rs.getDate("startdate").toString() + " " + rs.getTime("starttime").toString();
+        }
+    	Date enddate = rs.getDate("enddate");
         Time endtime = rs.getTime("endtime");
-        String enddatetime = rs.getDate("enddate").toString() + " " + rs.getDate("endtime").toString();
-        String url = rs.getString("url");
+        String enddatetime = "";
+        if (rs.getDate("enddate").equals(null)){        	
+        } else {
+        	enddatetime = rs.getDate("enddate").toString() + " " + rs.getDate("endtime").toString();
+        }
+    	String url = rs.getString("url");
         boolean allDay = rs.getBoolean("allDay");
         boolean status = rs.getBoolean("status");
         
