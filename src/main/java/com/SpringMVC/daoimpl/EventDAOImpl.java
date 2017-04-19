@@ -99,14 +99,14 @@ public class EventDAOImpl extends JdbcDaoSupport implements EventDAO {
 	            	event.setperiod(rs.getString("period"));
 	            	event.setstartdate(rs.getDate("startdate"));
 	            	event.setstarttime(rs.getTime("starttime"));
-	            	if (rs.getDate("startdate").equals(null)){
+	            	if (rs.getDate("startdate")==null){
 	            		event.setstartdatetime("");
 	            	} else {
 		            	event.setstartdatetime(rs.getDate("startdate").toString()+" "+rs.getTime("starttime").toString());	            		
 	            	}
 	            	event.setenddate(rs.getDate("enddate"));
 	            	event.setendtime(rs.getTime("endtime"));
-	            	if (rs.getDate("enddate").equals(null)){
+	            	if (rs.getDate("enddate")==null){
 	            		event.setenddatetime("");
 	            	} else {
 	            		event.setenddatetime(rs.getDate("enddate").toString()+" "+rs.getTime("endtime").toString());

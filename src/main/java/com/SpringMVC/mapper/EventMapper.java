@@ -28,14 +28,14 @@ public class EventMapper implements RowMapper<Event> {
         Date startdate = rs.getDate("startdate");
         Time starttime = rs.getTime("starttime");
     	String startdatetime = "";
-        if (rs.getDate("startdate").equals(null)){
+        if (rs.getDate("startdate")==null){
         } else {
         	startdatetime = rs.getDate("startdate").toString() + " " + rs.getTime("starttime").toString();
         }
     	Date enddate = rs.getDate("enddate");
         Time endtime = rs.getTime("endtime");
         String enddatetime = "";
-        if (rs.getDate("enddate").equals(null)){        	
+        if (rs.getDate("enddate")==null){        	
         } else {
         	enddatetime = rs.getDate("enddate").toString() + " " + rs.getDate("endtime").toString();
         }
