@@ -138,7 +138,7 @@ public class ActivityController {
     	activity.setquotation(aPIActivity.getquotation());
     	activity.setquotationdate(aPIActivity.getquotationdate());
     	activity.setquotationtime(aPIActivity.getquotationtime());
-    	activity.setclosed(aPIActivity.getdemo());
+    	activity.setclosed(aPIActivity.getclosed());
     	activity.setcloseddate(aPIActivity.getcloseddate());
     	activity.setclosedtime(aPIActivity.getclosedtime());
 
