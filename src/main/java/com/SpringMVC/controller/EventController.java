@@ -79,6 +79,7 @@ public class EventController {
         currentEvent.setendtime(event.getendtime());
         currentEvent.seturl(event.geturl());
         currentEvent.setallDay(event.getallDay());
+        currentEvent.setstatus(event.getstatus());
 
         eventDAO.update(currentEvent);
         return new ResponseEntity<Event>(event, HttpStatus.OK);
