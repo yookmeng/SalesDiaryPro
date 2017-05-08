@@ -134,7 +134,8 @@ public class UserController {
         }
 
         //updated email shouldn't duplicate with other user
-        if (currentUserLogin.getemail() != userLogin.getemail()){
+    	if (currentUserLogin.getemail().equals(userLogin.getemail())){
+    	} else {
     		if (userLoginDAO.isExist(userLogin)){
                 return new ResponseEntity<UserLogin>(userLogin, HttpStatus.CONFLICT);			
     		}        	

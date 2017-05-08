@@ -135,7 +135,7 @@
 	    }
 	    else {
 	        $.ajax({
-	            url: base+"/user/update/"+userid,
+	            url: base+"/user/update/",
 	            type: 'POST',
 	            contentType: "application/json",
 	            dataType: "json",
