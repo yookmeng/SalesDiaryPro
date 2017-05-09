@@ -67,6 +67,54 @@ public class EventDAOImpl extends JdbcDaoSupport implements EventDAO {
         return list;
     }
 
+    public List<Event> listByTeam(int teamid) {
+        String sql = "SELECT e.id, e.userid, e.prospectid, p.firstname, p.lastname, p.mobile, "
+        		+ "e.activityid, b.brandname, m.modelname, a.quotationpdflink, e.title, e.remark, e.period, "
+        		+ "e.startdate, e.starttime, e.enddate, e.endtime, e.url, e.allDay, e.status "	    		
+        		+ "FROM tblEvent e "
+        		+ "LEFT JOIN tblProspect p ON p.prospectid = e.prospectid "
+        		+ "LEFT JOIN tblUser u ON u.userid = e.userid "
+        		+ "LEFT JOIN tblActivity a ON a.activityid = e.activityid "
+        		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
+        		+ "LEFT JOIN tblModel m ON m.modelid = a.modelid "
+        		+ "WHERE u.teamid = " + teamid;
+        EventMapper mapper = new EventMapper();
+        List<Event> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }
+
+    public List<Event> listByBranch(int branchid) {
+        String sql = "SELECT e.id, e.userid, e.prospectid, p.firstname, p.lastname, p.mobile, "
+        		+ "e.activityid, b.brandname, m.modelname, a.quotationpdflink, e.title, e.remark, e.period, "
+        		+ "e.startdate, e.starttime, e.enddate, e.endtime, e.url, e.allDay, e.status "	    		
+        		+ "FROM tblEvent e "
+        		+ "LEFT JOIN tblProspect p ON p.prospectid = e.prospectid "
+        		+ "LEFT JOIN tblUser u ON u.userid = e.userid "
+        		+ "LEFT JOIN tblActivity a ON a.activityid = e.activityid "
+        		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
+        		+ "LEFT JOIN tblModel m ON m.modelid = a.modelid "
+        		+ "WHERE u.branchid = " + branchid;
+        EventMapper mapper = new EventMapper();
+        List<Event> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }
+
+    public List<Event> listByCompany(int companyid) {
+        String sql = "SELECT e.id, e.userid, e.prospectid, p.firstname, p.lastname, p.mobile, "
+        		+ "e.activityid, b.brandname, m.modelname, a.quotationpdflink, e.title, e.remark, e.period, "
+        		+ "e.startdate, e.starttime, e.enddate, e.endtime, e.url, e.allDay, e.status "	    		
+        		+ "FROM tblEvent e "
+        		+ "LEFT JOIN tblProspect p ON p.prospectid = e.prospectid "
+        		+ "LEFT JOIN tblUser u ON u.userid = e.userid "
+        		+ "LEFT JOIN tblActivity a ON a.activityid = e.activityid "
+        		+ "LEFT JOIN tblBrand b ON b.brandid = a.brandid "
+        		+ "LEFT JOIN tblModel m ON m.modelid = a.modelid "
+        		+ "WHERE u.companyid = " + companyid;
+        EventMapper mapper = new EventMapper();
+        List<Event> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }
+
     public Event get(int eventid) {
         String sql = "SELECT e.id, e.userid, e.prospectid, p.firstname, p.lastname, p.mobile, "
         		+ "e.activityid, b.brandname, m.modelname, a.quotationpdflink, e.title, e.remark, e.period, "

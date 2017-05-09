@@ -17,4 +17,7 @@ public interface EventDAO {
     public Event get(int eventid);
      
     public List<Event> list(int userid);    
+    public List<Event> listByTeam(int teamid);    
+    public List<Event> listByBranch(int branchid);    
+    public List<Event> listByCompany(int companyid);    
 }

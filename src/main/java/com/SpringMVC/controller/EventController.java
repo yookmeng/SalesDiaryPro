@@ -31,6 +31,10 @@ public class EventController {
     @Autowired
     private UserLoginDAO userLoginDAO;
 
+    private enum Roles {
+        USER, SA, MD, MA, TL, DEV;
+    }
+
     @RequestMapping(value = EventRestURIConstant.Get, method = RequestMethod.GET)
 	public String getEvent(@PathVariable int id) {
     	ObjectMapper mapper = new ObjectMapper();
@@ -49,7 +53,23 @@ public class EventController {
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
 		try {
-			jsonInString = mapper.writeValueAsString(eventDAO.list(userLogin.getuserid()));
+			Roles role = Roles.valueOf(userLogin.getrole()); 
+			switch (role){
+			case USER:
+				jsonInString = mapper.writeValueAsString(eventDAO.list(userLogin.getuserid()));
+				break;    	   
+			case TL:
+				jsonInString = mapper.writeValueAsString(eventDAO.listByTeam(userLogin.getteamid()));
+				break;    	   
+			case MA:
+				jsonInString = mapper.writeValueAsString(eventDAO.listByBranch(userLogin.getbranchid()));
+				break;    	   
+			case MD:
+				jsonInString = mapper.writeValueAsString(eventDAO.listByCompany(userLogin.getcompanyid()));
+				break;
+			default:
+				break;	
+			}
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}

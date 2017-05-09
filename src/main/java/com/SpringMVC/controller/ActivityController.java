@@ -91,12 +91,10 @@ public class ActivityController {
 				jsonInString = mapper.writeValueAsString(activityDAO.listByUser(userLogin.getuserid()));
 				break;    	   
 			case TL:
-				Team team = teamDAO.getByUser(userLogin.getuserid());
-				jsonInString = mapper.writeValueAsString(activityDAO.listByTeam(team.getteamid()));
+				jsonInString = mapper.writeValueAsString(activityDAO.listByTeam(userLogin.getteamid()));
 				break;    	   
 			case MA:
-				Branch branch = branchDAO.getByMA(userLogin.getuserid());
-				jsonInString = mapper.writeValueAsString(activityDAO.listByBranch(branch.getbranchid()));
+				jsonInString = mapper.writeValueAsString(activityDAO.listByBranch(userLogin.getbranchid()));
 				break;    	   
 			case MD:
 				jsonInString = mapper.writeValueAsString(activityDAO.listByCompany(userLogin.getcompanyid()));
