@@ -2,6 +2,7 @@ package com.SpringMVC.daoimpl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.List;
  
 import javax.sql.DataSource;
@@ -111,6 +112,15 @@ public class CompanyTargetDAOImpl extends JdbcDaoSupport implements CompanyTarge
     }
 
     public List<CompanyTarget> list(int companyid) {
+    	String period = "";
+    	int currentyear = Calendar.getInstance().get(Calendar.YEAR);
+        int currentmonth = Calendar.getInstance().get(Calendar.MONTH)+1;
+        currentmonth = currentmonth - 3;
+        if (currentmonth < 1){
+        	period = String.valueOf(currentyear-1)+"-"+String.valueOf(currentmonth+12);
+        } else {
+        	period = String.valueOf(currentyear)+"-"+String.valueOf(currentmonth);
+        } 
 	    String sql = "SELECT ct.targetid AS targetid, "
 	    		+ "ct.companyid AS companyid, "
 	    		+ "c.companyname AS companyname, "
@@ -120,7 +130,9 @@ public class CompanyTargetDAOImpl extends JdbcDaoSupport implements CompanyTarge
 	    		+ "ct.closed AS closed "
 	    		+ "FROM tblCompanyTarget ct "
 	    		+ "LEFT JOIN tblCompany c ON c.companyid = ct.companyid "
-        		+ "WHERE ct.companyid=" + companyid;
+        		+ "WHERE ct.companyid=" + companyid + " "
+				+ "and ct.period>='" + period + "'";
+	    
         CompanyTargetMapper mapper = new CompanyTargetMapper();
         List<CompanyTarget> list = this.getJdbcTemplate().query(sql, mapper);
         return list;

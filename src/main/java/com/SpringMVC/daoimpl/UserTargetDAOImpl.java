@@ -134,16 +134,15 @@ public class UserTargetDAOImpl extends JdbcDaoSupport implements UserTargetDAO {
     }
 
     public List<UserTarget> listByCompany(int companyid) {
-    	//only get data greater than or equal current month - 3
-        int currentyear = Calendar.getInstance().get(Calendar.YEAR);
+    	String period = "";
+    	int currentyear = Calendar.getInstance().get(Calendar.YEAR);
         int currentmonth = Calendar.getInstance().get(Calendar.MONTH)+1;
-        String period = "";
-        if (currentmonth<4){
-        	period = String.valueOf(currentyear-1)+"-"+String.valueOf(currentmonth+9);
-        };
-        if (currentmonth>3){
+        currentmonth = currentmonth - 3;
+        if (currentmonth < 1){
+        	period = String.valueOf(currentyear-1)+"-"+String.valueOf(currentmonth+12);
+        } else {
         	period = String.valueOf(currentyear)+"-"+String.valueOf(currentmonth);
-        };
+        } 
 	    String sql = "SELECT ut.targetid AS targetid, "
 	    		+ "ut.userid AS userid, "
 	    		+ "u.username AS username, "
@@ -162,16 +161,15 @@ public class UserTargetDAOImpl extends JdbcDaoSupport implements UserTargetDAO {
     }
 
     public List<UserTarget> listByBranch(int branchid) {
-    	//only get data greater than or equal current month - 3
-        int currentyear = Calendar.getInstance().get(Calendar.YEAR);
+    	String period = "";
+    	int currentyear = Calendar.getInstance().get(Calendar.YEAR);
         int currentmonth = Calendar.getInstance().get(Calendar.MONTH)+1;
-        String period = "";
-        if (currentmonth<4){
-        	period = String.valueOf(currentyear-1)+"-"+String.valueOf(currentmonth+9);
-        };
-        if (currentmonth>3){
+        currentmonth = currentmonth - 3;
+        if (currentmonth < 1){
+        	period = String.valueOf(currentyear-1)+"-"+String.valueOf(currentmonth+12);
+        } else {
         	period = String.valueOf(currentyear)+"-"+String.valueOf(currentmonth);
-        };
+        } 
 	    String sql = "SELECT ut.targetid AS targetid, "
 	    		+ "ut.userid AS userid, "
 	    		+ "u.username AS username, "
@@ -190,16 +188,15 @@ public class UserTargetDAOImpl extends JdbcDaoSupport implements UserTargetDAO {
     }
 
     public List<UserTarget> listByTeam(int teamid) {
-    	//only get data greater than or equal current month - 3
-        int currentyear = Calendar.getInstance().get(Calendar.YEAR);
+    	String period = "";
+    	int currentyear = Calendar.getInstance().get(Calendar.YEAR);
         int currentmonth = Calendar.getInstance().get(Calendar.MONTH)+1;
-        String period = "";
-        if (currentmonth<4){
-        	period = String.valueOf(currentyear-1)+"-"+String.valueOf(currentmonth+9);
-        };
-        if (currentmonth>3){
+        currentmonth = currentmonth - 3;
+        if (currentmonth < 1){
+        	period = String.valueOf(currentyear-1)+"-"+String.valueOf(currentmonth+12);
+        } else {
         	period = String.valueOf(currentyear)+"-"+String.valueOf(currentmonth);
-        };
+        } 
 	    String sql = "SELECT ut.targetid AS targetid, "
 	    		+ "ut.userid AS userid, "
 	    		+ "u.username AS username, "
@@ -218,16 +215,15 @@ public class UserTargetDAOImpl extends JdbcDaoSupport implements UserTargetDAO {
     }
 
     public List<UserTarget> listByUser(int userid) {
-    	//only get data greater than or equal current month - 3
-        int currentyear = Calendar.getInstance().get(Calendar.YEAR);
+    	String period = "";
+    	int currentyear = Calendar.getInstance().get(Calendar.YEAR);
         int currentmonth = Calendar.getInstance().get(Calendar.MONTH)+1;
-        String period = "";
-        if (currentmonth<4){
-        	period = String.valueOf(currentyear-1)+"-"+String.valueOf(currentmonth+9);
-        };
-        if (currentmonth>3){
+        currentmonth = currentmonth - 3;
+        if (currentmonth < 1){
+        	period = String.valueOf(currentyear-1)+"-"+String.valueOf(currentmonth+12);
+        } else {
         	period = String.valueOf(currentyear)+"-"+String.valueOf(currentmonth);
-        };
+        } 
 	    String sql = "SELECT ut.targetid AS targetid, "
 	    		+ "ut.userid AS userid, "
 	    		+ "u.username AS username, "
