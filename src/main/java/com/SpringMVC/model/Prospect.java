@@ -7,6 +7,7 @@ public class Prospect {
     private String firstname;
     private String lastname;
     private int userid;
+    private String period;
     private String source;
     private Date datecreated;
     private int brandid;
@@ -28,7 +29,7 @@ public class Prospect {
     }
  
     public Prospect(int prospectid, String firstname, String lastname, 
-    		int userid, String source,  Date datecreated, 
+    		int userid, String period, String source,  Date datecreated, 
     		int brandid, String brandname, int modelid, String modelname,
     		Address homeaddress, String mobile, String htelno, int contactid,
     		Address workaddress, String wtelno, 
@@ -37,6 +38,7 @@ public class Prospect {
         this.firstname = firstname;
         this.lastname = lastname;
         this.userid = userid;
+        this.period = period;
         this.source = source;
         this.datecreated = datecreated;
         this.brandid = brandid;
@@ -81,6 +83,13 @@ public class Prospect {
     }
     public void setuserid(int userid) {
         this.userid = userid;
+    }
+
+    public String getperiod() {
+        return period;
+    }  
+    public void setperiod(String period) {
+        this.period = period;
     }
 
     public String getsource() {
