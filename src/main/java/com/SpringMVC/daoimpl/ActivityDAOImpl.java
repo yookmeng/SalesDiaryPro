@@ -193,7 +193,6 @@ public class ActivityDAOImpl extends JdbcDaoSupport implements ActivityDAO {
         		+ "a.demo, a.demodate, a.demotime, "
         		+ "a.testdrive, a.testdrivedate, a.testdrivetime, "
         		+ "a.quotation, a.quotationdate, a.quotationtime, "
-        		+ "a.quotationid, a.quotationpdflink"
         		+ "a.quotationid, a.quotationpdflink, "
         		+ "a.closed, a.closeddate, a.closedtime "
         		+ "FROM tblActivity a "
