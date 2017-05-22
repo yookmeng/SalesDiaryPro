@@ -175,6 +175,7 @@ public class ProspectController {
         currentProspect.setfirstname(prospect.getfirstname());
         currentProspect.setlastname(prospect.getlastname());
         currentProspect.setsource(prospect.getsource());
+        currentProspect.setsmsflag(prospect.getsmsflag());
         currentProspect.sethomeaddress(prospect.gethomeaddress());
         currentProspect.setmobile(prospect.getmobile());
         currentProspect.sethtelno(prospect.gethtelno());
