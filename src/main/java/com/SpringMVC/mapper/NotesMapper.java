@@ -28,6 +28,7 @@ public class NotesMapper implements RowMapper<Notes> {
         String note = rs.getString("note");
         int status = rs.getInt("status");
         String remark = rs.getString("remark");
+        boolean read = rs.getBoolean("read");
         int reviewby = rs.getInt("reviewby");
         String reviewbyname = rs.getString("reviewbyname");
         Date reviewdate = rs.getDate("reviewdate");
@@ -35,7 +36,7 @@ public class NotesMapper implements RowMapper<Notes> {
         
         return new Notes(noteid, notedate, notetime, userid, username, teamid, teamname, 
         		branchid, branchname, companyid, companyname, 
-        		prospectid, prospectname, note, status, remark, 
+        		prospectid, prospectname, note, status, remark, read,
         		reviewby, reviewbyname, reviewdate, reviewtime);
     }
 }

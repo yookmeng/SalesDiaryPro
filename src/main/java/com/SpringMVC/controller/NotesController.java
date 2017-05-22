@@ -153,6 +153,7 @@ public class NotesController {
         currentNotes.setnote(notes.getnote());
         currentNotes.setstatus(notes.getstatus());
         currentNotes.setremark(notes.getremark());
+        currentNotes.setread(notes.getread());
         currentNotes.setreviewby(notes.getreviewby());
         currentNotes.setreviewdate(notes.getreviewdate());
         currentNotes.setreviewtime(notes.getreviewtime());

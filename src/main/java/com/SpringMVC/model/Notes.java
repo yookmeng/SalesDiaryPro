@@ -20,6 +20,7 @@ public class Notes {
     private String note;
     private int status;
     private String remark;
+    private boolean read;
     private int reviewby;
     private String reviewbyname;
     private Date reviewdate;
@@ -30,7 +31,8 @@ public class Notes {
     public Notes(int noteid, Date notedate, Time notetime, int userid, String username, 
     		int teamid, String teamname, int branchid, String branchname, 
     		int companyid, String companyname, int prospectid, String prospectname, 
-    		String note, int status, String remark, int reviewby, String reviewbyname,
+    		String note, int status, String remark, boolean read,
+    		int reviewby, String reviewbyname,
     		Date reviewdate, Time reviewtime) {
         this.noteid = noteid;
         this.notedate = notedate;
@@ -48,6 +50,7 @@ public class Notes {
         this.note = note;
         this.status = status;
         this.remark = remark;
+        this.read = read;
         this.reviewby = reviewby;
         this.reviewbyname = reviewbyname;
         this.reviewdate = reviewdate;
@@ -164,6 +167,13 @@ public class Notes {
     }  
     public void setremark(String remark) {
         this.remark = remark;
+    }
+
+    public boolean getread() {
+        return read;
+    }  
+    public void setread(boolean read) {
+        this.read= read;
     }
 
     public int getreviewby() {

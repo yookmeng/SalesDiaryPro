@@ -38,9 +38,9 @@ public class NotesDAOImpl extends JdbcDaoSupport implements NotesDAO {
     
     public void update(Notes notes) {
         String sql = "UPDATE tblNotes "
-        		+ "SET note=?, status=?, remark=?, reviewby=?, reviewdate=?, reviewtime=? "
+        		+ "SET note=?, status=?, remark=?, read=?, reviewby=?, reviewdate=?, reviewtime=? "
         		+ "WHERE noteid=?";
-        this.getJdbcTemplate().update(sql, notes.getnote(), notes.getstatus(), notes.getremark(), 
+        this.getJdbcTemplate().update(sql, notes.getnote(), notes.getstatus(), notes.getremark(), notes.getread(), 
         		notes.getreviewby(), notes.getreviewdate(), notes.getreviewtime(), notes.getnoteid());
     }
     
@@ -56,7 +56,7 @@ public class NotesDAOImpl extends JdbcDaoSupport implements NotesDAO {
 	    		+ "n.branchid, b.branchname, "
 	    		+ "n.companyid, c.companyname, "
         		+ "n.prospectid, p.firstname AS prospectname, "
-        		+ "note, n.status, n.remark, reviewby, rb.username AS reviewbyname, "
+        		+ "note, n.status, n.remark, n.read, reviewby, rb.username AS reviewbyname, "
         		+ "reviewdate, reviewtime "
         		+ "FROM tblNotes n "
         		+ "LEFT JOIN tblUser u on u.userid = n.userid "
@@ -78,7 +78,7 @@ public class NotesDAOImpl extends JdbcDaoSupport implements NotesDAO {
 	    		+ "n.branchid, b.branchname, "
 	    		+ "n.companyid, c.companyname, "
         		+ "n.prospectid, p.firstname AS prospectname, "
-        		+ "note, n.status, n.remark, reviewby, rb.username AS reviewbyname, "
+        		+ "note, n.status, n.remark, n.read, reviewby, rb.username AS reviewbyname, "
         		+ "reviewdate, reviewtime "
         		+ "FROM tblNotes n "
         		+ "LEFT JOIN tblUser u on u.userid = n.userid "
@@ -100,7 +100,7 @@ public class NotesDAOImpl extends JdbcDaoSupport implements NotesDAO {
 	    		+ "n.branchid, b.branchname, "
 	    		+ "n.companyid, c.companyname, "
         		+ "n.prospectid, p.firstname AS prospectname, "
-        		+ "note, n.status, n.remark, reviewby, rb.username AS reviewbyname, "
+        		+ "note, n.status, n.remark, n.read, reviewby, rb.username AS reviewbyname, "
         		+ "reviewdate, reviewtime "
         		+ "FROM tblNotes n "
         		+ "LEFT JOIN tblUser u on u.userid = n.userid "
@@ -122,7 +122,7 @@ public class NotesDAOImpl extends JdbcDaoSupport implements NotesDAO {
 	    		+ "n.branchid, b.branchname, "
 	    		+ "n.companyid, c.companyname, "
         		+ "n.prospectid, p.firstname AS prospectname, "
-        		+ "note, n.status, n.remark, reviewby, rb.username AS reviewbyname, "
+        		+ "note, n.status, n.remark, n.read, reviewby, rb.username AS reviewbyname, "
         		+ "reviewdate, reviewtime "
         		+ "FROM tblNotes n "
         		+ "LEFT JOIN tblUser u on u.userid = n.userid "
@@ -144,7 +144,7 @@ public class NotesDAOImpl extends JdbcDaoSupport implements NotesDAO {
 	    		+ "n.branchid, b.branchname, "
 	    		+ "n.companyid, c.companyname, "
         		+ "n.prospectid, p.firstname AS prospectname, "
-        		+ "note, n.status, n.remark, reviewby, rb.username AS reviewbyname, "
+        		+ "note, n.status, n.remark, n.read, reviewby, rb.username AS reviewbyname, "
         		+ "reviewdate, reviewtime "
         		+ "FROM tblNotes n "
         		+ "LEFT JOIN tblUser u on u.userid = n.userid "
@@ -166,7 +166,7 @@ public class NotesDAOImpl extends JdbcDaoSupport implements NotesDAO {
 	    		+ "n.branchid, b.branchname, "
 	    		+ "n.companyid, c.companyname, "
         		+ "n.prospectid, p.firstname AS prospectname, "
-        		+ "note, n.status, n.remark, reviewby, rb.username AS reviewbyname, "
+        		+ "note, n.status, n.remark, n.read, reviewby, rb.username AS reviewbyname, "
         		+ "reviewdate, reviewtime "
         		+ "FROM tblNotes n "
         		+ "LEFT JOIN tblUser u on u.userid = n.userid "
@@ -199,6 +199,7 @@ public class NotesDAOImpl extends JdbcDaoSupport implements NotesDAO {
 	                notes.setnote(rs.getString("note"));
 	                notes.setstatus(rs.getInt("status"));
 	                notes.setremark(rs.getString("remark"));
+	                notes.setread(rs.getBoolean("read"));
 	                notes.setreviewby(rs.getInt("reviewby"));
 	                notes.setreviewbyname(rs.getString("reviewbyname"));
 	                notes.setreviewdate(rs.getDate("reviewdate"));
