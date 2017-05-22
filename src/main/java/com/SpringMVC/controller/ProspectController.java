@@ -150,10 +150,12 @@ public class ProspectController {
     	
     	questionaireDAO.save(questionaire);
     	
-    	int prospectid = prospectDAO.getlastprospectid(userLogin.getuserid());
-        int quotationid = quotationDAO.getlastquotationid(prospectid);
-        Quotation newQuotation = quotationDAO.get(quotationid);
-    	quotationDAO.createpdf(newQuotation, request);
+    	if (aPIProspect.getquotation()){
+        	int prospectid = prospectDAO.getlastprospectid(userLogin.getuserid());
+            int quotationid = quotationDAO.getlastquotationid(prospectid);
+            Quotation newQuotation = quotationDAO.get(quotationid);
+        	quotationDAO.createpdf(newQuotation, request);    		
+    	};
    	
         return new ResponseEntity<Questionaire>(questionaire, HttpStatus.CREATED);
     }
