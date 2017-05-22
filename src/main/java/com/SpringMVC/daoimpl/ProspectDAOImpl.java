@@ -30,16 +30,16 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
     	String sql = "";
     	
         sql = "INSERT INTO tblProspect "
-    		+ "(firstname, lastname, userid, period, source, "
+    		+ "(firstname, lastname, userid, period, source, smsflag, "
     		+ "homeaddress.country, homeaddress.zipcode, homeaddress.state, "
     		+ "homeaddress.city, homeaddress.street, mobile, htelno, "
     		+ "workaddress.country, workaddress.zipcode, workaddress.state, "
     		+ "workaddress.city, workaddress.street, wtelno, "
     		+ "gender, email, status) "
-    		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         this.getJdbcTemplate().update(sql, 
     		prospect.getfirstname(), prospect.getlastname(), prospect.getuserid(), prospect.getperiod(), 
-    		prospect.getsource(), homeaddress.getcountry(), homeaddress.getzipcode(), homeaddress.getstate(), 
+    		prospect.getsource(), prospect.getsmsflag(), homeaddress.getcountry(), homeaddress.getzipcode(), homeaddress.getstate(), 
     		homeaddress.getcity(), homeaddress.getstreet(), prospect.getmobile(), prospect.gethtelno(), 
     		workaddress.getcountry(), workaddress.getzipcode(), workaddress.getstate(), 
     		workaddress.getcity(), workaddress.getstreet(), prospect.getwtelno(), 
@@ -109,7 +109,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
     
     public List<Prospect> list(int userid) {
         String sql = "SELECT p.prospectid, firstname, lastname, "
-        		+ "p.userid, p.period, source, a.activitydate AS datecreated, "
+        		+ "p.userid, p.period, source, smsflag, a.activitydate AS datecreated, "
         		+ "a.brandid, b.brandname, a.modelid, m.modelname, "
         		+ "(homeaddress).country AS hcountry, (homeaddress).zipcode AS hzipcode, "
         		+ "(homeaddress).state as hstate, (homeaddress).city AS hcity, "
@@ -133,7 +133,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
     
     public List<Prospect> listByTeam(int teamid) {
         String sql = "SELECT p.prospectid, firstname, lastname, "
-        		+ "p.userid, p.period, source, a.activitydate AS datecreated, "
+        		+ "p.userid, p.period, source, smsflag, a.activitydate AS datecreated, "
         		+ "a.brandid, b.brandname, a.modelid, m.modelname, "
         		+ "(homeaddress).country AS hcountry, (homeaddress).zipcode AS hzipcode, "
         		+ "(homeaddress).state as hstate, (homeaddress).city AS hcity, "
@@ -158,7 +158,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
 
     public List<Prospect> listByBranch(int branchid) {
         String sql = "SELECT p.prospectid, firstname, lastname, "
-        		+ "p.userid, p.period, source, a.activitydate AS datecreated, "
+        		+ "p.userid, p.period, source, smsflag, a.activitydate AS datecreated, "
         		+ "a.brandid, b.brandname, a.modelid, m.modelname, "
         		+ "(homeaddress).country AS hcountry, (homeaddress).zipcode AS hzipcode, "
         		+ "(homeaddress).state as hstate, (homeaddress).city AS hcity, "
@@ -183,7 +183,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
 
     public List<Prospect> listByCompany(int companyid) {
         String sql = "SELECT p.prospectid, firstname, lastname, "
-        		+ "p.userid, p.period, source, a.activitydate AS datecreated, "
+        		+ "p.userid, p.period, source, smsflag, a.activitydate AS datecreated, "
         		+ "a.brandid, b.brandname, a.modelid, m.modelname, "
         		+ "(homeaddress).country AS hcountry, (homeaddress).zipcode AS hzipcode, "
         		+ "(homeaddress).state as hstate, (homeaddress).city AS hcity, "
@@ -214,7 +214,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
 
     public Prospect get(int prospectid) {
         String sql = "SELECT p.prospectid, firstname, lastname, "
-        		+ "p.userid, p.period, source, a.activitydate AS datecreated, "
+        		+ "p.userid, p.period, source, smsflag, a.activitydate AS datecreated, "
         		+ "a.brandid, b.brandname, a.modelid, m.modelname, "
         		+ "(homeaddress).country AS hcountry, (homeaddress).zipcode AS hzipcode, "
         		+ "(homeaddress).state as hstate, (homeaddress).city AS hcity, "
@@ -243,6 +243,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
 	            	prospect.setuserid(rs.getInt("userid"));
 	            	prospect.setperiod(rs.getString("period"));
 	            	prospect.setsource(rs.getString("source"));
+	            	prospect.setsmsflag(rs.getBoolean("smsflag"));
 	            	prospect.setdatecreated(rs.getDate("datecreated"));
 	            	prospect.setbrandid(rs.getInt("brandid"));
 	            	prospect.setbrandname(rs.getString("brandname"));

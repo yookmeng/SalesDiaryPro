@@ -9,6 +9,7 @@ public class Prospect {
     private int userid;
     private String period;
     private String source;
+    private boolean smsflag;
     private Date datecreated;
     private int brandid;
     private String brandname;
@@ -29,7 +30,7 @@ public class Prospect {
     }
  
     public Prospect(int prospectid, String firstname, String lastname, 
-    		int userid, String period, String source,  Date datecreated, 
+    		int userid, String period, String source,  boolean smsflag, Date datecreated, 
     		int brandid, String brandname, int modelid, String modelname,
     		Address homeaddress, String mobile, String htelno, int contactid,
     		Address workaddress, String wtelno, 
@@ -40,6 +41,7 @@ public class Prospect {
         this.userid = userid;
         this.period = period;
         this.source = source;
+        this.smsflag = smsflag;
         this.datecreated = datecreated;
         this.brandid = brandid;
         this.brandname = brandname;
@@ -97,6 +99,13 @@ public class Prospect {
     }
     public void setsource(String source) {
         this.source = source;
+    }
+
+    public boolean getsmsflag() {
+        return smsflag;
+    }
+    public void setsmsflag(boolean smsflag) {
+        this.smsflag = smsflag;
     }
 
     public Date getdatecreated() {
