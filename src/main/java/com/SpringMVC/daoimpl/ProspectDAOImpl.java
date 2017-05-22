@@ -75,7 +75,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
     	Address workaddress = prospect.getworkaddress();
     	String sql = "";
 
-    	sql = "UPDATE tblProspect SET firstname=?, lastname=?, source=?, "
+    	sql = "UPDATE tblProspect SET firstname=?, lastname=?, source=?, smsflag=?, "
     		+ "homeaddress.country=?, homeaddress.zipcode=?, homeaddress.state=?, "
     		+ "homeaddress.city=?, homeaddress.street=?, mobile=?, htelno=?, "
     		+ "workaddress.country=?, workaddress.zipcode=?, workaddress.state=?, "
@@ -83,7 +83,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
     		+ "gender=?, email=?, status=? "
     		+ "WHERE prospectid=?";
         this.getJdbcTemplate().update(sql, 
-    		prospect.getfirstname(), prospect.getlastname(), prospect.getsource(), 
+    		prospect.getfirstname(), prospect.getlastname(), prospect.getsource(), prospect.getsmsflag(), 
     		homeaddress.getcountry(), homeaddress.getzipcode(), homeaddress.getstate(), 
     		homeaddress.getcity(), homeaddress.getstreet(), prospect.getmobile(), prospect.gethtelno(), 
     		workaddress.getcountry(), workaddress.getzipcode(), workaddress.getstate(), 
