@@ -10,6 +10,8 @@ public interface SMSLogDAO {
      
     public void save(SMSLog smsLog);
      
+    public void send(String recipient, String message);
+
     public SMSLog get(int smsid);     
     
     public List<SMSLog> list(int userid);    

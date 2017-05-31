@@ -79,6 +79,12 @@ public class SMSLogController {
     @RequestMapping(value = SMSLogRestURIConstant.Create, method = RequestMethod.POST)
     public ResponseEntity<SMSLog> createSMSLog(@RequestBody SMSLog smsLog) throws IOException {
     	smsLogDAO.save(smsLog);
+    	smsLogDAO.send(smsLog.getmobile(), smsLog.getmessage());
         return new ResponseEntity<SMSLog>(smsLog, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = SMSLogRestURIConstant.Send, method = RequestMethod.POST)
+    public void sendSMS(@RequestBody SMSLog smsLog) throws IOException {
+    	smsLogDAO.send(smsLog.getmobile(), smsLog.getmessage());
     }
 }

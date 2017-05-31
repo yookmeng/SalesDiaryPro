@@ -5,6 +5,12 @@ import java.sql.SQLException;
 import java.util.List;
 import javax.sql.DataSource;
 
+import org.apache.log4j.BasicConfigurator;
+import com.SpringMVC.oneapi.client.impl.SMSClient;
+import com.SpringMVC.oneapi.config.Configuration;
+import com.SpringMVC.oneapi.model.SMSRequest;
+import com.SpringMVC.oneapi.model.SendMessageResult;
+
 import com.SpringMVC.model.SMSLog;
 
 import com.SpringMVC.dao.SMSLogDAO;
@@ -32,6 +38,19 @@ public class SMSLogDAOImpl extends JdbcDaoSupport implements SMSLogDAO {
         		smsLog.getmessage(), smsLog.getdatesend(), smsLog.gettimesend());
         }
         
+    public void send(String recipient, String message) {
+    	String USERNAME = "mspsys";
+    	String PASSWORD = "MamaPapa@123";
+    	String SENDER = "InfoSMS";
+    	
+    	BasicConfigurator.configure();    	
+    	Configuration configuration = new Configuration(USERNAME, PASSWORD);
+		SMSClient smsClient = new SMSClient(configuration);
+		SMSRequest smsRequest = new SMSRequest(SENDER, message, recipient);
+		SendMessageResult sendMessageResult = smsClient.getSMSMessagingClient().sendSMS(smsRequest);
+		System.out.println(sendMessageResult);	
+	}
+
     public List<SMSLog> list(int userid) {
         String sql = "SELECT s.userid, u.username, u.mobile AS usermobile, "
         		+ "s.prospectid, p.firstname, p.lastname, p.mobile AS mobile, "
