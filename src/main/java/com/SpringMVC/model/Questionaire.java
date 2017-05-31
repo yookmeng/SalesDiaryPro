@@ -14,6 +14,7 @@ public class Questionaire {
     private String modelname;
     private String source;
     private String status;
+    private boolean smsflag;
     private boolean demo;
     private Date demodate;
     private Time demotime;
@@ -96,6 +97,13 @@ public class Questionaire {
         this.status = status;
     }
 
+    public boolean getsmsflag() {
+        return smsflag;
+    }
+    public void setsmsflag(boolean smsflag) {
+        this.smsflag = smsflag;
+    }
+    
     public boolean getdemo() {
         return demo;
     }

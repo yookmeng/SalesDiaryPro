@@ -24,6 +24,7 @@ import com.SpringMVC.dao.ModelDAO;
 import com.SpringMVC.dao.ProspectDAO;
 import com.SpringMVC.dao.QuestionaireDAO;
 import com.SpringMVC.dao.QuotationDAO;
+import com.SpringMVC.dao.SMSLogDAO;
 import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.model.APIProspect;
 import com.SpringMVC.model.Brand;
@@ -61,6 +62,9 @@ public class ProspectController {
 
     @Autowired
     private CodeMasterDAO codeMasterDAO;
+
+    @Autowired
+    private SMSLogDAO smsLogDAO;
 
     private enum Roles {
         USER, SA, MD, MA, TL, DEV;
@@ -124,6 +128,7 @@ public class ProspectController {
     	questionaire.setmodelid(model.getmodelid());
     	questionaire.setsource(aPIProspect.getsource());
     	questionaire.setstatus(aPIProspect.getstatus());
+    	questionaire.setsmsflag(aPIProspect.getsmsflag());
 
     	questionaire.setdemo(aPIProspect.getdemo()); 
     	if (aPIProspect.getdemo()){
@@ -156,7 +161,17 @@ public class ProspectController {
             Quotation newQuotation = quotationDAO.get(quotationid);
         	quotationDAO.createpdf(newQuotation, request);    		
     	};
-   	
+
+    	if (aPIProspect.getsmsflag()){
+    		String defaultMessage = 
+    				"Hi! " + aPIProspect.getprospectname() + 
+    				", I'm " + userLogin.getusername() + 
+    				". Thank you for visiting our showroom today. " +
+    				"If you have further inquiry, please do not hesitate to call me. " +
+    				"My contact no is " + userLogin.getmobile() + ".";
+    		smsLogDAO.send(aPIProspect.getmobile(), defaultMessage);
+    	};
+    	
         return new ResponseEntity<Questionaire>(questionaire, HttpStatus.CREATED);
     }
 

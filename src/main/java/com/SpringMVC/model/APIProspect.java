@@ -12,6 +12,7 @@ public class APIProspect {
     private String modelname;
     private String source;
     private String status;
+    private boolean smsflag;
     private boolean demo;
     private Date demodate;
     private Time demotime;
@@ -28,7 +29,7 @@ public class APIProspect {
     }
  
     public APIProspect(String useremail, String prospectname, String mobile, String email,
-    		String brandname, String modelname, String source, String status,
+    		String brandname, String modelname, String source, String status, boolean smsflag,
     		boolean demo, Date demodate, Time demotime, 
     		boolean testdrive, Date testdrivedate, Time testdrivetime, 
     		boolean quotation, Date quotationdate, Time quotationtime,
@@ -41,6 +42,7 @@ public class APIProspect {
         this.modelname = modelname;
         this.source = source;
         this.status = status;
+        this.smsflag = smsflag;
         this.demo = demo;
         this.demodate = demodate;
         this.demotime = demotime;
@@ -110,6 +112,13 @@ public class APIProspect {
         this.status = status;
     }
 
+    public boolean getsmsflag() {
+        return smsflag;
+    }
+    public void setsmsflag(boolean smsflag) {
+        this.smsflag = smsflag;
+    }
+    
     public boolean getdemo() {
         return demo;
     }

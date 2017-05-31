@@ -27,7 +27,7 @@ public class QuestionaireDAOImpl extends JdbcDaoSupport implements QuestionaireD
 			conn.setAutoCommit(true);
 	    	CallableStatement proc = conn.prepareCall("{ ? = call spQuestionaire("
 	    			+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
-	    			+ "?, ?, ?, ?, ?, ?, ?, ?, ?) }");
+	    			+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }");
 	    	proc.registerOutParameter(1, Types.OTHER);
 	    	proc.setInt(2, questionaire.getuserid());
 	    	proc.setString(3, questionaire.getprospectname());
@@ -37,17 +37,18 @@ public class QuestionaireDAOImpl extends JdbcDaoSupport implements QuestionaireD
 	    	proc.setInt(7, questionaire.getmodelid());
 	    	proc.setString(8, questionaire.getsource());
 	    	proc.setString(9, questionaire.getstatus());
-	    	proc.setBoolean(10, questionaire.getdemo());
-	    	proc.setDate(11, questionaire.getdemodate());
-	    	proc.setTime(12, questionaire.getdemotime());
-	    	proc.setBoolean(13, questionaire.gettestdrive());
-	    	proc.setDate(14, questionaire.gettestdrivedate());
-	    	proc.setTime(15, questionaire.gettestdrivetime());
-	    	proc.setBoolean(16, questionaire.getquotation());
-	    	proc.setDate(17, questionaire.getquotationdate());
-	    	proc.setTime(18, questionaire.getquotationtime());
-	    	proc.setDate(19, questionaire.getstatusdate());
-	    	proc.setTime(20, questionaire.getstatustime());
+	    	proc.setBoolean(10, questionaire.getsmsflag());
+	    	proc.setBoolean(11, questionaire.getdemo());
+	    	proc.setDate(12, questionaire.getdemodate());
+	    	proc.setTime(13, questionaire.getdemotime());
+	    	proc.setBoolean(14, questionaire.gettestdrive());
+	    	proc.setDate(15, questionaire.gettestdrivedate());
+	    	proc.setTime(16, questionaire.gettestdrivetime());
+	    	proc.setBoolean(17, questionaire.getquotation());
+	    	proc.setDate(18, questionaire.getquotationdate());
+	    	proc.setTime(19, questionaire.getquotationtime());
+	    	proc.setDate(20, questionaire.getstatusdate());
+	    	proc.setTime(21, questionaire.getstatustime());
 	    	proc.execute();
 	    	proc.close();
 		} catch (SQLException e) {
