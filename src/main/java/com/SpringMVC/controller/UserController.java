@@ -29,6 +29,7 @@ import com.SpringMVC.model.IonicUser;
 import com.SpringMVC.model.MonthlySummary;
 import com.SpringMVC.model.Team;
 import com.SpringMVC.model.UserLogin;
+import com.SpringMVC.model.UserMonthlySummary;
 import com.SpringMVC.model.UserValidate;
 import com.SpringMVC.uriconstant.UserRestURIConstant;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -116,6 +117,13 @@ public class UserController {
     	return jsonInString;
     }
 
+	@RequestMapping(value = UserRestURIConstant.MonthlySummaryXLS, method = RequestMethod.POST)
+    public ModelAndView monthlySummaryExcel(@RequestBody MonthlySummary monthlySummary) throws IOException {
+    	UserLogin userLogin = userLoginDAO.findUserEmail(monthlySummary.getemail());
+		List<UserMonthlySummary> listMonthlySummary = userMonthlySummaryDAO.list(monthlySummary.getperiod(), userLogin.getuserid(), userLogin.getrole());
+    	return new ModelAndView ("MonthlySummaryExcel", "listMonthlySummary", listMonthlySummary);
+    }
+	
 	@RequestMapping(value = UserRestURIConstant.Create, method = RequestMethod.POST)
     public ResponseEntity<UserLogin> createUser(@RequestBody UserLogin userLogin) throws IOException {
 		if (userLoginDAO.isExist(userLogin)){

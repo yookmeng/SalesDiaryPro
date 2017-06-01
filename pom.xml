@@ -203,7 +203,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
        <version>1.8.12</version>
     </dependency>
        
-  </dependencies>
+<!-- Excel library -->
+   <dependency>
+		<groupId>org.apache.poi</groupId>
+		<artifactId>poi</artifactId>
+		<version>3.6</version>
+   </dependency>
+ </dependencies>
   
 <build>
 	<finalName>SalesDiaryPro</finalName>
