@@ -59,7 +59,7 @@ public class ApplicationContextConfig {
       // Define all possible view resolvers
       List<ViewResolver> resolvers = new ArrayList<ViewResolver>();
       resolvers.add(jsonViewResolver());
-      resolvers.add(jspViewResolver());       
+      resolvers.add(jspViewResolver());
       resolver.setViewResolvers(resolvers);
       return resolver;
   }
@@ -76,6 +76,7 @@ public class ApplicationContextConfig {
   @Bean
   public ViewResolver jspViewResolver() {
       InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+      viewResolver.setOrder(1);
       viewResolver.setViewClass(JstlView.class);
       viewResolver.setPrefix("/WEB-INF/pages/");
       viewResolver.setSuffix(".jsp");

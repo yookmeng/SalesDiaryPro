@@ -118,10 +118,10 @@ public class UserController {
     }
 
 	@RequestMapping(value = UserRestURIConstant.MonthlySummaryXLS, method = RequestMethod.POST)
-    public ModelAndView monthlySummaryExcel(@RequestBody MonthlySummary monthlySummary) throws IOException {
+    public ModelAndView monthlySummaryExcel(ModelAndView model, @RequestBody MonthlySummary monthlySummary) throws IOException {
     	UserLogin userLogin = userLoginDAO.findUserEmail(monthlySummary.getemail());
 		List<UserMonthlySummary> listMonthlySummary = userMonthlySummaryDAO.list(monthlySummary.getperiod(), userLogin.getuserid(), userLogin.getrole());
-    	return new ModelAndView ("MonthlySummaryExcel", "listMonthlySummary", listMonthlySummary);
+		return new ModelAndView("excelView", "listMonthlySummary", listMonthlySummary);
     }
 	
 	@RequestMapping(value = UserRestURIConstant.Create, method = RequestMethod.POST)
