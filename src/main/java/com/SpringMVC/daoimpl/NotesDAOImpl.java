@@ -26,13 +26,13 @@ public class NotesDAOImpl extends JdbcDaoSupport implements NotesDAO {
     public void save(Notes notes) {
         String sql = "INSERT INTO tblNotes "
         		+ "(notedate, notetime, userid, teamid, branchid, companyid, prospectid, "
-        		+ "note, status, remark, reviewby, reviewdate, reviewtime) "
-        		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        		+ "note, status, remark, read, reviewby, reviewdate, reviewtime) "
+        		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         this.getJdbcTemplate().update(sql, 
         		notes.getnotedate(), notes.getnotetime(), notes.getuserid(), 
         		notes.getteamid(), notes.getbranchid(), notes.getcompanyid(), 
         		notes.getprospectid(), notes.getnote(), notes.getstatus(), 
-        		notes.getremark(), notes.getreviewby(), notes.getreviewdate(),
+        		notes.getremark(), notes.getread(), notes.getreviewby(), notes.getreviewdate(),
         		notes.getreviewtime());
     }
     

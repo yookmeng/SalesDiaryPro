@@ -131,6 +131,7 @@ public class NotesController {
     	notes.setnote(aPINotes.getnote());
     	notes.setstatus(aPINotes.getstatus());
     	notes.setremark(aPINotes.getremark());
+    	notes.setread(false);
     	notesDAO.save(notes);
         return new ResponseEntity<Notes>(notes, HttpStatus.CREATED);
     }
