@@ -133,7 +133,7 @@ public class CommonDAOImpl implements CommonDAO {
         detailStyleCenter.setBorderRight(HSSFCellStyle.BORDER_THIN);
 
     	int rownum = 0;
-    	if (userLogin.getrole()!="USER"){
+    	if (!userLogin.getrole().equals("USER")){
         	XSSFSheet sheetSummary = workbook.createSheet("Summary Report");    		
         	Row row0 = sheetSummary.createRow(rownum);
         	row0.createCell(0).setCellValue("Summary Report As "+period);
