@@ -1,14 +1,19 @@
 package com.SpringMVC.daoimpl;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.List;
  
 import javax.sql.DataSource;
 
 import com.SpringMVC.model.Address;
+import com.SpringMVC.model.ExcelDetail;
 import com.SpringMVC.model.Prospect;
 import com.SpringMVC.dao.ProspectDAO;
+import com.SpringMVC.mapper.ExcelDetailMapper;
 import com.SpringMVC.mapper.ProspectMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +27,9 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
     @Autowired
     public ProspectDAOImpl(DataSource dataSource) {
         this.setDataSource(dataSource);
+    }
+	private enum Roles {
+        USER, SA, MD, MA, TL, DEV;
     }
 	
     public void save(Prospect prospect) {
@@ -206,6 +214,84 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         return list;
     }
 
+    public List<ExcelDetail> listPeriod(int userid, String period, String userRole) {
+    	Connection conn = this.getConnection();
+    	try {
+			conn.setAutoCommit(true);
+	    	CallableStatement proc = conn.prepareCall("{ ? = call spGenExcelDetail(?, ?) }");
+	    	proc.registerOutParameter(1, Types.OTHER);
+	    	proc.setInt(2, userid);
+	    	proc.setString(3, period);
+	    	proc.execute();
+	    	proc.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}    	
+    	
+    	String sql = "";
+		Roles role = Roles.valueOf(userRole); 
+		switch (role){
+			case USER:
+				sql = "SELECT period, branchid, branchname, "
+        		+ "teamid, teamname, userid, username, "
+        		+ "prospectid, firstname, lastname, mobile, email, "
+        		+ "brandname, modelname, "
+        		+ "demo, testdrive, quotation, status, statusname, closed, lost, "
+        		+ "diary, remark "
+        		+ "FROM tblExcelDetail "
+        		+ "WHERE period = '" + period + "' AND userid = " + userid + " "
+				+ "ORDER BY firstname, lastname";
+				break;
+			case TL:
+		        sql = "Select teamid from tblTeam where leaderid = ? ";
+		        int teamid = (int)getJdbcTemplate().queryForObject(sql, new Object[] {userid}, int.class);         
+
+				sql = "SELECT period, branchid, branchname, "
+		        		+ "teamid, teamname, userid, username, "
+		        		+ "prospectid, firstname, lastname, mobile, email, "
+		        		+ "brandname, modelname, "
+		        		+ "demo, testdrive, quotation, status, statusname, closed, lost, "
+		        		+ "diary, remark "
+		        		+ "FROM tblExcelDetail "
+		        		+ "WHERE period = '" + period + "' AND teamid = " + teamid + " "
+						+ "ORDER BY username, firstname, lastname";
+		        break;
+			case MA:
+		        sql = "Select branchid from tblBranch where maid = ? ";
+		        int branchid = (int)getJdbcTemplate().queryForObject(sql, new Object[] {userid}, int.class);         
+
+				sql = "SELECT period, branchid, branchname, "
+		        		+ "teamid, teamname, userid, username, "
+		        		+ "prospectid, firstname, lastname, mobile, email, "
+		        		+ "brandname, modelname, "
+		        		+ "demo, testdrive, quotation, status, statusname, closed, lost, "
+		        		+ "diary, remark "
+		        		+ "FROM tblExcelDetail "
+		        		+ "WHERE period = '" + period + "' AND branchid = " + branchid + " "
+						+ "ORDER BY teamname, username, firstname, lastname";
+		        break;
+			case MD:
+		        sql = "Select companyid from tblCompany where mdid = ? ";
+		        int companyid = (int)getJdbcTemplate().queryForObject(sql, new Object[] {userid}, int.class);         
+
+				sql = "SELECT period, branchid, branchname, "
+		        		+ "teamid, teamname, userid, username, "
+		        		+ "prospectid, firstname, lastname, mobile, email, "
+		        		+ "brandname, modelname, "
+		        		+ "demo, testdrive, quotation, status, statusname, closed, lost, "
+		        		+ "diary, remark "
+		        		+ "FROM tblExcelDetail "
+		        		+ "WHERE period = '" + period + "' AND companyid = " + companyid + " "
+						+ "ORDER BY branchname, teamname, username, firstname, lastname";
+		        break;
+			default:
+		}    	
+		ExcelDetailMapper mapper = new ExcelDetailMapper();
+        List<ExcelDetail> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }
+    
     public List<String> prospectList() {
         String sql = "SELECT lastname+', '+firstname FROM tblProspect";
         List<String> list = this.getJdbcTemplate().queryForList(sql, String.class);

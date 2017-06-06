@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.SpringMVC.model.ExcelDetail;
 import com.SpringMVC.model.Prospect;
 @Repository 
 public interface ProspectDAO {
@@ -23,6 +24,8 @@ public interface ProspectDAO {
     public List<Prospect> listByBranch(int branchid);
 
     public List<Prospect> listByCompany(int companyid);
+
+    public List<ExcelDetail> listPeriod(int userid, String period, String userRole);
 
     public List<String> prospectList();
 

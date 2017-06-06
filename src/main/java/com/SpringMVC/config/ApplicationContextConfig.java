@@ -76,8 +76,8 @@ public class ApplicationContextConfig {
   @Bean
   public ViewResolver jspViewResolver() {
       InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-      viewResolver.setOrder(1);
       viewResolver.setViewClass(JstlView.class);
+      viewResolver.setOrder(2);
       viewResolver.setPrefix("/WEB-INF/pages/");
       viewResolver.setSuffix(".jsp");
       return viewResolver;
@@ -87,7 +87,7 @@ public class ApplicationContextConfig {
   public DataSource getDataSource() {
       DriverManagerDataSource dataSource = new DriverManagerDataSource();
  
-      // See: datasouce-cfg.properties
+      // See: datasource-cfg.properties
       dataSource.setDriverClassName(env.getProperty("ds.database-driver"));
       dataSource.setUrl(env.getProperty("ds.url"));
       dataSource.setUsername(env.getProperty("ds.username"));
@@ -110,5 +110,4 @@ public class ApplicationContextConfig {
  
       return transactionManager;
   }
- 
 }

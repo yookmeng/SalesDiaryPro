@@ -1,6 +1,5 @@
-package com.SpringMVC.excel;
+package com.SpringMVC.util;
 
-import java.util.List;
 import java.util.Map;
  
 import javax.servlet.http.HttpServletRequest;
@@ -15,14 +14,17 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
 import org.springframework.web.servlet.view.document.AbstractExcelView;
  
+@SuppressWarnings("deprecation")
 public class ExcelBuilder extends AbstractExcelView {
  
     @Override
     protected void buildExcelDocument(Map<String, Object> model,
             HSSFWorkbook workbook, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        // get data model which is passed by the Spring container
-        List<String> listMonthlySummary = (List<String>) model.get("listMonthlySummary");
+    	System.out.println("Generating Excel start...");
+
+    	// get data model which is passed by the Spring container
+//		List<String> listMonthlySummary = (List<String>) model.get("listMonthlySummary");
          
         // create a new Excel sheet
         HSSFSheet sheet = workbook.createSheet("Monthly Summary");
@@ -48,5 +50,6 @@ public class ExcelBuilder extends AbstractExcelView {
         header2.getCell(1).setCellStyle(style);         
         // create data rows
         // .....
+    	System.out.println("Generating Excel end...");
     }
 }

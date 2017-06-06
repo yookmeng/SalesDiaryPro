@@ -18,6 +18,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
+
 @Repository 
 public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMonthlySummaryDAO {
  
@@ -26,11 +27,11 @@ public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMon
         this.setDataSource(dataSource);
     }
     
-    private enum Roles {
+	private enum Roles {
         USER, SA, MD, MA, TL, DEV;
     }
 
-    public UserMonthlySummary get(String period, int userid, String userRole) {
+	public UserMonthlySummary get(String period, int userid, String userRole) {
 		Connection conn = this.getConnection();
     	try {
 			conn.setAutoCommit(true);
@@ -115,7 +116,6 @@ public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMon
 				break;
 			default:
 		}
-
 	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<UserMonthlySummary>() {
 
 	        @Override
@@ -153,6 +153,92 @@ public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMon
     }
 
     public List<UserMonthlySummary> list(String period, int userid, String userRole) {
+		Connection conn = this.getConnection();
+    	try {
+			conn.setAutoCommit(true);
+	    	CallableStatement proc = conn.prepareCall("{ ? = call spGenMonthlySummary(?, ?) }");
+	    	proc.registerOutParameter(1, Types.OTHER);
+	    	proc.setInt(2, userid);
+	    	proc.setString(3, period);
+	    	proc.execute();
+	    	proc.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}    	
+    	String sql = "";
+		Roles role = Roles.valueOf(userRole); 
+		switch (role){
+			case USER:
+			    sql = "SELECT period, userid, username, ms.teamid, t.teamname, "
+			    		+ "ms.branchid, b.branchname, ms.companyid, c.companyname, "
+			    		+ "targetid, targetprospect, targettestdrive, targetclosed, "
+			    		+ "actualprospect, actualtestdrive, actualclosed, "
+			    		+ "percentprospect, percenttestdrive, percentclosed, "
+			    		+ "commission, totalhot, pendingactivity "
+			    		+ "FROM tblMonthlySummary ms "
+			    		+ "LEFT JOIN tblTeam t ON ms.teamid = t.teamid "
+			    		+ "LEFT JOIN tblBranch b ON ms.branchid = b.branchid "
+			    		+ "LEFT JOIN tblCompany c ON ms.companyid = c.companyid "
+			    		+ "WHERE userid = " + userid + " AND period = '" + period +"'";
+				break;
+			case TL:
+		        sql = "Select teamid from tblTeam where leaderid = ? ";
+		        int teamid = (int)getJdbcTemplate().queryForObject(sql, new Object[] {userid}, int.class);         
+
+			    sql = "SELECT period, ms.userid, ms.username, ms.teamid, t.teamname, "
+			    		+ "ms.branchid, b.branchname, ms.companyid, c.companyname, "
+			    		+ "targetid, targetprospect, targettestdrive, targetclosed, "
+			    		+ "actualprospect, actualtestdrive, actualclosed, "
+			    		+ "percentprospect, percenttestdrive, percentclosed, "
+			    		+ "commission, totalhot, pendingactivity "
+			    		+ "FROM tblMonthlySummary ms "
+			    		+ "LEFT JOIN tblTeam t ON ms.teamid = t.teamid "
+			    		+ "LEFT JOIN tblBranch b ON ms.branchid = b.branchid "
+			    		+ "LEFT JOIN tblCompany c ON ms.companyid = c.companyid "
+			    		+ "WHERE ms.teamid = " + teamid + " AND period = '" + period +"'"
+	    				+ "ORDER BY ms.userid";
+				break;
+			case MA:
+		        sql = "Select branchid from tblBranch where maid = ? ";
+		        int branchid = (int)getJdbcTemplate().queryForObject(sql, new Object[] {userid}, int.class);         
+			    sql = "SELECT period, ms.userid, ms.username, ms.teamid, t.teamname, "
+			    		+ "ms.branchid, b.branchname, ms.companyid, c.companyname, "
+			    		+ "targetid, targetprospect, targettestdrive, targetclosed, "
+			    		+ "actualprospect, actualtestdrive, actualclosed, "
+			    		+ "percentprospect, percenttestdrive, percentclosed, "
+			    		+ "commission, totalhot, pendingactivity "
+			    		+ "FROM tblMonthlySummary ms "
+			    		+ "LEFT JOIN tblTeam t ON ms.teamid = t.teamid "
+			    		+ "LEFT JOIN tblBranch b ON ms.branchid = b.branchid "
+			    		+ "LEFT JOIN tblCompany c ON ms.companyid = c.companyid "
+			    		+ "WHERE ms.branchid = " + branchid + " AND period = '" + period +"'"
+	    				+ "ORDER BY ms.teamid, ms.userid";
+				break;
+			case MD:
+		        sql = "Select companyid from tblCompany where mdid = ? ";
+		        int companyid = (int)getJdbcTemplate().queryForObject(sql, new Object[] {userid}, int.class);         
+			    sql = "SELECT period, ms.userid, ms.username, ms.teamid, t.teamname, "
+			    		+ "ms.branchid, b.branchname, ms.companyid, c.companyname, "
+			    		+ "targetid, targetprospect, targettestdrive, targetclosed, "
+			    		+ "actualprospect, actualtestdrive, actualclosed, "
+			    		+ "percentprospect, percenttestdrive, percentclosed, "
+			    		+ "commission, totalhot, pendingactivity "
+			    		+ "FROM tblMonthlySummary ms "
+			    		+ "LEFT JOIN tblTeam t ON ms.teamid = t.teamid "
+			    		+ "LEFT JOIN tblBranch b ON ms.branchid = b.branchid "
+			    		+ "LEFT JOIN tblCompany c ON ms.companyid = c.companyid "
+			    		+ "WHERE ms.companyid = " + companyid + " AND period = '" + period +"'"
+	    				+ "ORDER BY ms.branchid, ms.teamid, ms.userid ";
+				break;
+			default:
+		}    	
+		UserMonthlySummaryMapper mapper = new UserMonthlySummaryMapper();
+        List<UserMonthlySummary> list = this.getJdbcTemplate().query(sql, mapper);
+        return list;
+    }
+
+    public List<UserMonthlySummary> listAll(String period, int userid, String userRole) {
 		Connection conn = this.getConnection();
     	try {
 			conn.setAutoCommit(true);
@@ -233,4 +319,5 @@ public class UserMonthlySummaryDAOImpl extends JdbcDaoSupport implements UserMon
 		UserMonthlySummaryMapper mapper = new UserMonthlySummaryMapper();
         List<UserMonthlySummary> list = this.getJdbcTemplate().query(sql, mapper);
         return list;
-    }}
+    }
+}

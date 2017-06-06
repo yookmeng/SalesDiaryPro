@@ -6,7 +6,7 @@ public class UserRestURIConstant {
 	public static final String GetByTeam = "/user/team";
 	public static final String Validate = "/user/validate";
 	public static final String MonthlySummary = "/user/monthlysummary";
-	public static final String MonthlySummaryXLS = "/user/monthlysummaryxls";
+	public static final String SendExcel = "/user/sendexcel";
 	public static final String Create = "/user/create";
 	public static final String Update = "/user/update";
 	public static final String Delete = "/user/delete";

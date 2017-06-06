@@ -19,12 +19,15 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.SpringMVC.dao.BranchDAO;
+import com.SpringMVC.dao.CommonDAO;
 import com.SpringMVC.dao.CompanyDAO;
+import com.SpringMVC.dao.ProspectDAO;
 import com.SpringMVC.dao.TeamDAO;
 import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.dao.UserMonthlySummaryDAO;
 import com.SpringMVC.model.Branch;
 import com.SpringMVC.model.Company;
+import com.SpringMVC.model.ExcelDetail;
 import com.SpringMVC.model.IonicUser;
 import com.SpringMVC.model.MonthlySummary;
 import com.SpringMVC.model.Team;
@@ -53,6 +56,12 @@ public class UserController {
 
     @Autowired
     private UserMonthlySummaryDAO userMonthlySummaryDAO;
+
+	@Autowired
+    private ProspectDAO prospectDAO;
+
+	@Autowired
+    private CommonDAO commonDAO;
 
 	@RequestMapping(value = UserRestURIConstant.Get, method = RequestMethod.GET)
 	public String getUserProfile(@PathVariable int userid) {
@@ -113,15 +122,21 @@ public class UserController {
     	UserLogin userLogin = userLoginDAO.findUserEmail(monthlySummary.getemail());
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString="";
-		jsonInString = mapper.writeValueAsString(userMonthlySummaryDAO.list(monthlySummary.getperiod(), userLogin.getuserid(), userLogin.getrole()));
+		jsonInString = mapper.writeValueAsString(userMonthlySummaryDAO.listAll(monthlySummary.getperiod(), userLogin.getuserid(), userLogin.getrole()));
     	return jsonInString;
     }
 
-	@RequestMapping(value = UserRestURIConstant.MonthlySummaryXLS, method = RequestMethod.POST)
-    public ModelAndView monthlySummaryExcel(ModelAndView model, @RequestBody MonthlySummary monthlySummary) throws IOException {
+	@RequestMapping(value = UserRestURIConstant.SendExcel, method = RequestMethod.POST)
+    public String sendExcel(@RequestBody MonthlySummary monthlySummary,
+    		HttpServletRequest request) throws IOException {
     	UserLogin userLogin = userLoginDAO.findUserEmail(monthlySummary.getemail());
-		List<UserMonthlySummary> listMonthlySummary = userMonthlySummaryDAO.list(monthlySummary.getperiod(), userLogin.getuserid(), userLogin.getrole());
-		return new ModelAndView("excelView", "listMonthlySummary", listMonthlySummary);
+    	List<ExcelDetail> prospect = prospectDAO.listPeriod(userLogin.getuserid(), monthlySummary.getperiod(), userLogin.getrole());
+    	List<UserMonthlySummary> summary =userMonthlySummaryDAO.list(monthlySummary.getperiod(), userLogin.getuserid(), userLogin.getrole());
+    	commonDAO.sendEmail(request, prospect, summary, userLogin.getuserid(), monthlySummary.getperiod());
+    	ObjectMapper mapper = new ObjectMapper();
+    	String jsonInString="";
+		jsonInString = mapper.writeValueAsString(userMonthlySummaryDAO.list(monthlySummary.getperiod(), userLogin.getuserid(), userLogin.getrole()));
+    	return jsonInString;
     }
 	
 	@RequestMapping(value = UserRestURIConstant.Create, method = RequestMethod.POST)
