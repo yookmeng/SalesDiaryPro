@@ -23,14 +23,15 @@ public class CodeMasterDAOImpl extends JdbcDaoSupport implements CodeMasterDAO {
     }
 	
     public void save(CodeMaster codeMaster) {
-        String sql = "INSERT INTO tblCodeMaster (codetype, codeid, codename) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO tblCodeMaster (codetype, codeid, codename, codecontrol) "
+        		+ "VALUES (?, ?, ?, ?)";
         this.getJdbcTemplate().update(sql, 
-        		codeMaster.getcodetype(), codeMaster.getcodeid(), codeMaster.getcodename());
+        		codeMaster.getcodetype(), codeMaster.getcodeid(), codeMaster.getcodename(), codeMaster.getcodecontrol());
     }
     
     public void update(CodeMaster codeMaster) {
-        String sql = "UPDATE tblCodeMaster SET codename=? WHERE codetype=? AND codeid=?";
-        this.getJdbcTemplate().update(sql, codeMaster.getcodename(), 
+        String sql = "UPDATE tblCodeMaster SET codename=?, codecontrol=? WHERE codetype=? AND codeid=?";
+        this.getJdbcTemplate().update(sql, codeMaster.getcodename(), codeMaster.getcodecontrol(),
         		codeMaster.getcodetype(), codeMaster.getcodeid());
     }
     
@@ -40,7 +41,8 @@ public class CodeMasterDAOImpl extends JdbcDaoSupport implements CodeMasterDAO {
     }
     
     public CodeMaster get(String codeid) {
-	    String sql = "SELECT codetype, codeid, codename FROM tblCodeMaster WHERE codeid='"+codeid+"'";
+	    String sql = "SELECT codetype, codeid, codename, codecontrol "
+	    		+ "FROM tblCodeMaster WHERE codeid='"+codeid+"'";
 	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<CodeMaster>() {
 	 
 			@Override
@@ -51,6 +53,7 @@ public class CodeMasterDAOImpl extends JdbcDaoSupport implements CodeMasterDAO {
 	            	codeMaster.setcodetype(rs.getString("codetype"));
 	            	codeMaster.setcodeid(rs.getString("codeid"));
 	            	codeMaster.setcodename(rs.getString("codename"));
+	            	codeMaster.setcodecontrol(rs.getInt("codecontrol"));
 	                return codeMaster;
 	            }	 
 	            return null;
@@ -59,7 +62,8 @@ public class CodeMasterDAOImpl extends JdbcDaoSupport implements CodeMasterDAO {
     }
     
     public List<CodeMaster> list(String codetype) {
-	    String sql = "SELECT codetype, codeid, codename FROM tblCodeMaster WHERE codetype='"+codetype+"'";
+	    String sql = "SELECT codetype, codeid, codename, codecontrol "
+	    		+ "FROM tblCodeMaster WHERE codetype='"+codetype+"'";
 	    
         CodeMasterMapper mapper = new CodeMasterMapper();
         List<CodeMaster> list = this.getJdbcTemplate().query(sql, mapper);

@@ -4,14 +4,16 @@ public class CodeMaster {
     private String codetype;
     private String codeid;
     private String codename;
+    private int codecontrol;
 
     public CodeMaster() {
     }
  
-    public CodeMaster(String codetype, String codeid, String codename) {
+    public CodeMaster(String codetype, String codeid, String codename, int codecontrol) {
         this.codetype = codetype;
         this.codeid = codeid;
         this.codename = codename;
+        this.codecontrol = codecontrol;
     }
  
     public String getcodetype() {
@@ -33,5 +35,12 @@ public class CodeMaster {
     }  
     public void setcodename(String codename) {
         this.codename = codename;
+    }
+
+    public int getcodecontrol() {
+        return codecontrol;
+    }  
+    public void setcodecontrol(int codecontrol) {
+        this.codecontrol = codecontrol;
     }
 }

@@ -165,8 +165,8 @@ public class UserController {
 	    		}        	
 	        }
     	}
-    
-    	currentUserLogin.setpassword(userLogin.getpassword());
+
+        currentUserLogin.setpassword(userLogin.getpassword());
         currentUserLogin.setteamid(userLogin.getteamid());
         currentUserLogin.setbranchid(userLogin.getbranchid());
         currentUserLogin.setcompanyid(userLogin.getcompanyid());

@@ -13,7 +13,8 @@ public class CodeMasterMapper implements RowMapper<CodeMaster> {
         String codetype = rs.getString("codetype");
         String codeid = rs.getString("codeid");
         String codename = rs.getString("codename");
+        int codecontrol = rs.getInt("codecontrol");
         
-        return new CodeMaster(codetype, codeid, codename);
+        return new CodeMaster(codetype, codeid, codename, codecontrol);
     }
 }
