@@ -157,13 +157,16 @@ public class UserController {
         }
 
         //updated email shouldn't duplicate with other user
-    	if (currentUserLogin.getemail().equals(userLogin.getemail())){
-    	} else {
-    		if (userLoginDAO.isExist(userLogin)){
-                return new ResponseEntity<UserLogin>(userLogin, HttpStatus.CONFLICT);			
-    		}        	
-        }
-        currentUserLogin.setpassword(userLogin.getpassword());
+    	if (currentUserLogin.getemail()!= null) {
+	    	if (currentUserLogin.getemail().equals(userLogin.getemail())){
+	    	} else {
+	    		if (userLoginDAO.isExist(userLogin)){
+	                return new ResponseEntity<UserLogin>(userLogin, HttpStatus.CONFLICT);			
+	    		}        	
+	        }
+    	}
+    
+    	currentUserLogin.setpassword(userLogin.getpassword());
         currentUserLogin.setteamid(userLogin.getteamid());
         currentUserLogin.setbranchid(userLogin.getbranchid());
         currentUserLogin.setcompanyid(userLogin.getcompanyid());
