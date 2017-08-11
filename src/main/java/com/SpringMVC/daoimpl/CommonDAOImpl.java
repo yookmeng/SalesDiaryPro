@@ -66,6 +66,8 @@ public class CommonDAOImpl implements CommonDAO {
 	        	case 7:
 	        	case 8:
 	        	case 9:
+	        		periods.add(String.valueOf(currentyear)+"-0"+String.valueOf(m));        			        		
+	        		break;
 	        	case 10:
 	        	case 11:
 	        	case 12:{
@@ -75,7 +77,7 @@ public class CommonDAOImpl implements CommonDAO {
 	        	case 13:
 	        	case 14:
 	        	case 15:{
-	        		periods.add(String.valueOf(currentyear+1)+"-"+String.valueOf(m-12));        			        		
+	        		periods.add(String.valueOf(currentyear+1)+"-0"+String.valueOf(m-12));        			        		
 	        		break;
 	        	}	        		
         	}

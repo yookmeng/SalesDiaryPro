@@ -141,7 +141,7 @@ public class UserTargetDAOImpl extends JdbcDaoSupport implements UserTargetDAO {
         if (currentmonth < 1){
         	period = String.valueOf(currentyear-1)+"-"+String.valueOf(currentmonth+12);
         } else {
-        	period = String.valueOf(currentyear)+"-"+String.valueOf(currentmonth);
+        	period = String.valueOf(currentyear)+"-0"+String.valueOf(currentmonth);
         } 
 	    String sql = "SELECT ut.targetid AS targetid, "
 	    		+ "ut.userid AS userid, "
@@ -168,7 +168,7 @@ public class UserTargetDAOImpl extends JdbcDaoSupport implements UserTargetDAO {
         if (currentmonth < 1){
         	period = String.valueOf(currentyear-1)+"-"+String.valueOf(currentmonth+12);
         } else {
-        	period = String.valueOf(currentyear)+"-"+String.valueOf(currentmonth);
+        	period = String.valueOf(currentyear)+"-0"+String.valueOf(currentmonth);
         } 
 	    String sql = "SELECT ut.targetid AS targetid, "
 	    		+ "ut.userid AS userid, "
@@ -195,7 +195,7 @@ public class UserTargetDAOImpl extends JdbcDaoSupport implements UserTargetDAO {
         if (currentmonth < 1){
         	period = String.valueOf(currentyear-1)+"-"+String.valueOf(currentmonth+12);
         } else {
-        	period = String.valueOf(currentyear)+"-"+String.valueOf(currentmonth);
+        	period = String.valueOf(currentyear)+"-0"+String.valueOf(currentmonth);
         } 
 	    String sql = "SELECT ut.targetid AS targetid, "
 	    		+ "ut.userid AS userid, "
@@ -222,7 +222,7 @@ public class UserTargetDAOImpl extends JdbcDaoSupport implements UserTargetDAO {
         if (currentmonth < 1){
         	period = String.valueOf(currentyear-1)+"-"+String.valueOf(currentmonth+12);
         } else {
-        	period = String.valueOf(currentyear)+"-"+String.valueOf(currentmonth);
+        	period = String.valueOf(currentyear)+"-0"+String.valueOf(currentmonth);
         } 
 	    String sql = "SELECT ut.targetid AS targetid, "
 	    		+ "ut.userid AS userid, "

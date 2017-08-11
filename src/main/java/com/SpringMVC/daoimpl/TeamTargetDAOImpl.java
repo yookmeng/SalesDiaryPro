@@ -123,7 +123,7 @@ public class TeamTargetDAOImpl extends JdbcDaoSupport implements TeamTargetDAO {
         if (currentmonth < 1){
         	period = String.valueOf(currentyear-1)+"-"+String.valueOf(currentmonth+12);
         } else {
-        	period = String.valueOf(currentyear)+"-"+String.valueOf(currentmonth);
+        	period = String.valueOf(currentyear)+"-0"+String.valueOf(currentmonth);
         } 
 	    String sql = "SELECT tt.targetid AS targetid, "
 	    		+ "tt.teamid AS teamid, "
@@ -206,7 +206,7 @@ public class TeamTargetDAOImpl extends JdbcDaoSupport implements TeamTargetDAO {
         if (currentmonth < 1){
         	period = String.valueOf(currentyear-1)+"-"+String.valueOf(currentmonth+12);
         } else {
-        	period = String.valueOf(currentyear)+"-"+String.valueOf(currentmonth);
+        	period = String.valueOf(currentyear)+"-0"+String.valueOf(currentmonth);
         } 
 	    String sql = "SELECT tt.targetid AS targetid, "
 	    		+ "tt.teamid AS teamid, "
@@ -236,7 +236,7 @@ public class TeamTargetDAOImpl extends JdbcDaoSupport implements TeamTargetDAO {
         if (currentmonth < 1){
         	period = String.valueOf(currentyear-1)+"-"+String.valueOf(currentmonth+12);
         } else {
-        	period = String.valueOf(currentyear)+"-"+String.valueOf(currentmonth);
+        	period = String.valueOf(currentyear)+"-0"+String.valueOf(currentmonth);
         } 
 	    String sql = "SELECT tt.targetid AS targetid, "
 	    		+ "tt.teamid AS teamid, "
@@ -265,7 +265,7 @@ public class TeamTargetDAOImpl extends JdbcDaoSupport implements TeamTargetDAO {
         if (currentmonth < 1){
         	period = String.valueOf(currentyear-1)+"-"+String.valueOf(currentmonth+12);
         } else {
-        	period = String.valueOf(currentyear)+"-"+String.valueOf(currentmonth);
+        	period = String.valueOf(currentyear)+"-0"+String.valueOf(currentmonth);
         } 
 	    String sql = "SELECT tt.targetid AS targetid, "
 	    		+ "tt.teamid AS teamid, "
