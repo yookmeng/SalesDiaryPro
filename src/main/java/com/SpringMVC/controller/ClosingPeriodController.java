@@ -68,8 +68,6 @@ public class ClosingPeriodController {
 
     @RequestMapping(value = ClosingPeriodRestURIConstant.Create, method = RequestMethod.POST)
     public ResponseEntity<ClosingPeriod> createClosingPeriod(@RequestBody ClosingPeriod closingPeriod) throws IOException {
-    	closingPeriod.setopendate(closingPeriod.getopendate());
-    	closingPeriod.setclosedate(closingPeriod.getclosedate());
     	closingPeriodDAO.save(closingPeriod);
         return new ResponseEntity<ClosingPeriod>(closingPeriod, HttpStatus.CREATED);
     }

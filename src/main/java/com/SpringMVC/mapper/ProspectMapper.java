@@ -16,6 +16,7 @@ public class ProspectMapper implements RowMapper<Prospect> {
         String firstname = rs.getString("firstname");
         String lastname = rs.getString("lastname");
         int userid = rs.getInt("userid");
+        String username = rs.getString("username");
         String period = rs.getString("period");
         String source = rs.getString("source");
         boolean smsflag = rs.getBoolean("smsflag");
@@ -46,7 +47,7 @@ public class ProspectMapper implements RowMapper<Prospect> {
         String statusname = rs.getString("statusname");
         
         return new Prospect(prospectid, firstname, lastname, 
-        		userid, period, source, smsflag, datecreated, 
+        		userid, username, period, source, smsflag, datecreated, 
         		brandid, brandname, modelid, modelname, 
         		homeaddress, mobile, htelno, contactid,
         		workaddress, wtelno, 

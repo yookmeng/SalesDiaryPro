@@ -117,7 +117,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
     
     public List<Prospect> list(int userid) {
         String sql = "SELECT p.prospectid, firstname, lastname, "
-        		+ "p.userid, p.period, source, smsflag, a.activitydate AS datecreated, "
+        		+ "p.userid, usr.username, p.period, source, smsflag, a.activitydate AS datecreated, "
         		+ "a.brandid, b.brandname, a.modelid, m.modelname, "
         		+ "(homeaddress).country AS hcountry, (homeaddress).zipcode AS hzipcode, "
         		+ "(homeaddress).state as hstate, (homeaddress).city AS hcity, "
@@ -131,6 +131,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "LEFT JOIN tblBrand b ON a.brandid = b.brandid "
         		+ "LEFT JOIN tblModel m ON a.modelid = m.modelid "
         		+ "LEFT JOIN tblCodeMaster cm ON cm.codetype = 'STATUS' AND codeid = p.status "
+        		+ "LEFT JOIN tblUser usr ON usr.userid = p.userid "
         		+ "WHERE p.userid = " + userid + " "
 				+ "AND (a.activityid = (SELECT MIN(c.activityid) FROM tblActivity c WHERE c.prospectid = p.prospectid) OR a.activitydate IS NULL) "
 				+ "ORDER BY firstname, lastname";
@@ -141,7 +142,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
     
     public List<Prospect> listByTeam(int teamid) {
         String sql = "SELECT p.prospectid, firstname, lastname, "
-        		+ "p.userid, p.period, source, smsflag, a.activitydate AS datecreated, "
+        		+ "p.userid, usr.username, p.period, source, smsflag, a.activitydate AS datecreated, "
         		+ "a.brandid, b.brandname, a.modelid, m.modelname, "
         		+ "(homeaddress).country AS hcountry, (homeaddress).zipcode AS hzipcode, "
         		+ "(homeaddress).state as hstate, (homeaddress).city AS hcity, "
@@ -156,6 +157,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "LEFT JOIN tblModel m ON a.modelid = m.modelid "
         		+ "LEFT JOIN tblUser u ON u.userid = p.userid "
         		+ "LEFT JOIN tblCodeMaster cm ON cm.codetype = 'STATUS' AND codeid = p.status "
+        		+ "LEFT JOIN tblUser usr ON usr.userid = p.userid "
         		+ "WHERE u.teamid = " + teamid + " "
 				+ "AND (a.activityid = (SELECT MIN(c.activityid) FROM tblActivity c WHERE c.prospectid = p.prospectid) OR a.activitydate IS NULL) "
 				+ "ORDER BY firstname, lastname";
@@ -166,7 +168,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
 
     public List<Prospect> listByBranch(int branchid) {
         String sql = "SELECT p.prospectid, firstname, lastname, "
-        		+ "p.userid, p.period, source, smsflag, a.activitydate AS datecreated, "
+        		+ "p.userid, usr.username, p.period, source, smsflag, a.activitydate AS datecreated, "
         		+ "a.brandid, b.brandname, a.modelid, m.modelname, "
         		+ "(homeaddress).country AS hcountry, (homeaddress).zipcode AS hzipcode, "
         		+ "(homeaddress).state as hstate, (homeaddress).city AS hcity, "
@@ -181,6 +183,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "LEFT JOIN tblModel m ON a.modelid = m.modelid "
         		+ "LEFT JOIN tblUser u ON u.userid = p.userid "
         		+ "LEFT JOIN tblCodeMaster cm ON cm.codetype = 'STATUS' AND codeid = p.status "
+        		+ "LEFT JOIN tblUser usr ON usr.userid = p.userid "
         		+ "WHERE u.branchid = " + branchid + " "
 				+ "AND (a.activityid = (SELECT MIN(c.activityid) FROM tblActivity c WHERE c.prospectid = p.prospectid) OR a.activitydate IS NULL) "
         		+ "ORDER BY firstname, lastname";
@@ -191,7 +194,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
 
     public List<Prospect> listByCompany(int companyid) {
         String sql = "SELECT p.prospectid, firstname, lastname, "
-        		+ "p.userid, p.period, source, smsflag, a.activitydate AS datecreated, "
+        		+ "p.userid, usr.username, p.period, source, smsflag, a.activitydate AS datecreated, "
         		+ "a.brandid, b.brandname, a.modelid, m.modelname, "
         		+ "(homeaddress).country AS hcountry, (homeaddress).zipcode AS hzipcode, "
         		+ "(homeaddress).state as hstate, (homeaddress).city AS hcity, "
@@ -206,6 +209,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "LEFT JOIN tblModel m ON a.modelid = m.modelid "
         		+ "LEFT JOIN tblUser u ON u.userid = p.userid "
         		+ "LEFT JOIN tblCodeMaster cm ON cm.codetype = 'STATUS' AND codeid = p.status "
+        		+ "LEFT JOIN tblUser usr ON usr.userid = p.userid "
         		+ "WHERE u.companyid = " + companyid + " "
 				+ "AND a.activityid = (SELECT MIN(c.activityid) FROM tblActivity c WHERE c.prospectid = p.prospectid) "
         		+ "ORDER BY firstname, lastname";
@@ -300,7 +304,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
 
     public Prospect get(int prospectid) {
         String sql = "SELECT p.prospectid, firstname, lastname, "
-        		+ "p.userid, p.period, source, smsflag, a.activitydate AS datecreated, "
+        		+ "p.userid, usr.username,  p.period, source, smsflag, a.activitydate AS datecreated, "
         		+ "a.brandid, b.brandname, a.modelid, m.modelname, "
         		+ "(homeaddress).country AS hcountry, (homeaddress).zipcode AS hzipcode, "
         		+ "(homeaddress).state as hstate, (homeaddress).city AS hcity, "
@@ -314,6 +318,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "LEFT JOIN tblBrand b ON a.brandid = b.brandid "
         		+ "LEFT JOIN tblModel m ON a.modelid = m.modelid "
         		+ "LEFT JOIN tblCodeMaster cm ON cm.codetype = 'STATUS' AND codeid = p.status "
+        		+ "LEFT JOIN tblUser usr ON usr.userid = p.userid "
         		+ "WHERE p.prospectid=" + prospectid + " "
         		+ "AND (a.activitydate = (SELECT MIN(c.activitydate) FROM tblActivity c WHERE c.prospectid = p.prospectid) OR a.activitydate IS NULL) ";
 	    return this.getJdbcTemplate().query(sql, new ResultSetExtractor<Prospect>() {
@@ -327,6 +332,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
 	            	prospect.setfirstname(rs.getString("firstname"));
 	            	prospect.setlastname(rs.getString("lastname"));
 	            	prospect.setuserid(rs.getInt("userid"));
+	            	prospect.setusername(rs.getString("username"));
 	            	prospect.setperiod(rs.getString("period"));
 	            	prospect.setsource(rs.getString("source"));
 	            	prospect.setsmsflag(rs.getBoolean("smsflag"));
