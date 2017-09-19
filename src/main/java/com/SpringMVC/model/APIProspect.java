@@ -8,7 +8,9 @@ public class APIProspect {
     private String prospectname;
     private String mobile;
     private String email;
+    private int brandid;
     private String brandname;
+    private int modelid;
     private String modelname;
     private String source;
     private String status;
@@ -29,7 +31,8 @@ public class APIProspect {
     }
  
     public APIProspect(String useremail, String prospectname, String mobile, String email,
-    		String brandname, String modelname, String source, String status, boolean smsflag,
+    		int brandid, String brandname, int modelid, String modelname, String source, 
+    		String status, boolean smsflag,
     		boolean demo, Date demodate, Time demotime, 
     		boolean testdrive, Date testdrivedate, Time testdrivetime, 
     		boolean quotation, Date quotationdate, Time quotationtime,
@@ -38,7 +41,9 @@ public class APIProspect {
         this.prospectname = prospectname;
         this.mobile = mobile;
         this.email = email;
+        this.brandid = brandid;
         this.brandname = brandname;
+        this.modelid = modelid;
         this.modelname = modelname;
         this.source = source;
         this.status = status;
@@ -84,11 +89,25 @@ public class APIProspect {
         this.email = email;
     }
 
+    public int getbrandid() {
+        return brandid;
+    }
+    public void setbrandid(int brandid) {
+        this.brandid = brandid;
+    }
+
     public String getbrandname() {
         return brandname;
     }
     public void setbrandname(String brandname) {
         this.brandname = brandname;
+    }
+
+    public int getmodelid() {
+        return modelid;
+    }
+    public void setmodelid(int modelid) {
+        this.modelid = modelid;
     }
 
     public String getmodelname() {

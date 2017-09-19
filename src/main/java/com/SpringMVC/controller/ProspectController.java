@@ -18,18 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import com.SpringMVC.dao.BrandDAO;
 import com.SpringMVC.dao.CodeMasterDAO;
-import com.SpringMVC.dao.ModelDAO;
 import com.SpringMVC.dao.ProspectDAO;
 import com.SpringMVC.dao.QuestionaireDAO;
 import com.SpringMVC.dao.QuotationDAO;
 import com.SpringMVC.dao.SMSLogDAO;
 import com.SpringMVC.dao.UserLoginDAO;
 import com.SpringMVC.model.APIProspect;
-import com.SpringMVC.model.Brand;
 import com.SpringMVC.model.IonicUser;
-import com.SpringMVC.model.Model;
 import com.SpringMVC.model.Prospect;
 import com.SpringMVC.model.Questionaire;
 import com.SpringMVC.model.Quotation;
@@ -44,12 +40,6 @@ public class ProspectController {
 
 	@Autowired
     private UserLoginDAO userLoginDAO;
-
-    @Autowired
-    private BrandDAO brandDAO;
-
-    @Autowired
-    private ModelDAO modelDAO;
 
     @Autowired
     private QuestionaireDAO questionaireDAO;
@@ -120,12 +110,10 @@ public class ProspectController {
     	questionaire.setprospectname(aPIProspect.getprospectname());
     	questionaire.setmobile(aPIProspect.getmobile());
     	questionaire.setemail(aPIProspect.getemail());
+    	questionaire.setbrandid(aPIProspect.getbrandid());
     	questionaire.setbrandname(aPIProspect.getbrandname());
-    	Brand brand = brandDAO.getByName(aPIProspect.getbrandname());
-    	questionaire.setbrandid(brand.getbrandid());
+    	questionaire.setmodelid(aPIProspect.getmodelid());
     	questionaire.setmodelname(aPIProspect.getmodelname());
-    	Model model = modelDAO.getByName(aPIProspect.getmodelname());
-    	questionaire.setmodelid(model.getmodelid());
     	questionaire.setsource(aPIProspect.getsource());
     	questionaire.setstatus(aPIProspect.getstatus());
     	questionaire.setsmsflag(aPIProspect.getsmsflag());
