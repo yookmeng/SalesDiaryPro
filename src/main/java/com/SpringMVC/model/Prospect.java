@@ -26,6 +26,8 @@ public class Prospect {
     private String email;
     private String status;
     private String statusname;
+    private String remark;
+    
 
     public Prospect() {
     }
@@ -35,7 +37,7 @@ public class Prospect {
     		int brandid, String brandname, int modelid, String modelname,
     		Address homeaddress, String mobile, String htelno, int contactid,
     		Address workaddress, String wtelno, 
-    		String gender, String email, String status, String statusname) {
+    		String gender, String email, String status, String statusname, String remark) {
         this.prospectid = prospectid;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -59,6 +61,7 @@ public class Prospect {
         this.email = email;
         this.status = status;
         this.statusname = statusname;
+        this.remark = remark;
     }
  
     public int getprospectid() {
@@ -220,5 +223,12 @@ public class Prospect {
     }  
     public void setstatusname(String statusname) {
         this.statusname = statusname;
+    }
+
+    public String getremark() {
+        return remark;
+    }  
+    public void setremark(String remark) {
+        this.remark = remark;
     }
 }

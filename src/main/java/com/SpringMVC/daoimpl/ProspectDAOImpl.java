@@ -43,15 +43,15 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
     		+ "homeaddress.city, homeaddress.street, mobile, htelno, "
     		+ "workaddress.country, workaddress.zipcode, workaddress.state, "
     		+ "workaddress.city, workaddress.street, wtelno, "
-    		+ "gender, email, status) "
-    		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    		+ "gender, email, status, remark) "
+    		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         this.getJdbcTemplate().update(sql, 
     		prospect.getfirstname(), prospect.getlastname(), prospect.getuserid(), prospect.getperiod(), 
     		prospect.getsource(), prospect.getsmsflag(), homeaddress.getcountry(), homeaddress.getzipcode(), homeaddress.getstate(), 
     		homeaddress.getcity(), homeaddress.getstreet(), prospect.getmobile(), prospect.gethtelno(), 
     		workaddress.getcountry(), workaddress.getzipcode(), workaddress.getstate(), 
     		workaddress.getcity(), workaddress.getstreet(), prospect.getwtelno(), 
-    		prospect.getgender(), prospect.getemail(), prospect.getstatus());
+    		prospect.getgender(), prospect.getemail(), prospect.getstatus(), prospect.getremark());
 
         sql = "INSERT INTO tblContact "
     		+ "(userid, firstname, lastname, mobile, home, work, email, "
@@ -88,7 +88,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
     		+ "homeaddress.city=?, homeaddress.street=?, mobile=?, htelno=?, "
     		+ "workaddress.country=?, workaddress.zipcode=?, workaddress.state=?, "
     		+ "workaddress.city=?, workaddress.street=?, wtelno=?, "
-    		+ "gender=?, email=?, status=? "
+    		+ "gender=?, email=?, status=?, remark=? "
     		+ "WHERE prospectid=?";
         this.getJdbcTemplate().update(sql, 
     		prospect.getfirstname(), prospect.getlastname(), prospect.getsource(), prospect.getsmsflag(), 
@@ -96,7 +96,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
     		homeaddress.getcity(), homeaddress.getstreet(), prospect.getmobile(), prospect.gethtelno(), 
     		workaddress.getcountry(), workaddress.getzipcode(), workaddress.getstate(), 
     		workaddress.getcity(), workaddress.getstreet(), prospect.getwtelno(), 
-    		prospect.getgender(), prospect.getemail(), prospect.getstatus(),
+    		prospect.getgender(), prospect.getemail(), prospect.getstatus(), prospect.getremark(),
     		prospect.getprospectid());
 
         sql = "UPDATE tblContact SET firstname=?, lastname=?, mobile=?, "
@@ -125,7 +125,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "(workaddress).country AS wcountry, (workaddress).zipcode AS wzipcode, "
         		+ "(workaddress).state as wstate, (workaddress).city AS wcity, "
         		+ "(workaddress).street AS wstreet, wtelno, "
-        		+ "gender, p.email, status, cm.codename AS statusname "
+        		+ "gender, p.email, status, cm.codename AS statusname, p.remark "
         		+ "FROM tblProspect p "
         		+ "LEFT JOIN tblActivity a ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblBrand b ON a.brandid = b.brandid "
@@ -150,7 +150,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "(workaddress).country AS wcountry, (workaddress).zipcode AS wzipcode, "
         		+ "(workaddress).state as wstate, (workaddress).city AS wcity, "
         		+ "(workaddress).street AS wstreet, wtelno, "
-        		+ "occupation, age, gender, income, p.email, status, cm.codename AS statusname "
+        		+ "occupation, age, gender, income, p.email, status, cm.codename AS statusname, p.remark "
         		+ "FROM tblProspect p "
         		+ "LEFT JOIN tblActivity a ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblBrand b ON a.brandid = b.brandid "
@@ -176,7 +176,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "(workaddress).country AS wcountry, (workaddress).zipcode AS wzipcode, "
         		+ "(workaddress).state as wstate, (workaddress).city AS wcity, "
         		+ "(workaddress).street AS wstreet, wtelno, "
-        		+ "occupation, age, gender, income, p.email, status, cm.codename AS statusname "
+        		+ "occupation, age, gender, income, p.email, status, cm.codename AS statusname, p.remark "
         		+ "FROM tblProspect p "
         		+ "LEFT JOIN tblActivity a ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblBrand b ON a.brandid = b.brandid "
@@ -202,7 +202,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "(workaddress).country AS wcountry, (workaddress).zipcode AS wzipcode, "
         		+ "(workaddress).state as wstate, (workaddress).city AS wcity, "
         		+ "(workaddress).street AS wstreet, wtelno, "
-        		+ "occupation, age, gender, income, p.email, status, cm.codename AS statusname "
+        		+ "occupation, age, gender, income, p.email, status, cm.codename AS statusname, p.remark "
         		+ "FROM tblProspect p "
         		+ "LEFT JOIN tblActivity a ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblBrand b ON a.brandid = b.brandid "
@@ -312,7 +312,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
         		+ "(workaddress).country AS wcountry, (workaddress).zipcode AS wzipcode, "
         		+ "(workaddress).state as wstate, (workaddress).city AS wcity, "
         		+ "(workaddress).street AS wstreet, wtelno, "
-        		+ "occupation, age, gender, income, p.email, status, cm.codename "
+        		+ "occupation, age, gender, income, p.email, status, cm.codename, p.remark "
         		+ "FROM tblProspect p "
         		+ "LEFT JOIN tblActivity a ON p.prospectid = a.prospectid "
         		+ "LEFT JOIN tblBrand b ON a.brandid = b.brandid "
@@ -363,6 +363,7 @@ public class ProspectDAOImpl extends JdbcDaoSupport implements ProspectDAO {
 	            	prospect.setemail(rs.getString("email"));
 	            	prospect.setstatus(rs.getString("status"));
 	            	prospect.setstatusname(rs.getString("codename"));
+	            	prospect.setremark(rs.getString("remark"));
 	                return prospect;
 	            }	 
 	            return null;

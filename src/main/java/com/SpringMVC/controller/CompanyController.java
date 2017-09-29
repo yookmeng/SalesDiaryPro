@@ -68,9 +68,10 @@ public class CompanyController {
     	UserLogin userLoginSA = userLoginDAO.get(company.getsaname());
     	company.setsaid(userLoginSA.getuserid());
     	companyDAO.save(company);
-    	userLoginMD.setcompanyid(company.getcompanyid());
+    	int companyid = companyDAO.getcompanyid(company.getcompanyname());
+    	userLoginMD.setcompanyid(companyid);
     	userLoginDAO.update(userLoginMD);
-    	userLoginSA.setcompanyid(company.getcompanyid());
+    	userLoginSA.setcompanyid(companyid);
     	userLoginDAO.update(userLoginSA);    	
     	return new ResponseEntity<Company>(company, HttpStatus.CREATED);
     }

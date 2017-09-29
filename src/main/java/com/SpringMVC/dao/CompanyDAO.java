@@ -19,4 +19,6 @@ public interface CompanyDAO {
     public List<Company> list();
 
     public List<String> companyList();
+
+    public int getcompanyid(String companyname);
 }

@@ -139,4 +139,10 @@ public class CompanyDAOImpl extends JdbcDaoSupport implements CompanyDAO {
 	        }
         });
     }    
+
+    public int getcompanyid(String companyname) {
+    	String sql = "SELECT companyid FROM tblCompany WHERE companyname = ?";
+        int companyid = (int)getJdbcTemplate().queryForObject(sql, new Object[] {companyname}, int.class);
+        return companyid;
+    }
 }
