@@ -26,6 +26,7 @@ public class APIProspect {
     private Time quotationtime;
     private Date statusdate;
     private Time statustime;
+    private String remark;
 
     public APIProspect() {
     }
@@ -36,7 +37,7 @@ public class APIProspect {
     		boolean demo, Date demodate, Time demotime, 
     		boolean testdrive, Date testdrivedate, Time testdrivetime, 
     		boolean quotation, Date quotationdate, Time quotationtime,
-    		Date statusdate, Time statustime) {
+    		Date statusdate, Time statustime, String remark) {
         this.useremail = useremail;
         this.prospectname = prospectname;
         this.mobile = mobile;
@@ -59,6 +60,7 @@ public class APIProspect {
         this.quotationtime = quotationtime;
         this.statusdate = statusdate;
         this.statustime = statustime;
+        this.remark = remark;
     }
  
     public String getuseremail() {
@@ -213,5 +215,12 @@ public class APIProspect {
     }
     public void setstatustime(Time statustime) {
         this.statustime = statustime;
+    }
+
+    public String getremark() {
+        return remark;
+    }
+    public void setremark(String remark) {
+        this.remark = remark;
     }
 }

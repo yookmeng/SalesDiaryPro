@@ -27,7 +27,7 @@ public class QuestionaireDAOImpl extends JdbcDaoSupport implements QuestionaireD
 			conn.setAutoCommit(true);
 	    	CallableStatement proc = conn.prepareCall("{ ? = call spQuestionaire("
 	    			+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
-	    			+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }");
+	    			+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }");
 	    	proc.registerOutParameter(1, Types.OTHER);
 	    	proc.setInt(2, questionaire.getuserid());
 	    	proc.setString(3, questionaire.getprospectname());
@@ -49,6 +49,7 @@ public class QuestionaireDAOImpl extends JdbcDaoSupport implements QuestionaireD
 	    	proc.setTime(19, questionaire.getquotationtime());
 	    	proc.setDate(20, questionaire.getstatusdate());
 	    	proc.setTime(21, questionaire.getstatustime());
+	    	proc.setString(22, questionaire.getremark());
 	    	proc.execute();
 	    	proc.close();
 		} catch (SQLException e) {

@@ -26,6 +26,7 @@ public class Questionaire {
     private Time quotationtime;
     private Date statusdate;
     private Time statustime;
+    private String remark;
 
     public int getuserid() {
         return userid;
@@ -179,5 +180,12 @@ public class Questionaire {
     }
     public void setstatustime(Time statustime) {
         this.statustime = statustime;
+    }
+
+    public String getremark() {
+        return remark;
+    }
+    public void setremark(String remark) {
+        this.remark = remark;
     }
 }

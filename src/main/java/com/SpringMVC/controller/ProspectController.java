@@ -117,6 +117,7 @@ public class ProspectController {
     	questionaire.setsource(aPIProspect.getsource());
     	questionaire.setstatus(aPIProspect.getstatus());
     	questionaire.setsmsflag(aPIProspect.getsmsflag());
+    	questionaire.setremark(aPIProspect.getremark());
 
     	questionaire.setdemo(aPIProspect.getdemo()); 
     	if (aPIProspect.getdemo()){
@@ -190,6 +191,7 @@ public class ProspectController {
         currentProspect.setgender(prospect.getgender());
         currentProspect.setemail(prospect.getemail());
         currentProspect.setstatus(prospect.getstatus());
+        currentProspect.setremark(prospect.getremark());
 
         prospectDAO.update(currentProspect);
         return new ResponseEntity<Prospect>(prospect, HttpStatus.OK);
