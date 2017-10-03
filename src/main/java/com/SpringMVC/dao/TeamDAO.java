@@ -25,4 +25,6 @@ public interface TeamDAO {
     public List<Team> listByCompany(int companyid);
 
     public List<String> teamList(int branchid);
+
+    public int getteamid(int branchid, String teamname);
 }

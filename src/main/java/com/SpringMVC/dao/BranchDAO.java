@@ -23,4 +23,6 @@ public interface BranchDAO {
     public List<Branch> list(int companyid);
     
     public List<String> branchList(int companyid);
+    
+    public int getbranchid(int companyid, String branchname);
 }

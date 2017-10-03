@@ -88,9 +88,10 @@ public class TeamController {
     	team.setleaderid(userLogin.getuserid());
     	teamDAO.save(team);
     	
+    	int teamid = teamDAO.getteamid(team.getbranchid(), team.getteamname());
     	userLogin.setcompanyid(branch.getcompanyid());
     	userLogin.setbranchid(team.getbranchid());
-    	userLogin.setteamid(team.getteamid());
+    	userLogin.setteamid(teamid);
     	userLoginDAO.update(userLogin);
         return new ResponseEntity<Team>(team, HttpStatus.CREATED);
     }

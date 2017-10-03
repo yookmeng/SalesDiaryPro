@@ -102,21 +102,6 @@ public class UserController {
 		return jsonInString;
 	}
 
-	@RequestMapping(value = UserRestURIConstant.Validate, method = RequestMethod.POST)
-    public String validateUser(@RequestBody UserValidate userValidate) throws IOException {
-    	UserLogin userLogin = userLoginDAO.findUserEmail(userValidate.getemail());
-    	ObjectMapper mapper = new ObjectMapper();
-    	String jsonInString="";
-    	if (userLogin == null) {
-        	return jsonInString;
-        }
-        if (!userLogin.getpassword().equals(userValidate.getpassword())){
-        	return jsonInString;
-        }
-		jsonInString = mapper.writeValueAsString(userLoginDAO.findUser(userLogin.getuserid()));
-    	return jsonInString;
-    }
-
 	@RequestMapping(value = UserRestURIConstant.MonthlySummary, method = RequestMethod.POST)
     public String monthlySummary(@RequestBody MonthlySummary monthlySummary) throws IOException {
     	UserLogin userLogin = userLoginDAO.findUserEmail(monthlySummary.getemail());
@@ -139,6 +124,18 @@ public class UserController {
     	return jsonInString;
     }
 	
+	@RequestMapping(value = UserRestURIConstant.Validate, method = RequestMethod.POST)
+    public ResponseEntity<UserLogin> validateUser(@RequestBody UserValidate userValidate) throws IOException {
+    	UserLogin userLogin = userLoginDAO.findUserEmail(userValidate.getemail());
+    	if (userLogin == null) {
+            return new ResponseEntity<UserLogin>(userLogin, HttpStatus.UNAUTHORIZED);
+        }
+        if (!userLogin.getpassword().equals(userValidate.getpassword())){
+            return new ResponseEntity<UserLogin>(userLogin, HttpStatus.UNAUTHORIZED);
+        }
+        return new ResponseEntity<UserLogin>(userLogin, HttpStatus.OK);			
+    }
+
 	@RequestMapping(value = UserRestURIConstant.Create, method = RequestMethod.POST)
     public ResponseEntity<UserLogin> createUser(@RequestBody UserLogin userLogin) throws IOException {
 		if (userLoginDAO.isExist(userLogin)){

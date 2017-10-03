@@ -235,4 +235,10 @@ public class BranchDAOImpl extends JdbcDaoSupport implements BranchDAO {
 	        }
         });
     }
+
+    public int getbranchid(int companyid, String branchname) {
+    	String sql = "SELECT branchid FROM tblBranch WHERE companyid = ? AND branchname = ?";
+        int branchid = (int)getJdbcTemplate().queryForObject(sql, new Object[] {companyid, branchname}, int.class);
+        return branchid;
+    }
 }

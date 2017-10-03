@@ -161,4 +161,10 @@ public class TeamDAOImpl extends JdbcDaoSupport implements TeamDAO {
 	        }
         });
     }
- }
+
+    public int getteamid(int branchid, String teamname) {
+    	String sql = "SELECT teamid FROM tblTeam WHERE branchid = ? AND teamname = ?";
+        int teamid = (int)getJdbcTemplate().queryForObject(sql, new Object[] {branchid, teamname}, int.class);
+        return teamid;
+    }
+}

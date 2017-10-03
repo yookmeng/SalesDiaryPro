@@ -68,8 +68,9 @@ public class BranchController {
     	branch.setmaid(userLogin.getuserid());    	
     	branchDAO.save(branch);
     	
+    	int branchid = branchDAO.getbranchid(branch.getcompanyid(), branch.getbranchname());
     	userLogin.setcompanyid(branch.getcompanyid());
-    	userLogin.setbranchid(branch.getbranchid());
+    	userLogin.setbranchid(branchid);
     	userLoginDAO.update(userLogin);
         return new ResponseEntity<Branch>(branch, HttpStatus.CREATED);
     }
